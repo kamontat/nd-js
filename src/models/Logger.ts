@@ -1,9 +1,12 @@
-import winston, { format } from "winston";
+import { transports, format } from "winston";
 
-export default winston.createLogger({
-  format: format.combine(format.colorize(), format.splat(), format.simple()),
-  transports: [
-    new winston.transports.Console({ level: "verbose" }),
-    new winston.transports.File({ filename: "combined.log" })
-  ]
-});
+type LogOption = {
+  level: "verbose" | "debug" | "info" | "error";
+};
+
+export default (option: LogOption = { level: "info" }) => {
+  return {
+    format: format.combine(format.colorize(), format.splat(), format.simple()),
+    transports: [new transports.Console({ level: option.level }), new transports.File({ filename: "combined.log" })]
+  };
+};

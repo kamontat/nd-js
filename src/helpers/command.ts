@@ -1,27 +1,43 @@
 import Vorpal from "vorpal";
 import { CommanderStatic } from "commander";
 import { Controller } from "../controllers/_interface";
-import { Logger } from "winston";
+import winston from "winston";
+import setting from "../models/Logger";
 
-export function VorpalRegister(cli: Vorpal, logger: Logger, controller: Controller, action?: Vorpal.Action) {
+function preaction(option: any) {
+  let level: "info" | "verbose" | "error" | "debug" = "info";
+
+  if (option.parent.quiet) level = "error";
+  if (option.parent.debug) level = "debug";
+  if (option.parent.verbose) level = "verbose";
+
+  winston.configure(setting({ level: level }));
+}
+
+function postaction() {
+  process.exit(0);
+}
+
+export function VorpalRegister(cli: Vorpal, controller: Controller, action?: Vorpal.Action) {
   let c = cli.command(controller.Command, controller.Description);
   controller.Alias.forEach(v => {
     c.alias(v);
   });
 
+  if (controller.Options) {
+    controller.Options.forEach(function(v) {
+      c.option(v.option, v.description);
+    });
+  }
+
   if (action) {
     c.action(action);
   } else if (controller.VorpalAction) {
-    c.action(controller.VorpalAction(logger));
+    c.action(controller.VorpalAction);
   }
 }
 
-export function CommanderRegister(
-  program: CommanderStatic,
-  logger: Logger,
-  controller: Controller,
-  action?: (args: string[]) => void
-) {
+export function CommanderRegister(program: CommanderStatic, controller: Controller, action?: (args: string[]) => void) {
   let c = program.command(controller.Command).description(controller.Description);
   let result = [controller.Command];
 
@@ -34,11 +50,23 @@ export function CommanderRegister(
     result.push(controller.Alias[0]);
   }
 
+  if (controller.Options) {
+    controller.Options.forEach(function(v) {
+      c.option(v.option, v.description, v.action, v.defaultValue);
+    });
+  }
+
   if (action) {
     c.action(action);
   } else if (controller.Action) {
-    c.action(controller.Action(logger));
-  }
+    c.action(function(...args: object[]) {
+      let options = args.pop();
+      preaction(options);
 
+      if (controller.Action) controller.Action(options, args);
+
+      postaction();
+    });
+  }
   return result;
 }

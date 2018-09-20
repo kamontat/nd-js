@@ -4,25 +4,31 @@ import program from "commander";
 import { VorpalRegister, CommanderRegister } from "./src/helpers/command";
 import { VERSION, DELIMITER } from "./src/constants/ndConst";
 
-import logger from "./src/models/Logger";
+import setting from "./src/models/Logger";
 
-import { Config, Download, Register, Interactive } from "./src/controllers";
+import { Config, Download, Initial, Interactive } from "./src/controllers";
+import winston from "winston";
 
+program.allowUnknownOption(true);
 let interactive = false;
 
 program.version(`nd version: ${VERSION}`, "-v, --version");
 
-CommanderRegister(program, logger, Register);
-// CommanderRegister(program, logger, Download)
-// CommanderRegister(program, logger, Config)
+program.option("-D, --debug", "be debug");
+program.option("-V, --verbose", "be verbose");
+program.option("-q, --quiet", "be quiet");
 
-CommanderRegister(program, logger, Interactive, () => {
+CommanderRegister(program, Initial);
+CommanderRegister(program, Config);
+// CommanderRegister(program, Download)
+
+CommanderRegister(program, Interactive, () => {
   const cli = new Vorpal();
   cli.version(`nd version: ${VERSION}`);
 
-  VorpalRegister(cli, logger, Register);
-  VorpalRegister(cli, logger, Download);
-  VorpalRegister(cli, logger, Config);
+  VorpalRegister(cli, Initial);
+  VorpalRegister(cli, Config);
+  // VorpalRegister(cli, Download);
 
   cli.delimiter(DELIMITER).show();
 
@@ -30,7 +36,6 @@ CommanderRegister(program, logger, Interactive, () => {
 });
 
 program.parse(process.argv);
-program.allowUnknownOption(false);
 
 if (!interactive) {
   program.outputHelp();

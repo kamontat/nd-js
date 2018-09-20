@@ -3,7 +3,7 @@ const nodeExternals = require("webpack-node-externals");
 const DashboardPlugin = require("webpack-dashboard/plugin");
 
 module.exports = {
-  mode: "production",
+  mode: "development", // production
   entry: "./nd.ts",
   devtool: "inline-source-map",
   module: {

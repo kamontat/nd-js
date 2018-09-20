@@ -1,33 +1,60 @@
-import { DEFAULT_CONFIG_FOLDER } from "../constants/configConst";
-
 import Vorpal from "vorpal";
-import { Logger } from "winston";
+import logger from "winston";
 
 import { Controller } from "./_interface";
-
-process.env["NODE_CONFIG_DIR"] = DEFAULT_CONFIG_FOLDER;
-import config from "config";
-import { WrongException } from "../models/Exception";
+import ConfigModel from "../models/Config";
+import { ParameterNotFoundError, WrongParameterError } from "../constants/errorConst";
 
 class ConfigController implements Controller {
   Command = "config";
   Alias = [];
   Description = "Setup configuration file on HOME";
+  Options = [
+    { option: "-p, --path", description: "Get configuration file path" },
+    { option: "-s, --set", description: "Set config setting" }
+  ];
 
-  VorpalAction(_: Logger): Vorpal.Action {
-    return function(this: Vorpal, _: Vorpal.Args) {
-      return new Promise((res, _) => {
-        res();
-      });
-    };
+  VorpalAction(this: Vorpal, _: Vorpal.Args): Promise<void> {
+    return new Promise((res, _) => {
+      res();
+    });
   }
 
-  Action(logger: Logger): (_: string[]) => void {
-    return function(_: string[]) {
-      logger.verbose("execute config");
+  Action(options: any, args: object[]): void {
+    logger.verbose(`execute config`);
 
-      process.exit(0);
-    };
+    let config = ConfigModel.Load();
+
+    if (options.path) {
+      logger.info(config.path);
+    } else if (options.set) {
+      if (args.length !== 2) {
+        ParameterNotFoundError.loadString("set required 2 parameters");
+        logger.error(ParameterNotFoundError.throw());
+        ParameterNotFoundError.exit();
+      }
+
+      let accepts = [
+        { label: "token", action: config.setToken },
+        { label: "username", action: config.setUserId },
+        { label: "color", action: config.setColor },
+        { label: "location", action: config.setLocation }
+      ];
+
+      let result = accepts.filter(v => {
+        return args[0].toString() === v.label;
+      });
+
+      if (result.length !== 1) {
+        WrongParameterError.loadString(`accept: ${accepts}`);
+        logger.error(WrongParameterError.throw());
+        WrongParameterError.exit();
+      }
+
+      result[0].action(args[1].toString());
+
+      config.save();
+    }
   }
 }
 

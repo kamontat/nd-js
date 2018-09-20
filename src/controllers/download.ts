@@ -1,5 +1,5 @@
 import Vorpal from "vorpal";
-import { Logger } from "winston";
+import logger from "winston";
 
 import { Controller } from "./_interface";
 
@@ -8,20 +8,16 @@ class DownloadController implements Controller {
   Alias = ["load", "d"];
   Description = "Download new novel set.";
 
-  VorpalAction(_: Logger): Vorpal.Action {
-    return function(this: Vorpal, _: Vorpal.Args) {
-      return new Promise((res, _) => {
-        res();
-      });
-    };
+  VorpalAction(this: Vorpal, _: Vorpal.Args): Promise<void> {
+    return new Promise((res, _) => {
+      res();
+    });
   }
 
-  Action(logger: Logger): (_: string[]) => void {
-    return function(_: string[]) {
-      logger.verbose("execute download");
+  Action(_: string[]) {
+    logger.verbose("execute download");
 
-      process.exit(0);
-    };
+    process.exit(0);
   }
 }
 
