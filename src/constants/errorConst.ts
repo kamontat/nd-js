@@ -5,4 +5,4 @@ export const CreateConfigError: Throwable = new EError("Cannot create config fil
 export const ConfigFailError: Throwable = new FError("Cannot pass config file", 0);
 
 export const ParameterNotFoundError: Throwable = new NFError("Required parameter not exist", 1);
-export const WrongParameterError: Throwable = new EError("Required parameter not exist", 1);
+export const WrongParameterError: Throwable = new EError("Wrong parameter", 1);

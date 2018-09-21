@@ -4,7 +4,7 @@ const DashboardPlugin = require("webpack-dashboard/plugin");
 
 module.exports = {
   mode: "development", // production
-  entry: "./nd.ts",
+  entry: "./src/nd.ts",
   devtool: "inline-source-map",
   module: {
     rules: [

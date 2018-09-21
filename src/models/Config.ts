@@ -2,22 +2,28 @@
 import { resolve } from "path";
 
 import semver from "semver";
-import winston from "winston";
+import { verbose } from "winston";
 import yaml from "js-yaml";
 import fs from "fs";
 
-import { DEFAULT_CONFIG_FOLDER } from "../constants/configConst";
+import { DEFAULT_CONFIG_FOLDER } from "../constants/fileConst";
 process.env["NODE_CONFIG_DIR"] = DEFAULT_CONFIG_FOLDER;
 import config from "config";
 
-import { DEFAULT_CONFIG_FILE } from "../constants/configConst";
-import Exception, { NFConfigError, EConfigError, EError } from "./Exception";
+import { DEFAULT_CONFIG_FILE } from "../constants/fileConst";
+import Exception, { EError } from "./Exception";
 
 import { VERSION } from "../constants/ndConst";
 
 import { CreateConfigError } from "../constants/errorConst";
 import { ConfigFailError } from "../constants/errorConst";
 
+/**
+ * @class
+ * Config is a class for management configuration file of nd command
+ *
+ * @version 1.0
+ */
 export default class Config {
   path: string;
   _userid?: string;
@@ -33,6 +39,7 @@ export default class Config {
   }
 
   setUserId(id: string) {
+    verbose(`update username: ${id}`);
     this._userid = id;
   }
 
@@ -41,6 +48,7 @@ export default class Config {
   }
 
   setToken(token: string) {
+    verbose(`update token: ${token}`);
     this._token = token;
   }
 
@@ -49,6 +57,7 @@ export default class Config {
   }
 
   setColor(color: string) {
+    verbose(`update color: ${color}`);
     this._color = color === "true";
   }
 
@@ -57,6 +66,7 @@ export default class Config {
   }
 
   setLocation(location: string) {
+    verbose(`update location: ${location}`);
     this._location = location;
   }
 
@@ -77,11 +87,14 @@ export default class Config {
     return this._version === undefined ? 1 : this._version;
   }
 
+  /**
+   * Load config file from system and save to memory. This command also valid the correctness of the file.
+   * @throws {@link ConfigFailError} exception
+   */
   load() {
     let err = this.valid();
     if (err) {
-      winston.error(err.throw());
-      err.exit();
+      throw err;
     }
 
     const doc = yaml.safeLoad(fs.readFileSync(this.path, "utf8"));
@@ -96,10 +109,12 @@ export default class Config {
     // throw new Error("Something bad happened");
   }
 
-  save() {
-    this.create(true);
-  }
-
+  /**
+   * validate the configuration file.
+   * NOT the memory setting
+   *
+   * @return {@link Exception} or undefined
+   */
   valid(): Exception | undefined {
     if (!config.has("version")) {
       return ConfigFailError.clone().loadString("version key is required.");
@@ -132,6 +147,13 @@ export default class Config {
     return undefined;
   }
 
+  /**
+   * create yml file to {@link DEFAULT_CONFIG_FILE} file by current memory setting
+   *
+   * @param force force create file, even it exist.
+   *
+   * @throws {@link CreateConfigError}
+   */
   create(force: boolean = false) {
     let yaml = `version: ${this.getVersion()}
 security: 
@@ -143,20 +165,36 @@ setting:
 `;
 
     if (fs.existsSync(DEFAULT_CONFIG_FILE) && !force) {
-      CreateConfigError.loadString(`${DEFAULT_CONFIG_FILE} is exist.`);
-      winston.error(CreateConfigError.throw());
-      CreateConfigError.exit();
+      let e = CreateConfigError.clone();
+      e.loadString(`${DEFAULT_CONFIG_FILE} is exist.`);
+      throw e;
     }
 
     try {
       fs.writeFileSync(DEFAULT_CONFIG_FILE, yaml);
-    } catch (e) {
-      CreateConfigError.loadError(e);
-      winston.error(CreateConfigError.throw());
-      CreateConfigError.exit();
+    } catch (err) {
+      let e = CreateConfigError.clone();
+      e.loadError(err);
+      throw e;
     }
   }
 
+  /**
+   * This will force create file by current memory setting.
+   *
+   * @throws {@link Exception} is saving have problem
+   */
+  save() {
+    this.create(true);
+  }
+
+  /**
+   * setup {@link Config} and create file to default path
+   * @param force force initial config file
+   * @return {@link Config}
+   *
+   * @see {@link Config#Initial}
+   */
   static Initial(force: boolean = false): Config {
     let config = new Config(DEFAULT_CONFIG_FILE);
     config.create(force);
@@ -164,6 +202,12 @@ setting:
     return config;
   }
 
+  /**
+   * Load config from default path
+   * @return {@link Config}
+   *
+   * @throws {@link ConfigFailError}
+   */
   static Load(): Config {
     let config = new Config(DEFAULT_CONFIG_FILE);
     config.load();

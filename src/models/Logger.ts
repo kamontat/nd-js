@@ -1,7 +1,7 @@
 import { transports, format } from "winston";
 
 type LogOption = {
-  level: "verbose" | "debug" | "info" | "error";
+  level: string;
 };
 
 export default (option: LogOption = { level: "info" }) => {

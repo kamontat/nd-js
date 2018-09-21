@@ -12,7 +12,7 @@ export interface Controller {
   Command: string;
   Alias: string[];
   Description: string;
-  VorpalAction?: Vorpal.Action;
+  VorpalAction?: () => Vorpal.Action;
   Options?: Option[];
-  Action?: (options: any, args: object[]) => void;
+  Action?: (options: any, args: object[]) => boolean | void;
 }

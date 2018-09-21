@@ -7,11 +7,14 @@ class DownloadController implements Controller {
   Command = "download";
   Alias = ["load", "d"];
   Description = "Download new novel set.";
-
-  VorpalAction(this: Vorpal, _: Vorpal.Args): Promise<void> {
-    return new Promise((res, _) => {
-      res();
-    });
+  VorpalAction(): Vorpal.Action {
+    let self = this;
+    return function(this: Vorpal, _: Vorpal.Args) {
+      return new Promise((res, _) => {
+        this.log("test");
+        res();
+      });
+    };
   }
 
   Action(_: string[]) {

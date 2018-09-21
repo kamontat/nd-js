@@ -1,5 +1,5 @@
 import Vorpal from "vorpal";
-import logger from "winston";
+import winston from "winston";
 
 import { Controller } from "./_interface";
 import ConfigModel from "../models/Config";
@@ -14,23 +14,20 @@ class ConfigController implements Controller {
     { option: "-s, --set", description: "Set config setting" }
   ];
 
-  VorpalAction(this: Vorpal, _: Vorpal.Args): Promise<void> {
-    return new Promise((res, _) => {
-      res();
-    });
+  path(isPath: boolean) {
+    if (isPath) {
+      let config = ConfigModel.Load();
+      winston.info(config.path);
+    }
   }
 
-  Action(options: any, args: object[]): void {
-    logger.verbose(`execute config`);
+  set(isSet: boolean, args: object[]) {
+    if (isSet) {
+      let config = ConfigModel.Load();
 
-    let config = ConfigModel.Load();
-
-    if (options.path) {
-      logger.info(config.path);
-    } else if (options.set) {
       if (args.length !== 2) {
         ParameterNotFoundError.loadString("set required 2 parameters");
-        logger.error(ParameterNotFoundError.throw());
+        winston.error(ParameterNotFoundError.message);
         ParameterNotFoundError.exit();
       }
 
@@ -47,7 +44,7 @@ class ConfigController implements Controller {
 
       if (result.length !== 1) {
         WrongParameterError.loadString(`accept: ${accepts}`);
-        logger.error(WrongParameterError.throw());
+        winston.error(WrongParameterError.message);
         WrongParameterError.exit();
       }
 
@@ -55,6 +52,27 @@ class ConfigController implements Controller {
 
       config.save();
     }
+  }
+
+  VorpalAction(): Vorpal.Action {
+    let self = this;
+    console.log(self);
+    return function(this: Vorpal, args: Vorpal.Args) {
+      console.log(this);
+      return new Promise(function(res, _) {
+        console.log(self);
+
+        self.path(args.options.path);
+        res();
+      });
+    };
+  }
+
+  Action(options: any, args: object[]) {
+    winston.verbose(`execute config`);
+
+    this.path(options.path);
+    this.set(options.set, args);
   }
 }
 

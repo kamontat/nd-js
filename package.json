@@ -45,9 +45,10 @@
   "scripts": {
     "compile": "webpack",
     "compile:dashboard": "webpack-dashboard -- webpack",
+    "compile:production": "webpack --mode=production",
     "compile:watch": "yarn compile:dashboard --watch",
     "start": "node ./.caches/nd.min.js",
-    "deploy": "pkg --out-path bin .",
+    "deploy": "yarn compile:production && pkg --out-path bin .",
     "deploy:debug": "yarn deploy --debug",
     "clean": "rimraf .caches bin"
   },

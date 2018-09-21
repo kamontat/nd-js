@@ -8,21 +8,26 @@ class InitialController implements Controller {
   Command = "initial";
   Alias = ["init"];
   Description = "Initial nd command in current computer";
-
   Options = [{ option: "-F, --force", description: "Force create even file exist." }];
 
-  VorpalAction(this: Vorpal, _: Vorpal.Args): Promise<void> {
-    return new Promise((res, _) => {
-      res();
-    });
+  initialConfigFile(force: boolean) {
+    let config = Config.Initial(force);
+    winston.info(`config path: ${config.path}`);
+  }
+
+  VorpalAction(): Vorpal.Action {
+    let self = this;
+    return (args: Vorpal.Args) => {
+      return new Promise((res, _) => {
+        self.initialConfigFile(args.options.force);
+        res();
+      });
+    };
   }
 
   Action(options: any, _: object[]): void {
     winston.verbose("execute initial command");
-
-    let config = Config.Initial(options.force);
-
-    winston.info(`config path: ${config.path}`);
+    this.initialConfigFile(options.force);
   }
 }
 
