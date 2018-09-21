@@ -1,12 +1,13 @@
-import winston from "winston";
+import winston, { error } from "winston";
 
 import { CommanderStatic, Command } from "commander";
 
 import setting from "../models/Logger";
+import Config from "../models/Config";
 
 import { CCommand } from "../constants/commandConst";
 import { COption } from "../constants/optionConst";
-import { LOGGER_LEVEL } from "../constants/defaultConst";
+import { SetColor, ChangeLevel } from "../constants/defaultConst";
 
 export const MakeOption = (program: Command | CommanderStatic, o: COption) => {
   program.option(o.name, o.desc, o.fn, o.default);
@@ -27,7 +28,14 @@ const makeCommand = (program: Command | CommanderStatic, c: CCommand) => {
 
 const addAction = (program: Command | CommanderStatic, c: CCommand) => {
   program.action((...args: any[]) => {
-    winston.configure(setting({ level: LOGGER_LEVEL }));
+    try {
+      let config = Config.Load({ quiet: true });
+      SetColor(!config.getColor());
+    } catch (e) {}
+
+    // setup logger configuration
+    winston.configure(setting());
+
     c.fn(args);
   });
 };

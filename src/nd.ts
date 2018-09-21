@@ -4,20 +4,22 @@ import winston from "winston";
 import setting from "./models/Logger";
 
 import { VERSION } from "./constants/ndConst";
-import { DebugOption, QuietOption, VerboseOption } from "./constants/optionConst";
-import { ChangelogCommand, InitialCommand, ConfigCommand } from "./constants/commandConst";
-import { MakeCommand, MakeOption } from "./helpers/command";
+import { DebugOption, QuietOption, VerboseOption, NoColorOption } from "./constants/optionConst";
+import { ChangelogCommand, InitialCommand, ConfigCommand, RawDownloadCommand } from "./constants/commandConst";
+import { MakeCommand, MakeOption } from "./apis/command";
 
 program.version(`nd version: ${VERSION}`, "-v, --version");
 
 MakeOption(program, VerboseOption);
 MakeOption(program, DebugOption);
 MakeOption(program, QuietOption);
+MakeOption(program, NoColorOption);
 
 MakeCommand(program, ChangelogCommand);
 MakeCommand(program, InitialCommand);
 
 MakeCommand(program, ConfigCommand);
+MakeCommand(program, RawDownloadCommand);
 
 program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
   winston.configure(setting());

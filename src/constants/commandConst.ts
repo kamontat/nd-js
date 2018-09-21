@@ -2,7 +2,9 @@ import { COption } from "./optionConst";
 
 import Changelog from "../actions/command/changelog";
 import Initial from "../actions/command/Initial";
-import Config, { ConfigSet } from "../actions/command/config";
+import Config from "../actions/command/config";
+import { RawDownload } from "../actions/command/download";
+import { fromNode } from "bluebird";
 
 export type CCommand = {
   subcommand?: CCommand[];
@@ -39,4 +41,26 @@ export const ConfigCommand: CCommand = {
   alias: "C",
   desc: "Manage configuration file",
   fn: Config
+};
+
+export const RawDownloadCommand: CCommand = {
+  name: "raw-download",
+  alias: "D",
+  desc: "Parameter id and chapter directly and download",
+  options: [
+    {
+      name: "-C, --chapter [value]",
+      desc: "number of chapter",
+      fn: (v: string, l: string[]) => {
+        l.push(v);
+        return l;
+      },
+      default: []
+    },
+    {
+      name: "-L, --location <location>",
+      desc: "custom location of the file"
+    }
+  ],
+  fn: RawDownload
 };

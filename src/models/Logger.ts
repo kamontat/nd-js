@@ -1,12 +1,19 @@
 import { transports, format } from "winston";
+import { LOGGER_LEVEL, COLOR } from "../constants/defaultConst";
 
 type LogOption = {
   level: string;
+  color: boolean;
 };
 
-export default (option: LogOption = { level: "info" }) => {
+export default (option: LogOption = { level: LOGGER_LEVEL, color: COLOR }) => {
+  let fs = [];
+  if (option.color) fs.push(format.colorize());
+
+  fs.push(format.splat(), format.simple());
+
   return {
-    format: format.combine(format.colorize(), format.splat(), format.simple()),
+    format: format.combine(...fs),
     transports: [new transports.Console({ level: option.level }), new transports.File({ filename: "combined.log" })]
   };
 };

@@ -1,6 +1,6 @@
 import winston from "winston";
 import Config from "../../models/Config";
-import { SeperateArgument } from "../../helpers/action";
+import { SeperateArgument } from "../../apis/action";
 
 /**
  * This is initial command.

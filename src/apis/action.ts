@@ -85,7 +85,7 @@ export const WillThrow = (e?: Exception) => {
  *
  */
 export const SeperateArgument = (a: any[]) => {
-  let cmd: { [key: string]: string } = a.filter(v => typeof v === "object")[0];
+  let cmd: { [key: string]: any } = a.filter(v => typeof v === "object")[0];
   let args: string[] = a.filter(v => typeof v === "string").map(v => v.toString());
 
   winston.verbose(`option: ${cmd}`);

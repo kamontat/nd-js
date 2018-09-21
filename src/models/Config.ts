@@ -34,12 +34,19 @@ export default class Config {
 
   _version?: number;
 
-  constructor(path: string) {
+  _option?: { quiet: boolean };
+
+  constructor(path: string, option?: { quiet: boolean }) {
     this.path = path;
+    this._option = option;
+  }
+
+  _isQuite() {
+    return this._option && this._option.quiet;
   }
 
   setUserId(id: string) {
-    verbose(`update username: ${id}`);
+    if (!this._isQuite()) verbose(`update username: ${id}`);
     this._userid = id;
   }
 
@@ -48,7 +55,7 @@ export default class Config {
   }
 
   setToken(token: string) {
-    verbose(`update token: ${token}`);
+    if (!this._isQuite()) verbose(`update token: ${token}`);
     this._token = token;
   }
 
@@ -57,8 +64,8 @@ export default class Config {
   }
 
   setColor(color: string) {
-    verbose(`update color: ${color}`);
-    this._color = color === "true";
+    if (!this._isQuite()) verbose(`update color: ${color}`);
+    this._color = color == "true";
   }
 
   getColor(): boolean {
@@ -66,7 +73,7 @@ export default class Config {
   }
 
   setLocation(location: string) {
-    verbose(`update location: ${location}`);
+    if (!this._isQuite()) verbose(`update location: ${location}`);
     this._location = location;
   }
 
@@ -104,9 +111,8 @@ export default class Config {
     this.setToken(doc.security.token);
     this.setUserId(doc.security.username);
 
-    this.setColor(doc.setting.color);
+    this.setColor(doc.setting.color.toString());
     this.setLocation(doc.setting.location);
-    // throw new Error("Something bad happened");
   }
 
   /**
@@ -208,8 +214,8 @@ setting:
    *
    * @throws {@link ConfigFailError}
    */
-  static Load(): Config {
-    let config = new Config(DEFAULT_CONFIG_FILE);
+  static Load(option?: { quiet: boolean }): Config {
+    let config = new Config(DEFAULT_CONFIG_FILE, option);
     config.load();
 
     return config;
