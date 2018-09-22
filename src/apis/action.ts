@@ -36,7 +36,7 @@ export const SubcommandArgument = (args: string[]) => {
  *
  */
 export const MatchSome = (a: any[], b: any[]) => {
-  return b.some(v => v === a[0]);
+  return b.some(v => v === (a[0] === undefined ? "" : a[0]));
 };
 
 /**

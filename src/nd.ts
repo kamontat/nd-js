@@ -4,7 +4,14 @@ import winston from "winston";
 import setting from "./models/Logger";
 
 import { VERSION } from "./constants/ndConst";
-import { DebugOption, QuietOption, VerboseOption, NoColorOption } from "./constants/optionConst";
+import {
+  DebugOption,
+  QuietOption,
+  VerboseOption,
+  NoColorOption,
+  NoLogOption,
+  LogLocationOption
+} from "./constants/optionConst";
 import { ChangelogCommand, InitialCommand, ConfigCommand, RawDownloadCommand } from "./constants/commandConst";
 import { MakeCommand, MakeOption } from "./apis/command";
 
@@ -14,6 +21,8 @@ MakeOption(program, VerboseOption);
 MakeOption(program, DebugOption);
 MakeOption(program, QuietOption);
 MakeOption(program, NoColorOption);
+MakeOption(program, NoLogOption);
+MakeOption(program, LogLocationOption);
 
 MakeCommand(program, ChangelogCommand);
 MakeCommand(program, InitialCommand);

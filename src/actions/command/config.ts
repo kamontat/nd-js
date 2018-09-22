@@ -17,7 +17,7 @@ export const ConfigSet = (a: any[]) => {
   try {
     let config = Config.Load();
 
-    verbose("execute set config");
+    verbose("set config", { start: true });
 
     WillThrow(IfValidate(args, MatchSome, ["token", "username", "color", "location"]));
     WillThrow(IfValidate(args, Length, 2));
@@ -52,10 +52,10 @@ export const ConfigPath = () => {
 
 export default (a: any) => {
   const { args } = SeperateArgument(a);
-  verbose("execute config");
+  verbose("config", { start: true });
 
   // this of validate subcommand
-  WillThrow(IfValidate(args, MatchSome, ["set"]));
+  WillThrow(IfValidate(args, MatchSome, ["set", ""]));
 
   if (IsSubcommand(args, "set")) ConfigSet(SubcommandArgument(a));
   else ConfigPath();

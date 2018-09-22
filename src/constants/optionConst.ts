@@ -1,4 +1,4 @@
-import { LOGGER_LEVEL, ChangeLevel, SetColor } from "./defaultConst";
+import { LOGGER_LEVEL, ChangeLevel, SetColor, BeQuiet, NoLog, LoggerTo } from "./defaultConst";
 
 export type COption = { name: string; desc: string; fn?: (arg1: any, arg2: any) => void; default?: any };
 
@@ -14,7 +14,15 @@ export const DebugOption: COption = {
   fn: () => ChangeLevel("debug")
 };
 
-export const QuietOption: COption = { name: "-Q, --quiet", desc: "Be quiet", fn: () => ChangeLevel("error") };
+export const QuietOption: COption = { name: "-Q, --quiet", desc: "Be quiet", fn: () => BeQuiet() };
+
+export const NoLogOption: COption = { name: "--no-log", desc: "No log to the files", fn: () => NoLog() };
+
+export const LogLocationOption: COption = {
+  name: "--log-location <location>",
+  desc: "custom logger folder location",
+  fn: location => LoggerTo(location)
+};
 
 export const NoColorOption: COption = {
   name: "-N, --no-color",
