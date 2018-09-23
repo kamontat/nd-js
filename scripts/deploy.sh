@@ -37,48 +37,48 @@ version="$(lib "getVersion")"
 
 if lib "promptYN" "create release of version $version"; then
   # check git status
-  echo "Status: "
-  git status --short
+  status="$(git status --short)"
 
-  if lib "promptYN" "git status must be empty"; then
+  if test -z "$status"; then
+    if ! lib "promptYN" "git status must be empty"; then
+      exit 1
+    fi
+  fi
 
-    # create changelog
-    # bypass gitgo since it not support --next-tag option
-    git-chglog --config ./.gitgo/chglog/config.yml --next-tag "$version" -o "./CHANGELOG.md"
+  # create changelog
+  # bypass gitgo since it not support --next-tag option
+  git-chglog --config ./.gitgo/chglog/config.yml --next-tag "$version" -o "./CHANGELOG.md"
 
-    # create jsdoc
-    yarn docs
-    yarn gh-pages
+  # create jsdoc
+  yarn docs
+  yarn gh-pages
 
-    # save work
-    git add .
-    git commit -m "[release] Version: $version"
+  # save work
+  git add .
+  git commit -m "[release] Version: $version"
 
-    # create bin file
-    yarn deploy
+  # create bin file
+  yarn deploy
 
-    # create git tag
-    git tag "$version"
+  # create git tag
+  git tag "$version"
 
-    # update work
-    if lib "promptYN" "execute git push code and tag"; then
-      git push && git push --tag
+  # update work
+  if lib "promptYN" "execute git push code and tag"; then
+    git push && git push --tag
+  fi
+
+  # create release
+  if lib "promptYN" "create release in github"; then
+    prerelease=""
+    if lib "promptYN" "This is prerelease"; then
+      prerelease="--prerelease"
     fi
 
-    # create release
-    if lib "promptYN" "create release in github"; then
-      prerelease=""
-      if lib "promptYN" "This is prerelease"; then
-        prerelease="--prerelease"
-      fi
-
-      text="$(lib "promptText" "your release title message")"
-      hub release create "$prerelease" --message "$text
+    text="$(lib "promptText" "your release title message")"
+    hub release create "$prerelease" --message "$text
 $(git-chglog --config ./.gitgo/chglog/config.yml "$version")
 " "$version"
-    fi
-  else 
-    echo "commit first."
   fi
 else 
   echo "exit"

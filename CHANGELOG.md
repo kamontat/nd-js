@@ -15,6 +15,7 @@
 - Setup project and change name
 
 ### Fixes Bug
+- Fix libraires missing
 - make clean before deploy
 
 ### Improving User Experience
