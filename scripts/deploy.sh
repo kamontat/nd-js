@@ -74,11 +74,13 @@ if lib "promptYN" "create release of version $version"; then
     if lib "promptYN" "This is prerelease"; then
       prerelease="--prerelease"
     fi
+    printf "your release title message is "
+    read -r title
+    message="$(git-chglog --config ./.gitgo/chglog/config.yml "$version")"
 
-    text="$(lib "promptText" "your release title message")"
-    hub release create "$prerelease" --message "$text
-$(git-chglog --config ./.gitgo/chglog/config.yml "$version")
-" "$version"
+    final="$(printf '%s\n%s' "$title" "$message")"
+
+    hub release create "$prerelease" --message="$final" "$version"
   fi
 else 
   echo "exit"
