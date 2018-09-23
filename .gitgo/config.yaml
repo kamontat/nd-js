@@ -1,0 +1,12 @@
+version: 2
+log: true
+commit:
+  message: false
+branch:
+  iteration:
+    require: true
+  description:
+    require: true
+  issue:
+    require: true
+    hashtag: false
