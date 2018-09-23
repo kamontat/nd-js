@@ -80,7 +80,7 @@ if lib "promptYN" "create release of version $version"; then
 
     final="$(printf '%s\n%s' "$title" "$message")"
 
-    hub release create "$prerelease" --message="$final" "$version"
+    hub release create "$prerelease" --message="$final" "$version" -a "./bin/nd-linux" -a "./bin/nd-macos" -a "./bin/nd-win.exe"
   fi
 else 
   echo "exit"
