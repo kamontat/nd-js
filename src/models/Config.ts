@@ -1,22 +1,24 @@
 // import uuid from "uuid/v1";
-import { resolve } from "path";
-
 import semver from "semver";
-import { verbose } from "winston";
 import yaml from "js-yaml";
 import fs from "fs";
 
-import { DEFAULT_CONFIG_FOLDER } from "../constants/fileConst";
+import { resolve } from "path";
+import { log } from "winston";
+
+import { DEFAULT_CONFIG_FOLDER } from "../constants/file.const";
 process.env["NODE_CONFIG_DIR"] = DEFAULT_CONFIG_FOLDER;
 import config from "config";
 
-import { DEFAULT_CONFIG_FILE } from "../constants/fileConst";
-import Exception, { EError } from "./Exception";
+import { DEFAULT_CONFIG_FILE } from "../constants/file.const";
+import Exception from "./Exception";
 
-import { VERSION } from "../constants/ndConst";
+import { VERSION } from "../constants/nd.const";
 
-import { CreateConfigError } from "../constants/errorConst";
-import { ConfigFailError } from "../constants/errorConst";
+import { CreateConfigError } from "../constants/error.const";
+import { ConfigFailError } from "../constants/error.const";
+import { WrapTM } from "./LoggerWrapper";
+import { OUTPUT_TYPE, COLOR } from "../constants/default.const";
 
 /**
  * @class
@@ -29,6 +31,7 @@ export default class Config {
   _userid?: string;
   _token?: string;
 
+  _outputType?: "short" | "long";
   _color?: boolean;
   _location?: string;
 
@@ -46,7 +49,7 @@ export default class Config {
   }
 
   setUserId(id: string) {
-    if (!this._isQuite()) verbose(`update username: ${id}`);
+    if (!this._isQuite()) log(WrapTM("debug", "update property", `id ${id}`));
     this._userid = id;
   }
 
@@ -55,7 +58,7 @@ export default class Config {
   }
 
   setToken(token: string) {
-    if (!this._isQuite()) verbose(`update token: ${token}`);
+    if (!this._isQuite()) log(WrapTM("debug", "update property", `token ${token}`));
     this._token = token;
   }
 
@@ -63,17 +66,26 @@ export default class Config {
     return this._token === undefined ? "" : this._token;
   }
 
+  setOutputType(type: "long" | "short") {
+    if (!this._isQuite()) log(WrapTM("debug", "update property", `type ${type}`));
+    this._outputType = type;
+  }
+
+  getOutputType(): "long" | "short" {
+    return this._outputType === undefined ? OUTPUT_TYPE : this._outputType;
+  }
+
   setColor(color: string) {
-    if (!this._isQuite()) verbose(`update color: ${color}`);
+    if (!this._isQuite()) log(WrapTM("debug", "update property", `color ${color}`));
     this._color = color == "true";
   }
 
   getColor(): boolean {
-    return this._color === undefined ? true : this._color;
+    return this._color === undefined ? COLOR : this._color;
   }
 
   setLocation(location: string) {
-    if (!this._isQuite()) verbose(`update location: ${location}`);
+    if (!this._isQuite()) log(WrapTM("debug", "update property", `location ${location}`));
     this._location = location;
   }
 
@@ -98,10 +110,12 @@ export default class Config {
    * Load config file from system and save to memory. This command also valid the correctness of the file.
    * @throws {@link ConfigFailError} exception
    */
-  load() {
-    let err = this.valid();
-    if (err) {
-      throw err;
+  load(bypass?: boolean) {
+    if (bypass === false) {
+      let err = this.valid();
+      if (err) {
+        throw err;
+      }
     }
 
     const doc = yaml.safeLoad(fs.readFileSync(this.path, "utf8"));
@@ -113,6 +127,8 @@ export default class Config {
 
     this.setColor(doc.setting.color.toString());
     this.setLocation(doc.setting.location);
+
+    this.setOutputType(doc.setting.output);
   }
 
   /**
@@ -166,6 +182,7 @@ security:
   token: ${this.getToken()}
   username: ${this.getUserId()}
 setting:
+  output: ${this.getOutputType()}
   color: ${this.getColor()}
   location: ${this.getLocation()}
 `;
@@ -214,9 +231,9 @@ setting:
    *
    * @throws {@link ConfigFailError}
    */
-  static Load(option?: { quiet: boolean }): Config {
-    let config = new Config(DEFAULT_CONFIG_FILE, option);
-    config.load();
+  static Load(option?: { quiet?: boolean; bypass?: boolean }): Config {
+    let config = new Config(DEFAULT_CONFIG_FILE, { quiet: option && option.quiet ? option.quiet : false });
+    config.load(option && option.bypass);
 
     return config;
   }

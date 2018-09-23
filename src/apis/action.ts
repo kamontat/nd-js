@@ -1,6 +1,8 @@
-import { WrongParameterError } from "../constants/errorConst";
-import winston = require("winston");
+import { log, error } from "winston";
+
+import { WrongParameterError } from "../constants/error.const";
 import { Exception } from "../models/Exception";
+import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
 
 /**
  * This method will loop through args and check is subcommand exist
@@ -24,7 +26,8 @@ export const IsSubcommand = (args: string[], subcommand: string) => {
  *
  */
 export const SubcommandArgument = (args: string[]) => {
-  args.shift();
+  const parent = args.shift();
+  log(WrapTM("debug", "remove", `parent command ${parent}`));
   return args;
 };
 
@@ -72,7 +75,7 @@ export const IfValidate = (args: any[], validFn: (a: any[], b: any) => boolean, 
  */
 export const WillThrow = (e?: Exception) => {
   if (e) {
-    winston.error(e.message);
+    error(e.message);
     e.exit();
   }
 };
@@ -88,8 +91,8 @@ export const SeperateArgument = (a: any[]) => {
   let cmd: { [key: string]: any } = a.filter(v => typeof v === "object")[0];
   let args: string[] = a.filter(v => typeof v === "string").map(v => v.toString());
 
-  winston.verbose(`option: ${cmd}`);
-  winston.verbose(`argument: [${args}]`);
+  log(WrapTMC("silly", "option", cmd));
+  log(WrapTMC("debug", "argument", args));
 
   return {
     options: cmd,

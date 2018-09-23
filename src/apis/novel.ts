@@ -1,6 +1,6 @@
 import { URL } from "url";
-import { NOVEL_LINK } from "../constants/novelConst";
-import { WrongParameterError } from "../constants/errorConst";
+import { NOVEL_LINK } from "../constants/novel.const";
+import { WrongParameterError } from "../constants/error.const";
 
 export const GetNID = (str: string) => {
   try {

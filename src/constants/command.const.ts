@@ -1,8 +1,8 @@
-import { COption } from "./optionConst";
+import { COption } from "./option.const";
 
 import Changelog from "../actions/command/changelog";
 import Initial from "../actions/command/Initial";
-import Config from "../actions/command/config";
+import Config, { ConfigSet } from "../actions/command/config";
 import { RawDownload } from "../actions/command/download";
 import { fromNode } from "bluebird";
 
@@ -18,7 +18,7 @@ export type CCommand = {
 
 export const ChangelogCommand: CCommand = {
   name: "changelog",
-  alias: "C",
+  alias: "change",
   desc: "Show command changelog",
   fn: Changelog
 };
@@ -37,10 +37,17 @@ export const InitialCommand: CCommand = {
 };
 
 export const ConfigCommand: CCommand = {
-  name: "config",
-  alias: "C",
-  desc: "Manage configuration file",
+  name: "configuration",
+  alias: "config",
+  desc: `Get config location path`,
   fn: Config
+};
+
+export const SetConfigCommand: CCommand = {
+  name: "set-config",
+  alias: "setc",
+  desc: "Set config value",
+  fn: ConfigSet
 };
 
 export const RawDownloadCommand: CCommand = {

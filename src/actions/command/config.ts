@@ -1,4 +1,5 @@
-import { info, verbose } from "winston";
+import { log } from "winston";
+
 import {
   SeperateArgument,
   WillThrow,
@@ -11,13 +12,14 @@ import {
 import Config from "../../models/Config";
 
 import { Exception } from "../../models/Exception";
+import { WrapTM, WrapTMC } from "../../models/LoggerWrapper";
 
-export const ConfigSet = (a: any[]) => {
+export const ConfigSet = (a: any) => {
   const { args } = SeperateArgument(a);
   try {
-    let config = Config.Load();
-
-    verbose("set config", { start: true });
+    log(WrapTM("debug", "status", "before load config"));
+    let config = Config.Load({ bypass: true });
+    log(WrapTM("debug", "start command", "set config"));
 
     WillThrow(IfValidate(args, MatchSome, ["token", "username", "color", "location"]));
     WillThrow(IfValidate(args, Length, 2));
@@ -39,24 +41,14 @@ export const ConfigSet = (a: any[]) => {
   }
 };
 
-export const ConfigPath = () => {
+export default () => {
+  log(WrapTM("debug", "start command", "config"));
+
   try {
     Config.Load();
-
-    info(Config.Load().path);
+    log(WrapTMC("info", "configuration", Config.Load().path));
   } catch (e) {
     let exception: Exception = e;
     WillThrow(exception);
   }
-};
-
-export default (a: any) => {
-  const { args } = SeperateArgument(a);
-  verbose("config", { start: true });
-
-  // this of validate subcommand
-  WillThrow(IfValidate(args, MatchSome, ["set", ""]));
-
-  if (IsSubcommand(args, "set")) ConfigSet(SubcommandArgument(a));
-  else ConfigPath();
 };

@@ -1,10 +1,10 @@
 import { transports, format } from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 
-import { LOGGER_LEVEL, COLOR, QUIET, HAS_LOG, LOGGER_FOLDER } from "../constants/defaultConst";
+import { LOGGER_LEVEL, COLOR, QUIET, HAS_LOG, LOGGER_FOLDER, OUTPUT_TYPE } from "../constants/default.const";
 import { Format } from "logform";
 
-const { splat, colorize, simple, timestamp, printf } = format;
+const { colorize, timestamp, printf } = format;
 const { Console } = transports;
 
 type LogOption = {
@@ -17,18 +17,23 @@ type LogOption = {
   };
 };
 
-// [timestamp]
-const customLog = format((info, opt) => {
-  // if (opt.start) console.log(info);
-  // console.log(opt);
-  return info;
+const customLog = printf(info => {
+  const levelPadding = !COLOR ? 8 : 18;
+  if (OUTPUT_TYPE === "long") {
+    return `${info.level.padEnd(levelPadding)} ${info.timestamp}
+${info.message}
+`;
+  } else if (OUTPUT_TYPE === "short") {
+    return `[${info.level.padEnd(levelPadding)}] ${info.message}`;
+  }
+  return `${info.message}`;
 });
 
 const customJSON = printf(info => {
   return JSON.stringify(info, undefined, "  ");
 });
 
-const customTimestamp = timestamp({ format: "DD-MM-YYYY HH-mm-ss" });
+const customTimestamp = timestamp({ format: "DD-MM-YYYY::HH.mm.ss" });
 
 // TODO: update logger
 export default (
@@ -38,7 +43,7 @@ export default (
   let fileFormat: Format[] = [];
 
   if (option.color) consoleFormat.push(colorize());
-  consoleFormat.push(customTimestamp, customLog());
+  consoleFormat.push(customTimestamp, customLog);
 
   fileFormat.push(customTimestamp, customJSON);
 

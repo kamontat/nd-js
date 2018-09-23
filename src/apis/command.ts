@@ -1,13 +1,13 @@
-import winston, { error } from "winston";
+import { configure } from "winston";
 
 import { CommanderStatic, Command } from "commander";
 
 import setting from "../models/Logger";
 import Config from "../models/Config";
 
-import { CCommand } from "../constants/commandConst";
-import { COption } from "../constants/optionConst";
-import { SetColor, ChangeLevel } from "../constants/defaultConst";
+import { CCommand } from "../constants/command.const";
+import { COption } from "../constants/option.const";
+import { BeColor } from "../constants/default.const";
 
 export const MakeOption = (program: Command | CommanderStatic, o: COption) => {
   program.option(o.name, o.desc, o.fn, o.default);
@@ -28,14 +28,8 @@ const makeCommand = (program: Command | CommanderStatic, c: CCommand) => {
 
 const addAction = (program: Command | CommanderStatic, c: CCommand) => {
   program.action((...args: any[]) => {
-    try {
-      let config = Config.Load({ quiet: true });
-      SetColor(!config.getColor());
-    } catch (e) {}
-
     // setup logger configuration
-    winston.configure(setting());
-
+    configure(setting());
     c.fn(args);
   });
 };
@@ -43,4 +37,11 @@ const addAction = (program: Command | CommanderStatic, c: CCommand) => {
 export const MakeCommand = (program: Command | CommanderStatic, c: CCommand) => {
   let p = makeCommand(program, c);
   addAction(p, c);
+};
+
+export const LoadConfig = () => {
+  try {
+    let config = Config.Load({ quiet: true, bypass: true });
+    BeColor(config.getColor());
+  } catch (e) {}
 };

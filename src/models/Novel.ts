@@ -1,6 +1,6 @@
 import { GetLink, GetLinkWithChapter } from "../apis/novel";
 import { URL } from "url";
-import { NovelError } from "../constants/errorConst";
+import { NovelError } from "../constants/error.const";
 
 export interface Downloadable {
   getLink(): URL;
