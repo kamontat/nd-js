@@ -13,8 +13,10 @@
     "commander": "2.18.0",
     "config": "2.0.1",
     "glob": "7.1.3",
+    "ink-docstrap": "1.2.1",
     "js-yaml": "3.12.0",
     "pjson": "1.0.9",
+    "prompts": "1.1.1",
     "semver": "5.5.1",
     "sqlite3": "4.0.2",
     "tabtab": "2.2.2",
@@ -34,6 +36,7 @@
     "@types/sqlite3": "3.1.3",
     "@types/uuid": "3.4.4",
     "@types/vorpal": "1.11.0",
+    "jsdoc": "3.5.5",
     "pkg": "4.3.1",
     "rimraf": "2.6.2",
     "ts-loader": "5.1.1",
@@ -52,7 +55,10 @@
     "start": "node ./.caches/nd.min.js",
     "deploy": "yarn compile:production && pkg --out-path bin .",
     "deploy:debug": "yarn clean && yarn deploy --debug",
-    "clean": "rimraf .caches bin"
+    "docs": "jsdoc -c ./jsdoc.config.json -t ./node_modules/ink-docstrap/template -d docs -r .",
+    "gh-pages": "gh-pages -d docs",
+    "clean": "rimraf .caches bin",
+    "release": "./scripts/deploy.sh"
   },
   "pkg": {
     "assets": "package.json"
