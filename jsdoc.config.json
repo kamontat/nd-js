@@ -1,0 +1,26 @@
+{
+  "source": {
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules"
+    ],
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "templates": {
+    "systemName"            : "ND js edition",
+    "footer"                : "Kamontat Chantrachirathumrong",
+    "copyright"             :  "NOT OPEN SOURCE",
+    "includeDate"           : true,
+    "navType"               : "vertical",
+    "theme"                 : "flatly",
+    "linenums"              : true,
+    "collapseSymbols"       : true,
+    "inverseNav"            : true,
+    "outputSourceFiles"     : true ,
+    "outputSourcePath"      : true,
+    "syntaxTheme"           : "dark"
+  }
+}
