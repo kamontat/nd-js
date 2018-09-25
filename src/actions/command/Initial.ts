@@ -1,6 +1,6 @@
 import { log } from "winston";
 import Config from "../../models/Config";
-import { SeperateArgument } from "../../apis/action";
+import { SeperateArgument } from "../../helpers/action";
 import { WrapTMC, WrapTM } from "../../models/LoggerWrapper";
 
 /**

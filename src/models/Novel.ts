@@ -1,10 +1,10 @@
-import { GetLink, GetLinkWithChapter } from "../apis/novel";
+import { GetLink, GetLinkWithChapter, GetChapterFile, GetNID } from "../helpers/novel";
 import { URL } from "url";
 import { NovelError } from "../constants/error.const";
+import Config from "./Config";
+import { join } from "path";
 
-export interface Downloadable {
-  getLink(): URL;
-}
+type NovelChapterBuilderOption = { name?: string; location?: string };
 
 export class NovelBuilder {
   static create(id: string, location: string) {
@@ -15,9 +15,22 @@ export class NovelBuilder {
     let novel = new Novel(id, location);
     return novel.load();
   }
+
+  static createChapter(id: string, chapter?: string, option?: NovelChapterBuilderOption) {
+    return new NovelChapter(id, chapter, option && option.name, option && option.location);
+  }
+
+  static createChapterByLink(url: URL, option?: NovelChapterBuilderOption) {
+    return new NovelChapter(
+      GetNID(url.toString()),
+      url.searchParams.get("chapter") || undefined,
+      option && option.name,
+      option && option.location
+    );
+  }
 }
 
-export class Novel implements Downloadable {
+export class Novel {
   // TODO: add required information attribute
   _id: string;
   _location: string;
@@ -32,19 +45,38 @@ export class Novel implements Downloadable {
     return new Promise(res => res());
   }
 
-  getLink() {
-    let link = GetLink(this._id);
+  chapter(chapter: string): NovelChapter {
+    return NovelBuilder.createChapter(this._id, chapter);
+  }
+}
+
+export class NovelChapter {
+  _nid: string;
+  _name?: string;
+  _chapterNumber: string = "0";
+  _location: string;
+
+  constructor(id: string, chapter?: string, name?: string, location?: string) {
+    this._nid = id;
+    this._name = name;
+    if (location) {
+      this._location = location;
+    } else {
+      this._location = Config.Load({ quiet: true })._location || "";
+    }
+
+    if (chapter) {
+      this._chapterNumber = chapter;
+    }
+  }
+
+  link() {
+    let link = GetLinkWithChapter(this._nid, this._chapterNumber);
     if (link) return link;
     throw NovelError.clone().loadString("cannot generate download link");
   }
 
-  getLinkAtChapter(chapter: string) {
-    let link = GetLinkWithChapter(this._id, chapter);
-    if (link) return link;
-    throw NovelError.clone().loadString("cannot generate download link");
-  }
-
-  getLinkAtChapters(chapters: string[]) {
-    return chapters.filter(v => v !== undefined && v !== null).map(v => this.getLinkAtChapter(v));
+  file() {
+    return join(this._location, GetChapterFile(this._chapterNumber));
   }
 }

@@ -12,3 +12,5 @@ export const FailOptionError: Throwable = new FError("Fail to update by option",
 
 export const NovelNotFoundError: Throwable = new NFError("Required novel not found", 3);
 export const NovelError: Throwable = new FError("Cannot create the novel", 3);
+
+export const DownloadError: Throwable = new EError("Cannot download file", 4);

@@ -27,6 +27,8 @@ import { OUTPUT_TYPE, COLOR } from "../constants/default.const";
  * @version 1.0
  */
 export default class Config {
+  static _CONFIG: Config;
+
   path: string;
   _userid?: string;
   _token?: string;
@@ -232,9 +234,10 @@ setting:
    * @throws {@link ConfigFailError}
    */
   static Load(option?: { quiet?: boolean; bypass?: boolean }): Config {
-    let config = new Config(DEFAULT_CONFIG_FILE, { quiet: option && option.quiet ? option.quiet : false });
-    config.load(option && option.bypass);
-
-    return config;
+    if (!Config._CONFIG) {
+      Config._CONFIG = new Config(DEFAULT_CONFIG_FILE, { quiet: option && option.quiet ? option.quiet : false });
+      Config._CONFIG.load(option && option.bypass);
+    }
+    return Config._CONFIG;
   }
 }

@@ -8,7 +8,7 @@ import {
   SubcommandArgument,
   Length,
   MatchSome
-} from "../../apis/action";
+} from "../../helpers/action";
 import Config from "../../models/Config";
 
 import { Exception } from "../../models/Exception";

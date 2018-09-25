@@ -4,7 +4,7 @@ import winston from "winston";
 import setting from "./models/Logger";
 
 import { VERSION } from "./constants/nd.const";
-import { MakeCommand, MakeOption, LoadConfig } from "./apis/command";
+import { MakeCommand, MakeOption, LoadConfig } from "./helpers/command";
 
 import {
   DebugOption,

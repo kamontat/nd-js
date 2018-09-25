@@ -35,7 +35,6 @@ const customJSON = printf(info => {
 
 const customTimestamp = timestamp({ format: "DD-MM-YYYY::HH.mm.ss" });
 
-// TODO: update logger
 export default (
   option: LogOption = { level: LOGGER_LEVEL, color: COLOR, quiet: QUIET, log: { has: HAS_LOG, folder: LOGGER_FOLDER } }
 ) => {
@@ -70,4 +69,4 @@ export default (
   };
 };
 
-// TODO: Add colors using colors https://github.com/Marak/colors.js
+// TODO: Add colors using chalk https://github.com/chalk/chalk
