@@ -7,7 +7,7 @@ import { decode } from "iconv-lite";
 import { NovelChapter } from "../models/Novel";
 import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
 import { DownloadError } from "../constants/error.const";
-import { GetNovelContent } from "./novel";
+import { GetNovelContent, GetChapterName } from "./novel";
 
 function download(url: URL) {
   return request({
@@ -42,7 +42,8 @@ export const DownloadAPI = (chapter: NovelChapter) => {
   log(WrapTMC("debug", "start download", `${chapter.link().toString()} ${chapter.file()}`));
   download(chapter.link())
     .then(($: CheerioStatic) => {
-      console.log(GetNovelContent($));
+      chapter = GetChapterName(chapter, $);
+      console.log(GetNovelContent(chapter, $));
       // console.log(v);
     })
     .catch(e => {

@@ -9,6 +9,12 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(html)$/,
+        use: {
+          loader: "html-loader"
+        }
+      },
+      {
         test: /\.ts?$/,
         use: "ts-loader",
         exclude: /node_modules/
@@ -16,7 +22,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".ts", ".js"]
+    extensions: [".html", ".ts", ".js"]
   },
   plugins: [new DashboardPlugin()],
   output: {

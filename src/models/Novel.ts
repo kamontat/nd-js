@@ -70,6 +70,10 @@ export class NovelChapter {
     }
   }
 
+  setName(name: string) {
+    this._name = name;
+  }
+
   link() {
     let link = GetLinkWithChapter(this._nid, this._chapterNumber);
     if (link) return link;

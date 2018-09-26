@@ -1,9 +1,17 @@
+import { NOVEL_LINK } from "../constants/novel.const";
+
 import { log } from "winston";
+import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
+
 import { NovelChapter, NovelBuilder } from "../models/Novel";
 import { PassLink, GetChapter } from "../helpers/novel";
-import { NOVEL_LINK } from "../constants/novel.const";
-import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
-import { MakeHTML, HtmlNode } from "./html";
+
+import { MakeHTML } from "./html";
+
+import { HtmlNode } from "../models/Html";
+import winston = require("winston");
+import { BlackListText } from "../constants/htmlConst";
+import { NovelError } from "../constants/error.const";
 
 export const GetNovelName = ($: CheerioStatic) => {
   // //p[@id="big_text"]/text()
@@ -41,24 +49,65 @@ export const GetNovelChapters = ($: CheerioStatic): NovelChapter[] => {
   );
 };
 
-export const GetNovelContent = ($: CheerioStatic) => {
+export const GetChapterName = (chapter: NovelChapter, $: CheerioStatic) => {
+  let text = $("p#big_text").text();
+
+  if (text !== "") {
+    chapter.setName(text);
+    return chapter;
+  }
+
+  text = $(".head1").text();
+  if (text !== "") {
+    chapter.setName(text);
+    return chapter;
+  }
+
+  throw NovelError.clone().loadString("Cannot get chapter name");
+};
+
+export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
   let result: HtmlNode[] = [];
 
-  // TODO: This way is for novel version 1 only
-  $("table#story_body")
-    .children()
-    .children()
-    .children()
-    .contents()
-    .each(function(i, e) {
-      let query = $(e);
+  if ($("div#story-content").text() !== "") {
+    $("div#story-content")
+      .contents()
+      .each(function(_, e) {
+        let query = $(e);
 
-      if (query.html() === "" || query.html() === null) {
-        if (query.text() !== "" && query.text() !== "\n") {
-          log(WrapTMC("debug", `Element(${i})`, query.text()));
+        const text = query.text().trim();
+        if (text !== "" && text !== "\n") {
+          // filter text that contain in BlackList
+          if (BlackListText.filter(v => text.includes(v)).length < 1) {
+            // log(WrapTMC("debug", "Content", text));
+            result.push({
+              tag: "p",
+              text: text
+            });
+          }
         }
-      }
-    });
+      });
+  } else {
+    $("table#story_body")
+      .children()
+      .children()
+      .children()
+      .contents()
+      .each(function(_, e) {
+        let query = $(e);
 
-  return MakeHTML(result);
+        if (query.html() === "" || query.html() === null) {
+          const text = query.text().trim();
+          if (text !== "" && text !== "\n") {
+            log(WrapTMC("debug", "Content", text));
+            result.push({
+              tag: "p",
+              text: text
+            });
+          }
+        }
+      });
+  }
+
+  return MakeHTML(chapter, result);
 };

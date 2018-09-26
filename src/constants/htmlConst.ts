@@ -1,7 +1,10 @@
-import { HtmlTemplateConstant } from "../apis/html";
+import { HtmlTemplateConstant } from "../models/Html";
 
-export const DefaultHTMLTemplate: HtmlTemplateConstant = {
-  name: "default",
-  // TODO: might change default file extension
-  file: "templates/default.html"
-};
+export const BlackListText = ["ads.dek-d.com", "min_t_comment"];
+
+// chapter name
+// novel id
+export const HtmlTitleTemplate = "Chapter {{chapterNumber}} ({{nid}})";
+
+const html = require("../templates/default/index.html");
+export const DefaultHTMLTemplate = new HtmlTemplateConstant("default", html);

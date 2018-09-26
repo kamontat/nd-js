@@ -1,38 +1,14 @@
 import { DefaultHTMLTemplate } from "../constants/htmlConst";
-
-export interface HtmlTemplateConstant {
-  name: string;
-  file: string;
-}
-
-export class HtmlTemplate {
-  template: HtmlTemplateConstant;
-  constructor(template: HtmlTemplateConstant) {
-    this.template = template;
-  }
-
-  // TODO: Implement add new node to exist html
-  add(node: HtmlNode) {}
-  adds(nodes: HtmlNode[]) {}
-
-  // TODO: Make build html to string completed
-  build(): string {
-    return "";
-  }
-}
-
-export interface HtmlNode {
-  tag: string;
-  text: string;
-  newline: boolean;
-}
+import { HtmlTemplateConstant, HtmlTemplate, HtmlNode } from "../models/Html";
+import { NovelChapter } from "../models/Novel";
 
 export const CreateTemplate = (template: HtmlTemplateConstant): HtmlTemplate => {
   return new HtmlTemplate(template);
 };
 
-export const MakeHTML = (result: HtmlNode[]) => {
+export const MakeHTML = (chapter: NovelChapter, result: HtmlNode[]) => {
   let template = CreateTemplate(DefaultHTMLTemplate);
+  template.setChapter(chapter);
   template.adds(result);
   return template.build();
 };
