@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{{novelName}} {{title}}</title>
+
+  <style type="text/css" media="screen">
+    body {
+      font-size: 1.5rem;
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: normal;
+    }
+
+    .footer {
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-left: 0.75rem;
+      margin-right: 0.75rem;
+    }
+  </style>
+
+  <style type="text/css" media="screen">
+    {{css}}
+  </style>
+</head>
+
+<body>
+  <header class="title">
+    <h1 id="title">{{chapterName}}</h1>
+  </header>
+
+  <main role="main">
+    <div class="content">
+      <div id="content">
+        {{&content}}
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="prev-chapter">
+      <a id="prevChapter" href="chapter{{previousChapter}}.html">
+        Chapter {{previousChapter}}
+      </a>
+    </div>
+    <div class="next-chapter">
+      <a id="nextChapter" href="chapter{{nextChapter}}.html">
+        Chapter {{nextChapter}}
+      </a>
+    </div>
+  </footer>
+
+  <p style="display: none;">
+    N{{id}} was created on {{date}} by {{command}} command
+  </p>
+</body>
+
+</html>

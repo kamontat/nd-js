@@ -3,12 +3,19 @@ import { log } from "winston";
 import Mustache, { render } from "mustache";
 import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
 import { NovelChapter } from "./Novel";
-import { HtmlTitleTemplate } from "../constants/htmlConst";
+import { HtmlTitleTemplate, HTML_FILE } from "../constants/htmlConst";
+import { PROJECT_NAME } from "../constants/nd.const";
 
 export type HtmlContent = {
   title: string;
-  novelName: string;
+  novelName?: string;
+  chapterName: string;
+  chapterNumber: string;
   content: string;
+
+  id: string;
+  date: string;
+  command: string;
 };
 
 export interface HtmlNode {
@@ -18,49 +25,82 @@ export interface HtmlNode {
 
 export class HtmlTemplateConstant {
   _name: string;
-  _html: string;
+  _css: string;
 
-  constructor(name: string, html: string) {
+  constructor(name: string, css: string) {
     this._name = name;
-    this._html = html;
+    this._css = css;
   }
 
   build(content: HtmlContent) {
-    log(WrapTM("debug", "build content", content));
+    // log(WrapTM("debug", "build content", content)); // too huge
 
-    return render(this._html, content);
+    let chap = parseInt(content.chapterNumber);
+
+    let nextChap = chap + 1;
+    let prevChap = chap - 1;
+    prevChap = prevChap < 0 ? 0 : prevChap;
+
+    let build = Object.assign(
+      {
+        css: this._css,
+        nextChapter: nextChap,
+        previousChapter: prevChap
+      },
+      content
+    );
+    return render(HTML_FILE, build);
   }
 }
 
 export class HtmlTemplate {
   _template: HtmlTemplateConstant;
 
-  _head: string;
+  _nid: string;
+
   _title: string;
+  _chapterName: string;
+  _chapterNumber: string;
+
   _nodes: HtmlNode[];
 
   constructor(template: HtmlTemplateConstant) {
     this._template = template;
-    this._head = ""; // head tag in html
-    this._title = ""; // novel chapter in body
+    this._nid = "";
+    this._title = ""; // head tag in html
+    this._chapterName = ""; // novel chapter in body
+    this._chapterNumber = "0";
     this._nodes = [];
   }
 
-  setHead(head: string) {
-    this._head = head;
+  setTitle(head: string) {
+    this._title = head;
+    log(WrapTMC("debug", "Html head title", this._title));
     return this;
   }
 
-  setTitle(title: string) {
-    this._title = title;
+  setChapterName(title: string) {
+    this._chapterName = title;
+    log(WrapTMC("debug", "Html chapter name", this._chapterName));
+    return this;
+  }
+
+  setChapterNumber(number: string) {
+    this._chapterNumber = number;
+    log(WrapTMC("debug", "Html Chapter number", this._chapterNumber));
+    return this;
+  }
+
+  setNID(id: string) {
+    this._nid = id;
     return this;
   }
 
   setChapter(chapter: NovelChapter) {
-    this.setHead(render(HtmlTitleTemplate, { nid: chapter._nid, chapterNumber: chapter._chapterNumber }));
-    log(WrapTMC("debug", "Html head tag", this._head));
-    this.setTitle(chapter._name || "");
-    log(WrapTMC("debug", "Html title", this._title));
+    this.setTitle(render(HtmlTitleTemplate, { nid: chapter._nid, chapterNumber: chapter._chapterNumber }));
+    this.setChapterName(chapter._name || "");
+    this.setChapterNumber(chapter._chapterNumber);
+    this.setNID(chapter._nid);
     return this;
   }
 
@@ -86,15 +126,11 @@ export class HtmlTemplate {
       let tag = `<${node.tag}>${node.text}</${node.tag}>`;
       if (result) {
         result = result.append(tag);
-        console.log(`result 1: ${result.html()}`);
       } else {
-        console.log(`content: ${content.html()}`);
-
         result = content
           .root()
           .find("div")
           .append(tag);
-        console.log(`result 2: ${result.html()}`);
       }
     }
 
@@ -103,6 +139,23 @@ export class HtmlTemplate {
       html = result.parent().html() || "";
     }
 
-    return this._template.build({ title: this._head, novelName: this._title, content: html });
+    return this._template.build({
+      title: this._title,
+      chapterName: this._chapterName,
+      chapterNumber: this._chapterNumber,
+      content: html,
+      id: this._nid,
+      command: PROJECT_NAME,
+      date: new Date().toLocaleString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      })
+    });
   }
 }

@@ -5,9 +5,10 @@ import { Response } from "request";
 import { decode } from "iconv-lite";
 
 import { NovelChapter } from "../models/Novel";
-import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
+import { WrapTMC } from "../models/LoggerWrapper";
 import { DownloadError } from "../constants/error.const";
 import { GetNovelContent, GetChapterName } from "./novel";
+import { writeFileSync } from "fs";
 
 function download(url: URL) {
   return request({
@@ -37,14 +38,14 @@ function download(url: URL) {
   });
 }
 
-// TODO: make download using axios library
 export const DownloadAPI = (chapter: NovelChapter) => {
   log(WrapTMC("debug", "start download", `${chapter.link().toString()} ${chapter.file()}`));
   download(chapter.link())
     .then(($: CheerioStatic) => {
-      chapter = GetChapterName(chapter, $);
-      console.log(GetNovelContent(chapter, $));
-      // console.log(v);
+      chapter._name = GetChapterName($);
+      const content = GetNovelContent(chapter, $);
+
+      writeFileSync(chapter.file(), content);
     })
     .catch(e => {
       throw DownloadError.clone().loadError(e);

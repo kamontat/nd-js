@@ -1,0 +1,63 @@
+
+/* BODY: common style for all element in body */
+/* body {
+  color: red;
+} */
+
+/* LINK: Custom chapter link (next-prev) */
+/* a {
+
+} */
+
+/* PARAGRAPH: Custom every content in pages */
+/* p {
+
+} */
+
+/* HEADER: custom header tag, you can use .title instead */
+/* header {
+
+} */
+/* .title {
+
+} */
+
+/* CHAPTER_NAME: custom how chapter name will be display (default=h2) */
+/* #title {
+
+} */
+
+/* CONTENT: custom main tag that contain novel content, you can use .content or #content instead */
+/* main {
+
+} */
+/* .content {
+
+} */
+/* #content {
+
+} */
+
+/* FOOTER: Custom footer tag that contain ND Information and link to next-prev chapter, you can use .footer instead */
+/* footer {
+
+} */
+/* .footer {
+
+} */
+
+/* PREV_CHAP: Custom previous chapter link */
+/* .prev-chapter {
+
+} */
+/* #prevChapter {
+
+} */
+
+/* NEXT_CHAP: Custom next chapter link */
+/* .next-chapter {
+
+} */
+/* #nextChapter {
+
+} */

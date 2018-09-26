@@ -49,19 +49,22 @@ export const GetNovelChapters = ($: CheerioStatic): NovelChapter[] => {
   );
 };
 
-export const GetChapterName = (chapter: NovelChapter, $: CheerioStatic) => {
-  let text = $("p#big_text").text();
+export const GetChapterName = ($: CheerioStatic) => {
+  // h2[@class="chaptername"]/text()
+  let name = $(".chaptername")
+    .first()
+    .text();
+  if (name && name !== "") return name;
 
-  if (text !== "") {
-    chapter.setName(text);
-    return chapter;
-  }
+  // FIXME: cannot find any usecase to test
+  // div[@class="big_next"]/p[@class="font_nu01"]/text()
+  // name = $("td.head1").text();
+  // if (name && name !== "") return name;
 
-  text = $(".head1").text();
-  if (text !== "") {
-    chapter.setName(text);
-    return chapter;
-  }
+  let element = $("h2[style=margin\\:0px\\;font-size\\:17px\\;color\\:\\#ffffff]");
+
+  name = element.text();
+  if (name && name !== "") return name;
 
   throw NovelError.clone().loadString("Cannot get chapter name");
 };
@@ -99,7 +102,7 @@ export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
         if (query.html() === "" || query.html() === null) {
           const text = query.text().trim();
           if (text !== "" && text !== "\n") {
-            log(WrapTMC("debug", "Content", text));
+            // log(WrapTMC("debug", "Content", text));
             result.push({
               tag: "p",
               text: text
