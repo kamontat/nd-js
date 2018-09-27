@@ -82,7 +82,9 @@ export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
         if (text !== "" && text !== "\n") {
           // filter text that contain in BlackList
           if (DEFAULT_HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
-            // log(WrapTMC("debug", "Content", text));
+            log(WrapTMC("debug", "Html paragraph node", text));
+
+            // FIXME: sometime cause all text go to 1 node (1851491 chap=5)
             result.push({
               tag: "p",
               text: text

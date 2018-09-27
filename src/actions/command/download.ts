@@ -17,18 +17,22 @@ export const RawDownload = (a: any[]) => {
 
   try {
     let id = GetNID(args[0]);
+    let chapter: string[] = options.chapter;
     log(WrapTMC("debug", "novel ID", id));
+    log(WrapTMC("debug", "Chapter list", chapter));
 
     let config = Config.Load();
     if (options.location) config.setLocation(options.location);
 
-    DownloadAPI(NovelBuilder.createChapter(id, options.chapter[0], { location: config.getLocation() }))
-      .then((filename: string) => {
-        log(WrapTMC("info", "Filename", filename));
-      })
-      .catch((err: Exception) => {
-        err.printAndExit();
-      });
+    chapter.map(chap => NovelBuilder.createChapter(id, chap, { location: config.getLocation() })).forEach(element => {
+      DownloadAPI(element)
+        .then((filename: string) => {
+          log(WrapTMC("info", "Filename", filename));
+        })
+        .catch((err: Exception) => {
+          err.printAndExit();
+        });
+    });
   } catch (e) {
     let exception: Exception = e;
     exception.printAndExit();
