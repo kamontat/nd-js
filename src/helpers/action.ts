@@ -1,4 +1,4 @@
-import { log, error } from "winston";
+import { log } from "winston";
 
 import { WrongParameterError } from "../constants/error.const";
 import { Exception } from "../models/Exception";
@@ -75,8 +75,7 @@ export const IfValidate = (args: any[], validFn: (a: any[], b: any) => boolean, 
  */
 export const WillThrow = (e?: Exception) => {
   if (e) {
-    error(e.message);
-    e.exit();
+    e.printAndExit();
   }
 };
 

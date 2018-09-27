@@ -9,9 +9,8 @@ import { PassLink, GetChapter } from "../helpers/novel";
 import { MakeHTML } from "./html";
 
 import { HtmlNode } from "../models/Html";
-import winston = require("winston");
 import { BlackListText } from "../constants/htmlConst";
-import { NovelError } from "../constants/error.const";
+import { NovelWarning } from "../constants/error.const";
 
 export const GetNovelName = ($: CheerioStatic) => {
   // //p[@id="big_text"]/text()
@@ -66,7 +65,8 @@ export const GetChapterName = ($: CheerioStatic) => {
   name = element.text();
   if (name && name !== "") return name;
 
-  throw NovelError.clone().loadString("Cannot get chapter name");
+  return "";
+  // throw NovelWarning.clone().loadString("Cannot get chapter name");
 };
 
 export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
@@ -113,4 +113,8 @@ export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
   }
 
   return MakeHTML(chapter, result);
+};
+
+export const IsChapterExist = ($: CheerioStatic) => {
+  return $(".txt-content").length < 1;
 };

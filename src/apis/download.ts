@@ -6,9 +6,10 @@ import { decode } from "iconv-lite";
 
 import { NovelChapter } from "../models/Novel";
 import { WrapTMC } from "../models/LoggerWrapper";
-import { DownloadError } from "../constants/error.const";
-import { GetNovelContent, GetChapterName } from "./novel";
+import { DownloadError, NovelWarning } from "../constants/error.const";
+import { GetNovelContent, GetChapterName, IsChapterExist } from "./novel";
 import { writeFileSync } from "fs";
+import { Exception } from "../models/Exception";
 
 function download(url: URL) {
   return request({
@@ -40,16 +41,19 @@ function download(url: URL) {
 
 export const DownloadAPI = (chapter: NovelChapter) => {
   log(WrapTMC("debug", "start download", `${chapter.link().toString()} ${chapter.file()}`));
-  download(chapter.link())
-    .then(($: CheerioStatic) => {
+  return download(chapter.link()).then(($: CheerioStatic) => {
+    if (IsChapterExist($)) {
       chapter._name = GetChapterName($);
       const content = GetNovelContent(chapter, $);
 
       writeFileSync(chapter.file(), content);
-    })
-    .catch(e => {
-      throw DownloadError.clone().loadError(e);
-    });
+      return new Promise(res => res());
+    } else {
+      return new Promise((_, rej) =>
+        rej(NovelWarning.clone().loadString(`Novel(${chapter._nid}) on chapter ${chapter._chapterNumber} is not exist`))
+      );
+    }
+  });
 };
 
 // TODO: Add multiple thread downloader https://github.com/tusharmath/Multi-threaded-downloader

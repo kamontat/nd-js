@@ -1,3 +1,6 @@
+import { log } from "winston";
+import { WrapTMC } from "./LoggerWrapper";
+
 export default interface Throwable extends Error {
   exit(): void;
 
@@ -22,6 +25,15 @@ export class Exception extends Error implements Throwable {
       this.code += shift;
     }
   }
+
+  printAndExit = () => {
+    if (this.warn) {
+      log(WrapTMC("warn", "Warning", this.message));
+    } else {
+      log(WrapTMC("error", "Error", this.message));
+    }
+    this.exit();
+  };
 
   exit = () => {
     if (!this.warn) {
