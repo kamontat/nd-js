@@ -37,6 +37,7 @@
     "@types/config": "0.0.34",
     "@types/core-js": "2.5.0",
     "@types/iconv-lite": "0.0.1",
+    "@types/jest": "^23.3.2",
     "@types/js-yaml": "3.11.2",
     "@types/mustache": "0.8.31",
     "@types/request": "2.47.1",
@@ -48,10 +49,13 @@
     "css-loader": "1.0.0",
     "gh-pages": "2.0.0",
     "html-loader": "0.5.5",
+    "jest": "^23.6.0",
+    "jest-extended": "^0.10.0",
     "jsdoc": "3.5.5",
     "pkg": "4.3.1",
     "rimraf": "2.6.2",
     "to-string-loader": "1.1.5",
+    "ts-jest": "^23.10.2",
     "ts-loader": "5.1.1",
     "typescript": "3.0.3",
     "uglify-js": "3.4.9",
@@ -73,7 +77,10 @@
     "clean": "rimraf .caches bin",
     "release": "./scripts/deploy.sh",
     "analytic": "webpack --json > ./.caches/report.json",
-    "analytic:prod": "webpack --mode=production --json > ./.caches/report.json"
+    "analytic:prod": "webpack --mode=production --json > ./.caches/report.json",
+    "test": "jest",
+    "test:verbose": "jest --verbose",
+    "test:watch": "jest --watch"
   },
   "pkg": {
     "assets": "package.json"
