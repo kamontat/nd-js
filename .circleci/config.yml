@@ -26,6 +26,9 @@ jobs:
             - node_modules
             - cc-test-reporter
           key: 'v1-dependencies-{{ checksum "package.json" }}'
+      - run:
+          name: Initial configuration file
+          command: yarn start initial --force
       - run: 
           name: Testing
           command: |
