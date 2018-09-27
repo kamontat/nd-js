@@ -42,7 +42,7 @@ expected="$(lib_sh setVersion)"
 echo "$expected"
 yarn version --new-version "$expected" --no-git-tag-version
 
-version="$(lib "getVersion")"
+version="v$(lib "getVersion")"
 
 if lib "promptYN" "create release of version $version"; then
   # check git status
@@ -70,7 +70,7 @@ if lib "promptYN" "create release of version $version"; then
   yarn deploy
 
   # create git tag
-  git tag "v$version"
+  git tag "$version"
 
   # update work
   if lib "promptYN" "execute git push code and tag"; then
