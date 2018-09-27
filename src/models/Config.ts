@@ -1,9 +1,9 @@
 // import uuid from "uuid/v1";
 import semver, { major } from "semver";
 import yaml from "js-yaml";
-import fs from "fs";
+import fs from "fs-extra";
 
-import { resolve } from "path";
+import { resolve, dirname } from "path";
 import { log } from "winston";
 
 import { DEFAULT_CONFIG_FOLDER } from "../constants/config.const";
@@ -21,7 +21,7 @@ import { VERSION } from "../constants/nd.const";
 
 import { CreateConfigError } from "../constants/error.const";
 import { ConfigFailError } from "../constants/error.const";
-import { WrapTM } from "./LoggerWrapper";
+import { WrapTM, WrapTMC } from "./LoggerWrapper";
 import { DEFAULT_LOG_TYPE, DEFAULT_COLOR } from "../constants/default.const";
 import { Server } from "net";
 
@@ -200,14 +200,16 @@ setting:
   location: ${this.getNovelLocation()}
 `;
 
-    if (fs.existsSync(DEFAULT_CONFIG_FILE) && !force) {
+    log(WrapTMC("debug", "Config location", this.configLocation));
+    if (fs.existsSync(this.configLocation) && !force) {
       let e = CreateConfigError.clone();
-      e.loadString(`${DEFAULT_CONFIG_FILE} is exist.`);
+      e.loadString(`${this.configLocation} is exist.`);
       throw e;
     }
 
+    fs.ensureDirSync(dirname(this.configLocation));
     try {
-      fs.writeFileSync(DEFAULT_CONFIG_FILE, yaml);
+      fs.writeFileSync(this.configLocation, yaml);
     } catch (err) {
       let e = CreateConfigError.clone();
       e.loadError(err);
