@@ -74,7 +74,7 @@
     "compile:prod": "webpack --mode=production",
     "compile:watch": "yarn compile:dashboard --watch",
     "start": "node ./.caches/nd.min.js",
-    "deploy": "yarn compile:production && pkg --out-path bin .",
+    "deploy": "yarn compile:prod && pkg --out-path bin .",
     "deploy:debug": "yarn clean && yarn deploy --debug",
     "version:alpha": "semver --preid alpha --increment prerelease",
     "version:beta": "semver --preid beta --increment prerelease",
