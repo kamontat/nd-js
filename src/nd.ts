@@ -22,7 +22,8 @@ import {
   InitialCommand,
   ConfigCommand,
   SetConfigCommand,
-  RawDownloadCommand
+  RawDownloadCommand,
+  FetchCommand
 } from "./constants/command.const";
 
 program.version(`nd version: ${VERSION}`, "-v, --version");
@@ -43,6 +44,7 @@ MakeCommand(program, ConfigCommand);
 MakeCommand(program, SetConfigCommand);
 
 MakeCommand(program, RawDownloadCommand);
+MakeCommand(program, FetchCommand);
 
 LoadConfig();
 

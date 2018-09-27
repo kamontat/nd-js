@@ -1,5 +1,5 @@
 import { URL } from "url";
-import { NOVEL_LINK, CHAPTER_FILE } from "../constants/novel.const";
+import { DEFAULT_NOVEL_LINK, DEFAULT_CHAPTER_FILE_TEMPLATE } from "../constants/novel.const";
 import { WrongParameterError } from "../constants/error.const";
 import { format } from "util";
 
@@ -29,7 +29,7 @@ export const IsID = (str: string) => {
 
 export const GetLink = (id: string) => {
   if (IsID(id)) {
-    let link = PassLink(NOVEL_LINK);
+    let link = PassLink(DEFAULT_NOVEL_LINK);
     link.searchParams.set("id", id);
     return link;
   }
@@ -42,7 +42,7 @@ export const GetLinkWithChapter = (id: string, chapter: string | undefined) => {
       return GetLink(id);
     }
 
-    let link = PassLink(NOVEL_LINK.replace("view", "viewlongc"));
+    let link = PassLink(DEFAULT_NOVEL_LINK.replace("view", "viewlongc"));
     link.searchParams.set("id", id);
     link.searchParams.set("chapter", chapter);
     return link;
@@ -55,5 +55,5 @@ export const PassLink = (str: string) => {
 };
 
 export const GetChapterFile = (chapter: string) => {
-  return `${format(CHAPTER_FILE, chapter)}`;
+  return `${format(DEFAULT_CHAPTER_FILE_TEMPLATE, chapter)}`;
 };

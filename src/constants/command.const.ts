@@ -4,7 +4,7 @@ import Changelog from "../actions/command/changelog";
 import Initial from "../actions/command/Initial";
 import Config, { ConfigSet } from "../actions/command/config";
 import { RawDownload } from "../actions/command/download";
-import { fromNode } from "bluebird";
+import Fetch from "../actions/command/fetch";
 
 export type CCommand = {
   subcommand?: CCommand[];
@@ -70,4 +70,18 @@ export const RawDownloadCommand: CCommand = {
     }
   ],
   fn: RawDownload
+};
+
+export const FetchCommand: CCommand = {
+  name: "fetch",
+  alias: "E",
+  desc: "Fetching novel from website and show the result",
+  options: [
+    {
+      name: "-L, --long",
+      desc: "Show long result",
+      default: false
+    }
+  ],
+  fn: Fetch
 };

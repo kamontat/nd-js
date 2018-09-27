@@ -6,11 +6,11 @@ import fs from "fs";
 import { resolve } from "path";
 import { log } from "winston";
 
-import { DEFAULT_CONFIG_FOLDER } from "../constants/file.const";
+import { DEFAULT_CONFIG_FOLDER } from "../constants/config.const";
 process.env["NODE_CONFIG_DIR"] = DEFAULT_CONFIG_FOLDER;
 import config from "config";
 
-import { DEFAULT_CONFIG_FILE } from "../constants/file.const";
+import { DEFAULT_CONFIG_FILE } from "../constants/config.const";
 import Exception from "./Exception";
 
 import { VERSION } from "../constants/nd.const";
@@ -48,6 +48,10 @@ export default class Config {
 
   _isQuite() {
     return this._option && this._option.quiet;
+  }
+
+  updateByOption(option: { [key: string]: string }) {
+    if (option.location) this.setLocation(option.location);
   }
 
   setUserId(id: string) {

@@ -16,14 +16,18 @@ export const DebugOption: COption = {
 
 export const QuietOption: COption = { name: "-Q, --quiet", desc: "Be quiet", fn: () => BeQuiet() };
 
-export const ShortOutputOption: COption = { name: "--short", desc: "make 1 line output", fn: () => BeShortOutput() };
+export const ShortOutputOption: COption = {
+  name: "--log-short",
+  desc: "make 1 line output",
+  fn: () => BeShortOutput()
+};
 export const LongOutputOption: COption = {
-  name: "--long",
+  name: "--log-long",
   desc: "make multiple line output",
   fn: () => BeLongOutput()
 };
 
-export const NoLogOption: COption = { name: "--no-log", desc: "No log to the files", fn: () => BeLog(false) };
+export const NoLogOption: COption = { name: "--log-none", desc: "No log to the files", fn: () => BeLog(false) };
 
 export const LogLocationOption: COption = {
   name: "--log-location <location>",

@@ -1,1 +1,1 @@
-export const HeaderSize = 20;
+export const DEFAULT_LOG_HEADER_SIZE = 20;

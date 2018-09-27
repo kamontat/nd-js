@@ -1,4 +1,4 @@
-import { NOVEL_LINK } from "../constants/novel.const";
+import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 
 import { log } from "winston";
 import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
@@ -6,13 +6,13 @@ import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
 import { NovelChapter, NovelBuilder } from "../models/Novel";
 import { PassLink, GetChapter } from "../helpers/novel";
 
-import { MakeHTML } from "./html";
+import { API_CREATE_HTML } from "./html";
 
 import { HtmlNode } from "../models/Html";
 import { DEFAULT_HTML_BLACKLIST_TEXT } from "../constants/htmlConst";
 import { NovelWarning } from "../constants/error.const";
 
-export const GetNovelName = ($: CheerioStatic) => {
+export const API_GET_NOVEL_NAME = ($: CheerioStatic) => {
   // //p[@id="big_text"]/text()
   let name = $("p#big_text").text();
   if (!name || name === "") {
@@ -22,13 +22,13 @@ export const GetNovelName = ($: CheerioStatic) => {
   return name;
 };
 
-export const GetNovelChapters = ($: CheerioStatic): NovelChapter[] => {
+export const API_CREATE_NOVEL_CHAPTER_LIST = ($: CheerioStatic): NovelChapter[] => {
   let chapterLink: { [key: string]: { link: string; title: string } } = {};
   $("a[target=_blank]").each(function(_, e) {
     let link = $(e).attr("href");
     let title = $(e).attr("title");
     if (link && link.includes("viewlongc.php")) {
-      const chapter = GetChapter(`${NOVEL_LINK}/${link}`);
+      const chapter = GetChapter(`${DEFAULT_NOVEL_LINK}/${link}`);
 
       // to avoid deplicate chapter chapter
       if (chapterLink[chapter] === undefined) {
@@ -44,11 +44,11 @@ export const GetNovelChapters = ($: CheerioStatic): NovelChapter[] => {
   });
 
   return Object.values(chapterLink).map(({ link, title }) =>
-    NovelBuilder.createChapterByLink(PassLink(`${NOVEL_LINK}/${link}`), { name: title })
+    NovelBuilder.createChapterByLink(PassLink(`${DEFAULT_NOVEL_LINK}/${link}`), { name: title })
   );
 };
 
-export const GetChapterName = ($: CheerioStatic) => {
+export const API_GET_NOVEL_CHAPTER_NAME = ($: CheerioStatic) => {
   // h2[@class="chaptername"]/text()
   let name = $(".chaptername")
     .first()
@@ -69,7 +69,7 @@ export const GetChapterName = ($: CheerioStatic) => {
   // throw NovelWarning.clone().loadString("Cannot get chapter name");
 };
 
-export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
+export const API_GET_NOVEL_CONTENT = (chapter: NovelChapter, $: CheerioStatic) => {
   let result: HtmlNode[] = [];
 
   if ($("div#story-content").text() !== "") {
@@ -114,9 +114,9 @@ export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
       });
   }
 
-  return MakeHTML(chapter, result);
+  return API_CREATE_HTML(chapter, result);
 };
 
-export const IsChapterExist = ($: CheerioStatic) => {
+export const API_IS_NOVEL = ($: CheerioStatic) => {
   return $(".txt-content").length < 1;
 };

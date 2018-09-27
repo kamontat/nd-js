@@ -3,9 +3,11 @@ import { log } from "winston";
 import { GetNID } from "../../helpers/novel";
 import { Exception } from "../../models/Exception";
 import { NovelBuilder } from "../../models/Novel";
-import { DownloadAPI } from "../../apis/download";
+import { API_DOWNLOAD } from "../../apis/download";
 import Config from "../../models/Config";
 import { WrapTM, WrapTMC } from "../../models/LoggerWrapper";
+import { API_GET_NOVEL_CHAPTER_NAME, API_GET_NOVEL_CONTENT } from "../../apis/novel";
+import { writeFileSync } from "fs";
 
 export const RawDownload = (a: any[]) => {
   const { options, args } = SeperateArgument(a);
@@ -22,12 +24,16 @@ export const RawDownload = (a: any[]) => {
     log(WrapTMC("debug", "Chapter list", chapter));
 
     let config = Config.Load();
-    if (options.location) config.setLocation(options.location);
+    config.updateByOption(options);
 
     chapter.map(chap => NovelBuilder.createChapter(id, chap, { location: config.getLocation() })).forEach(element => {
-      DownloadAPI(element)
-        .then((filename: string) => {
-          log(WrapTMC("info", "Filename", filename));
+      API_DOWNLOAD(element)
+        .then(({ cheerio, chapter }) => {
+          chapter._name = API_GET_NOVEL_CHAPTER_NAME(cheerio);
+          const content = API_GET_NOVEL_CONTENT(chapter, cheerio);
+
+          writeFileSync(chapter.file(), content);
+          log(WrapTMC("info", "Filename", chapter.file()));
         })
         .catch((err: Exception) => {
           err.printAndExit();

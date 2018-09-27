@@ -2,14 +2,14 @@ import { DEFAULT_NUMBER_COLOR, DEFAULT_DATE_COLOR, DEFAULT_LOCATION_COLOR } from
 
 export type ColorType = "number" | "chapter" | "date" | "location" | "";
 
-export const DefineType = (message: any): ColorType => {
+export const API_DEFINE_COLOR_TYPE = (message: any): ColorType => {
   // TODO: implement this
   return "number";
 };
 
-export const ToColorByType = (message: any, custom: ColorType) => {
+export const API_ADD_COLOR_BY_TYPE = (message: any, custom: ColorType) => {
   if (!custom) {
-    custom = DefineType(message);
+    custom = API_DEFINE_COLOR_TYPE(message);
   }
 
   switch (custom) {
