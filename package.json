@@ -1,6 +1,6 @@
 {
   "name": "nd",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.0",
   "description": "Novel dek-d Downloader",
   "main": "nd.js",
   "author": "Kamontat Chantrachirathumrong <kamontat_c@hotmail.com>",
@@ -76,6 +76,10 @@
     "start": "node ./.caches/nd.min.js",
     "deploy": "yarn compile:production && pkg --out-path bin .",
     "deploy:debug": "yarn clean && yarn deploy --debug",
+    "version:pre": "npm version --pre",
+    "version:patch": "npm version patch",
+    "version:minor": "npm version minor",
+    "version:major": "npm version major",
     "docs": "jsdoc -c ./jsdoc.config.json -t ./node_modules/ink-docstrap/template -d docs -r .",
     "gh-pages": "gh-pages -d docs",
     "clean": "rimraf .caches bin",
