@@ -28,7 +28,9 @@ jobs:
           key: 'v1-dependencies-{{ checksum "package.json" }}'
       - run:
           name: Initial configuration file
-          command: yarn start initial --force
+          command: |
+            yarn compile
+            yarn start initial --force
       - run: 
           name: Testing
           command: |
