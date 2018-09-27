@@ -33,6 +33,13 @@ lib() {
   node "./scripts/lib/$filename.js" "$2"
 }
 
+printf "Update version: (pre|patch|minor|major) "
+read -r semver
+[[ $semver == "pre" ]] && yarn version:pre
+[[ $semver == "patch" ]] && yarn version:patch
+[[ $semver == "minor" ]] && yarn version:minor
+[[ $semver == "major" ]] && yarn version:major
+
 version="$(lib "getVersion")"
 
 if lib "promptYN" "create release of version $version"; then
