@@ -10,6 +10,8 @@ export default interface Throwable extends Error {
 export class Exception extends Error implements Throwable {
   code: number = 1;
   description: string = "";
+  warn: boolean = false;
+
   constructor(title: string, shift?: number) {
     super(title);
     Error.captureStackTrace(this, this.constructor);
@@ -22,7 +24,9 @@ export class Exception extends Error implements Throwable {
   }
 
   exit = () => {
-    process.exit(this.code);
+    if (!this.warn) {
+      process.exit(this.code);
+    }
   };
 
   loadError = (e: Error) => {
@@ -50,6 +54,7 @@ export class NFError extends Exception {
     let n = new NFError(this.message);
     n.code = this.code;
     n.description = this.description;
+    n.warn = this.warn;
     return n;
   };
 }
@@ -64,6 +69,7 @@ export class EError extends Exception {
     let n = new EError(this.message);
     n.code = this.code;
     n.description = this.description;
+    n.warn = this.warn;
     return n;
   };
 }
@@ -78,6 +84,20 @@ export class FError extends Exception {
     let n = new FError(this.message);
     n.code = this.code;
     n.description = this.description;
+    n.warn = this.warn;
+    return n;
+  };
+}
+
+export class Warning extends Exception {
+  code = 100;
+  warn = true;
+
+  clone = (): Exception => {
+    let n = new Warning(this.message);
+    n.code = this.code;
+    n.description = this.description;
+    n.warn = this.warn;
     return n;
   };
 }
