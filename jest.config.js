@@ -9,5 +9,6 @@ module.exports = {
     "^.+\\.js$": "babel-jest",
     "^.+\\.mustache$": "<rootDir>/test/htmlLoader.js",
     "^.+\\.css$": "jest-raw-loader"
-  }
+  },
+  reporters: ["default", "jest-junit"]
 };

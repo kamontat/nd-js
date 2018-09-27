@@ -39,3 +39,5 @@ jobs:
             ./cc-test-reporter before-build
             yarn coverage
             ./cc-test-reporter after-build --exit-code $?
+      - store_test_results:
+          path: reporters
