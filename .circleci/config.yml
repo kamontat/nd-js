@@ -31,6 +31,8 @@ jobs:
           command: |
             yarn compile
             yarn start initial --force
+            yarn start setc token ABCDE
+            yarn start setc username CUSTOM
       - run: 
           name: Testing
           command: |
