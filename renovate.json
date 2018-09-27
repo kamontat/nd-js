@@ -1,5 +1,15 @@
 {
   "extends": [
-    "config:base"
-  ]
+    "config:base",
+    "schedule:weekends"
+  ],
+  "assignees": ["kamontat"],
+  "automerge": true,
+  "major": {
+    "automerge": false
+  },
+  "baseBranches": ["dev"],
+  "bumpVersion": "patch",
+  "commitMessagePrefix": "[lib]",
+  "labels": ["bot", "library"]
 }

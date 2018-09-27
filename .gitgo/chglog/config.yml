@@ -12,7 +12,7 @@ options:
         - fix
         - refactor
         - doc
-        - test
+        - lib
   commit_groups:
     title_maps:
       feature: Features
@@ -20,7 +20,7 @@ options:
       refactor: Code Refactoring
       fix: Fixes Bug
       doc: Documentation
-      test: Testing
+      lib: Libraries
   header:
     pattern: "^\\[(\\w*)\\]\\s(.*)$"
     pattern_maps:
