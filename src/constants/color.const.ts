@@ -2,6 +2,8 @@ import chalk from "chalk";
 
 export const DEFAULT_TITLE_COLOR = chalk.green;
 
-export const NumberColor = "#123654";
+export const DEFAULT_NUMBER_COLOR = chalk.yellow;
 
-export const DateColor = "#ABCDEF";
+export const DEFAULT_DATE_COLOR = chalk.blue;
+
+export const DEFAULT_LOCATION_COLOR = chalk.cyan;

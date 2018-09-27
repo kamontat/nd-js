@@ -38,20 +38,23 @@ function download(url: URL) {
   });
 }
 
-export const DownloadAPI = (chapter: NovelChapter) => {
+export const DownloadAPI: (b: NovelChapter) => Promise<string> = (chapter: NovelChapter) => {
   log(WrapTMC("debug", "start download", `${chapter.link().toString()} ${chapter.file()}`));
-  return download(chapter.link()).then(($: CheerioStatic) => {
-    if (IsChapterExist($)) {
-      chapter._name = GetChapterName($);
-      const content = GetNovelContent(chapter, $);
 
-      writeFileSync(chapter.file(), content);
-      return new Promise(res => res());
-    } else {
-      return new Promise((_, rej) =>
-        rej(NovelWarning.clone().loadString(`Novel(${chapter._nid}) on chapter ${chapter._chapterNumber} is not exist`))
-      );
-    }
+  return new Promise((res, rej) => {
+    return download(chapter.link()).then(($: CheerioStatic) => {
+      if (IsChapterExist($)) {
+        chapter._name = GetChapterName($);
+        const content = GetNovelContent(chapter, $);
+
+        writeFileSync(chapter.file(), content);
+        return res(chapter.file());
+      } else {
+        return rej(
+          NovelWarning.clone().loadString(`Novel(${chapter._nid}) on chapter ${chapter._chapterNumber} is not exist`)
+        );
+      }
+    });
   });
 };
 

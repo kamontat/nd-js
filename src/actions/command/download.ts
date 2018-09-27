@@ -22,11 +22,13 @@ export const RawDownload = (a: any[]) => {
     let config = Config.Load();
     if (options.location) config.setLocation(options.location);
 
-    DownloadAPI(NovelBuilder.createChapter(id, options.chapter[0], { location: config.getLocation() })).catch(
-      (err: Exception) => {
+    DownloadAPI(NovelBuilder.createChapter(id, options.chapter[0], { location: config.getLocation() }))
+      .then((filename: string) => {
+        log(WrapTMC("info", "Filename", filename));
+      })
+      .catch((err: Exception) => {
         err.printAndExit();
-      }
-    );
+      });
   } catch (e) {
     let exception: Exception = e;
     exception.printAndExit();

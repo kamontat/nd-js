@@ -1,7 +1,7 @@
 import chalk, { Chalk } from "chalk";
 import { HeaderSize } from "../constants/output.const";
 import { inspect } from "util";
-import { COLOR } from "../constants/default.const";
+import { DEFAULT_COLOR } from "../constants/default.const";
 import { DEFAULT_TITLE_COLOR } from "../constants/color.const";
 
 type level = "error" | "warn" | "info" | "verbose" | "debug" | "silly";
@@ -10,7 +10,9 @@ export const WrapTitleMessage = (level: level, title: string, message: any) => {
   title = title.charAt(0).toUpperCase() + title.slice(1);
   return {
     level: level,
-    message: `${title.padEnd(HeaderSize)}: ${message instanceof Object ? inspect(message, false, 1, COLOR) : message}`
+    message: `${title.padEnd(HeaderSize)}: ${
+      message instanceof Object ? inspect(message, false, 1, DEFAULT_COLOR) : message
+    }`
   };
 };
 export const WrapTM = WrapTitleMessage;
@@ -32,7 +34,7 @@ export const WrapTitleMessageColor = (
   return {
     level: level,
     message: `${theme.title(title.padEnd(HeaderSize))}: ${
-      message instanceof Object ? inspect(message, false, 1, COLOR) : message
+      message instanceof Object ? inspect(message, false, 1, DEFAULT_COLOR) : message
     }`
   };
 };

@@ -1,32 +1,32 @@
-export let LOGGER_LEVEL = "info";
+export let DEFAULT_LOGGER_LEVEL = "info";
 export const BeChangeLevel = (level: string) => {
-  LOGGER_LEVEL = level;
+  DEFAULT_LOGGER_LEVEL = level;
 };
 
-export let COLOR = true;
+export let DEFAULT_COLOR = true;
 export const BeColor = (color: boolean) => {
-  COLOR = color;
+  DEFAULT_COLOR = color;
 };
 
-export let QUIET = false;
+export let DEFAULT_QUIET = false;
 export const BeQuiet = () => {
-  QUIET = true;
+  DEFAULT_QUIET = true;
 };
 
-export let HAS_LOG = true;
+export let DEFAULT_LOG_FILE_EXIST = true;
 export const BeLog = (has: boolean) => {
-  HAS_LOG = has;
+  DEFAULT_LOG_FILE_EXIST = has;
 };
 
-export let LOGGER_FOLDER = "/tmp/nd";
+export let DEFAULT_LOG_FOLDER = "/tmp/nd";
 export const BeLoggerTo = (folder: string) => {
-  LOGGER_FOLDER = folder;
+  DEFAULT_LOG_FOLDER = folder;
 };
 
-export let OUTPUT_TYPE: "long" | "short" = "short";
+export let DEFAULT_LOG_TYPE: "long" | "short" = "short";
 export let BeShortOutput = () => {
-  OUTPUT_TYPE = "short";
+  DEFAULT_LOG_TYPE = "short";
 };
 export let BeLongOutput = () => {
-  OUTPUT_TYPE = "long";
+  DEFAULT_LOG_TYPE = "long";
 };

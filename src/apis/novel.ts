@@ -9,7 +9,7 @@ import { PassLink, GetChapter } from "../helpers/novel";
 import { MakeHTML } from "./html";
 
 import { HtmlNode } from "../models/Html";
-import { BlackListText } from "../constants/htmlConst";
+import { DEFAULT_HTML_BLACKLIST_TEXT } from "../constants/htmlConst";
 import { NovelWarning } from "../constants/error.const";
 
 export const GetNovelName = ($: CheerioStatic) => {
@@ -81,7 +81,7 @@ export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
         const text = query.text().trim();
         if (text !== "" && text !== "\n") {
           // filter text that contain in BlackList
-          if (BlackListText.filter(v => text.includes(v)).length < 1) {
+          if (DEFAULT_HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
             // log(WrapTMC("debug", "Content", text));
             result.push({
               tag: "p",

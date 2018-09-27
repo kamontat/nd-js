@@ -18,7 +18,7 @@ import { VERSION } from "../constants/nd.const";
 import { CreateConfigError } from "../constants/error.const";
 import { ConfigFailError } from "../constants/error.const";
 import { WrapTM } from "./LoggerWrapper";
-import { OUTPUT_TYPE, COLOR } from "../constants/default.const";
+import { DEFAULT_LOG_TYPE, DEFAULT_COLOR } from "../constants/default.const";
 
 /**
  * @class
@@ -74,7 +74,7 @@ export default class Config {
   }
 
   getOutputType(): "long" | "short" {
-    return this._outputType === undefined ? OUTPUT_TYPE : this._outputType;
+    return this._outputType === undefined ? DEFAULT_LOG_TYPE : this._outputType;
   }
 
   setColor(color: string) {
@@ -83,7 +83,7 @@ export default class Config {
   }
 
   getColor(): boolean {
-    return this._color === undefined ? COLOR : this._color;
+    return this._color === undefined ? DEFAULT_COLOR : this._color;
   }
 
   setLocation(location: string) {
