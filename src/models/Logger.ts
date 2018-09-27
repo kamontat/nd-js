@@ -58,16 +58,19 @@ export default (
 
   fileFormat.push(customTimestamp, customJSON);
 
-  return {
-    level: option.level,
-    format: format.combine(...fileFormat),
-    transports: [
-      new Console({
-        format: format.combine(...consoleFormat),
-        level: option.level,
-        stderrLevels: ["error", "warn"],
-        silent: option.quiet
-      }),
+  let transports = [];
+
+  transports.push(
+    new Console({
+      format: format.combine(...consoleFormat),
+      level: option.level,
+      stderrLevels: ["error", "warn"],
+      silent: option.quiet
+    })
+  );
+
+  if (option.log.has) {
+    transports.push(
       new DailyRotateFile({
         json: true,
         dirname: option.log.folder,
@@ -77,7 +80,13 @@ export default (
         maxSize: "10m",
         maxFiles: "100"
       })
-    ]
+    );
+  }
+
+  return {
+    level: option.level,
+    format: format.combine(...fileFormat),
+    transports: transports
   };
 };
 

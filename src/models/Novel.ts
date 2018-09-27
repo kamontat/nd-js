@@ -62,7 +62,7 @@ export class NovelChapter {
     if (location) {
       this._location = location;
     } else {
-      this._location = Config.Load({ quiet: true })._location || "";
+      this._location = Config.Load({ quiet: true })._novelLocation || "";
     }
 
     if (chapter) {

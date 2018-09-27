@@ -25,7 +25,7 @@ export const ConfigSet = (a: any) => {
     if (args.includes("token")) config.setToken(args[1]);
     else if (args.includes("username")) config.setUserId(args[1]);
     else if (args.includes("color")) config.setColor(args[1]);
-    else if (args.includes("location")) config.setLocation(args[1]);
+    else if (args.includes("location")) config.setNovelLocation(args[1]);
 
     try {
       config.save();
@@ -44,7 +44,7 @@ export default () => {
 
   try {
     Config.Load();
-    log(WrapTMC("info", "configuration", Config.Load().path));
+    log(WrapTMC("info", "configuration", Config.Load().configLocation));
   } catch (e) {
     let exception: Exception = e;
     ACTION_THROW_IF(exception);

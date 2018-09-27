@@ -26,19 +26,21 @@ export const RawDownload = (a: any[]) => {
     let config = Config.Load();
     config.updateByOption(options);
 
-    chapter.map(chap => NovelBuilder.createChapter(id, chap, { location: config.getLocation() })).forEach(element => {
-      API_DOWNLOAD(element)
-        .then(({ cheerio, chapter }) => {
-          chapter._name = API_GET_NOVEL_CHAPTER_NAME(cheerio);
-          const content = API_GET_NOVEL_CONTENT(chapter, cheerio);
+    chapter
+      .map(chap => NovelBuilder.createChapter(id, chap, { location: config.getNovelLocation() }))
+      .forEach(element => {
+        API_DOWNLOAD(element)
+          .then(({ cheerio, chapter }) => {
+            chapter._name = API_GET_NOVEL_CHAPTER_NAME(cheerio);
+            const content = API_GET_NOVEL_CONTENT(chapter, cheerio);
 
-          writeFileSync(chapter.file(), content);
-          log(WrapTMC("info", "Filename", chapter.file()));
-        })
-        .catch((err: Exception) => {
-          err.printAndExit();
-        });
-    });
+            writeFileSync(chapter.file(), content);
+            log(WrapTMC("info", "Filename", chapter.file()));
+          })
+          .catch((err: Exception) => {
+            err.printAndExit();
+          });
+      });
   } catch (e) {
     let exception: Exception = e;
     exception.printAndExit();

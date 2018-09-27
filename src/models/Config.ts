@@ -1,5 +1,5 @@
 // import uuid from "uuid/v1";
-import semver from "semver";
+import semver, { major } from "semver";
 import yaml from "js-yaml";
 import fs from "fs";
 
@@ -7,7 +7,11 @@ import { resolve } from "path";
 import { log } from "winston";
 
 import { DEFAULT_CONFIG_FOLDER } from "../constants/config.const";
+
+process.env["SUPPRESS_NO_CONFIG_WARNING"] = process.env.NODE_ENV === "test" ? "true" : "false";
+process.env["NODE_CONFIG_STRICT_MODE"] = "false";
 process.env["NODE_CONFIG_DIR"] = DEFAULT_CONFIG_FOLDER;
+
 import config from "config";
 
 import { DEFAULT_CONFIG_FILE } from "../constants/config.const";
@@ -19,6 +23,7 @@ import { CreateConfigError } from "../constants/error.const";
 import { ConfigFailError } from "../constants/error.const";
 import { WrapTM } from "./LoggerWrapper";
 import { DEFAULT_LOG_TYPE, DEFAULT_COLOR } from "../constants/default.const";
+import { Server } from "net";
 
 /**
  * @class
@@ -29,20 +34,22 @@ import { DEFAULT_LOG_TYPE, DEFAULT_COLOR } from "../constants/default.const";
 export default class Config {
   static _CONFIG: Config;
 
-  path: string;
+  // config location
+  configLocation: string;
   _userid?: string;
   _token?: string;
 
   _outputType?: "short" | "long";
   _color?: boolean;
-  _location?: string;
+  // novel default location
+  _novelLocation?: string;
 
   _version?: number;
 
   _option?: { quiet: boolean };
 
   constructor(path: string, option?: { quiet: boolean }) {
-    this.path = path;
+    this.configLocation = path;
     this._option = option;
   }
 
@@ -51,7 +58,7 @@ export default class Config {
   }
 
   updateByOption(option: { [key: string]: string }) {
-    if (option.location) this.setLocation(option.location);
+    if (option.location) this.setNovelLocation(option.location);
   }
 
   setUserId(id: string) {
@@ -90,13 +97,13 @@ export default class Config {
     return this._color === undefined ? DEFAULT_COLOR : this._color;
   }
 
-  setLocation(location: string) {
+  setNovelLocation(location: string) {
     if (!this._isQuite()) log(WrapTM("debug", "update property", `location ${location}`));
-    this._location = location;
+    this._novelLocation = location;
   }
 
-  getLocation() {
-    return this._location === undefined ? resolve(process.env.HOME || "~") : this._location;
+  getNovelLocation() {
+    return this._novelLocation === undefined ? resolve(process.env.HOME || "~") : this._novelLocation;
   }
 
   setVersion(version: string) {
@@ -109,7 +116,7 @@ export default class Config {
   }
 
   getVersion(): number {
-    return this._version === undefined ? 1 : this._version;
+    return this._version === undefined ? major(VERSION) : this._version;
   }
 
   /**
@@ -124,7 +131,7 @@ export default class Config {
       }
     }
 
-    const doc = yaml.safeLoad(fs.readFileSync(this.path, "utf8"));
+    const doc = yaml.safeLoad(fs.readFileSync(this.configLocation, "utf8"));
 
     this.setVersion(doc.version);
 
@@ -132,7 +139,7 @@ export default class Config {
     this.setUserId(doc.security.username);
 
     this.setColor(doc.setting.color.toString());
-    this.setLocation(doc.setting.location);
+    this.setNovelLocation(doc.setting.location);
 
     this.setOutputType(doc.setting.output);
   }
@@ -190,7 +197,7 @@ security:
 setting:
   output: ${this.getOutputType()}
   color: ${this.getColor()}
-  location: ${this.getLocation()}
+  location: ${this.getNovelLocation()}
 `;
 
     if (fs.existsSync(DEFAULT_CONFIG_FILE) && !force) {

@@ -18,5 +18,5 @@ export default (a: any) => {
   const { options } = ACTION_SEPERATE_ARGUMENT(a);
 
   let config = Config.Initial(options.force);
-  log(WrapTMC("info", "config", config.path));
+  log(WrapTMC("info", "config", config.configLocation));
 };
