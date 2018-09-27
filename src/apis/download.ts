@@ -6,10 +6,9 @@ import { decode } from "iconv-lite";
 
 import { NovelChapter } from "../models/Novel";
 import { WrapTMC } from "../models/LoggerWrapper";
-import { DownloadError, NovelWarning } from "../constants/error.const";
+import { NovelWarning } from "../constants/error.const";
 import { GetNovelContent, GetChapterName, IsChapterExist } from "./novel";
 import { writeFileSync } from "fs";
-import { Exception } from "../models/Exception";
 
 function download(url: URL) {
   return request({
