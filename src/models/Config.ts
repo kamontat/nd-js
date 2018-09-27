@@ -36,7 +36,7 @@ export default class Config {
 
   // config location
   configLocation: string;
-  _userid?: string;
+  _username?: string;
   _token?: string;
 
   _outputType?: "short" | "long";
@@ -61,13 +61,13 @@ export default class Config {
     if (option.location) this.setNovelLocation(option.location);
   }
 
-  setUserId(id: string) {
+  setUsername(id: string) {
     if (!this._isQuite()) log(WrapTM("debug", "update property", `id ${id}`));
-    this._userid = id;
+    this._username = id;
   }
 
-  getUserId(): string {
-    return this._userid === undefined ? "" : this._userid;
+  getUsername(): string {
+    return this._username === undefined ? "" : this._username;
   }
 
   setToken(token: string) {
@@ -133,15 +133,15 @@ export default class Config {
 
     const doc = yaml.safeLoad(fs.readFileSync(this.configLocation, "utf8"));
 
-    this.setVersion(doc.version);
+    this.setVersion(doc.version || this.getVersion());
 
-    this.setToken(doc.security.token);
-    this.setUserId(doc.security.username);
+    this.setToken(doc.security.token || this.getToken());
+    this.setUsername(doc.security.username || this.getUsername());
 
-    this.setColor(doc.setting.color.toString());
-    this.setNovelLocation(doc.setting.location);
+    this.setColor(doc.setting.color.toString() || this.getColor());
+    this.setNovelLocation(doc.setting.location || this.getNovelLocation());
 
-    this.setOutputType(doc.setting.output);
+    this.setOutputType(doc.setting.output || this.getOutputType());
   }
 
   /**
@@ -193,7 +193,7 @@ export default class Config {
     let yaml = `version: ${this.getVersion()}
 security: 
   token: ${this.getToken()}
-  username: ${this.getUserId()}
+  username: ${this.getUsername()}
 setting:
   output: ${this.getOutputType()}
   color: ${this.getColor()}

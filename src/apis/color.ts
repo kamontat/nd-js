@@ -1,10 +1,14 @@
 import { DEFAULT_NUMBER_COLOR, DEFAULT_DATE_COLOR, DEFAULT_LOCATION_COLOR } from "../constants/color.const";
 
-export type ColorType = "number" | "chapter" | "date" | "location" | "";
+export type ColorType = "number" | "chapter" | "date" | "location" | "string";
 
 export const API_DEFINE_COLOR_TYPE = (message: any): ColorType => {
   // TODO: implement this
-  return "number";
+  if (message.toString().match(/^\d+$/)) {
+    return "number";
+  } else {
+    return "string";
+  }
 };
 
 export const API_ADD_COLOR_BY_TYPE = (message: any, custom: ColorType) => {

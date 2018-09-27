@@ -66,7 +66,9 @@ export class NovelChapter {
     }
 
     if (chapter) {
-      this._chapterNumber = chapter;
+      if (chapter.match(/^\d+$/)) {
+        this._chapterNumber = chapter;
+      }
     }
   }
 

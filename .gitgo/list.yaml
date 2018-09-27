@@ -2,4 +2,6 @@ version: 2
 commits:
   - key: lib
     value: Add, change or remove project dependencies
+  - key: test
+    value: Add or Fix Testing in project
 branches:

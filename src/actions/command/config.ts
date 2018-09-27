@@ -23,7 +23,7 @@ export const ConfigSet = (a: any) => {
     ACTION_THROW_IF(ACTION_VALIDATE(args, VALID_LENGTH, 2));
 
     if (args.includes("token")) config.setToken(args[1]);
-    else if (args.includes("username")) config.setUserId(args[1]);
+    else if (args.includes("username")) config.setUsername(args[1]);
     else if (args.includes("color")) config.setColor(args[1]);
     else if (args.includes("location")) config.setNovelLocation(args[1]);
 

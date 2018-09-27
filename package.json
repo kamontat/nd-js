@@ -51,6 +51,7 @@
     "html-loader": "0.5.5",
     "jest": "^23.6.0",
     "jest-extended": "^0.10.0",
+    "jest-raw-loader": "^1.0.1",
     "jsdoc": "3.5.5",
     "pkg": "4.3.1",
     "rimraf": "2.6.2",
@@ -79,8 +80,10 @@
     "analytic": "webpack --json > ./.caches/report.json",
     "analytic:prod": "webpack --mode=production --json > ./.caches/report.json",
     "test": "jest",
+    "test:watch": "jest --watch",
     "test:verbose": "jest --verbose",
-    "test:watch": "jest --watch"
+    "coverage": "jest --coverage",
+    "coverage:watch": "jest --coverage --watch"
   },
   "pkg": {
     "assets": "package.json"

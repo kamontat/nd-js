@@ -15,12 +15,15 @@ export class Exception extends Error implements Throwable {
   description: string = "";
   warn: boolean = false;
 
-  constructor(title: string, shift?: number) {
+  constructor(title: string, code?: number, shift?: number) {
     super(title);
     Error.captureStackTrace(this, this.constructor);
 
     this.description = title;
 
+    if (code) {
+      this.code = code;
+    }
     if (shift) {
       this.code += shift;
     }
@@ -60,7 +63,9 @@ export class Exception extends Error implements Throwable {
  * NFError is not found error
  */
 export class NFError extends Exception {
-  code = 10;
+  constructor(title: string, shift?: number) {
+    super(title, 10, shift);
+  }
 
   clone = (): Exception => {
     let n = new NFError(this.message);
@@ -75,7 +80,9 @@ export class NFError extends Exception {
  * EError is error or wrong input
  */
 export class EError extends Exception {
-  code = 20;
+  constructor(title: string, shift?: number) {
+    super(title, 30, shift);
+  }
 
   clone = (): Exception => {
     let n = new EError(this.message);
@@ -90,7 +97,9 @@ export class EError extends Exception {
  * FError is fail to do something
  */
 export class FError extends Exception {
-  code = 40;
+  constructor(title: string, shift?: number) {
+    super(title, 50, shift);
+  }
 
   clone = (): Exception => {
     let n = new FError(this.message);
@@ -102,8 +111,11 @@ export class FError extends Exception {
 }
 
 export class Warning extends Exception {
-  code = 100;
   warn = true;
+
+  constructor(title: string, shift?: number) {
+    super(title, 100, shift);
+  }
 
   clone = (): Exception => {
     let n = new Warning(this.message);
