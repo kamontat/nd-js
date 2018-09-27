@@ -1,6 +1,8 @@
 version: 2
 jobs:
   build:
+    environment:
+      CC_TEST_REPORTER_ID: 8858a7fa8566910c9199c5e9406a9bd5b386c228cbe759d36d9e1818737bdd5f
     docker:
       - image: 'circleci/node:9'
     working_directory: ~/nd-js
@@ -11,9 +13,22 @@ jobs:
             - 'v1-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}'
             - 'v1-dependencies-{{ checksum "package.json" }}'
             - v1-dependencies-
-      - run: yarn install
+      - run: 
+          name: Install dependencies 
+          command: yarn install
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            test -f "cc-test-reporter" || curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
       - save_cache:
           paths:
             - node_modules
+            - cc-test-reporter
           key: 'v1-dependencies-{{ checksum "package.json" }}'
-      - run: yarn test
+      - run: 
+          name: Testing
+          command: |
+            ./cc-test-reporter before-build
+            yarn coverage
+            ./cc-test-reporter after-build --exit-code $?

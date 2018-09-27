@@ -1,0 +1,12 @@
+version: "2"         # required to adjust maintainability checks
+plugins:
+  nodesecurity:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+      - typescript
+  fixme:
+    enabled: true
