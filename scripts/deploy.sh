@@ -39,6 +39,7 @@ lib() {
 }
 
 expected="$(lib_sh setVersion)"
+echo "$expected"
 yarn version --new-version "$expected" --no-git-tag-version
 
 version="$(lib "getVersion")"

@@ -33,8 +33,8 @@ read -r semver
 
 version="$(node ./scripts/lib/getVersion.js)"
 
-[[ $semver == "alpha" ]] && yarn version:alpha "$version"
-[[ $semver == "beta" ]] && yarn version:beta "$version"
-[[ $semver == "patch" ]] && yarn version:patch "$version"
-[[ $semver == "minor" ]] && yarn version:minor "$version"
-[[ $semver == "major" ]] && yarn version:major "$version"
+[[ $semver == "alpha" ]] && yarn --silent version:alpha "$version"
+[[ $semver == "beta" ]] && yarn --silent version:beta "$version"
+[[ $semver == "patch" ]] && yarn --silent version:patch "$version"
+[[ $semver == "minor" ]] && yarn --silent version:minor "$version"
+[[ $semver == "major" ]] && yarn --silent version:major "$version"

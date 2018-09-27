@@ -2,6 +2,43 @@
 ## [Unreleased]
 
 
+<a name="1.0.0-alpha.1"></a>
+## [1.0.0-alpha.1] - 2018-09-28
+### Code Refactoring
+- Update unclear variable name
+- Remove unuse code
+- Update attribute function and variable name
+- Change const name to have prefix
+
+### Documentation
+- Update title
+- Add readme badge
+
+### Features
+- Download now support multiple chapter
+- Fully customize novel content
+- Able to get content from html file
+- Working on Decode and reformat the novel content
+
+### Fixes Bug
+- Fix ci error
+- Fix error if config folder not found
+- Fix config not found
+
+### Improving User Experience
+- Update meta in html file
+- Add download improvement
+- Add warning message
+
+### Libraries
+- Add npm version to auto increase version
+- Add jest ts-jest to package.json
+- Add jest testing lib
+
+### Pull Requests
+- Merge pull request [#1](https://github.com/kamontat/nd-js/issues/1) from kamontat/renovate/configure
+
+
 <a name="1.0.0-alpha.0"></a>
 ## 1.0.0-alpha.0 - 2018-09-23
 ### Documentation
@@ -25,5 +62,10 @@
 - Add a lot of improvement
 - Add logger improvement
 
+### Libraries
+- Add jsdoc and gh-pages libraries
+- Add gitgo command
 
-[Unreleased]: https://github.com/kamontat/nd-js/compare/1.0.0-alpha.0...HEAD
+
+[Unreleased]: https://github.com/kamontat/nd-js/compare/1.0.0-alpha.1...HEAD
+[1.0.0-alpha.1]: https://github.com/kamontat/nd-js/compare/1.0.0-alpha.0...1.0.0-alpha.1
