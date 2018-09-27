@@ -5,40 +5,13 @@ import { Exception } from "../models/Exception";
 import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
 
 /**
- * This method will loop through args and check is subcommand exist
- *
- * @param args arguments (not include option)
- * @param subcommand command that wanted
- *
- * @return true if is subcommand, otherwise return false
- */
-export const IsSubcommand = (args: string[], subcommand: string) => {
-  return args.includes(subcommand);
-};
-
-/**
- * This will shift first element out.
- * be aware that input arguemnt will be changes too.
- *
- * @param args arguments for pass through subcommand argument
- *
- * @return result argument
- *
- */
-export const SubcommandArgument = (args: string[]) => {
-  const parent = args.shift();
-  log(WrapTM("debug", "remove", `parent command ${parent}`));
-  return args;
-};
-
-/**
  * Helper for {@link IfValidate} function
  *
  * @param a first argument
  * @param b second argument
  *
  */
-export const MatchSome = (a: any[], b: any[]) => {
+export const VALID_MATCH_SOME = (a: any[], b: any[]) => {
   return b.some(v => v === (a[0] === undefined ? "" : a[0]));
 };
 
@@ -48,7 +21,7 @@ export const MatchSome = (a: any[], b: any[]) => {
  * @param a first argument
  * @param b second argument
  */
-export const Length = (a: any[], b: number) => {
+export const VALID_LENGTH = (a: any[], b: number) => {
   return a.length === b;
 };
 
@@ -61,7 +34,7 @@ export const Length = (a: any[], b: number) => {
  *
  * @return exception if error occurred, this method can be use with {@link WillThrow}
  */
-export const IfValidate = (args: any[], validFn: (a: any[], b: any) => boolean, expected: any) => {
+export const ACTION_VALIDATE = (args: any[], validFn: (a: any[], b: any) => boolean, expected: any) => {
   if (!validFn(args, expected)) {
     return WrongParameterError.clone().loadString(`Expected [${expected}] but got [${args}]`);
   }
@@ -73,7 +46,7 @@ export const IfValidate = (args: any[], validFn: (a: any[], b: any) => boolean, 
  *
  * @param e exception to be throw if exist
  */
-export const WillThrow = (e?: Exception) => {
+export const ACTION_THROW_IF = (e?: Exception) => {
   if (e) {
     e.printAndExit();
   }
@@ -86,7 +59,7 @@ export const WillThrow = (e?: Exception) => {
  * @param a argument from action function
  *
  */
-export const SeperateArgument = (a: any[]) => {
+export const ACTION_SEPERATE_ARGUMENT = (a: any[]) => {
   let cmd: { [key: string]: any } = a.filter(v => typeof v === "object")[0];
   let args: string[] = a.filter(v => typeof v === "string").map(v => v.toString());
 

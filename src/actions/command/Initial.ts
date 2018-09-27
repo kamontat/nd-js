@@ -1,6 +1,6 @@
 import { log } from "winston";
 import Config from "../../models/Config";
-import { SeperateArgument } from "../../helpers/action";
+import { ACTION_SEPERATE_ARGUMENT } from "../../helpers/action";
 import { WrapTMC, WrapTM } from "../../models/LoggerWrapper";
 
 /**
@@ -15,7 +15,7 @@ import { WrapTMC, WrapTM } from "../../models/LoggerWrapper";
 export default (a: any) => {
   log(WrapTM("debug", "start command", "initial"));
 
-  const { options } = SeperateArgument(a);
+  const { options } = ACTION_SEPERATE_ARGUMENT(a);
 
   let config = Config.Initial(options.force);
   log(WrapTMC("info", "config", config.path));

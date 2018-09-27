@@ -1,4 +1,4 @@
-import { SeperateArgument, WillThrow, IfValidate, Length } from "../../helpers/action";
+import { ACTION_SEPERATE_ARGUMENT, ACTION_THROW_IF, ACTION_VALIDATE, VALID_LENGTH } from "../../helpers/action";
 import { log } from "winston";
 import { GetNID } from "../../helpers/novel";
 import { Exception } from "../../models/Exception";
@@ -10,12 +10,12 @@ import { API_GET_NOVEL_CHAPTER_NAME, API_GET_NOVEL_CONTENT } from "../../apis/no
 import { writeFileSync } from "fs";
 
 export const RawDownload = (a: any[]) => {
-  const { options, args } = SeperateArgument(a);
+  const { options, args } = ACTION_SEPERATE_ARGUMENT(a);
   if (options.chapter.length === 0) options.chapter = [0];
 
   log(WrapTM("debug", "start command", "raw download"));
 
-  WillThrow(IfValidate(args, Length, 1));
+  ACTION_THROW_IF(ACTION_VALIDATE(args, VALID_LENGTH, 1));
 
   try {
     let id = GetNID(args[0]);

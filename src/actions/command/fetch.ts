@@ -1,6 +1,6 @@
 import { log } from "winston";
 import Config from "../../models/Config";
-import { SeperateArgument, Length, IfValidate, WillThrow } from "../../helpers/action";
+import { ACTION_SEPERATE_ARGUMENT, VALID_LENGTH, ACTION_VALIDATE, ACTION_THROW_IF } from "../../helpers/action";
 import { WrapTMC, WrapTM } from "../../models/LoggerWrapper";
 import { Exception } from "../../models/Exception";
 import { GetNID } from "../../helpers/novel";
@@ -19,10 +19,10 @@ import { NovelBuilder } from "../../models/Novel";
 export default (a: any) => {
   log(WrapTM("debug", "start command", "fetch"));
 
-  const { options, args } = SeperateArgument(a);
+  const { options, args } = ACTION_SEPERATE_ARGUMENT(a);
   const long = options.long !== undefined && options.long == true;
 
-  WillThrow(IfValidate(args, Length, 1));
+  ACTION_THROW_IF(ACTION_VALIDATE(args, VALID_LENGTH, 1));
 
   log(WrapTM("debug", "Is long", long));
 
