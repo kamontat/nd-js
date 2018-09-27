@@ -28,17 +28,18 @@
 #//               0.0.2b1 -- beta-format
 #//               0.0.2a1 -- alpha-format
 
+lib_sh() {
+  filename="$1"
+  "./scripts/lib/$filename.sh" "$2"
+}
+
 lib() {
   filename="$1"
   node "./scripts/lib/$filename.js" "$2"
 }
 
-printf "Update version: (pre|patch|minor|major) "
-read -r semver
-[[ $semver == "pre" ]] && yarn version:pre
-[[ $semver == "patch" ]] && yarn version:patch
-[[ $semver == "minor" ]] && yarn version:minor
-[[ $semver == "major" ]] && yarn version:major
+expected="$(lib_sh setVersion)"
+yarn version --new-version "$expected" --no-git-tag-version
 
 version="$(lib "getVersion")"
 
@@ -68,7 +69,7 @@ if lib "promptYN" "create release of version $version"; then
   yarn deploy
 
   # create git tag
-  git tag "$version"
+  git tag "v$version"
 
   # update work
   if lib "promptYN" "execute git push code and tag"; then

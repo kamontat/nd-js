@@ -4,4 +4,6 @@ commits:
     value: Add, change or remove project dependencies
   - key: test
     value: Add or Fix Testing in project
+  - key: config
+    value: Update configuration file or add new ones
 branches:
