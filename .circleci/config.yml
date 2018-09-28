@@ -37,6 +37,10 @@ jobs:
             ./cc-test-reporter before-build
             yarn coverage:ci
             ./cc-test-reporter after-build --exit-code $?
+      - run: 
+          name: Update coveralls
+          command: |
+            cat ./coverage/lcov.info | yarn coveralls --verbose
       - store_test_results:
           path: coverage/reporter
       - store_artifacts:
