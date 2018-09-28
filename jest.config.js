@@ -10,5 +10,5 @@ module.exports = {
     "^.+\\.mustache$": "<rootDir>/test/htmlLoader.js",
     "^.+\\.css$": "jest-raw-loader"
   },
-  reporters: ["default", "jest-junit"]
+  reporters: ["default", ["jest-junit", { output: "coverage/reporter/junit/result.xml" }]]
 };

@@ -1,8 +1,6 @@
 version: 2
 jobs:
   build:
-    environment:
-      CC_TEST_REPORTER_ID: 8858a7fa8566910c9199c5e9406a9bd5b386c228cbe759d36d9e1818737bdd5f
     docker:
       - image: 'circleci/node:9'
     working_directory: ~/nd-js
@@ -37,7 +35,13 @@ jobs:
           name: Testing
           command: |
             ./cc-test-reporter before-build
-            yarn coverage
+            yarn coverage:ci
             ./cc-test-reporter after-build --exit-code $?
       - store_test_results:
-          path: reporters
+          path: coverage/reporter
+      - store_artifacts:
+          path: coverage
+          destination: coverage
+      - store_artifacts:
+          path: .caches
+          destination: caches

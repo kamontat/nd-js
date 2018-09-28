@@ -167,7 +167,6 @@ export default class Config {
     if (!config.has("security.username") && !CheckIsExist(config.get("security.username"))) {
       return ConfigFailError.clone().loadString("username is required.");
     }
-
     return undefined;
   }
 
