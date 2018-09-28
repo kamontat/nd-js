@@ -10,3 +10,5 @@ plugins:
       - typescript
   fixme:
     enabled: true
+exclude_patterns:
+  - "**/*.spec.ts"
