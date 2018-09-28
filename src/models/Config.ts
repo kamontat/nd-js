@@ -24,6 +24,7 @@ import { ConfigFailError } from "../constants/error.const";
 import { WrapTM, WrapTMC } from "./LoggerWrapper";
 import { DEFAULT_LOG_TYPE, DEFAULT_COLOR } from "../constants/default.const";
 import { Server } from "net";
+import { CheckIsExist } from "../helpers/helper";
 
 /**
  * @class
@@ -159,23 +160,11 @@ export default class Config {
       return ConfigFailError.clone().loadString("version is missing or not matches.");
     }
 
-    if (
-      !config.has("security.token") ||
-      config.get("security.token") === "null" ||
-      config.get("security.token") === "undefined" ||
-      config.get("security.token") === null ||
-      config.get("security.token") === undefined
-    ) {
+    if (!config.has("security.token") && !CheckIsExist(config.get("security.token"))) {
       return ConfigFailError.clone().loadString("token is required.");
     }
 
-    if (
-      !config.has("security.username") ||
-      config.get("security.username") === "null" ||
-      config.get("security.username") === "undefined" ||
-      config.get("security.username") === null ||
-      config.get("security.username") === undefined
-    ) {
+    if (!config.has("security.username") && !CheckIsExist(config.get("security.username"))) {
       return ConfigFailError.clone().loadString("username is required.");
     }
 
