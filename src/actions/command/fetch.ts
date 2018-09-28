@@ -6,6 +6,7 @@ import { Exception } from "../../models/Exception";
 import { GetNID } from "../../helpers/novel";
 import { API_DOWNLOAD } from "../../apis/download";
 import { NovelBuilder } from "../../models/Novel";
+import { API_CREATE_NOVEL_CHAPTER_LIST } from "../../apis/novel";
 
 /**
  * This is initial command.
@@ -34,7 +35,11 @@ export default (a: any) => {
 
     API_DOWNLOAD(NovelBuilder.createChapter(id, "0"))
       .then(res => {
-        log(WrapTMC("silly", "Result", res.cheerio.html()));
+        // log(WrapTMC("debug", "Result", res.cheerio.html()));
+        const novel = NovelBuilder.create(res.chapter._nid, res.cheerio);
+        log(WrapTMC("debug", "Novel id", novel._id));
+        const list = API_CREATE_NOVEL_CHAPTER_LIST(res.cheerio);
+        list.forEach(chap => log(WrapTMC("info", `Chapter ${chap._chapterNumber}`, chap._name)));
         // res.cheerio
       })
       .catch((err: Exception) => {

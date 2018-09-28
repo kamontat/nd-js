@@ -22,11 +22,14 @@ export const API_GET_NOVEL_NAME = ($: CheerioStatic) => {
   return name;
 };
 
+// FIXME: Not work in version 1 novel
 export const API_CREATE_NOVEL_CHAPTER_LIST = ($: CheerioStatic): NovelChapter[] => {
   let chapterLink: { [key: string]: { link: string; title: string } } = {};
-  $("a[target=_blank]").each(function(_, e) {
+  $("a.chapter-item-name[target=_blank]").each(function(_, e) {
     let link = $(e).attr("href");
-    let title = $(e).attr("title");
+    let title = $(e)
+      .attr("title")
+      .trim();
     if (link && link.includes("viewlongc.php")) {
       const chapter = GetChapter(`${DEFAULT_NOVEL_LINK}/${link}`);
 

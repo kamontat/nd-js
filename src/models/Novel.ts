@@ -7,8 +7,9 @@ import { join } from "path";
 type NovelChapterBuilderOption = { name?: string; location?: string };
 
 export class NovelBuilder {
-  static create(id: string, location: string) {
-    return new Novel(id, location);
+  static create(id: string, _: CheerioStatic, option?: { location?: string }) {
+    // TODO: Fetch other necessary information from $
+    return new Novel(id, option && option.location);
   }
 
   static build(id: string, location: string) {
@@ -33,11 +34,11 @@ export class NovelBuilder {
 export class Novel {
   // TODO: add required information attribute
   _id: string;
-  _location: string;
+  _location?: string;
 
-  constructor(id: string, location: string) {
+  constructor(id: string, location?: string) {
     this._id = id;
-    this._location = location;
+    if (location) this._location = location;
   }
 
   load() {
@@ -46,7 +47,7 @@ export class Novel {
   }
 
   chapter(chapter: string): NovelChapter {
-    return NovelBuilder.createChapter(this._id, chapter);
+    return NovelBuilder.createChapter(this._id, chapter, { location: this._location });
   }
 }
 
