@@ -1,6 +1,6 @@
 import "jest-extended";
 import { Exception, EError, NFError, FError, Warning } from "../Exception";
-import { exceptions } from "winston";
+import { setProperty } from "../../../test/test";
 
 test("Should able to create new Exception class", function() {
   const exception = new Exception("Test error");
@@ -95,12 +95,6 @@ test("Shouldn't exit in warning exception", function() {
 });
 
 test("Should exit when error are occurred", function() {
-  const setProperty = (object: any, property: string, value: any) => {
-    const originalProperty = Object.getOwnPropertyDescriptor(object, property);
-    Object.defineProperty(object, property, { value });
-    return originalProperty;
-  };
-
   const mockExit = jest.fn();
   setProperty(process, "exit", mockExit);
 

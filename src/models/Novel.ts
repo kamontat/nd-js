@@ -7,7 +7,7 @@ import { NovelError } from "../constants/error.const";
 import Config from "./Config";
 import { join } from "path";
 import { API_GET_NOVEL_NAME, API_CREATE_NOVEL_CHAPTER_LIST, API_GET_NOVEL_DATE } from "../apis/novel";
-import { WrapTMCT } from "./LoggerWrapper";
+import { WrapTMCT, WrapTMC } from "./LoggerWrapper";
 import { API_ADD_COLOR } from "../helpers/color";
 
 type NovelChapterBuilderOption = { name?: string; location?: string; date?: Moment };
@@ -138,6 +138,8 @@ export class NovelChapter {
     if (chapter) {
       if (chapter.match(/^\d+$/)) {
         this._chapterNumber = chapter;
+      } else {
+        log(WrapTMC("warn", "Novel creator", `Chapter is not number (${chapter})`));
       }
     }
   }

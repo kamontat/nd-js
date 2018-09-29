@@ -9,12 +9,11 @@ import { CONST_PROJECT_NAME } from "../constants/nd.const";
 export type HtmlContent = {
   title: string;
   novelName?: string;
-  chapterName: string;
+  chapterName?: string;
   chapterNumber: string;
   content: string;
 
   id: string;
-  date: string;
   command: string;
 };
 
@@ -41,11 +40,23 @@ export class HtmlTemplateConstant {
     let prevChap = chap - 1;
     prevChap = prevChap < 0 ? 0 : prevChap;
 
+    if (!content.chapterName) content.chapterName = "";
+
     let build = Object.assign(
       {
         css: this._css,
         nextChapter: nextChap,
-        previousChapter: prevChap
+        previousChapter: prevChap,
+        date: new Date().toLocaleString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
+        })
       },
       content
     );
@@ -147,17 +158,7 @@ export class HtmlTemplate {
       chapterNumber: this._chapterNumber,
       content: html,
       id: this._nid,
-      command: CONST_PROJECT_NAME,
-      date: new Date().toLocaleString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour12: false,
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
-      })
+      command: CONST_PROJECT_NAME
     });
   }
 }
