@@ -1,7 +1,7 @@
 import "jest-extended";
 
 import { NovelBuilder } from "../Novel";
-import { DEFAULT_NOVEL_LINK } from "../../constants/novel.const";
+import { CONST_DEFAULT_NOVEL_LINK } from "../../constants/novel.const";
 import { PassLink } from "../../helpers/novel";
 
 test("Should save attribute correctly", function() {
@@ -36,7 +36,7 @@ test("Should build default chapter", function() {
 test("Should decode chapter from link", function() {
   const id = "950192";
   const number = "102";
-  const link = PassLink(DEFAULT_NOVEL_LINK);
+  const link = PassLink(CONST_DEFAULT_NOVEL_LINK);
   link.searchParams.set("id", id);
   link.searchParams.set("chapter", number);
 
