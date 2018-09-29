@@ -10,7 +10,11 @@ import { API_CREATE_HTML } from "./html";
 
 import { HtmlNode } from "../models/Html";
 import { CONST_DEFAULT_HTML_BLACKLIST_TEXT } from "../constants/htmlConst";
-import { NovelWarning } from "../constants/error.const";
+
+import "moment/locale/th";
+import { locale } from "moment";
+import moment = require("moment");
+import { FormatMomentDateTime } from "../helpers/helper";
 
 export const API_GET_NOVEL_NAME = ($: CheerioStatic) => {
   // //p[@id="big_text"]/text()
@@ -22,39 +26,67 @@ export const API_GET_NOVEL_NAME = ($: CheerioStatic) => {
   return name.trim();
 };
 
+// support v2 only
+export const API_GET_CHAPTER_DATE_LIST = ($: CheerioStatic): Cheerio => {
+  return $(".update-txt");
+};
+
+// support v2 only
+// TODO: make support v1 novel
+export const API_GET_NOVEL_DATE = ($: CheerioStatic): moment.Moment => {
+  const dateString = $(".writer-section-head")
+    .find("span")
+    .text()
+    .replace("อัพเดท ", "");
+  // 29 ก.ย. 61 / 19:00
+  const date = FormatMomentDateTime(dateString, "D MMM YY [/] HH:mm");
+  log(WrapTMC("debug", "novel date", date));
+  return date;
+};
+
 export const API_CREATE_NOVEL_CHAPTER_LIST = ($: CheerioStatic): NovelChapter[] => {
-  const chapterLink: { [key: string]: { link: string; title: string } } = {};
+  const chapterLink: { [key: string]: { link: string; title: string; date: moment.Moment } } = {};
 
   let query = $("a.chapter-item-name[target=_blank]");
+
+  let dateQuery = API_GET_CHAPTER_DATE_LIST($);
 
   if (query.length < 1) {
     query = $("a[target=_blank]");
   }
 
-  query.each(function(_, e) {
+  query.each(function(i, e) {
     let link = $(e).attr("href");
     let title = $(e).attr("title");
     if (!title) title = $(e).text();
     title = title ? title.trim() : title;
 
     if (link && link.includes("viewlongc.php")) {
+      locale("th");
+      let dateString = $(dateQuery.get(i)).text();
+      // 28 ก.ย. 61
+      let date = FormatMomentDateTime(dateString, "D MMM YY");
+      log(WrapTM("debug", "date", date));
+
       const chapter = GetChapter(`${CONST_DEFAULT_NOVEL_LINK}/${link}`);
 
       // to avoid deplicate chapter chapter
       if (chapterLink[chapter] === undefined) {
         log(WrapTM("debug", "chapter link", `${CONST_DEFAULT_NOVEL_LINK}/${link}`));
         log(WrapTM("debug", "chapter title", title));
+        log(WrapTM("debug", "date", date));
       }
 
       chapterLink[chapter] = {
         link: link,
-        title: title
+        title: title,
+        date: date
       };
     }
   });
 
-  return Object.values(chapterLink).map(({ link, title }) =>
-    NovelBuilder.createChapterByLink(PassLink(`${CONST_DEFAULT_NOVEL_LINK}/${link}`), { name: title })
+  return Object.values(chapterLink).map(({ link, title, date }) =>
+    NovelBuilder.createChapterByLink(PassLink(`${CONST_DEFAULT_NOVEL_LINK}/${link}`), { name: title, date: date })
   );
 };
 

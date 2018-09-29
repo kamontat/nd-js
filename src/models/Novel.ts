@@ -6,10 +6,11 @@ import { URL } from "url";
 import { NovelError } from "../constants/error.const";
 import Config from "./Config";
 import { join } from "path";
-import { API_GET_NOVEL_NAME, API_CREATE_NOVEL_CHAPTER_LIST } from "../apis/novel";
-import { WrapTMC, WrapTMCT } from "./LoggerWrapper";
+import { API_GET_NOVEL_NAME, API_CREATE_NOVEL_CHAPTER_LIST, API_GET_NOVEL_DATE } from "../apis/novel";
+import { WrapTMCT } from "./LoggerWrapper";
+import { API_ADD_COLOR } from "../helpers/color";
 
-type NovelChapterBuilderOption = { name?: string; location?: string };
+type NovelChapterBuilderOption = { name?: string; location?: string; date?: Moment };
 
 export class NovelBuilder {
   static create(id: string, option?: { location?: string }) {
@@ -30,7 +31,8 @@ export class NovelBuilder {
       GetNID(url.toString()),
       url.searchParams.get("chapter") || undefined,
       option && option.name,
-      option && option.location
+      option && option.location,
+      option && option.date
     );
   }
 }
@@ -43,27 +45,25 @@ export class Novel {
   _name?: string;
   _chapters?: NovelChapter[];
 
-  _createAt: Moment;
-  _updateAt: Moment;
+  _downloadAt: Moment; // manually collect
+  _updateAt?: Moment; // this from website
 
   constructor(id: string, location?: string) {
     this._id = id;
     if (location) this._location = location;
 
-    this._createAt = moment();
-    this._updateAt = moment();
+    this._downloadAt = moment();
   }
 
-  update() {
-    this._updateAt = moment();
+  update($: CheerioStatic) {
+    this._updateAt = API_GET_NOVEL_DATE($);
   }
 
   load($: CheerioStatic): Promise<Novel> {
     return new Promise(res => {
       this._name = API_GET_NOVEL_NAME($);
       this._chapters = API_CREATE_NOVEL_CHAPTER_LIST($);
-
-      this.update();
+      this.update($);
       res(this);
     });
   }
@@ -80,13 +80,39 @@ export class Novel {
     const link = GetLink(this._id);
     log(WrapTMCT("info", "Novel name", this._name, { message: "name" }));
     log(WrapTMCT("info", "Novel link", link));
-    log(WrapTMCT("verbose", "Create at", this._createAt));
-    log(WrapTMCT("verbose", "Update at", this._updateAt));
+    log(
+      WrapTMCT(
+        "info",
+        "Chapters",
+        `[${this._chapters &&
+          this._chapters.map(c => c._chapterNumber, {
+            message: "chapter_numbers"
+          })}]`
+      )
+    );
     if (this._chapters) {
-      this._chapters.forEach(chapter =>
-        log(WrapTMCT("verbose", `Chapter ${chapter._chapterNumber}`, chapter._name, { message: "chapter_name" }))
-      );
+      this._chapters.forEach(chapter => {
+        log(
+          WrapTMCT(
+            "verbose",
+            `Chapter ${chapter._chapterNumber}`,
+            `${API_ADD_COLOR(chapter._name, "chapter_name")} [อัพเดตล่าสุดเมื่อ ${API_ADD_COLOR(
+              chapter._date &&
+                chapter._date.calendar(undefined, {
+                  sameDay: "[วันนี้]",
+                  lastDay: "[เมื่อวาน]",
+                  lastWeek: "[วัน]dddd[ที่แล้ว]",
+                  sameElse: "DD/MM/YYYY"
+                }),
+              "date"
+            )}]`
+          )
+        );
+      });
     }
+
+    log(WrapTMCT("verbose", "Download at", this._downloadAt));
+    log(WrapTMCT("verbose", "Update at", this._updateAt));
   }
 }
 
@@ -96,11 +122,13 @@ export class NovelChapter {
   _chapterNumber: string = "0";
   _location: string;
 
-  _date?: string;
+  _date?: Moment;
 
-  constructor(id: string, chapter?: string, name?: string, location?: string) {
+  constructor(id: string, chapter?: string, name?: string, location?: string, date?: Moment) {
     this._nid = id;
     this._name = name;
+
+    this._date = date;
     if (location) {
       this._location = location;
     } else {
@@ -118,7 +146,7 @@ export class NovelChapter {
     this._name = name;
   }
 
-  setDate(date: string) {
+  setDate(date: Moment) {
     this._date = date;
   }
 
