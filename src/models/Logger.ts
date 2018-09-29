@@ -2,12 +2,12 @@ import { transports, format } from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 
 import {
-  DEFAULT_LOGGER_LEVEL,
-  DEFAULT_COLOR,
-  DEFAULT_QUIET,
-  DEFAULT_LOG_FILE_EXIST,
-  DEFAULT_LOG_FOLDER,
-  DEFAULT_LOG_TYPE
+  CONST_DEFAULT_LOGGER_LEVEL,
+  CONST_DEFAULT_COLOR,
+  CONST_DEFAULT_QUIET,
+  CONST_DEFAULT_LOG_FILE_EXIST,
+  CONST_DEFAULT_LOG_FOLDER,
+  CONST_DEFAULT_LOG_TYPE
 } from "../constants/default.const";
 import { Format } from "logform";
 
@@ -25,12 +25,12 @@ type LogOption = {
 };
 
 const customLog = printf(info => {
-  const levelPadding = !DEFAULT_COLOR ? 8 : 18;
-  if (DEFAULT_LOG_TYPE === "long") {
+  const levelPadding = !CONST_DEFAULT_COLOR ? 8 : 18;
+  if (CONST_DEFAULT_LOG_TYPE === "long") {
     return `${info.level.padEnd(levelPadding)} ${info.timestamp}
 ${info.message}
 `;
-  } else if (DEFAULT_LOG_TYPE === "short") {
+  } else if (CONST_DEFAULT_LOG_TYPE === "short") {
     return `[${info.level.padEnd(levelPadding)}] ${info.message}`;
   }
   return `${info.message}`;
@@ -44,10 +44,10 @@ const customTimestamp = timestamp({ format: "DD-MM-YYYY::HH.mm.ss" });
 
 export default (
   option: LogOption = {
-    level: DEFAULT_LOGGER_LEVEL,
-    color: DEFAULT_COLOR,
-    quiet: DEFAULT_QUIET,
-    log: { has: DEFAULT_LOG_FILE_EXIST, folder: DEFAULT_LOG_FOLDER }
+    level: CONST_DEFAULT_LOGGER_LEVEL,
+    color: CONST_DEFAULT_COLOR,
+    quiet: CONST_DEFAULT_QUIET,
+    log: { has: CONST_DEFAULT_LOG_FILE_EXIST, folder: CONST_DEFAULT_LOG_FOLDER }
   }
 ) => {
   let consoleFormat: Format[] = [];

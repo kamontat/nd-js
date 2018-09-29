@@ -1,4 +1,4 @@
-import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
+import { CONST_DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 
 import { log } from "winston";
 import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
@@ -9,7 +9,7 @@ import { PassLink, GetChapter } from "../helpers/novel";
 import { API_CREATE_HTML } from "./html";
 
 import { HtmlNode } from "../models/Html";
-import { DEFAULT_HTML_BLACKLIST_TEXT } from "../constants/htmlConst";
+import { CONST_DEFAULT_HTML_BLACKLIST_TEXT } from "../constants/htmlConst";
 import { NovelWarning } from "../constants/error.const";
 
 export const API_GET_NOVEL_NAME = ($: CheerioStatic) => {
@@ -19,7 +19,7 @@ export const API_GET_NOVEL_NAME = ($: CheerioStatic) => {
     // //td[@class="head1"]/h1/text()
     name = $("td.head1").text();
   }
-  return name;
+  return name.trim();
 };
 
 // FIXME: Not work in version 1 novel
@@ -39,11 +39,11 @@ export const API_CREATE_NOVEL_CHAPTER_LIST = ($: CheerioStatic): NovelChapter[] 
     title = title ? title.trim() : title;
 
     if (link && link.includes("viewlongc.php")) {
-      const chapter = GetChapter(`${DEFAULT_NOVEL_LINK}/${link}`);
+      const chapter = GetChapter(`${CONST_DEFAULT_NOVEL_LINK}/${link}`);
 
       // to avoid deplicate chapter chapter
       if (chapterLink[chapter] === undefined) {
-        log(WrapTM("debug", "chapter link", `${DEFAULT_NOVEL_LINK}/${link}`));
+        log(WrapTM("debug", "chapter link", `${CONST_DEFAULT_NOVEL_LINK}/${link}`));
         log(WrapTM("debug", "chapter title", title));
       }
 
@@ -55,7 +55,7 @@ export const API_CREATE_NOVEL_CHAPTER_LIST = ($: CheerioStatic): NovelChapter[] 
   });
 
   return Object.values(chapterLink).map(({ link, title }) =>
-    NovelBuilder.createChapterByLink(PassLink(`${DEFAULT_NOVEL_LINK}/${link}`), { name: title })
+    NovelBuilder.createChapterByLink(PassLink(`${CONST_DEFAULT_NOVEL_LINK}/${link}`), { name: title })
   );
 };
 
@@ -92,7 +92,7 @@ export const API_GET_NOVEL_CONTENT = (chapter: NovelChapter, $: CheerioStatic) =
         const text = query.text().trim();
         if (text !== "" && text !== "\n") {
           // filter text that contain in BlackList
-          if (DEFAULT_HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
+          if (CONST_DEFAULT_HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
             log(WrapTMC("debug", "Html paragraph node", text));
 
             // FIXME: sometime cause all text go to 1 node (1851491 chap=5)

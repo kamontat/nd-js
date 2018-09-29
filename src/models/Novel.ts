@@ -1,3 +1,5 @@
+import moment, { Moment } from "moment";
+
 import { log } from "winston";
 import { GetLinkWithChapter, GetChapterFile, GetNID, GetLink } from "../helpers/novel";
 import { URL } from "url";
@@ -5,7 +7,7 @@ import { NovelError } from "../constants/error.const";
 import Config from "./Config";
 import { join } from "path";
 import { API_GET_NOVEL_NAME, API_CREATE_NOVEL_CHAPTER_LIST } from "../apis/novel";
-import { WrapTMC } from "./LoggerWrapper";
+import { WrapTMC, WrapTMCT } from "./LoggerWrapper";
 
 type NovelChapterBuilderOption = { name?: string; location?: string };
 
@@ -41,19 +43,19 @@ export class Novel {
   _name?: string;
   _chapters?: NovelChapter[];
 
-  _createAt: Date;
-  _updateAt: Date;
+  _createAt: Moment;
+  _updateAt: Moment;
 
   constructor(id: string, location?: string) {
     this._id = id;
     if (location) this._location = location;
 
-    this._createAt = new Date();
-    this._updateAt = new Date();
+    this._createAt = moment();
+    this._updateAt = moment();
   }
 
   update() {
-    this._updateAt = new Date();
+    this._updateAt = moment();
   }
 
   load($: CheerioStatic): Promise<Novel> {
@@ -74,15 +76,16 @@ export class Novel {
     return NovelBuilder.createChapter(this._id, chapter, { location: this._location });
   }
 
-  print(option?: { all: boolean }) {
-    if (!option) option = { all: true };
-
+  print() {
     const link = GetLink(this._id);
-
-    log(WrapTMC("info", "Novel name", this._name));
-    log(WrapTMC("info", "Novel link", link && link.toString()));
-
-    if (option.all) {
+    log(WrapTMCT("info", "Novel name", this._name, { message: "name" }));
+    log(WrapTMCT("info", "Novel link", link));
+    log(WrapTMCT("verbose", "Create at", this._createAt));
+    log(WrapTMCT("verbose", "Update at", this._updateAt));
+    if (this._chapters) {
+      this._chapters.forEach(chapter =>
+        log(WrapTMCT("verbose", `Chapter ${chapter._chapterNumber}`, chapter._name, { message: "chapter_name" }))
+      );
     }
   }
 }
@@ -92,6 +95,8 @@ export class NovelChapter {
   _name?: string;
   _chapterNumber: string = "0";
   _location: string;
+
+  _date?: string;
 
   constructor(id: string, chapter?: string, name?: string, location?: string) {
     this._nid = id;
@@ -111,6 +116,10 @@ export class NovelChapter {
 
   setName(name: string) {
     this._name = name;
+  }
+
+  setDate(date: string) {
+    this._date = date;
   }
 
   link() {

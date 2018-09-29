@@ -3,7 +3,6 @@ import { configure } from "winston";
 import { CommanderStatic, Command } from "commander";
 
 import setting from "../models/Logger";
-import Config from "../models/Config";
 
 import { CCommand } from "../constants/command.const";
 import { COption } from "../constants/option.const";
@@ -37,11 +36,4 @@ const addAction = (program: Command | CommanderStatic, c: CCommand) => {
 export const MakeCommand = (program: Command | CommanderStatic, c: CCommand) => {
   let p = makeCommand(program, c);
   addAction(p, c);
-};
-
-export const LoadConfig = () => {
-  try {
-    let config = Config.Load({ quiet: true, bypass: true });
-    BeColor(config.getColor());
-  } catch (e) {}
 };

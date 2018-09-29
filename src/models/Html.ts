@@ -3,8 +3,8 @@ import { log } from "winston";
 import Mustache, { render } from "mustache";
 import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
 import { NovelChapter } from "./Novel";
-import { DEFAULT_HTML_TITLE_TEMPLATE, HTML_FILE } from "../constants/htmlConst";
-import { PROJECT_NAME } from "../constants/nd.const";
+import { CONST_DEFAULT_HTML_TITLE_TEMPLATE, HTML_FILE } from "../constants/htmlConst";
+import { CONST_PROJECT_NAME } from "../constants/nd.const";
 
 export type HtmlContent = {
   title: string;
@@ -97,7 +97,9 @@ export class HtmlTemplate {
   }
 
   setChapter(chapter: NovelChapter) {
-    this.setTitle(render(DEFAULT_HTML_TITLE_TEMPLATE, { nid: chapter._nid, chapterNumber: chapter._chapterNumber }));
+    this.setTitle(
+      render(CONST_DEFAULT_HTML_TITLE_TEMPLATE, { nid: chapter._nid, chapterNumber: chapter._chapterNumber })
+    );
     this.setChapterName(chapter._name || "");
     this.setChapterNumber(chapter._chapterNumber);
     this.setNID(chapter._nid);
@@ -145,7 +147,7 @@ export class HtmlTemplate {
       chapterNumber: this._chapterNumber,
       content: html,
       id: this._nid,
-      command: PROJECT_NAME,
+      command: CONST_PROJECT_NAME,
       date: new Date().toLocaleString("en-US", {
         weekday: "long",
         year: "numeric",

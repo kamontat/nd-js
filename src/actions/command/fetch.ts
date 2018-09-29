@@ -7,7 +7,7 @@ import { GetNID } from "../../helpers/novel";
 import { API_DOWNLOAD } from "../../apis/download";
 import { NovelBuilder } from "../../models/Novel";
 import { API_CREATE_NOVEL_CHAPTER_LIST } from "../../apis/novel";
-import { DEFAULT_COLOR } from "../../constants/default.const";
+import { CONST_DEFAULT_COLOR } from "../../constants/default.const";
 
 /**
  * This is initial command.
@@ -22,11 +22,8 @@ export default (a: any) => {
   log(WrapTM("debug", "start command", "fetch"));
 
   const { options, args } = ACTION_SEPERATE_ARGUMENT(a);
-  const all = options.all !== undefined && options.all == true;
 
   ACTION_THROW_IF(ACTION_VALIDATE(args, VALID_LENGTH, 1));
-
-  log(WrapTM("debug", "Is all result", all));
 
   try {
     let id = GetNID(args[0]);
@@ -36,9 +33,8 @@ export default (a: any) => {
 
     API_DOWNLOAD(NovelBuilder.createChapter(id, "0"))
       .then(res => {
-        // log(WrapTMC("debug", "Result", res.cheerio.html()));
         NovelBuilder.build(id, res.cheerio).then(novel => {
-          novel.print({ all: all });
+          novel.print();
         });
 
         // novel.print({ color: true, long: all, all: true });
