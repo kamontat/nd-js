@@ -1,20 +1,22 @@
-import { GetLink, GetLinkWithChapter, GetChapterFile, GetNID } from "../helpers/novel";
+import { log } from "winston";
+import { GetLinkWithChapter, GetChapterFile, GetNID, GetLink } from "../helpers/novel";
 import { URL } from "url";
 import { NovelError } from "../constants/error.const";
 import Config from "./Config";
 import { join } from "path";
+import { API_GET_NOVEL_NAME, API_CREATE_NOVEL_CHAPTER_LIST } from "../apis/novel";
+import { WrapTMC } from "./LoggerWrapper";
 
 type NovelChapterBuilderOption = { name?: string; location?: string };
 
 export class NovelBuilder {
-  static create(id: string, _: CheerioStatic, option?: { location?: string }) {
-    // TODO: Fetch other necessary information from $
+  static create(id: string, option?: { location?: string }) {
     return new Novel(id, option && option.location);
   }
 
-  static build(id: string, location: string) {
-    let novel = new Novel(id, location);
-    return novel.load();
+  static build(id: string, $: CheerioStatic, option?: { location?: string }) {
+    let novel = NovelBuilder.create(id, option);
+    return novel.load($);
   }
 
   static createChapter(id: string, chapter?: string, option?: NovelChapterBuilderOption) {
@@ -36,18 +38,52 @@ export class Novel {
   _id: string;
   _location?: string;
 
+  _name?: string;
+  _chapters?: NovelChapter[];
+
+  _createAt: Date;
+  _updateAt: Date;
+
   constructor(id: string, location?: string) {
     this._id = id;
     if (location) this._location = location;
+
+    this._createAt = new Date();
+    this._updateAt = new Date();
   }
 
-  load() {
-    // TODO: load novel from internet and fill all information
-    return new Promise(res => res());
+  update() {
+    this._updateAt = new Date();
+  }
+
+  load($: CheerioStatic): Promise<Novel> {
+    return new Promise(res => {
+      this._name = API_GET_NOVEL_NAME($);
+      this._chapters = API_CREATE_NOVEL_CHAPTER_LIST($);
+
+      this.update();
+      res(this);
+    });
   }
 
   chapter(chapter: string): NovelChapter {
+    if (this._chapters) {
+      const result = this._chapters.filter(v => v._chapterNumber === chapter);
+      if (result.length === 1) return result[0];
+    }
     return NovelBuilder.createChapter(this._id, chapter, { location: this._location });
+  }
+
+  print(option?: { all: boolean }) {
+    if (!option) option = { all: true };
+
+    const link = GetLink(this._id);
+
+    log(WrapTMC("info", "Novel name", this._name));
+    log(WrapTMC("info", "Novel link", link && link.toString()));
+
+    if (option.all) {
+    }
   }
 }
 

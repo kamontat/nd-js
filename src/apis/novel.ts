@@ -24,18 +24,26 @@ export const API_GET_NOVEL_NAME = ($: CheerioStatic) => {
 
 // FIXME: Not work in version 1 novel
 export const API_CREATE_NOVEL_CHAPTER_LIST = ($: CheerioStatic): NovelChapter[] => {
-  let chapterLink: { [key: string]: { link: string; title: string } } = {};
-  $("a.chapter-item-name[target=_blank]").each(function(_, e) {
+  const chapterLink: { [key: string]: { link: string; title: string } } = {};
+
+  let query = $("a.chapter-item-name[target=_blank]");
+
+  if (query.length < 1) {
+    query = $("a[target=_blank]");
+  }
+
+  query.each(function(_, e) {
     let link = $(e).attr("href");
-    let title = $(e)
-      .attr("title")
-      .trim();
+    let title = $(e).attr("title");
+    if (!title) title = $(e).text();
+    title = title ? title.trim() : title;
+
     if (link && link.includes("viewlongc.php")) {
       const chapter = GetChapter(`${DEFAULT_NOVEL_LINK}/${link}`);
 
       // to avoid deplicate chapter chapter
       if (chapterLink[chapter] === undefined) {
-        log(WrapTM("debug", "chapter link", link));
+        log(WrapTM("debug", "chapter link", `${DEFAULT_NOVEL_LINK}/${link}`));
         log(WrapTM("debug", "chapter title", title));
       }
 

@@ -78,8 +78,8 @@ export const FetchCommand: CCommand = {
   desc: "Fetching novel from website and show the result",
   options: [
     {
-      name: "-L, --long",
-      desc: "Show long result",
+      name: "-A, --all",
+      desc: "Show fully result",
       default: false
     }
   ],
