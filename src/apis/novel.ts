@@ -22,7 +22,6 @@ export const API_GET_NOVEL_NAME = ($: CheerioStatic) => {
   return name.trim();
 };
 
-// FIXME: Not work in version 1 novel
 export const API_CREATE_NOVEL_CHAPTER_LIST = ($: CheerioStatic): NovelChapter[] => {
   const chapterLink: { [key: string]: { link: string; title: string } } = {};
 
