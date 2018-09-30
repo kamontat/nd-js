@@ -8,7 +8,9 @@ import Config from "./Config";
 import { join } from "path";
 import { API_GET_NOVEL_NAME, API_CREATE_NOVEL_CHAPTER_LIST, API_GET_NOVEL_DATE } from "../apis/novel";
 import { WrapTMCT, WrapTMC } from "./LoggerWrapper";
-import { API_ADD_COLOR } from "../helpers/color";
+import { CONST_DEFAULT_COLORS } from "../constants/color.const";
+import { ColorType } from "./Color";
+import { CheckIsNumber } from "../helpers/helper";
 
 type NovelChapterBuilderOption = { name?: string; location?: string; date?: Moment };
 
@@ -78,17 +80,12 @@ export class Novel {
 
   print() {
     const link = GetLink(this._id);
-    log(WrapTMCT("info", "Novel name", this._name, { message: "name" }));
+    log(WrapTMCT("info", "Novel name", this._name, { message: CONST_DEFAULT_COLORS.Name }));
     log(WrapTMCT("info", "Novel link", link));
     log(
-      WrapTMCT(
-        "info",
-        "Chapters",
-        `[${this._chapters &&
-          this._chapters.map(c => c._chapterNumber, {
-            message: "chapter_numbers"
-          })}]`
-      )
+      WrapTMCT("info", "Chapters", this._chapters && this._chapters.map(c => c._chapterNumber), {
+        message: CONST_DEFAULT_COLORS.ChapterList
+      })
     );
     if (this._chapters) {
       this._chapters.forEach(chapter => {
@@ -96,16 +93,9 @@ export class Novel {
           WrapTMCT(
             "verbose",
             `Chapter ${chapter._chapterNumber}`,
-            `${API_ADD_COLOR(chapter._name, "chapter_name")} [อัพเดตล่าสุดเมื่อ ${API_ADD_COLOR(
-              chapter._date &&
-                chapter._date.calendar(undefined, {
-                  sameDay: "[วันนี้]",
-                  lastDay: "[เมื่อวาน]",
-                  lastWeek: "[วัน]dddd[ที่แล้ว]",
-                  sameElse: "DD/MM/YYYY"
-                }),
-              "date"
-            )}]`
+            `${CONST_DEFAULT_COLORS.ChapterName.color(
+              chapter._name
+            )} [อัพเดตล่าสุดเมื่อ ${CONST_DEFAULT_COLORS.Date.formatColor(chapter._date && chapter._date)}]`
           )
         );
       });
@@ -136,7 +126,7 @@ export class NovelChapter {
     }
 
     if (chapter) {
-      if (chapter.match(/^\d+$/)) {
+      if (CheckIsNumber(chapter)) {
         this._chapterNumber = chapter;
       } else {
         log(WrapTMC("warn", "Novel creator", `Chapter is not number (${chapter})`));

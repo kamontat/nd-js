@@ -2,8 +2,8 @@ import chalk, { Chalk } from "chalk";
 import { CONST_DEFAULT_LOG_HEADER_SIZE } from "../constants/output.const";
 import { inspect } from "util";
 import { CONST_DEFAULT_COLOR } from "../constants/default.const";
-import { CONST_DEFAULT_TITLE_COLOR } from "../constants/color.const";
-import { ColorType, API_ADD_COLOR } from "../helpers/color";
+import { TITLE_COLOR, CONST_DEFAULT_COLORS } from "../constants/color.const";
+import { ColorType } from "./Color";
 
 type level = "error" | "warn" | "info" | "verbose" | "debug" | "silly";
 
@@ -24,17 +24,17 @@ export const WrapTitleMessageColor = (
   level: level,
   title: any,
   message: any,
-  theme?: { title: Chalk; message: Chalk }
+  theme?: { title: ColorType; message: ColorType }
 ) => {
   title = title.charAt(0).toUpperCase() + title.slice(1);
   if (!theme) {
     theme = {
-      title: CONST_DEFAULT_TITLE_COLOR,
-      message: chalk.reset
+      title: CONST_DEFAULT_COLORS.Title,
+      message: CONST_DEFAULT_COLORS.String
     };
   }
 
-  return WrapTitleMessage(level, theme.title(title), theme.message(message), true);
+  return WrapTitleMessage(level, theme.title.formatColor(title), theme.message.formatColor(message), true);
 };
 export const WrapTMC = WrapTitleMessageColor;
 
@@ -42,11 +42,12 @@ export const WrapTitleMessageColorType = (
   level: level,
   title: any,
   message: any,
-  theme?: { title?: Chalk; message?: ColorType }
+  theme?: { title?: ColorType; message?: ColorType }
 ) => {
-  if (theme && theme.title) {
-    return WrapTitleMessage(level, theme.title(title), API_ADD_COLOR(message, theme.message), true);
-  }
-  return WrapTitleMessageColor(level, title, API_ADD_COLOR(message, theme && theme.message));
+  if (!theme) return WrapTitleMessageColor(level, title, ColorType.colorize(message));
+  const newTitle = theme.title ? theme.title.formatColor(title) : CONST_DEFAULT_COLORS.Title.formatColor(title);
+  const newMessage = theme.message ? theme.message.formatColor(message) : ColorType.colorize(message);
+
+  return WrapTitleMessage(level, newTitle, newMessage, true);
 };
 export const WrapTMCT = WrapTitleMessageColorType;

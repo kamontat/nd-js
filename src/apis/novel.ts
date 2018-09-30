@@ -14,7 +14,7 @@ import { CONST_DEFAULT_HTML_BLACKLIST_TEXT } from "../constants/htmlConst";
 import "moment/locale/th";
 import { locale } from "moment";
 import moment = require("moment");
-import { FormatMomentDateTime } from "../helpers/helper";
+import { FormatMomentDateTime } from "../helpers/date";
 
 export const API_GET_NOVEL_NAME = ($: CheerioStatic) => {
   // //p[@id="big_text"]/text()
