@@ -1,19 +1,27 @@
-import { GetLink, GetLinkWithChapter, GetChapterFile, GetNID } from "../helpers/novel";
+import moment, { Moment } from "moment";
+
+import { log } from "winston";
+import { GetLinkWithChapter, GetChapterFile, GetNID, GetLink } from "../helpers/novel";
 import { URL } from "url";
 import { NovelError } from "../constants/error.const";
 import Config from "./Config";
 import { join } from "path";
+import { API_GET_NOVEL_NAME, API_CREATE_NOVEL_CHAPTER_LIST, API_GET_NOVEL_DATE } from "../apis/novel";
+import { WrapTMCT, WrapTMC } from "./LoggerWrapper";
+import { CONST_DEFAULT_COLORS } from "../constants/color.const";
+import { ColorType } from "./Color";
+import { CheckIsNumber } from "../helpers/helper";
 
-type NovelChapterBuilderOption = { name?: string; location?: string };
+type NovelChapterBuilderOption = { name?: string; location?: string; date?: Moment };
 
 export class NovelBuilder {
-  static create(id: string, location: string) {
-    return new Novel(id, location);
+  static create(id: string, option?: { location?: string }) {
+    return new Novel(id, option && option.location);
   }
 
-  static build(id: string, location: string) {
-    let novel = new Novel(id, location);
-    return novel.load();
+  static build(id: string, $: CheerioStatic, option?: { location?: string }) {
+    let novel = NovelBuilder.create(id, option);
+    return novel.load($);
   }
 
   static createChapter(id: string, chapter?: string, option?: NovelChapterBuilderOption) {
@@ -25,7 +33,8 @@ export class NovelBuilder {
       GetNID(url.toString()),
       url.searchParams.get("chapter") || undefined,
       option && option.name,
-      option && option.location
+      option && option.location,
+      option && option.date
     );
   }
 }
@@ -33,20 +42,67 @@ export class NovelBuilder {
 export class Novel {
   // TODO: add required information attribute
   _id: string;
-  _location: string;
+  _location?: string;
 
-  constructor(id: string, location: string) {
+  _name?: string;
+  _chapters?: NovelChapter[];
+
+  _downloadAt: Moment; // manually collect
+  _updateAt?: Moment; // this from website
+
+  constructor(id: string, location?: string) {
     this._id = id;
-    this._location = location;
+    if (location) this._location = location;
+
+    this._downloadAt = moment();
   }
 
-  load() {
-    // TODO: load novel from internet and fill all information
-    return new Promise(res => res());
+  update($: CheerioStatic) {
+    this._updateAt = API_GET_NOVEL_DATE($);
+  }
+
+  load($: CheerioStatic): Promise<Novel> {
+    return new Promise(res => {
+      this._name = API_GET_NOVEL_NAME($);
+      this._chapters = API_CREATE_NOVEL_CHAPTER_LIST($);
+      this.update($);
+      res(this);
+    });
   }
 
   chapter(chapter: string): NovelChapter {
-    return NovelBuilder.createChapter(this._id, chapter);
+    if (this._chapters) {
+      const result = this._chapters.filter(v => v._chapterNumber === chapter);
+      if (result.length === 1) return result[0];
+    }
+    return NovelBuilder.createChapter(this._id, chapter, { location: this._location });
+  }
+
+  print() {
+    const link = GetLink(this._id);
+    log(WrapTMCT("info", "Novel name", this._name, { message: CONST_DEFAULT_COLORS.Name }));
+    log(WrapTMCT("info", "Novel link", link));
+    log(
+      WrapTMCT("info", "Chapters", this._chapters && this._chapters.map(c => c._chapterNumber), {
+        message: CONST_DEFAULT_COLORS.ChapterList
+      })
+    );
+    if (this._chapters) {
+      this._chapters.forEach(chapter => {
+        log(
+          WrapTMCT(
+            "verbose",
+            `Chapter ${chapter._chapterNumber}`,
+            `${CONST_DEFAULT_COLORS.ChapterName.color(
+              chapter._name
+            )} [อัพเดตล่าสุดเมื่อ ${CONST_DEFAULT_COLORS.Date.formatColor(chapter._date && chapter._date)}]`
+          )
+        );
+      });
+    }
+
+    log(WrapTMCT("verbose", "Download at", this._downloadAt));
+    log(WrapTMCT("verbose", "Update at", this._updateAt));
   }
 }
 
@@ -56,9 +112,13 @@ export class NovelChapter {
   _chapterNumber: string = "0";
   _location: string;
 
-  constructor(id: string, chapter?: string, name?: string, location?: string) {
+  _date?: Moment;
+
+  constructor(id: string, chapter?: string, name?: string, location?: string, date?: Moment) {
     this._nid = id;
     this._name = name;
+
+    this._date = date;
     if (location) {
       this._location = location;
     } else {
@@ -66,14 +126,20 @@ export class NovelChapter {
     }
 
     if (chapter) {
-      if (chapter.match(/^\d+$/)) {
+      if (CheckIsNumber(chapter)) {
         this._chapterNumber = chapter;
+      } else {
+        log(WrapTMC("warn", "Novel creator", `Chapter is not number (${chapter})`));
       }
     }
   }
 
   setName(name: string) {
     this._name = name;
+  }
+
+  setDate(date: Moment) {
+    this._date = date;
   }
 
   link() {

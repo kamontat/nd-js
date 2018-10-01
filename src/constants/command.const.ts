@@ -76,12 +76,5 @@ export const FetchCommand: CCommand = {
   name: "fetch",
   alias: "E",
   desc: "Fetching novel from website and show the result",
-  options: [
-    {
-      name: "-L, --long",
-      desc: "Show long result",
-      default: false
-    }
-  ],
   fn: Fetch
 };

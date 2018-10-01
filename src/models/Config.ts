@@ -6,23 +6,23 @@ import fs from "fs-extra";
 import { resolve, dirname } from "path";
 import { log } from "winston";
 
-import { DEFAULT_CONFIG_FOLDER } from "../constants/config.const";
+import { CONST_DEFAULT_CONFIG_FOLDER } from "../constants/config.const";
 
 process.env["SUPPRESS_NO_CONFIG_WARNING"] = process.env.NODE_ENV === "test" ? "true" : "false";
 process.env["NODE_CONFIG_STRICT_MODE"] = "false";
-process.env["NODE_CONFIG_DIR"] = DEFAULT_CONFIG_FOLDER;
+process.env["NODE_CONFIG_DIR"] = CONST_DEFAULT_CONFIG_FOLDER;
 
 import config from "config";
 
-import { DEFAULT_CONFIG_FILE } from "../constants/config.const";
+import { CONST_DEFAULT_CONFIG_FILE } from "../constants/config.const";
 import Exception from "./Exception";
 
-import { VERSION } from "../constants/nd.const";
+import { CONST_VERSION } from "../constants/nd.const";
 
 import { CreateConfigError } from "../constants/error.const";
 import { ConfigFailError } from "../constants/error.const";
 import { WrapTM, WrapTMC } from "./LoggerWrapper";
-import { DEFAULT_LOG_TYPE, DEFAULT_COLOR } from "../constants/default.const";
+import { CONST_DEFAULT_LOG_TYPE, CONST_DEFAULT_COLOR } from "../constants/default.const";
 import { Server } from "net";
 import { CheckIsExist } from "../helpers/helper";
 
@@ -86,7 +86,7 @@ export default class Config {
   }
 
   getOutputType(): "long" | "short" {
-    return this._outputType === undefined ? DEFAULT_LOG_TYPE : this._outputType;
+    return this._outputType === undefined ? CONST_DEFAULT_LOG_TYPE : this._outputType;
   }
 
   setColor(color: string) {
@@ -95,7 +95,7 @@ export default class Config {
   }
 
   getColor(): boolean {
-    return this._color === undefined ? DEFAULT_COLOR : this._color;
+    return this._color === undefined ? CONST_DEFAULT_COLOR : this._color;
   }
 
   setNovelLocation(location: string) {
@@ -117,7 +117,7 @@ export default class Config {
   }
 
   getVersion(): number {
-    return this._version === undefined ? major(VERSION) : this._version;
+    return this._version === undefined ? major(CONST_VERSION) : this._version;
   }
 
   /**
@@ -156,7 +156,7 @@ export default class Config {
       return ConfigFailError.clone().loadString("version key is required.");
     }
 
-    if (!semver.major(VERSION) === config.get("version")) {
+    if (!semver.major(CONST_VERSION) === config.get("version")) {
       return ConfigFailError.clone().loadString("version is missing or not matches.");
     }
 
@@ -222,7 +222,7 @@ setting:
    * @see {@link Config#Initial}
    */
   static Initial(force: boolean = false): Config {
-    let config = new Config(DEFAULT_CONFIG_FILE);
+    let config = new Config(CONST_DEFAULT_CONFIG_FILE);
     config.create(force);
 
     return config;
@@ -236,7 +236,7 @@ setting:
    */
   static Load(option?: { quiet?: boolean; bypass?: boolean }): Config {
     if (!Config._CONFIG) {
-      Config._CONFIG = new Config(DEFAULT_CONFIG_FILE, { quiet: option && option.quiet ? option.quiet : false });
+      Config._CONFIG = new Config(CONST_DEFAULT_CONFIG_FILE, { quiet: option && option.quiet ? option.quiet : false });
       Config._CONFIG.load(option && option.bypass);
     }
     return Config._CONFIG;

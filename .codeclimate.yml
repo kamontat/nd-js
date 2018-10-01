@@ -1,4 +1,26 @@
 version: "2"         # required to adjust maintainability checks
+checks:
+  argument-count:
+    config:
+      threshold: 5
+  complex-logic:
+    config:
+      threshold: 4
+  file-lines:
+    config:
+      threshold: 200
+  method-complexity:
+    config:
+      threshold: 10
+  method-count:
+    config:
+      threshold: 35
+  method-lines:
+    config:
+      threshold: 30
+  return-statements:
+    config:
+      threshold: 10
 plugins:
   nodesecurity:
     enabled: true

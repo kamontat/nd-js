@@ -3,18 +3,17 @@ import { log } from "winston";
 import Mustache, { render } from "mustache";
 import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
 import { NovelChapter } from "./Novel";
-import { DEFAULT_HTML_TITLE_TEMPLATE, HTML_FILE } from "../constants/htmlConst";
-import { PROJECT_NAME } from "../constants/nd.const";
+import { CONST_DEFAULT_HTML_TITLE_TEMPLATE, HTML_FILE } from "../constants/htmlConst";
+import { CONST_PROJECT_NAME } from "../constants/nd.const";
 
 export type HtmlContent = {
   title: string;
   novelName?: string;
-  chapterName: string;
+  chapterName?: string;
   chapterNumber: string;
   content: string;
 
   id: string;
-  date: string;
   command: string;
 };
 
@@ -41,11 +40,23 @@ export class HtmlTemplateConstant {
     let prevChap = chap - 1;
     prevChap = prevChap < 0 ? 0 : prevChap;
 
+    if (!content.chapterName) content.chapterName = "";
+
     let build = Object.assign(
       {
         css: this._css,
         nextChapter: nextChap,
-        previousChapter: prevChap
+        previousChapter: prevChap,
+        date: new Date().toLocaleString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
+        })
       },
       content
     );
@@ -97,7 +108,9 @@ export class HtmlTemplate {
   }
 
   setChapter(chapter: NovelChapter) {
-    this.setTitle(render(DEFAULT_HTML_TITLE_TEMPLATE, { nid: chapter._nid, chapterNumber: chapter._chapterNumber }));
+    this.setTitle(
+      render(CONST_DEFAULT_HTML_TITLE_TEMPLATE, { nid: chapter._nid, chapterNumber: chapter._chapterNumber })
+    );
     this.setChapterName(chapter._name || "");
     this.setChapterNumber(chapter._chapterNumber);
     this.setNID(chapter._nid);
@@ -145,17 +158,7 @@ export class HtmlTemplate {
       chapterNumber: this._chapterNumber,
       content: html,
       id: this._nid,
-      command: PROJECT_NAME,
-      date: new Date().toLocaleString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour12: false,
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
-      })
+      command: CONST_PROJECT_NAME
     });
   }
 }
