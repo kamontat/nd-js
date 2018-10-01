@@ -68,6 +68,7 @@ export const API_CREATE_NOVEL_CHAPTER_LIST = ($: CheerioStatic): NovelChapter[] 
       let date = FormatMomentDateTime(dateString, "D MMM YY");
       log(WrapTM("debug", "date", date));
 
+      // FIXME: wrong link since link also have viewlongc.php
       const chapter = GetChapter(`${CONST_DEFAULT_NOVEL_LINK}/${link}`);
 
       // to avoid deplicate chapter chapter
