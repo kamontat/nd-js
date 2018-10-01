@@ -34,7 +34,11 @@ export const VALID_LENGTH = (a: any[], b: number) => {
  *
  * @return exception if error occurred, this method can be use with {@link WillThrow}
  */
-export const ACTION_VALIDATE = (args: any[], validFn: (a: any[], b: any) => boolean, expected: any) => {
+export const ACTION_VALIDATE = (
+  args: any[],
+  validFn: (a: any[], b: any) => boolean,
+  expected: any
+): Exception | undefined => {
   if (!validFn(args, expected)) {
     return WrongParameterError.clone().loadString(`Expected [${expected}] but got [${args}]`);
   }
