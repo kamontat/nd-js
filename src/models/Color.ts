@@ -1,14 +1,12 @@
-import { CONST_DEFAULT_COLORS, ColorHeader } from "../constants/color.const";
+import { CONST_DEFAULT_COLORS } from "../constants/color.const";
 import { log } from "winston";
 import { Chalk } from "chalk";
-import { isMoment, isDate } from "moment";
-import { resolve } from "path";
-import { WrapTitleMessageColor, WrapTMC, WrapTM } from "./LoggerWrapper";
-import { URL } from "url";
-import { CheckIsNumber } from "../helpers/helper";
+import { WrapTMC } from "./LoggerWrapper";
 
 export class ColorType {
   name: string;
+
+  _check: (v: any) => boolean;
 
   _tranform: (v: any) => string;
   _color: Chalk;
@@ -20,12 +18,14 @@ export class ColorType {
 
   constructor(
     name: string,
+    check: (v: any) => boolean,
     color: Chalk,
     transform: (v: any) => string,
     alternativeColor?: Chalk,
     willUseAlternative?: (v: any) => boolean
   ) {
     this.name = name;
+    this._check = check;
     this._color = color;
     this._tranform = transform;
 
@@ -56,24 +56,28 @@ export class ColorType {
 
   static parse(key: string | undefined): ColorType {
     if (!key) return CONST_DEFAULT_COLORS.Undefined;
-    const result: ColorHeader[] = <ColorHeader[]>(
-      Object.keys(CONST_DEFAULT_COLORS).filter(k => k.toLowerCase() === key.toLowerCase())
-    );
 
+    const colors: { [key: string]: ColorType } = CONST_DEFAULT_COLORS;
+    const result = Object.keys(colors)
+      .map(k => colors[k])
+      .filter(c => c.name.toLowerCase() === key.toLowerCase());
     if (result.length < 1) return CONST_DEFAULT_COLORS.String;
-    return CONST_DEFAULT_COLORS[result[0]];
+    return result[0];
   }
 
   static guess(obj: any): ColorType {
     if (!obj) return CONST_DEFAULT_COLORS.Undefined;
-    if (isMoment(obj)) return CONST_DEFAULT_COLORS.Date;
-    if (isDate(obj)) return CONST_DEFAULT_COLORS.Date;
-    if (obj instanceof URL) return CONST_DEFAULT_COLORS.Link;
-    if (obj instanceof Array) return CONST_DEFAULT_COLORS.ChapterList;
+
+    const colors: { [key: string]: ColorType } = CONST_DEFAULT_COLORS;
+    const result = Object.keys(colors)
+      .map(key => colors[key])
+      .filter(color => color._check(obj))[0];
+
+    if (result) return result;
+    return CONST_DEFAULT_COLORS.String;
+
     // TODO: implement auto check path
     // log(WrapTM("debug", "resolve object", resolve(obj)));
     // if (resolve(obj) !== "") return CONST_DEFAULT_COLORS.Location;
-    if (CheckIsNumber(obj.toString())) return CONST_DEFAULT_COLORS.Number;
-    return CONST_DEFAULT_COLORS.String;
   }
 }
