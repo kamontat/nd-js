@@ -17,3 +17,11 @@ export const CreateHtmlApi = (chapter: NovelChapter, result: HtmlNode[]) => {
   template.adds(result);
   return template.build();
 };
+
+export const Query = ($: CheerioStatic, check: (c: Cheerio) => boolean, ...querys: string[]): Cheerio | undefined => {
+  for (let q in querys) {
+    let query = $(querys[q]);
+    if (check(query)) return query;
+  }
+  return undefined;
+};

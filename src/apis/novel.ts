@@ -11,7 +11,7 @@ import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
 import { NovelChapter, NovelBuilder } from "../models/Novel";
 import { PassLink, GetChapter } from "../helpers/novel";
 
-import { CreateHtmlApi } from "./html";
+import { CreateHtmlApi, Query } from "./html";
 
 import { HtmlNode } from "../models/Html";
 import { HTML_BLACKLIST_TEXT } from "../constants/html.const";
@@ -20,6 +20,8 @@ import "moment/locale/th";
 import { locale } from "moment";
 import moment = require("moment");
 import { FormatMomentDateTime } from "../helpers/date";
+import { TrimString, CheckIsExist } from "../helpers/helper";
+import { NOVEL_ERR, NOVEL_WARN } from "../constants/error.const";
 
 export const GetNovelNameApi = ($: CheerioStatic) => {
   // //p[@id="big_text"]/text()
@@ -52,29 +54,21 @@ export const GetNovelDateApi = ($: CheerioStatic): moment.Moment => {
 export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
   const chapterLink: { [key: string]: { link: string; title: string; date: moment.Moment } } = {};
 
-  let query = $("a.chapter-item-name[target=_blank]");
+  let query = Query($, c => c.length > 0, "a.chapter-item-name[target=_blank]", "a[target=_blank]");
+  if (!query) throw NOVEL_WARN.clone().loadString("cannot get chapter list");
 
   let dateQuery = GetChapterDateListApi($);
 
-  if (query.length < 1) {
-    query = $("a[target=_blank]");
-  }
-
   query.each(function(i, e) {
-    let link = $(e).attr("href");
-    let title = $(e).attr("title");
-    if (!title) title = $(e).text();
-    title = title ? title.trim() : title;
+    let link = `${DEFAULT_NOVEL_LINK}/${$(e).attr("href")}`;
+    let title = TrimString($(e).attr("title"));
+    if (!CheckIsExist(title)) title = TrimString($(e).text());
 
-    if (link && link.includes("viewlongc.php")) {
+    if (link.includes("viewlongc.php")) {
       locale("th");
-      let dateString = $(dateQuery.get(i)).text();
       // 28 ก.ย. 61
-      let date = FormatMomentDateTime(dateString, "D MMM YY");
-      log(WrapTM("debug", "date", date));
-
-      // FIXME: wrong link since link also have viewlongc.php
-      const chapter = GetChapter(`${DEFAULT_NOVEL_LINK}/${link}`);
+      const date = FormatMomentDateTime($(dateQuery.get(i)).text(), "D MMM YY");
+      const chapter = GetChapter(link);
 
       // to avoid deplicate chapter chapter
       if (chapterLink[chapter] === undefined) {

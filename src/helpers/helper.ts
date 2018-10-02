@@ -45,3 +45,10 @@ export const MakeReadableNumberArray = (array: Array<string>) => {
 
   return result;
 };
+
+export const TrimString = (obj: any | undefined | null) => {
+  if (!CheckIsExist(obj)) return "";
+  const str: string = obj.toString();
+  if (str) return str.trim();
+  return "";
+};
