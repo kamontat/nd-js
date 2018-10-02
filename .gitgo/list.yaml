@@ -7,3 +7,5 @@ commits:
   - key: config
     value: Update configuration file or add new ones
 branches:
+  - key: test
+    value: Add, improve, fix the Testing case
