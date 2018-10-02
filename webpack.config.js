@@ -1,7 +1,6 @@
 const path = require("path");
 const nodeExternals = require("webpack-node-externals");
 const DashboardPlugin = require("webpack-dashboard/plugin");
-const TypedocWebpackPlugin = require("typedoc-webpack-plugin");
 
 module.exports = {
   mode: "development", // production
@@ -29,7 +28,7 @@ module.exports = {
   resolve: {
     extensions: [".html", ".ts", ".js"]
   },
-  plugins: [new DashboardPlugin(), new TypedocWebpackPlugin({})],
+  plugins: [new DashboardPlugin()],
   output: {
     filename: "nd.min.js",
     path: path.resolve(__dirname, ".caches")
