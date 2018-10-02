@@ -1,4 +1,4 @@
-import { CONST_DEFAULT_COLORS } from "../constants/color.const";
+import { COLORS } from "../constants/color.const";
 import { log } from "winston";
 import { Chalk } from "chalk";
 import { WrapTMC } from "./LoggerWrapper";
@@ -55,26 +55,26 @@ export class ColorType {
   }
 
   static parse(key: string | undefined): ColorType {
-    if (!key) return CONST_DEFAULT_COLORS.Undefined;
+    if (!key) return COLORS.Undefined;
 
-    const colors: { [key: string]: ColorType } = CONST_DEFAULT_COLORS;
+    const colors: { [key: string]: ColorType } = COLORS;
     const result = Object.keys(colors)
       .map(k => colors[k])
       .filter(c => c.name.toLowerCase() === key.toLowerCase());
-    if (result.length < 1) return CONST_DEFAULT_COLORS.String;
+    if (result.length < 1) return COLORS.String;
     return result[0];
   }
 
   static guess(obj: any): ColorType {
-    if (!obj) return CONST_DEFAULT_COLORS.Undefined;
+    if (!obj) return COLORS.Undefined;
 
-    const colors: { [key: string]: ColorType } = CONST_DEFAULT_COLORS;
+    const colors: { [key: string]: ColorType } = COLORS;
     const result = Object.keys(colors)
       .map(key => colors[key])
       .filter(color => color._check(obj))[0];
 
     if (result) return result;
-    return CONST_DEFAULT_COLORS.String;
+    return COLORS.String;
 
     // TODO: implement auto check path
     // log(WrapTM("debug", "resolve object", resolve(obj)));

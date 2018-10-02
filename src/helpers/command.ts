@@ -3,10 +3,8 @@ import { configure } from "winston";
 import { CommanderStatic, Command } from "commander";
 
 import setting from "../models/Logger";
-
-import { CCommand } from "../constants/command.const";
-import { COption } from "../constants/option.const";
-import { BeColor } from "../constants/default.const";
+import { COption } from "../models/Option";
+import { CCommand } from "../models/Command";
 
 export const MakeOption = (program: Command | CommanderStatic, o: COption) => {
   program.option(o.name, o.desc, o.fn, o.default);

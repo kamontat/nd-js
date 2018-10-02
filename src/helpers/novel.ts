@@ -1,6 +1,6 @@
 import { URL } from "url";
-import { CONST_DEFAULT_NOVEL_LINK, CONST_DEFAULT_CHAPTER_FILE_TEMPLATE } from "../constants/novel.const";
-import { WrongParameterError } from "../constants/error.const";
+import { DEFAULT_NOVEL_LINK, DEFAULT_FILE_TEMPLATE } from "../constants/novel.const";
+import { PARAM_WRONG_ERR } from "../constants/error.const";
 import { format } from "util";
 
 export const GetNID = (str: string) => {
@@ -10,7 +10,7 @@ export const GetNID = (str: string) => {
   } catch (e) {
     if (IsID(str)) return str;
   }
-  throw WrongParameterError.clone().loadString("input is not either link or id");
+  throw PARAM_WRONG_ERR.clone().loadString("input is not either link or id");
 };
 
 export const GetChapter = (str: string) => {
@@ -20,7 +20,7 @@ export const GetChapter = (str: string) => {
   } catch (e) {
     if (IsID(str)) return str;
   }
-  throw WrongParameterError.clone().loadString("input is not either link or id");
+  throw PARAM_WRONG_ERR.clone().loadString("input is not either link or id");
 };
 
 export const IsID = (str: string) => {
@@ -29,7 +29,7 @@ export const IsID = (str: string) => {
 
 export const GetLink = (id: string) => {
   if (IsID(id)) {
-    let link = PassLink(CONST_DEFAULT_NOVEL_LINK);
+    let link = PassLink(DEFAULT_NOVEL_LINK);
     link.searchParams.set("id", id);
     return link;
   }
@@ -42,7 +42,7 @@ export const GetLinkWithChapter = (id: string, chapter: string | undefined) => {
       return GetLink(id);
     }
 
-    let link = PassLink(CONST_DEFAULT_NOVEL_LINK.replace("view", "viewlongc"));
+    let link = PassLink(DEFAULT_NOVEL_LINK.replace("view", "viewlongc"));
     link.searchParams.set("id", id);
     link.searchParams.set("chapter", chapter);
     return link;
@@ -55,5 +55,5 @@ export const PassLink = (str: string) => {
 };
 
 export const GetChapterFile = (chapter: string) => {
-  return `${format(CONST_DEFAULT_CHAPTER_FILE_TEMPLATE, chapter)}`;
+  return `${format(DEFAULT_FILE_TEMPLATE, chapter)}`;
 };

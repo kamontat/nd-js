@@ -3,12 +3,12 @@ import moment, { Moment } from "moment";
 import { log } from "winston";
 import { GetLinkWithChapter, GetChapterFile, GetNID, GetLink } from "../helpers/novel";
 import { URL } from "url";
-import { NovelError } from "../constants/error.const";
+import { NOVEL_ERR } from "../constants/error.const";
 import Config from "./Config";
 import { join } from "path";
 import { API_GET_NOVEL_NAME, API_CREATE_NOVEL_CHAPTER_LIST, API_GET_NOVEL_DATE } from "../apis/novel";
 import { WrapTMCT, WrapTMC } from "./LoggerWrapper";
-import { CONST_DEFAULT_COLORS } from "../constants/color.const";
+import { COLORS } from "../constants/color.const";
 import { ColorType } from "./Color";
 import { CheckIsNumber } from "../helpers/helper";
 
@@ -80,11 +80,11 @@ export class Novel {
 
   print() {
     const link = GetLink(this._id);
-    log(WrapTMCT("info", "Novel name", this._name, { message: CONST_DEFAULT_COLORS.Name }));
+    log(WrapTMCT("info", "Novel name", this._name, { message: COLORS.Name }));
     log(WrapTMCT("info", "Novel link", link));
     log(
       WrapTMCT("info", "Chapters", this._chapters && this._chapters.map(c => c._chapterNumber), {
-        message: CONST_DEFAULT_COLORS.ChapterList
+        message: COLORS.ChapterList
       })
     );
     if (this._chapters) {
@@ -93,9 +93,9 @@ export class Novel {
           WrapTMCT(
             "verbose",
             `Chapter ${chapter._chapterNumber}`,
-            `${CONST_DEFAULT_COLORS.ChapterName.color(
-              chapter._name
-            )} [อัพเดตล่าสุดเมื่อ ${CONST_DEFAULT_COLORS.Date.formatColor(chapter._date && chapter._date)}]`
+            `${COLORS.ChapterName.color(chapter._name)} [อัพเดตล่าสุดเมื่อ ${COLORS.Date.formatColor(
+              chapter._date && chapter._date
+            )}]`
           )
         );
       });
@@ -145,7 +145,7 @@ export class NovelChapter {
   link() {
     let link = GetLinkWithChapter(this._nid, this._chapterNumber);
     if (link) return link;
-    throw NovelError.clone().loadString("cannot generate download link");
+    throw NOVEL_ERR.clone().loadString("cannot generate download link");
   }
 
   file() {

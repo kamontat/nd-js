@@ -1,6 +1,6 @@
 import { log } from "winston";
 
-import { WrongParameterError } from "../constants/error.const";
+import { PARAM_WRONG_ERR } from "../constants/error.const";
 import { Exception } from "../models/Exception";
 import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
 
@@ -40,7 +40,7 @@ export const ACTION_VALIDATE = (
   expected: any
 ): Exception | undefined => {
   if (!validFn(args, expected)) {
-    return WrongParameterError.clone().loadString(`Expected [${expected}] but got [${args}]`);
+    return PARAM_WRONG_ERR.clone().loadString(`Expected [${expected}] but got [${args}]`);
   }
   return;
 };

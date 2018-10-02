@@ -20,7 +20,7 @@ export const LINK_COLOR = chalk.blueBright;
 export const STRING_COLOR = chalk.reset;
 export const UNDEFINED_COLOR = chalk.reset;
 
-export const CONST_DEFAULT_COLORS = {
+export const COLORS = {
   Title: new ColorType("title", noValidator, TITLE_COLOR, TransferNothing),
   Name: new ColorType("name", noValidator, NAME_COLOR, TransferNothing),
   ChapterName: new ColorType("chapter name", noValidator, CHAPTER_NAME_COLOR, TransferNothing),

@@ -1,4 +1,4 @@
-import { CONST_DEFAULT_NOVEL_LINK } from "../constants/novel.const";
+import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 
 import { log } from "winston";
 import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
@@ -9,7 +9,7 @@ import { PassLink, GetChapter } from "../helpers/novel";
 import { CreateHtmlApi } from "./html";
 
 import { HtmlNode } from "../models/Html";
-import { CONST_DEFAULT_HTML_BLACKLIST_TEXT } from "../constants/html.const";
+import { HTML_BLACKLIST_TEXT } from "../constants/html.const";
 
 import "moment/locale/th";
 import { locale } from "moment";
@@ -69,11 +69,11 @@ export const API_CREATE_NOVEL_CHAPTER_LIST = ($: CheerioStatic): NovelChapter[] 
       log(WrapTM("debug", "date", date));
 
       // FIXME: wrong link since link also have viewlongc.php
-      const chapter = GetChapter(`${CONST_DEFAULT_NOVEL_LINK}/${link}`);
+      const chapter = GetChapter(`${DEFAULT_NOVEL_LINK}/${link}`);
 
       // to avoid deplicate chapter chapter
       if (chapterLink[chapter] === undefined) {
-        log(WrapTM("debug", "chapter link", `${CONST_DEFAULT_NOVEL_LINK}/${link}`));
+        log(WrapTM("debug", "chapter link", `${DEFAULT_NOVEL_LINK}/${link}`));
         log(WrapTM("debug", "chapter title", title));
         log(WrapTM("debug", "date", date));
       }
@@ -87,7 +87,7 @@ export const API_CREATE_NOVEL_CHAPTER_LIST = ($: CheerioStatic): NovelChapter[] 
   });
 
   return Object.values(chapterLink).map(({ link, title, date }) =>
-    NovelBuilder.createChapterByLink(PassLink(`${CONST_DEFAULT_NOVEL_LINK}/${link}`), { name: title, date: date })
+    NovelBuilder.createChapterByLink(PassLink(`${DEFAULT_NOVEL_LINK}/${link}`), { name: title, date: date })
   );
 };
 
@@ -124,7 +124,7 @@ export const API_GET_NOVEL_CONTENT = (chapter: NovelChapter, $: CheerioStatic) =
         const text = query.text().trim();
         if (text !== "" && text !== "\n") {
           // filter text that contain in BlackList
-          if (CONST_DEFAULT_HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
+          if (HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
             log(WrapTMC("debug", "Html paragraph node", text));
 
             // FIXME: sometime cause all text go to 1 node (1851491 chap=5)

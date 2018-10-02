@@ -7,7 +7,7 @@ import { GetNID } from "../../helpers/novel";
 import { DownloadApi } from "../../apis/download";
 import { NovelBuilder } from "../../models/Novel";
 import { API_CREATE_NOVEL_CHAPTER_LIST } from "../../apis/novel";
-import { CONST_DEFAULT_COLOR } from "../../constants/default.const";
+import { HAS_COLOR } from "../../constants/default.const";
 
 /**
  * This is initial command.

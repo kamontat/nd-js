@@ -17,12 +17,12 @@ import config from "config";
 import { CONST_DEFAULT_CONFIG_FILE } from "../constants/config.const";
 import Exception from "./Exception";
 
-import { CONST_VERSION } from "../constants/nd.const";
+import { VERSION } from "../constants/nd.const";
 
-import { CreateConfigError } from "../constants/error.const";
-import { ConfigFailError } from "../constants/error.const";
+import { CONFIG_CREATE_ERR } from "../constants/error.const";
+import { CONFIG_FAIL_ERR } from "../constants/error.const";
 import { WrapTM, WrapTMC } from "./LoggerWrapper";
-import { CONST_DEFAULT_LOG_TYPE, CONST_DEFAULT_COLOR } from "../constants/default.const";
+import { LOG_TYPE, HAS_COLOR } from "../constants/default.const";
 import { Server } from "net";
 import { CheckIsExist } from "../helpers/helper";
 
@@ -86,7 +86,7 @@ export default class Config {
   }
 
   getOutputType(): "long" | "short" {
-    return this._outputType === undefined ? CONST_DEFAULT_LOG_TYPE : this._outputType;
+    return this._outputType === undefined ? LOG_TYPE : this._outputType;
   }
 
   setColor(color: string) {
@@ -95,7 +95,7 @@ export default class Config {
   }
 
   getColor(): boolean {
-    return this._color === undefined ? CONST_DEFAULT_COLOR : this._color;
+    return this._color === undefined ? HAS_COLOR : this._color;
   }
 
   setNovelLocation(location: string) {
@@ -117,7 +117,7 @@ export default class Config {
   }
 
   getVersion(): number {
-    return this._version === undefined ? major(CONST_VERSION) : this._version;
+    return this._version === undefined ? major(VERSION) : this._version;
   }
 
   /**
@@ -153,19 +153,19 @@ export default class Config {
    */
   valid(): Exception | undefined {
     if (!config.has("version")) {
-      return ConfigFailError.clone().loadString("version key is required.");
+      return CONFIG_FAIL_ERR.clone().loadString("version key is required.");
     }
 
-    if (!semver.major(CONST_VERSION) === config.get("version")) {
-      return ConfigFailError.clone().loadString("version is missing or not matches.");
+    if (!semver.major(VERSION) === config.get("version")) {
+      return CONFIG_FAIL_ERR.clone().loadString("version is missing or not matches.");
     }
 
     if (!config.has("security.token") && !CheckIsExist(config.get("security.token"))) {
-      return ConfigFailError.clone().loadString("token is required.");
+      return CONFIG_FAIL_ERR.clone().loadString("token is required.");
     }
 
     if (!config.has("security.username") && !CheckIsExist(config.get("security.username"))) {
-      return ConfigFailError.clone().loadString("username is required.");
+      return CONFIG_FAIL_ERR.clone().loadString("username is required.");
     }
     return undefined;
   }
@@ -190,7 +190,7 @@ setting:
 
     log(WrapTMC("debug", "Config location", this.configLocation));
     if (fs.existsSync(this.configLocation) && !force) {
-      let e = CreateConfigError.clone();
+      let e = CONFIG_CREATE_ERR.clone();
       e.loadString(`${this.configLocation} is exist.`);
       throw e;
     }
@@ -199,7 +199,7 @@ setting:
     try {
       fs.writeFileSync(this.configLocation, yaml);
     } catch (err) {
-      let e = CreateConfigError.clone();
+      let e = CONFIG_CREATE_ERR.clone();
       e.loadError(err);
       throw e;
     }

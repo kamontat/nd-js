@@ -6,7 +6,7 @@ import { decode } from "iconv-lite";
 
 import { NovelChapter } from "../models/Novel";
 import { WrapTMC } from "../models/LoggerWrapper";
-import { NovelWarning } from "../constants/error.const";
+import { NOVEL_WARN } from "../constants/error.const";
 import { API_GET_NOVEL_CONTENT, API_GET_NOVEL_CHAPTER_NAME, API_IS_NOVEL } from "./novel";
 import { writeFileSync } from "fs";
 
@@ -50,7 +50,7 @@ export const DownloadApi: (b: NovelChapter) => Promise<{ cheerio: CheerioStatic;
         return res({ cheerio: $, chapter: chapter });
       } else {
         return rej(
-          NovelWarning.clone().loadString(`Novel(${chapter._nid}) on chapter ${chapter._chapterNumber} is not exist`)
+          NOVEL_WARN.clone().loadString(`Novel(${chapter._nid}) on chapter ${chapter._chapterNumber} is not exist`)
         );
       }
     });
