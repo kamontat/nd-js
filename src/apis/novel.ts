@@ -6,7 +6,7 @@ import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
 import { NovelChapter, NovelBuilder } from "../models/Novel";
 import { PassLink, GetChapter } from "../helpers/novel";
 
-import { API_CREATE_HTML } from "./html";
+import { CreateHtmlApi } from "./html";
 
 import { HtmlNode } from "../models/Html";
 import { CONST_DEFAULT_HTML_BLACKLIST_TEXT } from "../constants/html.const";
@@ -157,7 +157,7 @@ export const API_GET_NOVEL_CONTENT = (chapter: NovelChapter, $: CheerioStatic) =
       });
   }
 
-  return API_CREATE_HTML(chapter, result);
+  return CreateHtmlApi(chapter, result);
 };
 
 export const API_IS_NOVEL = ($: CheerioStatic) => {

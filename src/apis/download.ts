@@ -38,7 +38,7 @@ function download(url: URL) {
   });
 }
 
-export const API_DOWNLOAD: (b: NovelChapter) => Promise<{ cheerio: CheerioStatic; chapter: NovelChapter }> = (
+export const DownloadApi: (b: NovelChapter) => Promise<{ cheerio: CheerioStatic; chapter: NovelChapter }> = (
   chapter: NovelChapter
 ) => {
   log(WrapTMC("verbose", "Start download link", chapter.link()));

@@ -3,7 +3,7 @@ import { log } from "winston";
 import { GetNID } from "../../helpers/novel";
 import { Exception } from "../../models/Exception";
 import { NovelBuilder } from "../../models/Novel";
-import { API_DOWNLOAD } from "../../apis/download";
+import { DownloadApi } from "../../apis/download";
 import Config from "../../models/Config";
 import { WrapTM, WrapTMC } from "../../models/LoggerWrapper";
 import { API_GET_NOVEL_CHAPTER_NAME, API_GET_NOVEL_CONTENT } from "../../apis/novel";
@@ -29,7 +29,7 @@ export const RawDownload = (a: any[]) => {
     chapter
       .map(chap => NovelBuilder.createChapter(id, chap, { location: config.getNovelLocation() }))
       .forEach(element => {
-        API_DOWNLOAD(element)
+        DownloadApi(element)
           .then(({ cheerio, chapter }) => {
             chapter._name = API_GET_NOVEL_CHAPTER_NAME(cheerio);
             const content = API_GET_NOVEL_CONTENT(chapter, cheerio);

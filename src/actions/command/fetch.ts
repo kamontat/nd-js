@@ -4,7 +4,7 @@ import { ACTION_SEPERATE_ARGUMENT, VALID_LENGTH, ACTION_VALIDATE, ACTION_THROW_I
 import { WrapTMC, WrapTM } from "../../models/LoggerWrapper";
 import { Exception } from "../../models/Exception";
 import { GetNID } from "../../helpers/novel";
-import { API_DOWNLOAD } from "../../apis/download";
+import { DownloadApi } from "../../apis/download";
 import { NovelBuilder } from "../../models/Novel";
 import { API_CREATE_NOVEL_CHAPTER_LIST } from "../../apis/novel";
 import { CONST_DEFAULT_COLOR } from "../../constants/default.const";
@@ -31,7 +31,7 @@ export default (a: any) => {
     let config = Config.Load();
     config.updateByOption(options);
 
-    API_DOWNLOAD(NovelBuilder.createChapter(id, "0"))
+    DownloadApi(NovelBuilder.createChapter(id, "0"))
       .then(res => {
         NovelBuilder.build(id, res.cheerio).then(novel => {
           novel.print();
