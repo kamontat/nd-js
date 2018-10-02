@@ -11,15 +11,15 @@ import fs from "fs-extra";
 import { resolve, dirname } from "path";
 import { log } from "winston";
 
-import { CONST_DEFAULT_CONFIG_FOLDER } from "../constants/config.const";
+import { CONFIG_FOLDER_PATH } from "../constants/config.const";
 
 process.env["SUPPRESS_NO_CONFIG_WARNING"] = process.env.NODE_ENV === "test" ? "true" : "false";
 process.env["NODE_CONFIG_STRICT_MODE"] = "false";
-process.env["NODE_CONFIG_DIR"] = CONST_DEFAULT_CONFIG_FOLDER;
+process.env["NODE_CONFIG_DIR"] = CONFIG_FOLDER_PATH;
 
 import config from "config";
 
-import { CONST_DEFAULT_CONFIG_FILE } from "../constants/config.const";
+import { CONFIG_FILE_PATH } from "../constants/config.const";
 import Exception from "./Exception";
 
 import { VERSION } from "../constants/nd.const";
@@ -227,7 +227,7 @@ setting:
    * @see {@link Config#Initial}
    */
   static Initial(force: boolean = false): Config {
-    let config = new Config(CONST_DEFAULT_CONFIG_FILE);
+    let config = new Config(CONFIG_FILE_PATH);
     config.create(force);
 
     return config;
@@ -241,7 +241,7 @@ setting:
    */
   static Load(option?: { quiet?: boolean; bypass?: boolean }): Config {
     if (!Config._CONFIG) {
-      Config._CONFIG = new Config(CONST_DEFAULT_CONFIG_FILE, { quiet: option && option.quiet ? option.quiet : false });
+      Config._CONFIG = new Config(CONFIG_FILE_PATH, { quiet: option && option.quiet ? option.quiet : false });
       Config._CONFIG.load(option && option.bypass);
     }
     return Config._CONFIG;

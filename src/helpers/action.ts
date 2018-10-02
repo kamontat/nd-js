@@ -16,7 +16,7 @@ import { WrapTMC } from "../models/LoggerWrapper";
  * @param b second argument
  *
  */
-export const VALID_MATCH_SOME = (a: any[], b: any[]) => {
+export const ValidByMatchSome = (a: any[], b: any[]) => {
   return b.some(v => v === (a[0] === undefined ? "" : a[0]));
 };
 
@@ -26,7 +26,7 @@ export const VALID_MATCH_SOME = (a: any[], b: any[]) => {
  * @param a first argument
  * @param b second argument
  */
-export const VALID_LENGTH = (a: any[], b: number) => {
+export const ValidByLength = (a: any[], b: number) => {
   return a.length === b;
 };
 
@@ -39,7 +39,7 @@ export const VALID_LENGTH = (a: any[], b: number) => {
  *
  * @return exception if error occurred, this method can be use with {@link WillThrow}
  */
-export const ACTION_VALIDATE = (
+export const ValidList = (
   args: any[],
   validFn: (a: any[], b: any) => boolean,
   expected: any
@@ -55,7 +55,7 @@ export const ACTION_VALIDATE = (
  *
  * @param e exception to be throw if exist
  */
-export const ACTION_THROW_IF = (e?: Exception) => {
+export const ThrowIf = (e?: Exception) => {
   if (e) {
     e.printAndExit();
   }
@@ -68,7 +68,7 @@ export const ACTION_THROW_IF = (e?: Exception) => {
  * @param a argument from action function
  *
  */
-export const ACTION_SEPERATE_ARGUMENT = (a: any[]) => {
+export const SeperateArgumentApi = (a: any[]) => {
   let cmd: { [key: string]: any } = a.filter(v => typeof v === "object")[0];
   let args: string[] = a.filter(v => typeof v === "string").map(v => v.toString());
 

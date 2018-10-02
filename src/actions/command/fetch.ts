@@ -5,7 +5,7 @@
 
 import { log } from "winston";
 import Config from "../../models/Config";
-import { ACTION_SEPERATE_ARGUMENT, VALID_LENGTH, ACTION_VALIDATE, ACTION_THROW_IF } from "../../helpers/action";
+import { SeperateArgumentApi, ValidByLength, ValidList, ThrowIf } from "../../helpers/action";
 import { WrapTM } from "../../models/LoggerWrapper";
 import { Exception } from "../../models/Exception";
 import { GetNID } from "../../helpers/novel";
@@ -24,9 +24,9 @@ import { NovelBuilder } from "../../models/Novel";
 export default (a: any) => {
   log(WrapTM("debug", "start command", "fetch"));
 
-  const { options, args } = ACTION_SEPERATE_ARGUMENT(a);
+  const { options, args } = SeperateArgumentApi(a);
 
-  ACTION_THROW_IF(ACTION_VALIDATE(args, VALID_LENGTH, 1));
+  ThrowIf(ValidList(args, ValidByLength, 1));
 
   try {
     let id = GetNID(args[0]);
