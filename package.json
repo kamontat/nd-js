@@ -86,7 +86,7 @@
     "version:patch": "semver --increment patch",
     "version:minor": "semver --increment minor",
     "version:major": "semver --increment major",
-    "docs": "yarn typedoc --out ./docs --target ES3 --module commonjs --name \"ND JS\" --mode file",
+    "docs": "yarn typedoc --out ./docs --target ES3 --module commonjs --name \"ND JS\" --toc \"Table of Content\" --mode file",
     "gh-pages": "gh-pages -d docs",
     "clean": "rimraf .caches bin",
     "release": "./scripts/deploy.sh",

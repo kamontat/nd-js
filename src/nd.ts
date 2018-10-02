@@ -1,3 +1,11 @@
+/**
+ * @namespace ND
+ * @module nd
+ *
+ * This is root file for run the program in node
+ *
+ */
+
 import program from "commander";
 import winston from "winston";
 
