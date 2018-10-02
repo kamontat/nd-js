@@ -11,7 +11,7 @@ import { URL } from "url";
 import { NOVEL_ERR } from "../constants/error.const";
 import Config from "./Config";
 import { join } from "path";
-import { API_GET_NOVEL_NAME, API_CREATE_NOVEL_CHAPTER_LIST, API_GET_NOVEL_DATE } from "../apis/novel";
+import { GetNovelNameApi, CreateChapterListApi, GetNovelDateApi } from "../apis/novel";
 import { WrapTMCT, WrapTMC } from "./LoggerWrapper";
 import { COLORS } from "../constants/color.const";
 import { ColorType } from "./Color";
@@ -63,13 +63,13 @@ export class Novel {
   }
 
   update($: CheerioStatic) {
-    this._updateAt = API_GET_NOVEL_DATE($);
+    this._updateAt = GetNovelDateApi($);
   }
 
   load($: CheerioStatic): Promise<Novel> {
     return new Promise(res => {
-      this._name = API_GET_NOVEL_NAME($);
-      this._chapters = API_CREATE_NOVEL_CHAPTER_LIST($);
+      this._name = GetNovelNameApi($);
+      this._chapters = CreateChapterListApi($);
       this.update($);
       res(this);
     });

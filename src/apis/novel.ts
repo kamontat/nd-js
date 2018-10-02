@@ -21,7 +21,7 @@ import { locale } from "moment";
 import moment = require("moment");
 import { FormatMomentDateTime } from "../helpers/date";
 
-export const API_GET_NOVEL_NAME = ($: CheerioStatic) => {
+export const GetNovelNameApi = ($: CheerioStatic) => {
   // //p[@id="big_text"]/text()
   let name = $("p#big_text").text();
   if (!name || name === "") {
@@ -32,13 +32,13 @@ export const API_GET_NOVEL_NAME = ($: CheerioStatic) => {
 };
 
 // support v2 only
-export const API_GET_CHAPTER_DATE_LIST = ($: CheerioStatic): Cheerio => {
+export const GetChapterDateListApi = ($: CheerioStatic): Cheerio => {
   return $(".update-txt");
 };
 
 // support v2 only
 // TODO: make support v1 novel
-export const API_GET_NOVEL_DATE = ($: CheerioStatic): moment.Moment => {
+export const GetNovelDateApi = ($: CheerioStatic): moment.Moment => {
   const dateString = $(".writer-section-head")
     .find("span")
     .text()
@@ -49,12 +49,12 @@ export const API_GET_NOVEL_DATE = ($: CheerioStatic): moment.Moment => {
   return date;
 };
 
-export const API_CREATE_NOVEL_CHAPTER_LIST = ($: CheerioStatic): NovelChapter[] => {
+export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
   const chapterLink: { [key: string]: { link: string; title: string; date: moment.Moment } } = {};
 
   let query = $("a.chapter-item-name[target=_blank]");
 
-  let dateQuery = API_GET_CHAPTER_DATE_LIST($);
+  let dateQuery = GetChapterDateListApi($);
 
   if (query.length < 1) {
     query = $("a[target=_blank]");
@@ -96,7 +96,7 @@ export const API_CREATE_NOVEL_CHAPTER_LIST = ($: CheerioStatic): NovelChapter[] 
   );
 };
 
-export const API_GET_NOVEL_CHAPTER_NAME = ($: CheerioStatic) => {
+export const GetChapterNameApi = ($: CheerioStatic) => {
   // h2[@class="chaptername"]/text()
   let name = $(".chaptername")
     .first()
@@ -117,7 +117,7 @@ export const API_GET_NOVEL_CHAPTER_NAME = ($: CheerioStatic) => {
   // throw NovelWarning.clone().loadString("Cannot get chapter name");
 };
 
-export const API_GET_NOVEL_CONTENT = (chapter: NovelChapter, $: CheerioStatic) => {
+export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
   let result: HtmlNode[] = [];
 
   if ($("div#story-content").text() !== "") {
@@ -165,6 +165,6 @@ export const API_GET_NOVEL_CONTENT = (chapter: NovelChapter, $: CheerioStatic) =
   return CreateHtmlApi(chapter, result);
 };
 
-export const API_IS_NOVEL = ($: CheerioStatic) => {
+export const CheckIsNovel = ($: CheerioStatic) => {
   return $(".txt-content").length < 1;
 };

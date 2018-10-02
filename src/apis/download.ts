@@ -12,7 +12,7 @@ import { decode } from "iconv-lite";
 import { NovelChapter } from "../models/Novel";
 import { WrapTMC } from "../models/LoggerWrapper";
 import { NOVEL_WARN } from "../constants/error.const";
-import { API_IS_NOVEL } from "./novel";
+import { CheckIsNovel } from "./novel";
 
 function download(url: URL) {
   return request({
@@ -50,7 +50,7 @@ export const DownloadApi: (b: NovelChapter) => Promise<{ cheerio: CheerioStatic;
 
   return new Promise((res, rej) => {
     return download(chapter.link()).then(($: CheerioStatic) => {
-      if (API_IS_NOVEL($)) {
+      if (CheckIsNovel($)) {
         return res({ cheerio: $, chapter: chapter });
       } else {
         return rej(

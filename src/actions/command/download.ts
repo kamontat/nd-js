@@ -11,7 +11,7 @@ import { NovelBuilder } from "../../models/Novel";
 import { DownloadApi } from "../../apis/download";
 import Config from "../../models/Config";
 import { WrapTM, WrapTMC } from "../../models/LoggerWrapper";
-import { API_GET_NOVEL_CHAPTER_NAME, API_GET_NOVEL_CONTENT } from "../../apis/novel";
+import { GetChapterNameApi, GetNovelContent } from "../../apis/novel";
 import { writeFileSync } from "fs";
 
 export const RawDownload = (a: any[]) => {
@@ -36,8 +36,8 @@ export const RawDownload = (a: any[]) => {
       .forEach(element => {
         DownloadApi(element)
           .then(({ cheerio, chapter }) => {
-            chapter._name = API_GET_NOVEL_CHAPTER_NAME(cheerio);
-            const content = API_GET_NOVEL_CONTENT(chapter, cheerio);
+            chapter._name = GetChapterNameApi(cheerio);
+            const content = GetNovelContent(chapter, cheerio);
 
             writeFileSync(chapter.file(), content);
             log(WrapTMC("info", "Filename", chapter.file()));
