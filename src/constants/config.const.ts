@@ -1,21 +1,23 @@
+/**
+ * @internal
+ * @module nd.config
+ */
+
 import os from "os";
 import path from "path";
 
 const home = os.homedir();
 
-export const CONST_DEFAULT_FOLDER_NAME = ".nd";
+export const ND_FOLDER_NAME = ".nd";
 
-export const CONST_DEFAULT_FOLDER = path.join(home, CONST_DEFAULT_FOLDER_NAME);
+export const ND_FOLDER_PATH = path.join(home, ND_FOLDER_NAME);
 
-export const CONST_DEFAULT_CONFIG_EXTENSION = "yml";
+export const CONFIG_EXTENSION = "yml";
 
-export const CONST_DEFAULT_CONFIG_FOLDER = path.join(CONST_DEFAULT_FOLDER, "config");
+export const CONFIG_FOLDER_PATH = path.join(ND_FOLDER_PATH, "config");
 
-export const CONST_DEFAULT_CONFIG_FILE = path.join(
-  CONST_DEFAULT_CONFIG_FOLDER,
-  `default.${CONST_DEFAULT_CONFIG_EXTENSION}`
-);
+export const CONFIG_FILE_PATH = path.join(CONFIG_FOLDER_PATH, `default.${CONFIG_EXTENSION}`);
 
-export const CONST_DEFAULT_LOG_EXTENSION = "log";
+export const LOG_EXTENSION = "log";
 
-export const CONST_DEFAULT_LOG_FOLDER = path.join(CONST_DEFAULT_FOLDER, "log");
+export const LOG_FOLDER = path.join(ND_FOLDER_PATH, "log");

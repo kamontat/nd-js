@@ -1,13 +1,16 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
 import { log } from "winston";
 import Config from "../../models/Config";
-import { ACTION_SEPERATE_ARGUMENT, VALID_LENGTH, ACTION_VALIDATE, ACTION_THROW_IF } from "../../helpers/action";
-import { WrapTMC, WrapTM } from "../../models/LoggerWrapper";
+import { SeperateArgumentApi, ByLength, ValidList, ThrowIf } from "../../helpers/action";
+import { WrapTM } from "../../models/LoggerWrapper";
 import { Exception } from "../../models/Exception";
 import { GetNID } from "../../helpers/novel";
-import { API_DOWNLOAD } from "../../apis/download";
+import { DownloadApi } from "../../apis/download";
 import { NovelBuilder } from "../../models/Novel";
-import { API_CREATE_NOVEL_CHAPTER_LIST } from "../../apis/novel";
-import { CONST_DEFAULT_COLOR } from "../../constants/default.const";
 
 /**
  * This is initial command.
@@ -21,9 +24,9 @@ import { CONST_DEFAULT_COLOR } from "../../constants/default.const";
 export default (a: any) => {
   log(WrapTM("debug", "start command", "fetch"));
 
-  const { options, args } = ACTION_SEPERATE_ARGUMENT(a);
+  const { options, args } = SeperateArgumentApi(a);
 
-  ACTION_THROW_IF(ACTION_VALIDATE(args, VALID_LENGTH, 1));
+  ThrowIf(ValidList(args, ByLength, 1));
 
   try {
     let id = GetNID(args[0]);
@@ -31,7 +34,7 @@ export default (a: any) => {
     let config = Config.Load();
     config.updateByOption(options);
 
-    API_DOWNLOAD(NovelBuilder.createChapter(id, "0"))
+    DownloadApi(NovelBuilder.createChapter(id, "0"))
       .then(res => {
         NovelBuilder.build(id, res.cheerio).then(novel => {
           novel.print();

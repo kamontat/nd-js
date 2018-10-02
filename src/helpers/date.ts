@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module helper
+ */
+
 import moment = require("moment");
 import "moment/locale/th";
 

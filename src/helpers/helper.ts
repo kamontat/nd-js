@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module helper
+ */
+
 export const CheckIsExist = (value: string | undefined | null) => {
   return value !== undefined && value !== null && value !== "" && value !== "null" && value !== "undefined";
 };

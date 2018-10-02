@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.color
+ */
+
 import moment, { isMoment, isDate, Moment } from "moment";
 import { CheckIsNumber, MakeReadableNumberArray } from "./helper";
 

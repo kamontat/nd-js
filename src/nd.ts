@@ -1,51 +1,57 @@
+/**
+ * @internal
+ * @module nd
+ * @description This is root file for run the program in node
+ *
+ */
+
 import program from "commander";
 import winston from "winston";
 
 import setting from "./models/Logger";
 
-import { CONST_VERSION } from "./constants/nd.const";
+import { VERSION } from "./constants/nd.const";
 import { MakeCommand, MakeOption } from "./helpers/command";
 import { HELPER_LOAD_CONFIG } from "./helpers/config";
 
 import {
-  DebugOption,
-  QuietOption,
-  VerboseOption,
-  NoColorOption,
-  NoLogOption,
-  LogLocationOption,
-  ShortOutputOption,
-  LongOutputOption
+  DEBUG_OPT,
+  QUIET_OPT,
+  VERBOSE_OPT,
+  NO_COLOR_OPT,
+  NO_LOG_OPT,
+  LOG_PATH_OPT,
+  SHORT_OUT_OPT,
+  LONG_OUT_OPT
 } from "./constants/option.const";
 
 import {
-  ChangelogCommand,
-  InitialCommand,
-  ConfigCommand,
-  SetConfigCommand,
-  RawDownloadCommand,
-  FetchCommand
+  CHANGELOG_CMD,
+  INIT_CMD,
+  CONFIG_CMD,
+  SET_CONFIG_CMD,
+  RAW_DOWNLOAD_CMD,
+  FETCH_CMD
 } from "./constants/command.const";
 
-program.version(`nd version: ${CONST_VERSION}`, "-v, --version");
+program.version(`nd version: ${VERSION}`, "-v, --version");
 
-MakeOption(program, VerboseOption);
-MakeOption(program, DebugOption);
-MakeOption(program, QuietOption);
-MakeOption(program, NoColorOption);
-MakeOption(program, NoLogOption);
-MakeOption(program, LogLocationOption);
-MakeOption(program, ShortOutputOption);
-MakeOption(program, LongOutputOption);
+MakeOption(program, VERBOSE_OPT);
+MakeOption(program, DEBUG_OPT);
+MakeOption(program, QUIET_OPT);
+MakeOption(program, NO_COLOR_OPT);
+MakeOption(program, NO_LOG_OPT);
+MakeOption(program, LOG_PATH_OPT);
+MakeOption(program, SHORT_OUT_OPT);
+MakeOption(program, LONG_OUT_OPT);
 
-MakeCommand(program, ChangelogCommand);
-MakeCommand(program, InitialCommand);
+MakeCommand(program, CHANGELOG_CMD);
+MakeCommand(program, INIT_CMD);
+MakeCommand(program, CONFIG_CMD);
+MakeCommand(program, SET_CONFIG_CMD);
 
-MakeCommand(program, ConfigCommand);
-MakeCommand(program, SetConfigCommand);
-
-MakeCommand(program, RawDownloadCommand);
-MakeCommand(program, FetchCommand);
+MakeCommand(program, RAW_DOWNLOAD_CMD);
+MakeCommand(program, FETCH_CMD);
 
 HELPER_LOAD_CONFIG();
 

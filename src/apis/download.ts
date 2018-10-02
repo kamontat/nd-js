@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.apis
+ */
+
 import request from "request-promise";
 import { log } from "winston";
 import { load } from "cheerio";
@@ -6,9 +11,8 @@ import { decode } from "iconv-lite";
 
 import { NovelChapter } from "../models/Novel";
 import { WrapTMC } from "../models/LoggerWrapper";
-import { NovelWarning } from "../constants/error.const";
-import { API_GET_NOVEL_CONTENT, API_GET_NOVEL_CHAPTER_NAME, API_IS_NOVEL } from "./novel";
-import { writeFileSync } from "fs";
+import { NOVEL_WARN } from "../constants/error.const";
+import { CheckIsNovel } from "./novel";
 
 function download(url: URL) {
   return request({
@@ -38,7 +42,7 @@ function download(url: URL) {
   });
 }
 
-export const API_DOWNLOAD: (b: NovelChapter) => Promise<{ cheerio: CheerioStatic; chapter: NovelChapter }> = (
+export const DownloadApi: (b: NovelChapter) => Promise<{ cheerio: CheerioStatic; chapter: NovelChapter }> = (
   chapter: NovelChapter
 ) => {
   log(WrapTMC("verbose", "Start download link", chapter.link()));
@@ -46,11 +50,11 @@ export const API_DOWNLOAD: (b: NovelChapter) => Promise<{ cheerio: CheerioStatic
 
   return new Promise((res, rej) => {
     return download(chapter.link()).then(($: CheerioStatic) => {
-      if (API_IS_NOVEL($)) {
+      if (CheckIsNovel($)) {
         return res({ cheerio: $, chapter: chapter });
       } else {
         return rej(
-          NovelWarning.clone().loadString(`Novel(${chapter._nid}) on chapter ${chapter._chapterNumber} is not exist`)
+          NOVEL_WARN.clone().loadString(`Novel(${chapter._nid}) on chapter ${chapter._chapterNumber} is not exist`)
         );
       }
     });

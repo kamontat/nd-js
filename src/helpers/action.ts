@@ -1,8 +1,13 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
 import { log } from "winston";
 
-import { WrongParameterError } from "../constants/error.const";
+import { PARAM_WRONG_ERR } from "../constants/error.const";
 import { Exception } from "../models/Exception";
-import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
+import { WrapTMC } from "../models/LoggerWrapper";
 
 /**
  * Helper for {@link IfValidate} function
@@ -11,7 +16,7 @@ import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
  * @param b second argument
  *
  */
-export const VALID_MATCH_SOME = (a: any[], b: any[]) => {
+export const ByMatchSome = (a: any[], b: any[]) => {
   return b.some(v => v === (a[0] === undefined ? "" : a[0]));
 };
 
@@ -21,7 +26,7 @@ export const VALID_MATCH_SOME = (a: any[], b: any[]) => {
  * @param a first argument
  * @param b second argument
  */
-export const VALID_LENGTH = (a: any[], b: number) => {
+export const ByLength = (a: any[], b: number) => {
   return a.length === b;
 };
 
@@ -34,13 +39,13 @@ export const VALID_LENGTH = (a: any[], b: number) => {
  *
  * @return exception if error occurred, this method can be use with {@link WillThrow}
  */
-export const ACTION_VALIDATE = (
+export const ValidList = (
   args: any[],
   validFn: (a: any[], b: any) => boolean,
   expected: any
 ): Exception | undefined => {
   if (!validFn(args, expected)) {
-    return WrongParameterError.clone().loadString(`Expected [${expected}] but got [${args}]`);
+    return PARAM_WRONG_ERR.clone().loadString(`Expected [${expected}] but got [${args}]`);
   }
   return;
 };
@@ -50,7 +55,7 @@ export const ACTION_VALIDATE = (
  *
  * @param e exception to be throw if exist
  */
-export const ACTION_THROW_IF = (e?: Exception) => {
+export const ThrowIf = (e?: Exception) => {
   if (e) {
     e.printAndExit();
   }
@@ -63,7 +68,7 @@ export const ACTION_THROW_IF = (e?: Exception) => {
  * @param a argument from action function
  *
  */
-export const ACTION_SEPERATE_ARGUMENT = (a: any[]) => {
+export const SeperateArgumentApi = (a: any[]) => {
   let cmd: { [key: string]: any } = a.filter(v => typeof v === "object")[0];
   let args: string[] = a.filter(v => typeof v === "string").map(v => v.toString());
 

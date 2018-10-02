@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.exception
+ */
+
 import { log } from "winston";
 import { WrapTMC } from "./LoggerWrapper";
 
