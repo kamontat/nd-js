@@ -3,7 +3,7 @@ import { log } from "winston";
 import Mustache, { render } from "mustache";
 import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
 import { NovelChapter } from "./Novel";
-import { CONST_DEFAULT_HTML_TITLE_TEMPLATE, HTML_FILE } from "../constants/htmlConst";
+import { CONST_DEFAULT_HTML_TITLE_TEMPLATE, HTML_FILE } from "../constants/html.const";
 import { CONST_PROJECT_NAME } from "../constants/nd.const";
 
 export type HtmlContent = {

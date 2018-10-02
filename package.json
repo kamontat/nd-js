@@ -84,7 +84,7 @@
     "version:patch": "semver --increment patch",
     "version:minor": "semver --increment minor",
     "version:major": "semver --increment major",
-    "docs": "jsdoc -c ./jsdoc.config.json -t ./node_modules/ink-docstrap/template -d docs -r .",
+    "docs": "typedoc ",
     "gh-pages": "gh-pages -d docs",
     "clean": "rimraf .caches bin",
     "release": "./scripts/deploy.sh",

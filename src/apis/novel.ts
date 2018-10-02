@@ -9,7 +9,7 @@ import { PassLink, GetChapter } from "../helpers/novel";
 import { API_CREATE_HTML } from "./html";
 
 import { HtmlNode } from "../models/Html";
-import { CONST_DEFAULT_HTML_BLACKLIST_TEXT } from "../constants/htmlConst";
+import { CONST_DEFAULT_HTML_BLACKLIST_TEXT } from "../constants/html.const";
 
 import "moment/locale/th";
 import { locale } from "moment";
