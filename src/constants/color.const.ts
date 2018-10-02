@@ -1,4 +1,10 @@
+/**
+ * @internal
+ * @module nd.color
+ */
+
 import chalk from "chalk";
+import { URL } from "url";
 import { ColorType } from "../models/Color";
 import moment, { isDate, isMoment, Moment } from "moment";
 import { CheckIsNumber, CheckIsExist } from "../helpers/helper";
@@ -20,7 +26,7 @@ export const LINK_COLOR = chalk.blueBright;
 export const STRING_COLOR = chalk.reset;
 export const UNDEFINED_COLOR = chalk.reset;
 
-export const CONST_DEFAULT_COLORS = {
+export const COLORS = {
   Title: new ColorType("title", noValidator, TITLE_COLOR, TransferNothing),
   Name: new ColorType("name", noValidator, NAME_COLOR, TransferNothing),
   ChapterName: new ColorType("chapter name", noValidator, CHAPTER_NAME_COLOR, TransferNothing),

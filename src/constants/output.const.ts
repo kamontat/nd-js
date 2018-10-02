@@ -1,1 +1,6 @@
-export const CONST_DEFAULT_LOG_HEADER_SIZE = 20;
+/**
+ * @external
+ * @module logger
+ */
+
+export const LOG_HEAD_SIZE = 20;

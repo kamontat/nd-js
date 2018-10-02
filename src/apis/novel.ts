@@ -1,4 +1,9 @@
-import { CONST_DEFAULT_NOVEL_LINK } from "../constants/novel.const";
+/**
+ * @internal
+ * @module nd.apis
+ */
+
+import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 
 import { log } from "winston";
 import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
@@ -6,17 +11,19 @@ import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
 import { NovelChapter, NovelBuilder } from "../models/Novel";
 import { PassLink, GetChapter } from "../helpers/novel";
 
-import { API_CREATE_HTML } from "./html";
+import { CreateHtmlApi, Query } from "./html";
 
 import { HtmlNode } from "../models/Html";
-import { CONST_DEFAULT_HTML_BLACKLIST_TEXT } from "../constants/htmlConst";
+import { HTML_BLACKLIST_TEXT } from "../constants/html.const";
 
 import "moment/locale/th";
 import { locale } from "moment";
 import moment = require("moment");
 import { FormatMomentDateTime } from "../helpers/date";
+import { TrimString, CheckIsExist } from "../helpers/helper";
+import { NOVEL_ERR, NOVEL_WARN } from "../constants/error.const";
 
-export const API_GET_NOVEL_NAME = ($: CheerioStatic) => {
+export const GetNovelNameApi = ($: CheerioStatic) => {
   // //p[@id="big_text"]/text()
   let name = $("p#big_text").text();
   if (!name || name === "") {
@@ -27,13 +34,13 @@ export const API_GET_NOVEL_NAME = ($: CheerioStatic) => {
 };
 
 // support v2 only
-export const API_GET_CHAPTER_DATE_LIST = ($: CheerioStatic): Cheerio => {
+export const GetChapterDateListApi = ($: CheerioStatic): Cheerio => {
   return $(".update-txt");
 };
 
 // support v2 only
 // TODO: make support v1 novel
-export const API_GET_NOVEL_DATE = ($: CheerioStatic): moment.Moment => {
+export const GetNovelDateApi = ($: CheerioStatic): moment.Moment => {
   const dateString = $(".writer-section-head")
     .find("span")
     .text()
@@ -44,36 +51,28 @@ export const API_GET_NOVEL_DATE = ($: CheerioStatic): moment.Moment => {
   return date;
 };
 
-export const API_CREATE_NOVEL_CHAPTER_LIST = ($: CheerioStatic): NovelChapter[] => {
+export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
   const chapterLink: { [key: string]: { link: string; title: string; date: moment.Moment } } = {};
 
-  let query = $("a.chapter-item-name[target=_blank]");
+  let query = Query($, c => c.length > 0, "a.chapter-item-name[target=_blank]", "a[target=_blank]");
+  if (!query) throw NOVEL_WARN.clone().loadString("cannot get chapter list");
 
-  let dateQuery = API_GET_CHAPTER_DATE_LIST($);
-
-  if (query.length < 1) {
-    query = $("a[target=_blank]");
-  }
+  let dateQuery = GetChapterDateListApi($);
 
   query.each(function(i, e) {
-    let link = $(e).attr("href");
-    let title = $(e).attr("title");
-    if (!title) title = $(e).text();
-    title = title ? title.trim() : title;
+    let link = `${DEFAULT_NOVEL_LINK}/${$(e).attr("href")}`;
+    let title = TrimString($(e).attr("title"));
+    if (!CheckIsExist(title)) title = TrimString($(e).text());
 
-    if (link && link.includes("viewlongc.php")) {
+    if (link.includes("viewlongc.php")) {
       locale("th");
-      let dateString = $(dateQuery.get(i)).text();
       // 28 ก.ย. 61
-      let date = FormatMomentDateTime(dateString, "D MMM YY");
-      log(WrapTM("debug", "date", date));
-
-      // FIXME: wrong link since link also have viewlongc.php
-      const chapter = GetChapter(`${CONST_DEFAULT_NOVEL_LINK}/${link}`);
+      const date = FormatMomentDateTime($(dateQuery.get(i)).text(), "D MMM YY");
+      const chapter = GetChapter(link);
 
       // to avoid deplicate chapter chapter
       if (chapterLink[chapter] === undefined) {
-        log(WrapTM("debug", "chapter link", `${CONST_DEFAULT_NOVEL_LINK}/${link}`));
+        log(WrapTM("debug", "chapter link", `${DEFAULT_NOVEL_LINK}/${link}`));
         log(WrapTM("debug", "chapter title", title));
         log(WrapTM("debug", "date", date));
       }
@@ -87,11 +86,11 @@ export const API_CREATE_NOVEL_CHAPTER_LIST = ($: CheerioStatic): NovelChapter[] 
   });
 
   return Object.values(chapterLink).map(({ link, title, date }) =>
-    NovelBuilder.createChapterByLink(PassLink(`${CONST_DEFAULT_NOVEL_LINK}/${link}`), { name: title, date: date })
+    NovelBuilder.createChapterByLink(PassLink(`${DEFAULT_NOVEL_LINK}/${link}`), { name: title, date: date })
   );
 };
 
-export const API_GET_NOVEL_CHAPTER_NAME = ($: CheerioStatic) => {
+export const GetChapterNameApi = ($: CheerioStatic) => {
   // h2[@class="chaptername"]/text()
   let name = $(".chaptername")
     .first()
@@ -112,54 +111,68 @@ export const API_GET_NOVEL_CHAPTER_NAME = ($: CheerioStatic) => {
   // throw NovelWarning.clone().loadString("Cannot get chapter name");
 };
 
-export const API_GET_NOVEL_CONTENT = (chapter: NovelChapter, $: CheerioStatic) => {
+export const getNovelContentV1 = ($: CheerioStatic) => {
   let result: HtmlNode[] = [];
 
-  if ($("div#story-content").text() !== "") {
-    $("div#story-content")
-      .contents()
-      .each(function(_, e) {
-        let query = $(e);
+  $("table#story_body")
+    .children()
+    .children()
+    .children()
+    .contents()
+    .each(function(_, e) {
+      let query = $(e);
 
+      if (query.html() === "" || query.html() === null) {
         const text = query.text().trim();
         if (text !== "" && text !== "\n") {
-          // filter text that contain in BlackList
-          if (CONST_DEFAULT_HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
-            log(WrapTMC("debug", "Html paragraph node", text));
-
-            // FIXME: sometime cause all text go to 1 node (1851491 chap=5)
-            result.push({
-              tag: "p",
-              text: text
-            });
-          }
+          // log(WrapTMC("debug", "Content", text));
+          result.push({
+            tag: "p",
+            text: text
+          });
         }
-      });
-  } else {
-    $("table#story_body")
-      .children()
-      .children()
-      .children()
-      .contents()
-      .each(function(_, e) {
-        let query = $(e);
+      }
+    });
 
-        if (query.html() === "" || query.html() === null) {
-          const text = query.text().trim();
-          if (text !== "" && text !== "\n") {
-            // log(WrapTMC("debug", "Content", text));
-            result.push({
-              tag: "p",
-              text: text
-            });
-          }
-        }
-      });
-  }
-
-  return API_CREATE_HTML(chapter, result);
+  return result;
 };
 
-export const API_IS_NOVEL = ($: CheerioStatic) => {
+export const getNovelContentV2 = ($: CheerioStatic) => {
+  let result: HtmlNode[] = [];
+
+  $("div#story-content")
+    .contents()
+    .each(function(_, e) {
+      let query = $(e);
+
+      const text = query.text().trim();
+      if (text !== "" && text !== "\n") {
+        // filter text that contain in BlackList
+        if (HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
+          log(WrapTMC("debug", "Html paragraph node", text));
+
+          // FIXME: sometime cause all text go to 1 node (1851491 chap=5)
+          result.push({
+            tag: "p",
+            text: text
+          });
+        }
+      }
+    });
+  return result;
+};
+
+export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
+  let result: HtmlNode[] = [];
+  if ($("div#story-content").text() !== "") {
+    result = getNovelContentV2($);
+  } else {
+    result = getNovelContentV1($);
+  }
+
+  return CreateHtmlApi(chapter, result);
+};
+
+export const CheckIsNovel = ($: CheerioStatic) => {
   return $(".txt-content").length < 1;
 };

@@ -1,29 +1,23 @@
-import { COption } from "./option.const";
+/**
+ * @external
+ * @module commander.command
+ */
 
 import Changelog from "../actions/command/changelog";
 import Initial from "../actions/command/Initial";
 import Config, { ConfigSet } from "../actions/command/config";
 import { RawDownload } from "../actions/command/download";
 import Fetch from "../actions/command/fetch";
+import { CCommand } from "../models/Command";
 
-export type CCommand = {
-  subcommand?: CCommand[];
-
-  name: string;
-  alias: string;
-  desc: string;
-  options?: COption[];
-  fn: (...args: any[]) => void;
-};
-
-export const ChangelogCommand: CCommand = {
+export const CHANGELOG_CMD: CCommand = {
   name: "changelog",
   alias: "change",
   desc: "Show command changelog",
   fn: Changelog
 };
 
-export const InitialCommand: CCommand = {
+export const INIT_CMD: CCommand = {
   name: "initial",
   alias: "init",
   desc: "Initial ndd to current computer",
@@ -36,21 +30,21 @@ export const InitialCommand: CCommand = {
   fn: Initial
 };
 
-export const ConfigCommand: CCommand = {
+export const CONFIG_CMD: CCommand = {
   name: "configuration",
   alias: "config",
   desc: `Get config location path`,
   fn: Config
 };
 
-export const SetConfigCommand: CCommand = {
+export const SET_CONFIG_CMD: CCommand = {
   name: "set-config",
   alias: "setc",
   desc: "Set config value",
   fn: ConfigSet
 };
 
-export const RawDownloadCommand: CCommand = {
+export const RAW_DOWNLOAD_CMD: CCommand = {
   name: "raw-download",
   alias: "D",
   desc: "Parameter id and chapter directly and download",
@@ -72,7 +66,7 @@ export const RawDownloadCommand: CCommand = {
   fn: RawDownload
 };
 
-export const FetchCommand: CCommand = {
+export const FETCH_CMD: CCommand = {
   name: "fetch",
   alias: "E",
   desc: "Fetching novel from website and show the result",
