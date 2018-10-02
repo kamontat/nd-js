@@ -1,4 +1,5 @@
 /**
+ * Mock the property of object
  *
  * @param {any} object any object of property
  * @param {string} property property of the first param
