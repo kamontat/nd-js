@@ -4,6 +4,7 @@ import { CONST_DEFAULT_HTML_TEMPLATE } from "../../constants/htmlConst";
 import { CONST_PROJECT_NAME } from "../../constants/nd.const";
 import { HtmlTemplate, HtmlNode } from "../Html";
 import { NovelBuilder } from "../Novel";
+import { API_GET_HTML_TEMPLATE } from "../../apis/html";
 
 test("Should able to create template constants", function() {
   const template = CONST_DEFAULT_HTML_TEMPLATE;
