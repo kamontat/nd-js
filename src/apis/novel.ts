@@ -111,7 +111,7 @@ export const GetChapterNameApi = ($: CheerioStatic) => {
   // throw NovelWarning.clone().loadString("Cannot get chapter name");
 };
 
-export const getNovelContentV1 = (chapter: NovelChapter, $: CheerioStatic) => {
+export const getNovelContentV1 = ($: CheerioStatic) => {
   let result: HtmlNode[] = [];
 
   $("table#story_body")
@@ -137,7 +137,7 @@ export const getNovelContentV1 = (chapter: NovelChapter, $: CheerioStatic) => {
   return result;
 };
 
-export const getNovelContentV2 = (chapter: NovelChapter, $: CheerioStatic) => {
+export const getNovelContentV2 = ($: CheerioStatic) => {
   let result: HtmlNode[] = [];
 
   $("div#story-content")
@@ -165,9 +165,9 @@ export const getNovelContentV2 = (chapter: NovelChapter, $: CheerioStatic) => {
 export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
   let result: HtmlNode[] = [];
   if ($("div#story-content").text() !== "") {
-    result = getNovelContentV2(chapter, $);
+    result = getNovelContentV2($);
   } else {
-    result = getNovelContentV1(chapter, $);
+    result = getNovelContentV1($);
   }
 
   return CreateHtmlApi(chapter, result);
