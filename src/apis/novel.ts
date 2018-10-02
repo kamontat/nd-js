@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.apis
+ */
+
 import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 
 import { log } from "winston";

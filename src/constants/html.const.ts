@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.html
+ */
+
 import { HtmlTemplateConstant } from "../models/Html";
 
 export const HTML_FILE: string = require("../templates/index.mustache");

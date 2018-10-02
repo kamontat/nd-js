@@ -1,13 +1,16 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
 import { log } from "winston";
 import Config from "../../models/Config";
 import { ACTION_SEPERATE_ARGUMENT, VALID_LENGTH, ACTION_VALIDATE, ACTION_THROW_IF } from "../../helpers/action";
-import { WrapTMC, WrapTM } from "../../models/LoggerWrapper";
+import { WrapTM } from "../../models/LoggerWrapper";
 import { Exception } from "../../models/Exception";
 import { GetNID } from "../../helpers/novel";
 import { DownloadApi } from "../../apis/download";
 import { NovelBuilder } from "../../models/Novel";
-import { API_CREATE_NOVEL_CHAPTER_LIST } from "../../apis/novel";
-import { HAS_COLOR } from "../../constants/default.const";
 
 /**
  * This is initial command.

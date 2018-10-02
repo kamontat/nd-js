@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module commander.option
+ */
+
 import { BeChangeLevel, BeColor, BeQuiet, BeLog, BeLoggerTo, BeShortOutput, BeLongOutput } from "./default.const";
 import { COption } from "../models/Option";
 

@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.apis
+ */
+
 import { URL } from "url";
 import { DEFAULT_NOVEL_LINK, DEFAULT_FILE_TEMPLATE } from "../constants/novel.const";
 import { PARAM_WRONG_ERR } from "../constants/error.const";

@@ -1,8 +1,17 @@
+/**
+ * @internal
+ * @module nd.color
+ */
+
 import { COLORS } from "../constants/color.const";
 import { log } from "winston";
 import { Chalk } from "chalk";
 import { WrapTMC } from "./LoggerWrapper";
 
+/**
+ * The type of message will effect the color of it.
+ * This class created for auto parse to message to the type that they belong.
+ */
 export class ColorType {
   name: string;
 

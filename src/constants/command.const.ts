@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
 import Changelog from "../actions/command/changelog";
 import Initial from "../actions/command/Initial";
 import Config, { ConfigSet } from "../actions/command/config";

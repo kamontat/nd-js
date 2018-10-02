@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module commander.const
+ */
+
 export let LOGGER_LEVEL = "info";
 export const BeChangeLevel = (level: string) => (LOGGER_LEVEL = level);
 

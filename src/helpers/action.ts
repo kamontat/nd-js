@@ -1,8 +1,13 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
 import { log } from "winston";
 
 import { PARAM_WRONG_ERR } from "../constants/error.const";
 import { Exception } from "../models/Exception";
-import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
+import { WrapTMC } from "../models/LoggerWrapper";
 
 /**
  * Helper for {@link IfValidate} function

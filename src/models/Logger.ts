@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module logger
+ */
+
 import { transports, format } from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 

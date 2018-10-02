@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
 import { configure } from "winston";
 
 import { CommanderStatic, Command } from "commander";

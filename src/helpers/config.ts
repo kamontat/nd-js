@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.config
+ */
+
 import Config from "../models/Config";
 import { BeColor } from "../constants/default.const";
 

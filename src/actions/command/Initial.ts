@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
 import { log } from "winston";
 import Config from "../../models/Config";
 import { ACTION_SEPERATE_ARGUMENT } from "../../helpers/action";

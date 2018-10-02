@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
 import { log } from "winston";
 
 import {
@@ -7,6 +12,7 @@ import {
   VALID_LENGTH,
   VALID_MATCH_SOME
 } from "../../helpers/action";
+
 import Config from "../../models/Config";
 
 import { Exception } from "../../models/Exception";

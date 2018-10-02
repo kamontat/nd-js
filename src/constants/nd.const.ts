@@ -1,4 +1,7 @@
-// export const DELIMITER = "nd $";
+/**
+ * @internal
+ * @module nd.core
+ */
 
 import p from "pjson";
 export const VERSION = p.version;

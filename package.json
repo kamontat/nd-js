@@ -65,7 +65,9 @@
     "ts-jest": "23.10.2",
     "ts-loader": "5.1.1",
     "typedoc": "0.12.0",
-    "typedoc-plugin-external-module-name": "1.1.3",
+    "typedoc-plugin-external-module-name": "^1.1.3",
+    "typedoc-plugin-internal-external": "^1.0.10",
+    "typedoc-plugin-single-line-tags": "^1.0.0",
     "typescript": "3.0.3",
     "uglify-js": "3.4.9",
     "webpack": "4.19.1",
@@ -86,7 +88,7 @@
     "version:patch": "semver --increment patch",
     "version:minor": "semver --increment minor",
     "version:major": "semver --increment major",
-    "docs": "yarn typedoc --out ./docs --target ES3 --module commonjs --name \"ND JS\" --toc \"Table of Content\" --mode file",
+    "docs": "yarn typedoc --out ./docs --target ES3 --module commonjs --name \"ND JS\" --mode modules --exclude \"**/_*.ts\"",
     "gh-pages": "gh-pages -d docs",
     "clean": "rimraf .caches bin",
     "release": "./scripts/deploy.sh",
@@ -107,10 +109,25 @@
     "setupTestFrameworkScriptFile": "./test/jest.setup.js",
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "testMatch": ["**/src/**/__tests__/**/*.ts?(x)", "**/src/**/?(*.)+(spec|test).ts?(x)"],
-    "collectCoverageFrom": ["**/*.ts", "!**/node_modules/**"],
-    "coverageReporters": ["json", "lcov", "text-summary"],
-    "moduleFileExtensions": ["js", "ts", "html", "mustache"],
+    "testMatch": [
+      "**/src/**/__tests__/**/*.ts?(x)",
+      "**/src/**/?(*.)+(spec|test).ts?(x)"
+    ],
+    "collectCoverageFrom": [
+      "**/*.ts",
+      "!**/node_modules/**"
+    ],
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text-summary"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "html",
+      "mustache"
+    ],
     "transform": {
       "^.+\\.js$": "babel-jest",
       "^.+\\.mustache$": "<rootDir>/test/htmlLoader.js",

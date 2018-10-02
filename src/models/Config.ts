@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.config
+ */
+
 // import uuid from "uuid/v1";
 import semver, { major } from "semver";
 import yaml from "js-yaml";

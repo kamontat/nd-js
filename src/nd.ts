@@ -1,8 +1,7 @@
 /**
- * @namespace ND
+ * @internal
  * @module nd
- *
- * This is root file for run the program in node
+ * @description This is root file for run the program in node
  *
  */
 

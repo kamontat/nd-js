@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.exception
+ */
+
 import Throwable, { NFError, EError, FError, Warning } from "../models/Exception";
 
 export const CONFIG_WARN: Throwable = new Warning("Config have warning message", 0);

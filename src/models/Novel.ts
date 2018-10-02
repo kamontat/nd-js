@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.novel
+ */
+
 import moment, { Moment } from "moment";
 
 import { log } from "winston";

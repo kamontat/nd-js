@@ -1,5 +1,6 @@
 // import { SeperateArgument } from "../../helpers/action";
-// import { verbose } from "winston";
+// import { log } from "winston";
+// import { WrapTMC } from "../../models/LoggerWrapper";
 
 // export const Name = (a: any[]) => {
 //   const { args } = SeperateArgument(a);

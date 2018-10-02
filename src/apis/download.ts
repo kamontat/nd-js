@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.apis
+ */
+
 import request from "request-promise";
 import { log } from "winston";
 import { load } from "cheerio";
@@ -7,8 +12,7 @@ import { decode } from "iconv-lite";
 import { NovelChapter } from "../models/Novel";
 import { WrapTMC } from "../models/LoggerWrapper";
 import { NOVEL_WARN } from "../constants/error.const";
-import { API_GET_NOVEL_CONTENT, API_GET_NOVEL_CHAPTER_NAME, API_IS_NOVEL } from "./novel";
-import { writeFileSync } from "fs";
+import { API_IS_NOVEL } from "./novel";
 
 function download(url: URL) {
   return request({

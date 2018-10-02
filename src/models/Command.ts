@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
 import { COption } from "./Option";
 
 /**

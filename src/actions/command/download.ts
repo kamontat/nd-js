@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
 import { ACTION_SEPERATE_ARGUMENT, ACTION_THROW_IF, ACTION_VALIDATE, VALID_LENGTH } from "../../helpers/action";
 import { log } from "winston";
 import { GetNID } from "../../helpers/novel";

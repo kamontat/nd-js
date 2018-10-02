@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.apis
+ */
+
 import { DEFAULT_HTML_TEMPLATE } from "../constants/html.const";
 import { HtmlTemplateConstant, HtmlTemplate, HtmlNode } from "../models/Html";
 import { NovelChapter } from "../models/Novel";

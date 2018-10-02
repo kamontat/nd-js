@@ -1,7 +1,12 @@
-import $, { load } from "cheerio";
+/**
+ * @internal
+ * @module nd.html
+ */
+
+import { load } from "cheerio";
 import { log } from "winston";
-import Mustache, { render } from "mustache";
-import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
+import { render } from "mustache";
+import { WrapTMC } from "../models/LoggerWrapper";
 import { NovelChapter } from "./Novel";
 import { HTML_TITLE_TEMPLATE, HTML_FILE } from "../constants/html.const";
 import { PROJECT_NAME } from "../constants/nd.const";

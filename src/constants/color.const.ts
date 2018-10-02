@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.color
+ */
+
 import chalk from "chalk";
 import { ColorType } from "../models/Color";
 import moment, { isDate, isMoment, Moment } from "moment";

@@ -1,4 +1,8 @@
-import chalk, { Chalk } from "chalk";
+/**
+ * @external
+ * @module logger
+ */
+
 import { LOG_HEAD_SIZE } from "../constants/output.const";
 import { inspect } from "util";
 import { HAS_COLOR } from "../constants/default.const";
