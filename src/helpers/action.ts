@@ -16,7 +16,7 @@ import { WrapTMC } from "../models/LoggerWrapper";
  * @param b second argument
  *
  */
-export const ValidByMatchSome = (a: any[], b: any[]) => {
+export const ByMatchSome = (a: any[], b: any[]) => {
   return b.some(v => v === (a[0] === undefined ? "" : a[0]));
 };
 
@@ -26,7 +26,7 @@ export const ValidByMatchSome = (a: any[], b: any[]) => {
  * @param a first argument
  * @param b second argument
  */
-export const ValidByLength = (a: any[], b: number) => {
+export const ByLength = (a: any[], b: number) => {
   return a.length === b;
 };
 

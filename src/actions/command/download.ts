@@ -3,7 +3,7 @@
  * @module commander.command
  */
 
-import { SeperateArgumentApi, ThrowIf, ValidList, ValidByLength } from "../../helpers/action";
+import { SeperateArgumentApi, ThrowIf, ValidList, ByLength } from "../../helpers/action";
 import { log } from "winston";
 import { GetNID } from "../../helpers/novel";
 import { Exception } from "../../models/Exception";
@@ -20,7 +20,7 @@ export const RawDownload = (a: any[]) => {
 
   log(WrapTM("debug", "start command", "raw download"));
 
-  ThrowIf(ValidList(args, ValidByLength, 1));
+  ThrowIf(ValidList(args, ByLength, 1));
 
   try {
     let id = GetNID(args[0]);

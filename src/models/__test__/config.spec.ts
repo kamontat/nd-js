@@ -1,7 +1,7 @@
 import "jest-extended";
 import Config from "../Config";
 import { major } from "semver";
-import { CONST_VERSION } from "../../constants/nd.const";
+import { VERSION } from "../../constants/nd.const";
 import { homedir } from "os";
 
 test("Should have default value in config", function() {
@@ -13,7 +13,7 @@ test("Should have default value in config", function() {
   let username = config.getUsername();
   expect(username).toBeEmpty();
 
-  expect(config.getVersion()).toEqual(major(CONST_VERSION));
+  expect(config.getVersion()).toEqual(major(VERSION));
 
   expect(config.getNovelLocation()).toEqual(homedir());
 });

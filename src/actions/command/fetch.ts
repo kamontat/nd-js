@@ -5,7 +5,7 @@
 
 import { log } from "winston";
 import Config from "../../models/Config";
-import { SeperateArgumentApi, ValidByLength, ValidList, ThrowIf } from "../../helpers/action";
+import { SeperateArgumentApi, ByLength, ValidList, ThrowIf } from "../../helpers/action";
 import { WrapTM } from "../../models/LoggerWrapper";
 import { Exception } from "../../models/Exception";
 import { GetNID } from "../../helpers/novel";
@@ -26,7 +26,7 @@ export default (a: any) => {
 
   const { options, args } = SeperateArgumentApi(a);
 
-  ThrowIf(ValidList(args, ValidByLength, 1));
+  ThrowIf(ValidList(args, ByLength, 1));
 
   try {
     let id = GetNID(args[0]);

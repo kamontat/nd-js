@@ -5,7 +5,7 @@
 
 import { log } from "winston";
 
-import { SeperateArgumentApi, ThrowIf, ValidList, ValidByLength, ValidByMatchSome } from "../../helpers/action";
+import { SeperateArgumentApi, ThrowIf, ValidList, ByLength, ByMatchSome } from "../../helpers/action";
 
 import Config from "../../models/Config";
 
@@ -19,8 +19,8 @@ export const ConfigSet = (a: any) => {
     let config = Config.Load({ bypass: true });
     log(WrapTM("debug", "start command", "set config"));
 
-    ThrowIf(ValidList(args, ValidByMatchSome, ["token", "username", "color", "location"]));
-    ThrowIf(ValidList(args, ValidByLength, 2));
+    ThrowIf(ValidList(args, ByMatchSome, ["token", "username", "color", "location"]));
+    ThrowIf(ValidList(args, ByLength, 2));
 
     if (args.includes("token")) config.setToken(args[1]);
     else if (args.includes("username")) config.setUsername(args[1]);
