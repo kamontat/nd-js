@@ -111,49 +111,63 @@ export const GetChapterNameApi = ($: CheerioStatic) => {
   // throw NovelWarning.clone().loadString("Cannot get chapter name");
 };
 
-export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
+export const getNovelContentV1 = (chapter: NovelChapter, $: CheerioStatic) => {
   let result: HtmlNode[] = [];
 
-  if ($("div#story-content").text() !== "") {
-    $("div#story-content")
-      .contents()
-      .each(function(_, e) {
-        let query = $(e);
+  $("table#story_body")
+    .children()
+    .children()
+    .children()
+    .contents()
+    .each(function(_, e) {
+      let query = $(e);
 
+      if (query.html() === "" || query.html() === null) {
         const text = query.text().trim();
         if (text !== "" && text !== "\n") {
-          // filter text that contain in BlackList
-          if (HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
-            log(WrapTMC("debug", "Html paragraph node", text));
-
-            // FIXME: sometime cause all text go to 1 node (1851491 chap=5)
-            result.push({
-              tag: "p",
-              text: text
-            });
-          }
+          // log(WrapTMC("debug", "Content", text));
+          result.push({
+            tag: "p",
+            text: text
+          });
         }
-      });
+      }
+    });
+
+  return result;
+};
+
+export const getNovelContentV2 = (chapter: NovelChapter, $: CheerioStatic) => {
+  let result: HtmlNode[] = [];
+
+  $("div#story-content")
+    .contents()
+    .each(function(_, e) {
+      let query = $(e);
+
+      const text = query.text().trim();
+      if (text !== "" && text !== "\n") {
+        // filter text that contain in BlackList
+        if (HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
+          log(WrapTMC("debug", "Html paragraph node", text));
+
+          // FIXME: sometime cause all text go to 1 node (1851491 chap=5)
+          result.push({
+            tag: "p",
+            text: text
+          });
+        }
+      }
+    });
+  return result;
+};
+
+export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
+  let result: HtmlNode[] = [];
+  if ($("div#story-content").text() !== "") {
+    result = getNovelContentV2(chapter, $);
   } else {
-    $("table#story_body")
-      .children()
-      .children()
-      .children()
-      .contents()
-      .each(function(_, e) {
-        let query = $(e);
-
-        if (query.html() === "" || query.html() === null) {
-          const text = query.text().trim();
-          if (text !== "" && text !== "\n") {
-            // log(WrapTMC("debug", "Content", text));
-            result.push({
-              tag: "p",
-              text: text
-            });
-          }
-        }
-      });
+    result = getNovelContentV1(chapter, $);
   }
 
   return CreateHtmlApi(chapter, result);
