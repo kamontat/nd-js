@@ -11,21 +11,25 @@ import { URL } from "url";
 import { NOVEL_ERR } from "../constants/error.const";
 import Config from "./Config";
 import { join } from "path";
-import { GetNovelNameApi, CreateChapterListApi, GetNovelDateApi } from "../apis/novel";
+import { GetNovelNameApi, CreateChapterListApi, GetNovelDateApi, NormalizeNovelName } from "../apis/novel";
 import { WrapTMCT, WrapTMC } from "./LoggerWrapper";
 import { COLORS } from "../constants/color.const";
 import { ColorType } from "./Color";
 import { CheckIsNumber } from "../helpers/helper";
+import { DownloadApi } from "../apis/download";
+import { DEFAULT_NOVEL_FOLDER_NAME } from "../constants/novel.const";
 
 type NovelChapterBuilderOption = { name?: string; location?: string; date?: Moment };
 
 export class NovelBuilder {
   static create(id: string, option?: { location?: string }) {
-    return new Novel(id, option && option.location);
+    return DownloadApi(NovelBuilder.createChapter(id, undefined, { location: option && option.location })).then(res => {
+      return NovelBuilder.build(res.chapter._nid, res.cheerio, { location: res.chapter._location });
+    });
   }
 
   static build(id: string, $: CheerioStatic, option?: { location?: string }) {
-    let novel = NovelBuilder.create(id, option);
+    const novel = new Novel(id, option && option.location);
     return novel.load($);
   }
 
@@ -69,18 +73,16 @@ export class Novel {
   load($: CheerioStatic): Promise<Novel> {
     return new Promise(res => {
       this._name = GetNovelNameApi($);
-      this._chapters = CreateChapterListApi($);
+      if (this._location)
+        this._location = join(this._location, DEFAULT_NOVEL_FOLDER_NAME(NormalizeNovelName(this._name)));
+
+      this._chapters = CreateChapterListApi($).map(chap => {
+        chap.setLocation(this._location);
+        return chap;
+      });
       this.update($);
       res(this);
     });
-  }
-
-  chapter(chapter: string): NovelChapter {
-    if (this._chapters) {
-      const result = this._chapters.filter(v => v._chapterNumber === chapter);
-      if (result.length === 1) return result[0];
-    }
-    return NovelBuilder.createChapter(this._id, chapter, { location: this._location });
   }
 
   print() {
@@ -109,6 +111,16 @@ export class Novel {
     log(WrapTMCT("verbose", "Download at", this._downloadAt));
     log(WrapTMCT("verbose", "Update at", this._updateAt));
   }
+
+  save() {
+    if (this._chapters) {
+      this._chapters.forEach(v => {
+        if (this._location) {
+          console.log(v.file());
+        }
+      });
+    }
+  }
 }
 
 export class NovelChapter {
@@ -127,7 +139,7 @@ export class NovelChapter {
     if (location) {
       this._location = location;
     } else {
-      this._location = Config.Load({ quiet: true })._novelLocation || "";
+      this._location = Config.Load({ quiet: true }).getNovelLocation();
     }
 
     if (chapter) {
@@ -145,6 +157,10 @@ export class NovelChapter {
 
   setDate(date: Moment) {
     this._date = date;
+  }
+
+  setLocation(location: string | undefined) {
+    if (location) this._location = location;
   }
 
   link() {

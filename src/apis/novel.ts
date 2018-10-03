@@ -175,3 +175,16 @@ export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
 export const CheckIsNovel = ($: CheerioStatic) => {
   return $(".txt-content").length < 1;
 };
+
+export const NormalizeNovelName = (name: string) => {
+  return name
+    .replace(" ", "-")
+    .replace("[", "")
+    .replace("]", "")
+    .replace("*", "-")
+    .replace("$", "_")
+    .replace("&", "_")
+    .replace("%", "_")
+    .replace("#", "_")
+    .replace("@", "_");
+};

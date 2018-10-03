@@ -73,7 +73,8 @@ export const DOWNLOAD_CMD: CCommand = {
     LOCATION_OPT,
     {
       name: "-F, --force",
-      desc: "Force download even folder in exist"
+      desc: "Force download even folder in exist",
+      default: false
     }
   ],
   fn: Download
