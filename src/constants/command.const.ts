@@ -2,13 +2,15 @@
  * @external
  * @module commander.command
  */
+import { CCommand } from "../models/Command";
 
 import Changelog from "../actions/command/changelog";
 import Initial from "../actions/command/Initial";
+import Download from "../actions/command/download";
 import Config, { ConfigSet } from "../actions/command/config";
-import { RawDownload } from "../actions/command/download";
+import RawDownload from "../actions/command/raw-download";
 import Fetch from "../actions/command/fetch";
-import { CCommand } from "../models/Command";
+import { LOCATION_OPT } from "./option.const";
 
 export const CHANGELOG_CMD: CCommand = {
   name: "changelog",
@@ -47,8 +49,9 @@ export const SET_CONFIG_CMD: CCommand = {
 export const RAW_DOWNLOAD_CMD: CCommand = {
   name: "raw-download",
   alias: "D",
-  desc: "Parameter id and chapter directly and download",
+  desc: "Add id and chapter directly and download",
   options: [
+    LOCATION_OPT,
     {
       name: "-C, --chapter [value]",
       desc: "number of chapter",
@@ -57,13 +60,23 @@ export const RAW_DOWNLOAD_CMD: CCommand = {
         return l;
       },
       default: []
-    },
-    {
-      name: "-L, --location <location>",
-      desc: "custom location of the file"
     }
   ],
   fn: RawDownload
+};
+
+export const DOWNLOAD_CMD: CCommand = {
+  name: "download",
+  alias: "d",
+  desc: "download novel command",
+  options: [
+    LOCATION_OPT,
+    {
+      name: "-F, --force",
+      desc: "Force download even folder in exist"
+    }
+  ],
+  fn: Download
 };
 
 export const FETCH_CMD: CCommand = {

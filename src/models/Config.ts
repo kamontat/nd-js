@@ -26,10 +26,12 @@ import { VERSION } from "../constants/nd.const";
 
 import { CONFIG_CREATE_ERR } from "../constants/error.const";
 import { CONFIG_FAIL_ERR } from "../constants/error.const";
-import { WrapTM, WrapTMC } from "./LoggerWrapper";
+import { WrapTM, WrapTMC, WrapTMCT } from "./LoggerWrapper";
 import { LOG_TYPE, HAS_COLOR } from "../constants/default.const";
 import { Server } from "net";
 import { CheckIsExist } from "../helpers/helper";
+import { ColorType } from "./Color";
+import { COLORS } from "../constants/color.const";
 
 /**
  * @class
@@ -59,6 +61,29 @@ export default class Config {
     this._option = option;
   }
 
+  _setter(key: "_username" | "_token" | "_outputType" | "_color" | "_novelLocation", value: string | undefined) {
+    // log(WrapTM("debug", "setter be called", `key=${key}, value=${value}, quiet=${this._option && this._option.quiet}`));
+    if (CheckIsExist(value)) {
+      if (!this._isQuite()) log(WrapTM("debug", "update property", `this.${key} will be set to ${value}`));
+      this[key] = value;
+    }
+  }
+
+  setOption(option: { quiet: boolean }) {
+    this._option = option;
+  }
+
+  showStatus() {
+    if (!this._isQuite()) {
+      log(WrapTMCT("verbose", "Config.token", this._token, { message: COLORS.Token }));
+      log(WrapTMCT("verbose", "Config.username", this._username, { message: COLORS.Name }));
+      log(WrapTMCT("verbose", "Config.version", this._version));
+      log(WrapTMCT("verbose", "Config.color", this._color));
+      log(WrapTMCT("verbose", "Config.type", this._outputType));
+      log(WrapTMCT("verbose", "Config.location", this._novelLocation));
+    }
+  }
+
   _isQuite() {
     return this._option && this._option.quiet;
   }
@@ -67,45 +92,40 @@ export default class Config {
     if (option.location) this.setNovelLocation(option.location);
   }
 
-  setUsername(id: string) {
-    if (!this._isQuite()) log(WrapTM("debug", "update property", `id ${id}`));
-    this._username = id;
+  setUsername(id: string | undefined) {
+    this._setter("_username", id);
   }
 
   getUsername(): string {
     return this._username === undefined ? "" : this._username;
   }
 
-  setToken(token: string) {
-    if (!this._isQuite()) log(WrapTM("debug", "update property", `token ${token}`));
-    this._token = token;
+  setToken(token: string | undefined) {
+    this._setter("_token", token);
   }
 
   getToken(): string {
     return this._token === undefined ? "" : this._token;
   }
 
-  setOutputType(type: "long" | "short") {
-    if (!this._isQuite()) log(WrapTM("debug", "update property", `type ${type}`));
-    this._outputType = type;
+  setOutputType(type: "long" | "short" | undefined) {
+    this._setter("_outputType", type);
   }
 
   getOutputType(): "long" | "short" {
     return this._outputType === undefined ? LOG_TYPE : this._outputType;
   }
 
-  setColor(color: string) {
-    if (!this._isQuite()) log(WrapTM("debug", "update property", `color ${color}`));
-    this._color = color == "true";
+  setColor(color: string | undefined) {
+    this._setter("_color", color);
   }
 
   getColor(): boolean {
     return this._color === undefined ? HAS_COLOR : this._color;
   }
 
-  setNovelLocation(location: string) {
-    if (!this._isQuite()) log(WrapTM("debug", "update property", `location ${location}`));
-    this._novelLocation = location;
+  setNovelLocation(location: string | undefined) {
+    this._setter("_novelLocation", location);
   }
 
   getNovelLocation() {
@@ -240,10 +260,13 @@ setting:
    * @throws {@link ConfigFailError}
    */
   static Load(option?: { quiet?: boolean; bypass?: boolean }): Config {
+    const quiet = option && option.quiet ? option.quiet : false;
     if (!Config._CONFIG) {
-      Config._CONFIG = new Config(CONFIG_FILE_PATH, { quiet: option && option.quiet ? option.quiet : false });
+      Config._CONFIG = new Config(CONFIG_FILE_PATH, { quiet: quiet });
       Config._CONFIG.load(option && option.bypass);
     }
+    Config._CONFIG.setOption({ quiet: quiet });
+    Config._CONFIG.showStatus();
     return Config._CONFIG;
   }
 }

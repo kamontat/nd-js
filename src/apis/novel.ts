@@ -19,9 +19,8 @@ import { HTML_BLACKLIST_TEXT } from "../constants/html.const";
 import "moment/locale/th";
 import { locale } from "moment";
 import moment = require("moment");
-import { FormatMomentDateTime } from "../helpers/date";
-import { TrimString, CheckIsExist } from "../helpers/helper";
-import { NOVEL_ERR, NOVEL_WARN } from "../constants/error.const";
+import { TrimString, CheckIsExist, FormatMomentDateTime } from "../helpers/helper";
+import { NOVEL_WARN } from "../constants/error.const";
 
 export const GetNovelNameApi = ($: CheerioStatic) => {
   // //p[@id="big_text"]/text()

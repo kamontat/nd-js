@@ -5,6 +5,8 @@
 
 import { BeChangeLevel, BeColor, BeQuiet, BeLog, BeLoggerTo, BeShortOutput, BeLongOutput } from "./default.const";
 import { COption } from "../models/Option";
+import Config from "../models/Config";
+import { HELPER_LOAD_CONFIG } from "../helpers/config";
 
 export const VERBOSE_OPT: COption = {
   name: "-V, --verbose",
@@ -43,4 +45,12 @@ export const NO_COLOR_OPT: COption = {
   name: "-N, --no-color",
   desc: "Make no color output",
   fn: () => BeColor(false)
+};
+
+export const LOCATION_OPT: COption = {
+  name: "-L, --location <location>",
+  desc: "Custom output location",
+  fn: location => {
+    Config.Load({ quiet: true }).setNovelLocation(location);
+  }
 };
