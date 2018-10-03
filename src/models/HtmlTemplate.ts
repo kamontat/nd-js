@@ -7,7 +7,7 @@ import moment = require("moment");
 import { render } from "mustache";
 
 import { CssTemplate } from "./HtmlCss";
-import { PROJECT_NAME } from "../constants/nd.const";
+import { PROJECT_NAME, VERSION } from "../constants/nd.const";
 import { HTML_FILE, DEFAULT_CSS_TEMPLATE } from "../constants/html.const";
 
 export class HtmlTemplate {
@@ -27,6 +27,7 @@ export class HtmlTemplate {
   toc?: string;
 
   command?: string; // update when call build
+  version?: string; // update when call build
   date?: string; // update when call build
   css?: string; // update when call build
 
@@ -44,12 +45,14 @@ export class HtmlTemplate {
 
     this.chapterName = build.chapterName;
     this.chapterNumber = build.chapterNumber;
-    this.lastUpdate = build.lastUpdate;
+    this.lastUpdate = build.lastUpdate === "Invalid date" ? "" : build.lastUpdate;
 
     this.content = build.content;
   }
 
   render(html: string, css: CssTemplate) {
+    this.lastUpdate = this.lastUpdate === "Invalid date" ? "" : this.lastUpdate;
+
     const chap = parseInt(this.chapterNumber);
 
     this.next = (chap + 1).toString();
@@ -57,6 +60,7 @@ export class HtmlTemplate {
 
     this.date = moment().format("dddd, Do MMM YYYY | HH.mm.ss Z");
     this.command = PROJECT_NAME;
+    this.version = VERSION;
     this.css = css.getStyle();
     return render(html, this);
   }
