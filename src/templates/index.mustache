@@ -26,8 +26,13 @@
   <meta name="format-detection" content="telephone=yes"/>
   <meta name="HandheldFriendly" content="true"/> 
 
-
-  <title>{{novelName}} {{title}}</title>
+  {{#novelName}}
+  <title>{{novelName}} | {{chapterName}} ({{chapterNumber}})</title>
+  {{/novelName}}
+  {{^novelName}}
+  <title>{{chapterName}} ({{chapterNumber}})</title>
+  {{/novelName}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css" integrity="sha256-zIG416V1ynj3Wgju/scU80KAEWOsO5rRLfVyRDuOv7Q=" crossorigin="anonymous" />
 
   <style type="text/css" media="screen">
     body {
@@ -53,7 +58,9 @@
 
 <body>
   <header class="title">
-    <h1 id="title">{{chapterName}}</h1>
+    <h1 class="is-size-3" id="title">{{chapterName}}</h1>
+    {{! TODO: if novel name not exist }}
+    <h2 class="is-size-5">{{novelName}} | {{lastUpdate}}</h2>
   </header>
 
   <main role="main">
@@ -64,22 +71,26 @@
     </div>
   </main>
 
+  {{! Add toc }}
+
   <footer class="footer">
     <div class="prev-chapter">
-      <a id="prevChapter" href="chapter{{previousChapter}}.html">
-        Chapter {{previousChapter}}
+      <a id="prevChapter" href="chapter{{prev}}.html">
+        Chapter {{prev}}
       </a>
     </div>
     <div class="next-chapter">
-      <a id="nextChapter" href="chapter{{nextChapter}}.html">
-        Chapter {{nextChapter}}
+      <a id="nextChapter" href="chapter{{next}}.html">
+        Chapter {{next}}
       </a>
     </div>
   </footer>
 
   <p style="display: none;">
-    N{{id}} was created on {{date}} by {{command}} command
+    N{{NovelID}} was created on {{date}} by {{command}} command
   </p>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
 </body>
 
 </html>

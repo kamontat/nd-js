@@ -29,6 +29,8 @@ export const LINK_COLOR = chalk.blueBright;
 export const BOOLEAN_TRUE_COLOR = chalk.greenBright;
 export const BOOLEAN_FALSE_COLOR = chalk.redBright;
 
+export const IMPORTANT_COLOR = chalk.red.bold.underline;
+
 export const STRING_COLOR = chalk.reset;
 export const UNDEFINED_COLOR = chalk.reset;
 
@@ -59,5 +61,6 @@ export const COLORS = {
   ),
   Number: new ColorType("number", obj => CheckIsNumber(obj.toString()), NUMBER_COLOR, TransferNothing),
   String: new ColorType("string", noValidator, STRING_COLOR, TransferNothing),
-  Undefined: new ColorType("undefined", obj => !CheckIsExist(obj), UNDEFINED_COLOR, TransferNothing)
+  Undefined: new ColorType("undefined", obj => !CheckIsExist(obj), UNDEFINED_COLOR, TransferNothing),
+  Important: new ColorType("important", noValidator, IMPORTANT_COLOR, TransferNothing)
 };

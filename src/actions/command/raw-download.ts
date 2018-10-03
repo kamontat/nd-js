@@ -8,11 +8,12 @@ import { log } from "winston";
 import { GetNID } from "../../helpers/novel";
 import { Exception } from "../../models/Exception";
 import { NovelBuilder } from "../../builder/novel";
-import { DownloadApi } from "../../apis/download";
+import { FetchApi } from "../../apis/download";
 import Config from "../../models/Config";
-import { WrapTM, WrapTMC, WrapTMCT } from "../../models/LoggerWrapper";
-import { GetChapterNameApi, GetNovelContent, BuildNovelHtml } from "../../apis/novel";
-import { writeFileSync } from "fs";
+import { WrapTM, WrapTMC } from "../../models/LoggerWrapper";
+import { HtmlBuilder } from "../../builder/html";
+import { WriteFile } from "../../apis/file";
+import { GetNovelNameApi } from "../../apis/novel";
 
 export default (a: any[]) => {
   const { options, args } = SeperateArgumentApi(a);
@@ -32,7 +33,15 @@ export default (a: any[]) => {
 
     chapter
       .map(chap => NovelBuilder.createChapter(id, chap, { location: config.getNovelLocation() }))
-      .forEach(element => DownloadApi(element).then(chap => log(WrapTMCT("info", "Filename", chap.file()))));
+      .forEach(element =>
+        FetchApi(element).then(res => {
+          const html = HtmlBuilder.template(res.chapter._nid)
+            .addName(GetNovelNameApi(res.cheerio))
+            .addChap(res.chapter)
+            .addContent(HtmlBuilder.buildContent(res.cheerio));
+          WriteFile(html.renderDefault(), res.chapter, options.force);
+        })
+      );
   } catch (e) {
     let exception: Exception = e;
     exception.printAndExit();

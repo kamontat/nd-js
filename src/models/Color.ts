@@ -6,7 +6,7 @@
 import { COLORS } from "../constants/color.const";
 import { log } from "winston";
 import { Chalk } from "chalk";
-import { WrapTMC } from "./LoggerWrapper";
+import { WrapTM } from "./LoggerWrapper";
 
 /**
  * The type of message will effect the color of it.
@@ -60,7 +60,7 @@ export class ColorType {
 
   static colorize(message: any): string {
     const type = ColorType.guess(message);
-    log(WrapTMC("debug", "guess object", type.name));
+    log(WrapTM("debug", "guess object", type.name));
     return type.formatColor(message);
   }
 

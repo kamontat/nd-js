@@ -1,7 +1,5 @@
-import { log } from "winston";
 import { SeperateArgumentApi } from "../../helpers/action";
 import { NovelBuilder } from "../../builder/novel";
-import { WrapTMC } from "../../models/LoggerWrapper";
 import { Exception } from "../../models/Exception";
 
 export default (a: any) => {
