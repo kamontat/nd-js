@@ -6,7 +6,7 @@
 // import uuid from "uuid/v1";
 import semver, { major } from "semver";
 import yaml from "js-yaml";
-import fs from "fs-extra";
+import fs, { existsSync } from "fs-extra";
 
 import { resolve, dirname } from "path";
 import { log } from "winston";
@@ -24,7 +24,7 @@ import Exception from "./Exception";
 
 import { VERSION } from "../constants/nd.const";
 
-import { CONFIG_CREATE_ERR } from "../constants/error.const";
+import { CONFIG_CREATE_ERR, CONFIG_WARN } from "../constants/error.const";
 import { CONFIG_FAIL_ERR } from "../constants/error.const";
 import { WrapTM, WrapTMC, WrapTMCT } from "./LoggerWrapper";
 import { LOG_TYPE, HAS_COLOR } from "../constants/default.const";
@@ -263,7 +263,11 @@ setting:
     const quiet = option && option.quiet ? option.quiet : false;
     if (!Config._CONFIG) {
       Config._CONFIG = new Config(CONFIG_FILE_PATH, { quiet: quiet });
-      Config._CONFIG.load(option && option.bypass);
+      if (existsSync(CONFIG_FILE_PATH)) {
+        Config._CONFIG.load(option && option.bypass);
+      } else {
+        CONFIG_WARN.clone().loadString("config file not exist");
+      }
     }
     Config._CONFIG.setOption({ quiet: quiet });
     Config._CONFIG.showStatus();

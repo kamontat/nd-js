@@ -12,7 +12,6 @@ import setting from "./models/Logger";
 
 import { VERSION } from "./constants/nd.const";
 import { MakeCommand, MakeOption } from "./helpers/command";
-import { HELPER_LOAD_CONFIG } from "./helpers/config";
 
 import {
   DEBUG_OPT,
