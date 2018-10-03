@@ -55,7 +55,7 @@ export class HtmlTemplate {
     this.next = (chap + 1).toString();
     this.prev = chap <= 1 ? "0" : (chap - 1).toString();
 
-    this.date = moment().format("dddd, DDDo MMM YYYY | HH.mm.ss Z");
+    this.date = moment().format("dddd, Do MMM YYYY | HH.mm.ss Z");
     this.command = PROJECT_NAME;
     this.css = css.getStyle();
     return render(html, this);
