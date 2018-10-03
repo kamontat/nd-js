@@ -8,7 +8,7 @@ import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 import { log } from "winston";
 import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
 
-import { NovelBuilder } from "../models/Novel";
+import { NovelBuilder } from "../builder/novel";
 import { NovelChapter } from "../models/Chapter";
 import { PassLink, GetChapter } from "../helpers/novel";
 

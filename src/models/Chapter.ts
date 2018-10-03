@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.novel
+ */
+
 import { log } from "winston";
 import { Moment } from "moment";
 import Config from "./Config";
@@ -7,6 +12,10 @@ import { COLORS } from "../constants/color.const";
 import { join } from "path";
 import { GetChapterFile, GetLinkWithChapter } from "../helpers/novel";
 import { NOVEL_ERR } from "../constants/error.const";
+import { FetchApi } from "../apis/download";
+import { Novel } from "./Novel";
+import { BuildTOC, CreateHtmlApi } from "../apis/html";
+import { BuildNovelHtml } from "../apis/novel";
 
 export class NovelChapter {
   _nid: string;
@@ -68,5 +77,30 @@ export class NovelChapter {
     else result += ` [ไม่รู้การอัพเดตล่าสุด]`;
 
     return result;
+  }
+}
+
+export class NovelZeroChapter extends NovelChapter {
+  _novel: Novel;
+
+  constructor(novel: Novel) {
+    super(novel._id, "0", undefined, novel._location);
+
+    this._novel = novel;
+  }
+
+  download() {
+    return FetchApi(this).then(res => {
+      // const html = BuildNovelHtml(res.chapter, res.cheerio, { novel: this._novel, toc: true });
+
+      // CreateHtmlApi(res.chapter)
+
+      // const html = BuildNovelHtml(res.chapter, res.cheerio);
+
+      console.log(res.chapter);
+      return new Promise((res, _) => {
+        res();
+      });
+    });
   }
 }

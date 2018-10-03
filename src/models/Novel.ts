@@ -6,53 +6,20 @@
 import moment, { Moment } from "moment";
 
 import { log } from "winston";
-import { GetNID, GetLink } from "../helpers/novel";
-import { URL } from "url";
+import { GetLink } from "../helpers/novel";
 import { NOVEL_WARN } from "../constants/error.const";
 import { join } from "path";
 import { GetNovelNameApi, CreateChapterListApi, GetNovelDateApi, NormalizeNovelName } from "../apis/novel";
 import { WrapTMCT } from "./LoggerWrapper";
 import { COLORS } from "../constants/color.const";
 import { CheckIsExist } from "../helpers/helper";
-import { DownloadApi, FetchApi } from "../apis/download";
+import { DownloadApi } from "../apis/download";
 import { DEFAULT_NOVEL_FOLDER_NAME } from "../constants/novel.const";
 import { existsSync } from "fs";
 import { mkdirpSync } from "fs-extra";
 import { Exception } from "./Exception";
 import { NovelChapter } from "./Chapter";
-
-type NovelChapterBuilderOption = { name?: string; location?: string; date?: Moment };
-
-export class NovelBuilder {
-  static create(id: string, option?: { location?: string }) {
-    return FetchApi(NovelBuilder.createChapter(id, undefined, { location: option && option.location })).then(res => {
-      return NovelBuilder.build(res.chapter._nid, res.cheerio, { location: res.chapter._location });
-    });
-  }
-
-  static build(id: string, $: CheerioStatic, option?: { location?: string }) {
-    const novel = new Novel(id, option && option.location);
-    return novel.load($);
-  }
-
-  static createChapter(id: string, chapter?: string, option?: NovelChapterBuilderOption) {
-    return new NovelChapter(id, chapter, option && option.name, option && option.location);
-  }
-
-  static createZeroChapter(id: string, option?: NovelChapterBuilderOption) {
-    return new NovelChapter(id, "0", option && option.name, option && option.location);
-  }
-
-  static createChapterByLink(url: URL, option?: NovelChapterBuilderOption) {
-    return new NovelChapter(
-      GetNID(url.toString()),
-      url.searchParams.get("chapter") || undefined,
-      option && option.name,
-      option && option.location,
-      option && option.date
-    );
-  }
-}
+import { NovelBuilder } from "../builder/novel";
 
 export class Novel {
   // TODO: add required information attribute
@@ -124,21 +91,24 @@ export class Novel {
       return;
     }
     mkdirpSync(this._location || "");
-    // NovelBuilder.createChapter(this._id, "0", { location: this._location });
-    if (this._chapters) {
-      this._chapters.forEach(v => {
-        DownloadApi(v, force)
-          .then(c => {
-            log(WrapTMCT("info", `Chapter ${c._chapterNumber}`, c.toString()));
-            log(WrapTMCT("debug", `Chapter ${c._chapterNumber}`, c.file()));
-          })
-          .catch(e => {
-            if (CheckIsExist(e)) {
-              const exception: Exception = e;
-              exception.printAndExit();
-            }
+    NovelBuilder.createZeroChapter(this)
+      .download()
+      .then(() => {
+        if (this._chapters) {
+          this._chapters.forEach(v => {
+            DownloadApi(v, force)
+              .then(c => {
+                log(WrapTMCT("info", `Chapter ${c._chapterNumber}`, c.toString()));
+                log(WrapTMCT("debug", `Chapter ${c._chapterNumber}`, c.file()));
+              })
+              .catch(e => {
+                if (CheckIsExist(e)) {
+                  const exception: Exception = e;
+                  exception.printAndExit();
+                }
+              });
           });
+        }
       });
-    }
   }
 }

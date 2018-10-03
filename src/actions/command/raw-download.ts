@@ -7,7 +7,7 @@ import { SeperateArgumentApi, ThrowIf, ValidList, ByLength } from "../../helpers
 import { log } from "winston";
 import { GetNID } from "../../helpers/novel";
 import { Exception } from "../../models/Exception";
-import { NovelBuilder } from "../../models/Novel";
+import { NovelBuilder } from "../../builder/novel";
 import { DownloadApi } from "../../apis/download";
 import Config from "../../models/Config";
 import { WrapTM, WrapTMC, WrapTMCT } from "../../models/LoggerWrapper";

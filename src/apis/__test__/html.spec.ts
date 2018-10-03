@@ -1,7 +1,7 @@
 import "jest-extended";
 import { GetHtmlTemplateApi, CreateHtmlApi } from "../html";
 import { DEFAULT_HTML_TEMPLATE } from "../../constants/html.const";
-import { NovelBuilder } from "../../models/Novel";
+import { NovelBuilder } from "../../builder/novel";
 
 test("Should create html template via API", function() {
   const template = GetHtmlTemplateApi(DEFAULT_HTML_TEMPLATE);

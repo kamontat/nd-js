@@ -18,6 +18,8 @@ export type HtmlContent = {
   chapterNumber: string;
   content: string;
 
+  toc?: string;
+
   id: string;
   command: string;
 };

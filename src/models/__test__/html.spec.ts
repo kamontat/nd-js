@@ -3,7 +3,7 @@ import "jest-extended";
 import { DEFAULT_HTML_TEMPLATE } from "../../constants/html.const";
 import { PROJECT_NAME } from "../../constants/nd.const";
 import { HtmlTemplate, HtmlNode } from "../Html";
-import { NovelBuilder } from "../Novel";
+import { NovelBuilder } from "../../builder/novel";
 
 test("Should able to create template constants", function() {
   const template = DEFAULT_HTML_TEMPLATE;

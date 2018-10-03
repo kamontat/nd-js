@@ -6,6 +6,7 @@
 import { DEFAULT_HTML_TEMPLATE } from "../constants/html.const";
 import { HtmlTemplateConstant, HtmlTemplate, HtmlNode } from "../models/Html";
 import { NovelChapter } from "../models/Chapter";
+import { Novel } from "../models/Novel";
 
 export const GetHtmlTemplateApi = (template: HtmlTemplateConstant): HtmlTemplate => {
   return new HtmlTemplate(template);
@@ -24,4 +25,10 @@ export const Query = ($: CheerioStatic, check: (c: Cheerio) => boolean, ...query
     if (check(query)) return query;
   }
   return undefined;
+};
+
+export const BuildTOC = (novel: Novel) => {
+  console.log(novel);
+  // TODO: implement toc method
+  return "";
 };
