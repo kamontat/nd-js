@@ -61,7 +61,7 @@ export default class Config {
     this._option = option;
   }
 
-  _setter(key: "_username" | "_token" | "_outputType" | "_color" | "_novelLocation", value: string | undefined) {
+  _setter(key: "_username" | "_token" | "_outputType" | "_color" | "_novelLocation", value: any | undefined) {
     // log(WrapTM("debug", "setter be called", `key=${key}, value=${value}, quiet=${this._option && this._option.quiet}`));
     if (CheckIsExist(value)) {
       if (!this._isQuite()) log(WrapTM("debug", "update property", `this.${key} will be set to ${value}`));
@@ -117,7 +117,7 @@ export default class Config {
   }
 
   setColor(color: string | undefined) {
-    this._setter("_color", color);
+    this._setter("_color", color === "true");
   }
 
   getColor(): boolean {

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { FormatMomentDateTime } from "../date";
+import { FormatMomentDateTime } from "../helper";
 
 test("Should format correctly date 1", function() {
   const date = FormatMomentDateTime("22 เม.ย. 61", "D MMM YY");
