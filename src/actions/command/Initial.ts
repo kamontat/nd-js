@@ -7,6 +7,7 @@ import { log } from "winston";
 import Config from "../../models/Config";
 import { SeperateArgumentApi } from "../../helpers/action";
 import { WrapTMC, WrapTM } from "../../models/LoggerWrapper";
+import { Exception } from "../../models/Exception";
 
 /**
  * This is initial command.
@@ -22,6 +23,11 @@ export default (a: any) => {
 
   const { options } = SeperateArgumentApi(a);
 
-  let config = Config.Initial(options.force);
-  log(WrapTMC("info", "config", config.configLocation));
+  try {
+    let config = Config.Initial(options.force);
+    log(WrapTMC("info", "config", config.configLocation));
+  } catch (e) {
+    let exception: Exception = e;
+    exception.printAndExit();
+  }
 };

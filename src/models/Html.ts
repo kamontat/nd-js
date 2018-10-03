@@ -7,7 +7,7 @@ import { load } from "cheerio";
 import { log } from "winston";
 import { render } from "mustache";
 import { WrapTMC } from "../models/LoggerWrapper";
-import { NovelChapter } from "./Novel";
+import { NovelChapter } from "./Chapter";
 import { HTML_TITLE_TEMPLATE, HTML_FILE } from "../constants/html.const";
 import { PROJECT_NAME } from "../constants/nd.const";
 

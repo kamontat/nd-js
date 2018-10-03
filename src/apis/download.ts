@@ -9,7 +9,7 @@ import { load } from "cheerio";
 import { Response } from "request";
 import { decode } from "iconv-lite";
 
-import { NovelChapter } from "../models/Novel";
+import { NovelChapter } from "../models/Chapter";
 import { WrapTMC } from "../models/LoggerWrapper";
 import { NOVEL_WARN } from "../constants/error.const";
 import { CheckIsNovel, BuildNovelHtml } from "./novel";
