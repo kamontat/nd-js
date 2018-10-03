@@ -71,7 +71,7 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
 
       // to avoid deplicate chapter chapter
       if (chapterLink[chapter] === undefined) {
-        log(WrapTM("debug", "chapter link", `${DEFAULT_NOVEL_LINK}/${link}`));
+        log(WrapTM("debug", "chapter link", `${link}`));
         log(WrapTM("debug", "chapter title", title));
         log(WrapTM("debug", "date", date));
       }
@@ -85,7 +85,7 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
   });
 
   return Object.values(chapterLink).map(({ link, title, date }) =>
-    NovelBuilder.createChapterByLink(PassLink(`${DEFAULT_NOVEL_LINK}/${link}`), { name: title, date: date })
+    NovelBuilder.createChapterByLink(PassLink(`${link}`), { name: title, date: date })
   );
 };
 
@@ -161,7 +161,7 @@ export const getNovelContentV2 = ($: CheerioStatic) => {
   return result;
 };
 
-export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
+export const GetNovelContent = ($: CheerioStatic) => {
   let result: HtmlNode[] = [];
   if ($("div#story-content").text() !== "") {
     result = getNovelContentV2($);
@@ -169,7 +169,17 @@ export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
     result = getNovelContentV1($);
   }
 
-  return CreateHtmlApi(chapter, result);
+  return result;
+};
+
+export const GetNovelHtml = (chapter: NovelChapter, $: CheerioStatic) => {
+  const content = GetNovelContent($);
+  return CreateHtmlApi(chapter, content);
+};
+
+export const BuildNovelHtml = (chapter: NovelChapter, $: CheerioStatic) => {
+  chapter.setName(GetNovelNameApi($));
+  return GetNovelHtml(chapter, $);
 };
 
 export const CheckIsNovel = ($: CheerioStatic) => {

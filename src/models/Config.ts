@@ -77,10 +77,10 @@ export default class Config {
     if (!this._isQuite()) {
       log(WrapTMCT("verbose", "Config.token", this._token, { message: COLORS.Token }));
       log(WrapTMCT("verbose", "Config.username", this._username, { message: COLORS.Name }));
-      log(WrapTMCT("verbose", "Config.version", this._version));
-      log(WrapTMCT("verbose", "Config.color", this._color));
-      log(WrapTMCT("verbose", "Config.type", this._outputType));
-      log(WrapTMCT("verbose", "Config.location", this._novelLocation));
+      log(WrapTMCT("debug", "Config.version", this._version));
+      log(WrapTMCT("debug", "Config.color", this._color));
+      log(WrapTMCT("debug", "Config.type", this._outputType));
+      log(WrapTMCT("debug", "Config.location", this._novelLocation));
     }
   }
 

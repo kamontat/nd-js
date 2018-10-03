@@ -10,8 +10,8 @@ import { Exception } from "../../models/Exception";
 import { NovelBuilder } from "../../models/Novel";
 import { DownloadApi } from "../../apis/download";
 import Config from "../../models/Config";
-import { WrapTM, WrapTMC } from "../../models/LoggerWrapper";
-import { GetChapterNameApi, GetNovelContent } from "../../apis/novel";
+import { WrapTM, WrapTMC, WrapTMCT } from "../../models/LoggerWrapper";
+import { GetChapterNameApi, GetNovelContent, BuildNovelHtml } from "../../apis/novel";
 import { writeFileSync } from "fs";
 
 export default (a: any[]) => {
@@ -32,19 +32,7 @@ export default (a: any[]) => {
 
     chapter
       .map(chap => NovelBuilder.createChapter(id, chap, { location: config.getNovelLocation() }))
-      .forEach(element => {
-        DownloadApi(element)
-          .then(({ cheerio, chapter }) => {
-            chapter._name = GetChapterNameApi(cheerio);
-            const content = GetNovelContent(chapter, cheerio);
-
-            writeFileSync(chapter.file(), content);
-            log(WrapTMC("info", "Filename", chapter.file()));
-          })
-          .catch((err: Exception) => {
-            err.printAndExit();
-          });
-      });
+      .forEach(element => DownloadApi(element).then(chap => log(WrapTMCT("info", "Filename", chap.file()))));
   } catch (e) {
     let exception: Exception = e;
     exception.printAndExit();

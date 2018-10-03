@@ -8,22 +8,24 @@ import moment, { Moment } from "moment";
 import { log } from "winston";
 import { GetLinkWithChapter, GetChapterFile, GetNID, GetLink } from "../helpers/novel";
 import { URL } from "url";
-import { NOVEL_ERR } from "../constants/error.const";
+import { NOVEL_ERR, NOVEL_WARN } from "../constants/error.const";
 import Config from "./Config";
 import { join } from "path";
 import { GetNovelNameApi, CreateChapterListApi, GetNovelDateApi, NormalizeNovelName } from "../apis/novel";
 import { WrapTMCT, WrapTMC } from "./LoggerWrapper";
 import { COLORS } from "../constants/color.const";
-import { ColorType } from "./Color";
-import { CheckIsNumber } from "../helpers/helper";
-import { DownloadApi } from "../apis/download";
+import { CheckIsNumber, CheckIsExist } from "../helpers/helper";
+import { DownloadApi, FetchApi } from "../apis/download";
 import { DEFAULT_NOVEL_FOLDER_NAME } from "../constants/novel.const";
+import { existsSync } from "fs";
+import { mkdirs, mkdirp, mkdirpSync } from "fs-extra";
+import { Exception } from "./Exception";
 
 type NovelChapterBuilderOption = { name?: string; location?: string; date?: Moment };
 
 export class NovelBuilder {
   static create(id: string, option?: { location?: string }) {
-    return DownloadApi(NovelBuilder.createChapter(id, undefined, { location: option && option.location })).then(res => {
+    return FetchApi(NovelBuilder.createChapter(id, undefined, { location: option && option.location })).then(res => {
       return NovelBuilder.build(res.chapter._nid, res.cheerio, { location: res.chapter._location });
     });
   }
@@ -76,35 +78,32 @@ export class Novel {
       if (this._location)
         this._location = join(this._location, DEFAULT_NOVEL_FOLDER_NAME(NormalizeNovelName(this._name)));
 
-      this._chapters = CreateChapterListApi($).map(chap => {
-        chap.setLocation(this._location);
-        return chap;
-      });
+      this._chapters = [NovelBuilder.createChapter(this._id, "0", { location: this._location })];
+      this._chapters.push(
+        ...CreateChapterListApi($).map(chap => {
+          chap.setLocation(this._location);
+          return chap;
+        })
+      );
+
       this.update($);
       res(this);
     });
   }
 
-  print() {
+  print(option?: { withChapter?: boolean }) {
     const link = GetLink(this._id);
     log(WrapTMCT("info", "Novel name", this._name, { message: COLORS.Name }));
     log(WrapTMCT("info", "Novel link", link));
+    log(WrapTMCT("info", "Novel location", this._location));
     log(
       WrapTMCT("info", "Chapters", this._chapters && this._chapters.map(c => c._chapterNumber), {
         message: COLORS.ChapterList
       })
     );
-    if (this._chapters) {
+    if (this._chapters && option && option.withChapter) {
       this._chapters.forEach(chapter => {
-        log(
-          WrapTMCT(
-            "verbose",
-            `Chapter ${chapter._chapterNumber}`,
-            `${COLORS.ChapterName.color(chapter._name)} [อัพเดตล่าสุดเมื่อ ${COLORS.Date.formatColor(
-              chapter._date && chapter._date
-            )}]`
-          )
-        );
+        log(WrapTMCT("verbose", `Chapter ${chapter._chapterNumber}`, chapter.toString()));
       });
     }
 
@@ -113,11 +112,26 @@ export class Novel {
   }
 
   save() {
+    if (this._location && existsSync(this._location)) {
+      NOVEL_WARN.clone()
+        .loadString(`Novel ID ${this._id} is exist`)
+        .printAndExit();
+      return;
+    }
+    mkdirpSync(this._location || "");
     if (this._chapters) {
       this._chapters.forEach(v => {
-        if (this._location) {
-          console.log(v.file());
-        }
+        DownloadApi(v)
+          .then(c => {
+            log(WrapTMCT("info", `Chapter ${c._chapterNumber}`, c.toString()));
+            log(WrapTMCT("debug", `Chapter ${c._chapterNumber}`, c.file()));
+          })
+          .catch(e => {
+            if (CheckIsExist(e)) {
+              const exception: Exception = e;
+              exception.printAndExit();
+            }
+          });
       });
     }
   }
@@ -171,5 +185,17 @@ export class NovelChapter {
 
   file() {
     return join(this._location, GetChapterFile(this._chapterNumber));
+  }
+
+  toString() {
+    if (this._chapterNumber === "0") return COLORS.ChapterName.color("chapter zero");
+    let result = "";
+    if (this._name) result += COLORS.ChapterName.color(this._name);
+    else result += "no-name";
+
+    if (this._date) result += ` [อัพเดตล่าสุดเมื่อ ${COLORS.Date.formatColor(this._date)}]`;
+    else result += ` [ไม่รู้การอัพเดตล่าสุด]`;
+
+    return result;
   }
 }

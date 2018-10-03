@@ -10,8 +10,8 @@ export default (a: any) => {
   const force = options.force;
   const id = args[0]; // TODO: make support in multiple id
 
-  console.log(force);
-  console.log(id);
+  // console.log(force);
+  // console.log(id);
 
   NovelBuilder.create(id)
     .then(novel => {

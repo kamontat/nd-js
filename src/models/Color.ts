@@ -52,6 +52,7 @@ export class ColorType {
   }
 
   formatColor(obj: any): string {
+    if (!obj) return obj;
     const message = this._tranform(obj);
     if (this._alternative) return this._alternative.how(obj) ? this._alternative.color(message) : this._color(message);
     return this._color(message);
