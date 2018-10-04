@@ -1,3 +1,9 @@
+import { resolve, dirname } from "path";
+import { existsSync } from "fs";
+
+import moment = require("moment");
+import "moment/locale/th";
+
 /**
  * @external
  * @module helper
@@ -51,4 +57,20 @@ export const TrimString = (obj: any | undefined | null) => {
   const str: string = obj.toString();
   if (str) return str.trim();
   return "";
+};
+
+export const CheckIsPathExist = (pathname: any) => {
+  if (!CheckIsExist(pathname)) return false;
+  let exist = existsSync(pathname.toString());
+  return exist;
+};
+
+export const CheckIsBoolean = (obj: any) => {
+  if (!CheckIsExist(obj)) return false;
+  return obj === "true" || obj === true || obj === "false" || obj === false;
+};
+
+export const FormatMomentDateTime = (value: string, format: string) => {
+  moment.locale("th");
+  return moment(value, format).subtract(43, "year");
 };

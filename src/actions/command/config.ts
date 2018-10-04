@@ -31,11 +31,11 @@ export const ConfigSet = (a: any) => {
       config.save();
     } catch (e) {
       let exception: Exception = e;
-      ThrowIf(exception);
+      exception.printAndExit();
     }
   } catch (e) {
     let exception: Exception = e;
-    ThrowIf(exception);
+    exception.printAndExit();
   }
 };
 
@@ -47,6 +47,6 @@ export default () => {
     log(WrapTMC("info", "configuration", Config.Load().configLocation));
   } catch (e) {
     let exception: Exception = e;
-    ThrowIf(exception);
+    exception.printAndExit();
   }
 };
