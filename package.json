@@ -89,6 +89,7 @@
     "version:minor": "semver --increment minor",
     "version:major": "semver --increment major",
     "docs": "yarn typedoc --out ./docs --target ES3 --module commonjs --name \"ND JS\" --mode modules --exclude \"**/_*.ts\"",
+    "loc": "./scripts/loc.sh",
     "gh-pages": "gh-pages -d docs",
     "clean": "rimraf .caches bin coverage",
     "release": "./scripts/deploy.sh",

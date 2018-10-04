@@ -29,13 +29,13 @@
 #//               0.0.2a1 -- alpha-format
 
 lib_sh() {
-  filename="$1"
-  "./scripts/lib/$filename.sh" "$2"
+	filename="$1"
+	"./scripts/lib/$filename.sh" "$2"
 }
 
 lib() {
-  filename="$1"
-  node "./scripts/lib/$filename.js" "$2"
+	filename="$1"
+	node "./scripts/lib/$filename.js" "$2"
 }
 
 expected="$(lib_sh setVersion)"
@@ -45,52 +45,53 @@ yarn version --new-version "$expected" --no-git-tag-version
 version="v$(lib "getVersion")"
 
 if lib "promptYN" "create release of version $version"; then
-  # check git status
-  status="$(git status --short)"
+	# check git status
+	status="$(git status --short)"
 
-  if test -z "$status"; then
-    if ! lib "promptYN" "git status must be empty"; then
-      exit 1
-    fi
-  fi
+	if test -z "$status"; then
+		if ! lib "promptYN" "git status must be empty"; then
+			exit 1
+		fi
+	fi
 
-  # create changelog
-  # bypass gitgo since it not support --next-tag option
-  git-chglog --config ./.gitgo/chglog/config.yml --next-tag "$version" -o "./CHANGELOG.md"
+	# create changelog
+	# bypass gitgo since it not support --next-tag option
+	git-chglog --config ./.gitgo/chglog/config.yml --next-tag "$version" -o "./CHANGELOG.md"
 
-  # create jsdoc
-  yarn docs
-  yarn gh-pages
+	# create jsdoc
+	yarn docs
+	yarn loc
+	yarn gh-pages
 
-  # save work
-  git add .
-  git commit -m "[release] Version: $version"
+	# save work
+	git add .
+	git commit -m "[release] Version: $version"
 
-  # create bin file
-  yarn deploy
+	# create bin file
+	yarn deploy
 
-  # create git tag
-  git tag "$version"
+	# create git tag
+	git tag "$version"
 
-  # update work
-  if lib "promptYN" "execute git push code and tag"; then
-    git push && git push --tag
-  fi
+	# update work
+	if lib "promptYN" "execute git push code and tag"; then
+		git push && git push --tag
+	fi
 
-  # create release
-  if lib "promptYN" "create release in github"; then
-    prerelease=""
-    if lib "promptYN" "This is prerelease"; then
-      prerelease="--prerelease"
-    fi
-    printf "your release title message is "
-    read -r title
-    message="$(git-chglog --config ./.gitgo/chglog/config.yml "$version")"
+	# create release
+	if lib "promptYN" "create release in github"; then
+		prerelease=""
+		if lib "promptYN" "This is prerelease"; then
+			prerelease="--prerelease"
+		fi
+		printf "your release title message is "
+		read -r title
+		message="$(git-chglog --config ./.gitgo/chglog/config.yml "$version")"
 
-    final="$(printf '%s\n%s' "$title" "$message")"
+		final="$(printf '%s\n%s' "$title" "$message")"
 
-    hub release create "$prerelease" --message="$final" "$version" -a "./bin/nd-linux" -a "./bin/nd-macos" -a "./bin/nd-win.exe"
-  fi
-else 
-  echo "exit"
+		hub release create "$prerelease" --message="$final" "$version" -a "./bin/nd-linux" -a "./bin/nd-macos" -a "./bin/nd-win.exe"
+	fi
+else
+	echo "exit"
 fi
