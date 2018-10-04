@@ -12,7 +12,6 @@ import { join } from "path";
 import { GetNovelNameApi, CreateChapterListApi, GetNovelDateApi, NormalizeNovelName } from "../apis/novel";
 import { WrapTMCT } from "./LoggerWrapper";
 import { COLORS } from "../constants/color.const";
-import { CheckIsExist } from "../helpers/helper";
 import { DEFAULT_NOVEL_FOLDER_NAME } from "../constants/novel.const";
 import { existsSync } from "fs";
 import { mkdirpSync } from "fs-extra";
