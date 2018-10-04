@@ -14,7 +14,7 @@ test("Should create new template", function() {
   expect(html).toInclude("20");
   expect(html).toInclude("Content");
 
-  expect(html).toInclude('<html lang="en">');
+  expect(html).toInclude("<!DOCTYPE html>"); // make sure that is HTML5
   expect(html).toInclude("<head>");
-  expect(html).toInclude("<body>");
+  expect(html).toInclude("<body"); // custom style
 });
