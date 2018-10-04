@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>HtmlTemplateConstant | ND JS</title>
+	<title>CssTemplate | ND JS</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,21 +59,25 @@
 					<a href="../modules/nd_html.html">nd.html</a>
 				</li>
 				<li>
-					<a href="nd_html.htmltemplateconstant.html">HtmlTemplateConstant</a>
+					<a href="nd_html.csstemplate.html">CssTemplate</a>
 				</li>
 			</ul>
-			<h1>Class HtmlTemplateConstant</h1>
+			<h1>Class CssTemplate</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">HtmlTemplateConstant</span>
+						<span class="target">CssTemplate</span>
 					</li>
 				</ul>
 			</section>
@@ -84,20 +88,20 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="nd_html.htmltemplateconstant.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="nd_html.csstemplate.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="nd_html.htmltemplateconstant.html#_css" class="tsd-kind-icon">_css</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="nd_html.htmltemplateconstant.html#_name" class="tsd-kind-icon">_name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="nd_html.csstemplate.html#_css" class="tsd-kind-icon">_css</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="nd_html.csstemplate.html#name" class="tsd-kind-icon">name</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="nd_html.htmltemplateconstant.html#build" class="tsd-kind-icon">build</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="nd_html.csstemplate.html#getstyle" class="tsd-kind-icon">get<wbr>Style</a></li>
 							</ul>
 						</section>
 					</div>
@@ -109,13 +113,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Html<wbr>Template<wbr>Constant<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, css<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="nd_html.htmltemplateconstant.html" class="tsd-signature-type">HtmlTemplateConstant</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Css<wbr>Template<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, cssObject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="nd_html.csstemplate.html" class="tsd-signature-type">CssTemplate</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/5a30a80/src/models/Html.ts#L32">models/Html.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/models/HtmlCss.ts#L8">models/HtmlCss.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -124,10 +128,10 @@
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>css: <span class="tsd-signature-type">string</span></h5>
+									<h5>cssObject: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="nd_html.htmltemplateconstant.html" class="tsd-signature-type">HtmlTemplateConstant</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="nd_html.csstemplate.html" class="tsd-signature-type">CssTemplate</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -140,17 +144,17 @@
 					<div class="tsd-signature tsd-kind-icon">_css<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/5a30a80/src/models/Html.ts#L32">models/Html.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/models/HtmlCss.ts#L8">models/HtmlCss.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="_name" class="tsd-anchor"></a>
-					<h3>_name</h3>
-					<div class="tsd-signature tsd-kind-icon">_name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/5a30a80/src/models/Html.ts#L31">models/Html.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/models/HtmlCss.ts#L7">models/HtmlCss.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -158,24 +162,18 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="build" class="tsd-anchor"></a>
-					<h3>build</h3>
+					<a name="getstyle" class="tsd-anchor"></a>
+					<h3>get<wbr>Style</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">build<span class="tsd-signature-symbol">(</span>content<span class="tsd-signature-symbol">: </span><a href="../modules/nd_html.html#htmlcontent" class="tsd-signature-type">HtmlContent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Style<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/5a30a80/src/models/Html.ts#L39">models/Html.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/models/HtmlCss.ts#L17">models/HtmlCss.ts:17</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>content: <a href="../modules/nd_html.html#htmlcontent" class="tsd-signature-type">HtmlContent</a></h5>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
@@ -192,13 +190,22 @@
 						<span>Internals</span>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_actions_command_download_.html">"actions/command/download"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_builder_html_.html">"builder/html"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_constants_novel_const_.html">"constants/novel.const"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_helpers_helper_.html">"helpers/helper"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/commander_command.html">commander.command</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/commander_const.html">commander.const</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/helper.html">helper</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/logger.html">logger</a>
@@ -208,6 +215,9 @@
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/nd_apis.html">nd.apis</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/nd_builder.html">nd.builder</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/nd_color.html">nd.color</a>
@@ -237,50 +247,47 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="nd_html.htmltemplate.html" class="tsd-kind-icon">Html<wbr>Template</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="nd_html.htmltemplateconstant.html" class="tsd-kind-icon">Html<wbr>Template<wbr>Constant</a>
+						<a href="nd_html.csstemplate.html" class="tsd-kind-icon">Css<wbr>Template</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="nd_html.htmltemplateconstant.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="nd_html.csstemplate.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="nd_html.htmltemplateconstant.html#_css" class="tsd-kind-icon">_css</a>
+								<a href="nd_html.csstemplate.html#_css" class="tsd-kind-icon">_css</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="nd_html.htmltemplateconstant.html#_name" class="tsd-kind-icon">_name</a>
+								<a href="nd_html.csstemplate.html#name" class="tsd-kind-icon">name</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="nd_html.htmltemplateconstant.html#build" class="tsd-kind-icon">build</a>
+								<a href="nd_html.csstemplate.html#getstyle" class="tsd-kind-icon">get<wbr>Style</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/nd_html.htmlnode.html" class="tsd-kind-icon">Html<wbr>Node</a>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="nd_html.htmlcontent.html" class="tsd-kind-icon">Html<wbr>Content</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/nd_html.html#htmlcontent" class="tsd-kind-icon">Html<wbr>Content</a>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="nd_html.htmlnode.html" class="tsd-kind-icon">Html<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="nd_html.htmltemplate.html" class="tsd-kind-icon">Html<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="nd_html.htmltoc.html" class="tsd-kind-icon">Html<wbr>Toc</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
-						<a href="../modules/nd_html.html#default_html_template" class="tsd-kind-icon">DEFAULT_<wbr>HTML_<wbr>TEMPLATE</a>
+						<a href="../modules/nd_html.html#default_css_template" class="tsd-kind-icon">DEFAULT_<wbr>CSS_<wbr>TEMPLATE</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="../modules/nd_html.html#html_blacklist_text" class="tsd-kind-icon">HTML_<wbr>BLACKLIST_<wbr>TEXT</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="../modules/nd_html.html#html_file" class="tsd-kind-icon">HTML_<wbr>FILE</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
-						<a href="../modules/nd_html.html#html_title_template" class="tsd-kind-icon">HTML_<wbr>TITLE_<wbr>TEMPLATE</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/nd_html.html#css" class="tsd-kind-icon">css</a>
 					</li>
 				</ul>
 			</nav>
