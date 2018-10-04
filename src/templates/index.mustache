@@ -102,17 +102,16 @@
   <footer class="footer">
     <div class="follow-group-btn">
       <a class="prev-chapter" id="prevChapter" href="chapter{{prev}}.html">Previous</a>
+      <div class="pagination">
+        {{#toc}}
+          <a href="chapter{{_chapterNumber}}.html">
+            <div class="page-element">
+              <span class="page-link">{{_chapterNumber}}</span>
+            </div>
+          </a>
+        {{/toc}}
+      </div>
       <a class="next-chapter" id="nextChapter" href="chapter{{next}}.html">Next</a>
-    </div>
-
-    <div class="pagination">
-      {{#toc}}
-        <a href="chapter{{_chapterNumber}}.html">
-          <div class="page-element">
-            <span class="page-link">{{_chapterNumber}}</span>
-          </div>
-        </a>
-      {{/toc}}
     </div>
 
     <div class="credit">

@@ -2,13 +2,6 @@ body {
   text-align: center;
 }
 
-.pagination {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
 h1,
 h2,
 h3,
@@ -18,11 +11,18 @@ h6 {
   margin: 0px;
 }
 
+.pagination {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .page-element {
   border-radius: 2rem;
   border: 2px solid #73ad21;
   padding: 0.5rem;
-  margin: 1rem;
+  margin: 0.25rem;
   width: 40px;
   height: 40px;
   display: flex;
