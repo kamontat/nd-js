@@ -16,6 +16,7 @@ import { FetchApi } from "../apis/download";
 import { Novel } from "./Novel";
 import { HtmlBuilder } from "../builder/html";
 import { WriteFile } from "../apis/file";
+import { render } from "mustache";
 
 export class NovelChapter {
   _nid: string;
@@ -69,6 +70,10 @@ export class NovelChapter {
 
   file() {
     return join(this._location, GetChapterFile(this._chapterNumber));
+  }
+
+  format(format: string) {
+    return render(format, this);
   }
 
   toString() {

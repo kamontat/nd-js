@@ -4,6 +4,8 @@
  */
 
 import { Novel } from "./Novel";
+import { log } from "winston";
+import { WrapTM } from "./LoggerWrapper";
 
 export class HtmlToc {
   _novel: Novel;
@@ -12,7 +14,7 @@ export class HtmlToc {
   }
 
   build() {
-    // TODO: Implement build toc by novel
-    return "";
+    if (this._novel._chapters) return this._novel._chapters;
+    else return [];
   }
 }

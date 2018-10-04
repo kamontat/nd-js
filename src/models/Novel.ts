@@ -70,6 +70,7 @@ export class Novel {
     log(WrapTMCT("info", "Novel name", this._name, { message: COLORS.Name }));
     log(WrapTMCT("info", "Novel link", link));
     if (this._location) log(WrapTMCT("info", "Novel location", this._location));
+    if (this._location) log(WrapTMCT("info", "First chapter", NovelBuilder.createZeroChapter(this).file()));
     log(
       WrapTMCT("info", "Chapters", this._chapters && this._chapters.map(c => c._chapterNumber), {
         message: COLORS.ChapterList

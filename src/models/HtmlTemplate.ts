@@ -9,6 +9,7 @@ import { render } from "mustache";
 import { CssTemplate } from "./HtmlCss";
 import { PROJECT_NAME, VERSION } from "../constants/nd.const";
 import { HTML_FILE, DEFAULT_CSS_TEMPLATE } from "../constants/html.const";
+import { NovelChapter } from "./Chapter";
 
 export class HtmlTemplate {
   novelID: string;
@@ -24,7 +25,7 @@ export class HtmlTemplate {
 
   content: string;
 
-  toc?: string;
+  toc?: NovelChapter[];
 
   command?: string; // update when call build
   version?: string; // update when call build
