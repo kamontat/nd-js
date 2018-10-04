@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100%">
 
 <head>
   <meta charset="UTF-8">
@@ -22,12 +22,18 @@
   <meta name="copyright" content="Copyright© 2018">
   <meta name="city" content="Bangkok">
   <meta name="country" content="TH">
-  
-  <meta name="format-detection" content="telephone=yes"/>
-  <meta name="HandheldFriendly" content="true"/> 
 
+  <meta name="format-detection" content="telephone=yes" />
+  <meta name="HandheldFriendly" content="true" />
 
-  <title>{{novelName}} {{title}}</title>
+  {{#novelName}}
+  <title>{{novelName}} | {{chapterName}} ({{chapterNumber}})</title>
+  {{/novelName}}
+  {{^novelName}}
+  <title>{{chapterName}} ({{chapterNumber}})</title>
+  {{/novelName}}
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
   <style type="text/css" media="screen">
     body {
@@ -36,50 +42,88 @@
       font-weight: normal;
     }
 
+    .title {
+      margin-top: 2rem
+    }
+
     .footer {
-      min-height: 60px;
+      display: flex;
+      flex-direction: column;
+      margin-left: 0.75rem;
+      margin-right: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .follow-group-btn {
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-left: 0.75rem;
-      margin-right: 0.75rem;
+    }
+
+    .credit {
+      font-size: 0.75rem;
+      color: hsl(0, 0%, 71%);
     }
   </style>
 
   <style type="text/css" media="screen">
-    {{css}}
+    {{&css}}
   </style>
 </head>
 
-<body>
+<body style="height: 100%">
   <header class="title">
-    <h1 id="title">{{chapterName}}</h1>
+    {{#chapterName}}
+      <h1 id="title">{{chapterName}}</h1>
+      <h4>
+        {{novelName}}
+        {{#lastUpdate}}
+          | <i class="far fa-clock"></i> {{lastUpdate}}
+        {{/lastUpdate}}
+      </h4>
+    {{/chapterName}}
+    {{^chapterName}}
+      <h1 id="title">{{novelName}}</h1>
+      {{#lastUpdate}}
+        <i class="far fa-clock"></i> {{lastUpdate}}
+      {{/lastUpdate}}
+    {{/chapterName}}
   </header>
 
-  <main role="main">
+  <main role="main" style="min-height: 70%">
     <div class="content">
       <div id="content">
         {{&content}}
       </div>
     </div>
   </main>
-
+  
   <footer class="footer">
-    <div class="prev-chapter">
-      <a id="prevChapter" href="chapter{{previousChapter}}.html">
-        Chapter {{previousChapter}}
-      </a>
+    <div class="follow-group-btn">
+      <div class="prev-group">
+        <a class="home-chapter" id="homeChapter" href="chapter0.html">Home</a>
+        <a class="prev-chapter" id="prevChapter" href="chapter{{prev}}.html">Previous</a>
+      </div>
+      <div class="pagination">
+        {{#toc}}
+          <a href="chapter{{_chapterNumber}}.html">
+            <div class="page-element">
+              <span class="page-link">{{_chapterNumber}}</span>
+            </div>
+          </a>
+        {{/toc}}
+      </div>
+      <a class="next-chapter" id="nextChapter" href="chapter{{next}}.html">Next</a>
     </div>
-    <div class="next-chapter">
-      <a id="nextChapter" href="chapter{{nextChapter}}.html">
-        Chapter {{nextChapter}}
-      </a>
+
+    <div class="credit">
+      <p id="detail">
+        <a href="{{link}}">{{novelID}}</a> was created <br />
+        on {{date}} <br />
+        by {{command}} command version {{version}}
+      </p>
     </div>
   </footer>
-
-  <p style="display: none;">
-    N{{id}} was created on {{date}} by {{command}} command
-  </p>
 </body>
-
 </html>

@@ -146,6 +146,10 @@
     "@types/events" "*"
     "@types/node" "*"
 
+"@types/tmp@^0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@types/tmp/-/tmp-0.0.33.tgz#1073c4bc824754ae3d10cfab88ab0237ba964e4d"
+
 "@types/tough-cookie@*":
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-2.3.3.tgz#7f226d67d654ec9070e755f46daebf014628e9d9"
@@ -4068,7 +4072,7 @@ os-locale@^3.0.0:
     lcid "^2.0.0"
     mem "^4.0.0"
 
-os-tmpdir@^1.0.0, os-tmpdir@^1.0.1:
+os-tmpdir@^1.0.0, os-tmpdir@^1.0.1, os-tmpdir@~1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
 
@@ -5353,6 +5357,12 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
+tmp@^0.0.33:
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
+  dependencies:
+    os-tmpdir "~1.0.2"
+
 tmpl@1.0.x:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.4.tgz#23640dd7b42d00433911140820e5cf440e521dd1"
@@ -5485,15 +5495,15 @@ typedoc-default-themes@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.5.0.tgz#6dc2433e78ed8bea8e887a3acde2f31785bd6227"
 
-typedoc-plugin-external-module-name@^1.1.3:
+typedoc-plugin-external-module-name@1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/typedoc-plugin-external-module-name/-/typedoc-plugin-external-module-name-1.1.3.tgz#ea1c8c7650dae7a105f0d9d55a6aa5cab7816db2"
 
-typedoc-plugin-internal-external@^1.0.10:
+typedoc-plugin-internal-external@1.0.10:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/typedoc-plugin-internal-external/-/typedoc-plugin-internal-external-1.0.10.tgz#df9fd6ee1743f009c39b8746a3c26edc36ce8bcd"
 
-typedoc-plugin-single-line-tags@^1.0.0:
+typedoc-plugin-single-line-tags@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/typedoc-plugin-single-line-tags/-/typedoc-plugin-single-line-tags-1.0.0.tgz#4210b4fbd18d9b8f753e151047965195b4081261"
 

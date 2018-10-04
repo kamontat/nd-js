@@ -268,9 +268,9 @@ setting:
       } else {
         CONFIG_WARN.clone().loadString("config file not exist");
       }
+      Config._CONFIG.showStatus();
     }
     Config._CONFIG.setOption({ quiet: quiet });
-    Config._CONFIG.showStatus();
     return Config._CONFIG;
   }
 }

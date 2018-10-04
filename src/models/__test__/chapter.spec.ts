@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { NovelBuilder } from "../Novel";
+import { NovelBuilder } from "../../builder/novel";
 import { DEFAULT_NOVEL_LINK } from "../../constants/novel.const";
 import { PassLink } from "../../helpers/novel";
 

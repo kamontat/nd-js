@@ -60,6 +60,11 @@ export const RAW_DOWNLOAD_CMD: CCommand = {
         return l;
       },
       default: []
+    },
+    {
+      name: "-F, --force",
+      desc: "Force download even file is exist",
+      default: false
     }
   ],
   fn: RawDownload
@@ -73,7 +78,7 @@ export const DOWNLOAD_CMD: CCommand = {
     LOCATION_OPT,
     {
       name: "-F, --force",
-      desc: "Force download even folder in exist",
+      desc: "Force download even folder is exist",
       default: false
     }
   ],

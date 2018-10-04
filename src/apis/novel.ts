@@ -8,12 +8,12 @@ import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 import { log } from "winston";
 import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
 
-import { NovelChapter, NovelBuilder } from "../models/Novel";
+import { NovelBuilder } from "../builder/novel";
+import { NovelChapter } from "../models/Chapter";
 import { PassLink, GetChapter } from "../helpers/novel";
 
-import { CreateHtmlApi, Query } from "./html";
+import { Query } from "./html";
 
-import { HtmlNode } from "../models/Html";
 import { HTML_BLACKLIST_TEXT } from "../constants/html.const";
 
 import "moment/locale/th";
@@ -21,6 +21,7 @@ import { locale } from "moment";
 import moment = require("moment");
 import { TrimString, CheckIsExist, FormatMomentDateTime } from "../helpers/helper";
 import { NOVEL_WARN } from "../constants/error.const";
+import { HtmlNode } from "../models/HtmlNode";
 
 export const GetNovelNameApi = ($: CheerioStatic) => {
   // //p[@id="big_text"]/text()
@@ -37,6 +38,11 @@ export const GetChapterDateListApi = ($: CheerioStatic): Cheerio => {
   return $(".update-txt");
 };
 
+export const GetChapterDateApi = ($: CheerioStatic): moment.Moment => {
+  let dateString = $($(".timeupdate").get(0)).text();
+  return FormatMomentDateTime(dateString, "D MMM YY");
+};
+
 // support v2 only
 // TODO: make support v1 novel
 export const GetNovelDateApi = ($: CheerioStatic): moment.Moment => {
@@ -47,6 +53,7 @@ export const GetNovelDateApi = ($: CheerioStatic): moment.Moment => {
   // 29 ก.ย. 61 / 19:00
   const date = FormatMomentDateTime(dateString, "D MMM YY [/] HH:mm");
   log(WrapTMC("debug", "novel date", date));
+
   return date;
 };
 
@@ -102,12 +109,14 @@ export const GetChapterNameApi = ($: CheerioStatic) => {
   // if (name && name !== "") return name;
 
   let element = $("h2[style=margin\\:0px\\;font-size\\:17px\\;color\\:\\#ffffff]");
-
   name = element.text();
   if (name && name !== "") return name;
 
+  // NOVEL_WARN.clone()
+  //   .loadString("Cannot get chapter name")
+  //   .printAndExit();
+
   return "";
-  // throw NovelWarning.clone().loadString("Cannot get chapter name");
 };
 
 export const getNovelContentV1 = ($: CheerioStatic) => {
@@ -125,10 +134,12 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
         const text = query.text().trim();
         if (text !== "" && text !== "\n") {
           // log(WrapTMC("debug", "Content", text));
-          result.push({
-            tag: "p",
-            text: text
-          });
+          result.push(
+            new HtmlNode({
+              tag: "p",
+              text: text
+            })
+          );
         }
       }
     });
@@ -151,10 +162,12 @@ export const getNovelContentV2 = ($: CheerioStatic) => {
           log(WrapTMC("debug", "Html paragraph node", text));
 
           // FIXME: sometime cause all text go to 1 node (1851491 chap=5)
-          result.push({
-            tag: "p",
-            text: text
-          });
+          result.push(
+            new HtmlNode({
+              tag: "p",
+              text: text
+            })
+          );
         }
       }
     });
@@ -169,17 +182,12 @@ export const GetNovelContent = ($: CheerioStatic) => {
     result = getNovelContentV1($);
   }
 
+  if (result.length < 1)
+    NOVEL_WARN.clone()
+      .loadString("Cannot get novel content")
+      .printAndExit();
+
   return result;
-};
-
-export const GetNovelHtml = (chapter: NovelChapter, $: CheerioStatic) => {
-  const content = GetNovelContent($);
-  return CreateHtmlApi(chapter, content);
-};
-
-export const BuildNovelHtml = (chapter: NovelChapter, $: CheerioStatic) => {
-  chapter.setName(GetNovelNameApi($));
-  return GetNovelHtml(chapter, $);
 };
 
 export const CheckIsNovel = ($: CheerioStatic) => {
@@ -189,6 +197,9 @@ export const CheckIsNovel = ($: CheerioStatic) => {
 export const NormalizeNovelName = (name: string) => {
   return name
     .replace(" ", "-")
+    .replace("\t", "-")
+    .replace("\n", "-")
+    .replace("\r\n", "-")
     .replace("[", "")
     .replace("]", "")
     .replace("*", "-")

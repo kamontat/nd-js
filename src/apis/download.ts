@@ -9,11 +9,10 @@ import { load } from "cheerio";
 import { Response } from "request";
 import { decode } from "iconv-lite";
 
-import { NovelChapter } from "../models/Novel";
-import { WrapTMC } from "../models/LoggerWrapper";
+import { NovelChapter } from "../models/Chapter";
+import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
 import { NOVEL_WARN } from "../constants/error.const";
-import { CheckIsNovel, BuildNovelHtml } from "./novel";
-import { writeFile, existsSync } from "fs-extra";
+import { CheckIsNovel, GetChapterNameApi, GetChapterDateListApi, GetChapterDateApi } from "./novel";
 
 function download(url: URL) {
   return request({
@@ -51,25 +50,16 @@ export const FetchApi: (chapter: NovelChapter) => Promise<{ cheerio: CheerioStat
   return new Promise((res, rej) => {
     return download(chapter.link()).then(($: CheerioStatic) => {
       if (CheckIsNovel($)) {
+        // log(WrapTM("debug", "status", "This is novel content"));
+        chapter.setName(GetChapterNameApi($));
+        chapter.setDate(GetChapterDateApi($));
         return res({ cheerio: $, chapter: chapter });
       } else {
+        // TODO: update chapter date
         return rej(
           NOVEL_WARN.clone().loadString(`Novel(${chapter._nid}) on chapter ${chapter._chapterNumber} is not exist`)
         );
       }
-    });
-  });
-};
-
-export const DownloadApi: (chapter: NovelChapter, force?: boolean) => Promise<NovelChapter> = (
-  chapter: NovelChapter,
-  force?: boolean
-) => {
-  return FetchApi(chapter).then(res => {
-    const html = BuildNovelHtml(res.chapter, res.cheerio);
-    return new Promise<NovelChapter>((res, rej) => {
-      if (!existsSync(chapter.file()) || force) writeFile(chapter.file(), html, err => (err ? rej(err) : res(chapter)));
-      else rej(NOVEL_WARN.clone().loadString(`Chapter ${chapter._chapterNumber} of novel ${chapter._nid} is exist`));
     });
   });
 };
