@@ -2,8 +2,17 @@
 ## [Unreleased]
 
 
+<a name="v1.0.0-beta.1"></a>
+## [v1.0.0-beta.1] - 2018-10-04
+### 1) Features
+- Add download novel command ([#13](https://github.com/kamontat/nd-js/issues/13))
+
+### 5) Code Refactoring
+- Resolve conflict
+
+
 <a name="v1.0.0-beta.0"></a>
-## [v1.0.0-beta.0] - 2018-10-02
+## [v1.0.0-beta.0] - 2018-10-04
 ### 1) Features
 - Completed fetching novel
 
@@ -97,6 +106,7 @@
 - Add gitgo command
 
 
-[Unreleased]: https://github.com/kamontat/nd-js/compare/v1.0.0-beta.0...HEAD
+[Unreleased]: https://github.com/kamontat/nd-js/compare/v1.0.0-beta.1...HEAD
+[v1.0.0-beta.1]: https://github.com/kamontat/nd-js/compare/v1.0.0-beta.0...v1.0.0-beta.1
 [v1.0.0-beta.0]: https://github.com/kamontat/nd-js/compare/v1.0.0-alpha.1...v1.0.0-beta.0
 [v1.0.0-alpha.1]: https://github.com/kamontat/nd-js/compare/1.0.0-alpha.0...v1.0.0-alpha.1
