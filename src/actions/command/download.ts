@@ -7,7 +7,6 @@ export default (a: any) => {
   const { options, args } = SeperateArgumentApi(a);
 
   const ids = args.map(arg => GetNID(arg));
-
   ids.forEach(id => {
     NovelBuilder.create(id)
       .then(novel => {

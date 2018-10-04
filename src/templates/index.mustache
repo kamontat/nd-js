@@ -42,6 +42,11 @@
       font-weight: normal;
     }
 
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
     .title {
       margin-top: 2rem
     }
@@ -77,14 +82,17 @@
     {{#chapterName}}
       <h1 id="title">{{chapterName}}</h1>
       <h4>
-        {{novelName}}
+        <a href="chapter0.html">{{novelName}}</a>
         {{#lastUpdate}}
           | <i class="far fa-clock"></i> {{lastUpdate}}
         {{/lastUpdate}}
       </h4>
     {{/chapterName}}
     {{^chapterName}}
-      <h1 id="title">{{novelName}}</h1>
+      <a href="chapter0.html">
+        <h1 id="title">{{novelName}}</h1>
+      </a>
+    
       {{#lastUpdate}}
         <i class="far fa-clock"></i> {{lastUpdate}}
       {{/lastUpdate}}
