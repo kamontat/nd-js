@@ -6,43 +6,22 @@
 import moment, { Moment } from "moment";
 
 import { log } from "winston";
-import { GetLinkWithChapter, GetChapterFile, GetNID, GetLink } from "../helpers/novel";
-import { URL } from "url";
-import { NOVEL_ERR } from "../constants/error.const";
-import Config from "./Config";
+import { GetLink } from "../helpers/novel";
+import { NOVEL_WARN } from "../constants/error.const";
 import { join } from "path";
-import { GetNovelNameApi, CreateChapterListApi, GetNovelDateApi } from "../apis/novel";
-import { WrapTMCT, WrapTMC } from "./LoggerWrapper";
+import { GetNovelNameApi, CreateChapterListApi, GetNovelDateApi, NormalizeNovelName } from "../apis/novel";
+import { WrapTMCT } from "./LoggerWrapper";
 import { COLORS } from "../constants/color.const";
-import { ColorType } from "./Color";
-import { CheckIsNumber } from "../helpers/helper";
-
-type NovelChapterBuilderOption = { name?: string; location?: string; date?: Moment };
-
-export class NovelBuilder {
-  static create(id: string, option?: { location?: string }) {
-    return new Novel(id, option && option.location);
-  }
-
-  static build(id: string, $: CheerioStatic, option?: { location?: string }) {
-    let novel = NovelBuilder.create(id, option);
-    return novel.load($);
-  }
-
-  static createChapter(id: string, chapter?: string, option?: NovelChapterBuilderOption) {
-    return new NovelChapter(id, chapter, option && option.name, option && option.location);
-  }
-
-  static createChapterByLink(url: URL, option?: NovelChapterBuilderOption) {
-    return new NovelChapter(
-      GetNID(url.toString()),
-      url.searchParams.get("chapter") || undefined,
-      option && option.name,
-      option && option.location,
-      option && option.date
-    );
-  }
-}
+import { CheckIsExist } from "../helpers/helper";
+import { DEFAULT_NOVEL_FOLDER_NAME } from "../constants/novel.const";
+import { existsSync } from "fs";
+import { mkdirpSync } from "fs-extra";
+import { Exception } from "./Exception";
+import { NovelChapter } from "./Chapter";
+import { NovelBuilder } from "../builder/novel";
+import { FetchApi } from "../apis/download";
+import { HtmlBuilder } from "../builder/html";
+import { WriteFile } from "../apis/file";
 
 export class Novel {
   // TODO: add required information attribute
@@ -69,91 +48,76 @@ export class Novel {
   load($: CheerioStatic): Promise<Novel> {
     return new Promise(res => {
       this._name = GetNovelNameApi($);
-      this._chapters = CreateChapterListApi($);
+      if (this._location)
+        this._location = join(this._location, DEFAULT_NOVEL_FOLDER_NAME(NormalizeNovelName(this._name)));
+
+      // this._chapters = [NovelBuilder.createChapter(this._id, "0", { location: this._location })];
+      this._chapters = [];
+      this._chapters.push(
+        ...CreateChapterListApi($).map(chap => {
+          chap.setLocation(this._location);
+          return chap;
+        })
+      );
+
       this.update($);
       res(this);
     });
   }
 
-  chapter(chapter: string): NovelChapter {
-    if (this._chapters) {
-      const result = this._chapters.filter(v => v._chapterNumber === chapter);
-      if (result.length === 1) return result[0];
-    }
-    return NovelBuilder.createChapter(this._id, chapter, { location: this._location });
-  }
-
-  print() {
+  print(option?: { withChapter?: boolean }) {
     const link = GetLink(this._id);
     log(WrapTMCT("info", "Novel name", this._name, { message: COLORS.Name }));
     log(WrapTMCT("info", "Novel link", link));
+    if (this._location) log(WrapTMCT("info", "Novel location", this._location));
+    if (this._location) log(WrapTMCT("info", "First chapter", NovelBuilder.createZeroChapter(this).file()));
     log(
       WrapTMCT("info", "Chapters", this._chapters && this._chapters.map(c => c._chapterNumber), {
         message: COLORS.ChapterList
       })
     );
-    if (this._chapters) {
+    if (this._chapters && option && option.withChapter) {
       this._chapters.forEach(chapter => {
-        log(
-          WrapTMCT(
-            "verbose",
-            `Chapter ${chapter._chapterNumber}`,
-            `${COLORS.ChapterName.color(chapter._name)} [อัพเดตล่าสุดเมื่อ ${COLORS.Date.formatColor(
-              chapter._date && chapter._date
-            )}]`
-          )
-        );
+        log(WrapTMCT("verbose", `Chapter ${chapter._chapterNumber}`, chapter.toString()));
       });
     }
 
     log(WrapTMCT("verbose", "Download at", this._downloadAt));
     log(WrapTMCT("verbose", "Update at", this._updateAt));
   }
-}
 
-export class NovelChapter {
-  _nid: string;
-  _name?: string;
-  _chapterNumber: string = "0";
-  _location: string;
-
-  _date?: Moment;
-
-  constructor(id: string, chapter?: string, name?: string, location?: string, date?: Moment) {
-    this._nid = id;
-    this._name = name;
-
-    this._date = date;
-    if (location) {
-      this._location = location;
-    } else {
-      this._location = Config.Load({ quiet: true })._novelLocation || "";
+  save(force?: boolean) {
+    if (this._location && existsSync(this._location) && !force) {
+      NOVEL_WARN.clone()
+        .loadString(`Novel ID ${this._id} is exist`)
+        .printAndExit();
+      return;
     }
 
-    if (chapter) {
-      if (CheckIsNumber(chapter)) {
-        this._chapterNumber = chapter;
-      } else {
-        log(WrapTMC("warn", "Novel creator", `Chapter is not number (${chapter})`));
-      }
-    }
-  }
+    mkdirpSync(this._location || "");
 
-  setName(name: string) {
-    this._name = name;
-  }
-
-  setDate(date: Moment) {
-    this._date = date;
-  }
-
-  link() {
-    let link = GetLinkWithChapter(this._nid, this._chapterNumber);
-    if (link) return link;
-    throw NOVEL_ERR.clone().loadString("cannot generate download link");
-  }
-
-  file() {
-    return join(this._location, GetChapterFile(this._chapterNumber));
+    NovelBuilder.createZeroChapter(this)
+      .download(force)
+      .then(() => {
+        if (this._chapters) {
+          this._chapters.forEach(v => {
+            FetchApi(v)
+              .then(res => {
+                const html = HtmlBuilder.template(res.chapter._nid)
+                  .addChap(res.chapter)
+                  .addName(this._name)
+                  .addContent(HtmlBuilder.buildContent(res.cheerio))
+                  .renderDefault();
+                WriteFile(html, res.chapter, force);
+              })
+              .catch((e: Exception) => {
+                e.printAndExit();
+              });
+          });
+        }
+      })
+      .catch((e: Exception) => {
+        e.printAndExit();
+      });
   }
 }

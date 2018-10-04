@@ -8,20 +8,20 @@ import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 import { log } from "winston";
 import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
 
-import { NovelChapter, NovelBuilder } from "../models/Novel";
+import { NovelBuilder } from "../builder/novel";
+import { NovelChapter } from "../models/Chapter";
 import { PassLink, GetChapter } from "../helpers/novel";
 
-import { CreateHtmlApi, Query } from "./html";
+import { Query } from "./html";
 
-import { HtmlNode } from "../models/Html";
 import { HTML_BLACKLIST_TEXT } from "../constants/html.const";
 
 import "moment/locale/th";
 import { locale } from "moment";
 import moment = require("moment");
-import { FormatMomentDateTime } from "../helpers/date";
-import { TrimString, CheckIsExist } from "../helpers/helper";
-import { NOVEL_ERR, NOVEL_WARN } from "../constants/error.const";
+import { TrimString, CheckIsExist, FormatMomentDateTime } from "../helpers/helper";
+import { NOVEL_WARN } from "../constants/error.const";
+import { HtmlNode } from "../models/HtmlNode";
 
 export const GetNovelNameApi = ($: CheerioStatic) => {
   // //p[@id="big_text"]/text()
@@ -38,6 +38,11 @@ export const GetChapterDateListApi = ($: CheerioStatic): Cheerio => {
   return $(".update-txt");
 };
 
+export const GetChapterDateApi = ($: CheerioStatic): moment.Moment => {
+  let dateString = $($(".timeupdate").get(0)).text();
+  return FormatMomentDateTime(dateString, "D MMM YY");
+};
+
 // support v2 only
 // TODO: make support v1 novel
 export const GetNovelDateApi = ($: CheerioStatic): moment.Moment => {
@@ -48,6 +53,7 @@ export const GetNovelDateApi = ($: CheerioStatic): moment.Moment => {
   // 29 ก.ย. 61 / 19:00
   const date = FormatMomentDateTime(dateString, "D MMM YY [/] HH:mm");
   log(WrapTMC("debug", "novel date", date));
+
   return date;
 };
 
@@ -72,7 +78,7 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
 
       // to avoid deplicate chapter chapter
       if (chapterLink[chapter] === undefined) {
-        log(WrapTM("debug", "chapter link", `${DEFAULT_NOVEL_LINK}/${link}`));
+        log(WrapTM("debug", "chapter link", `${link}`));
         log(WrapTM("debug", "chapter title", title));
         log(WrapTM("debug", "date", date));
       }
@@ -86,7 +92,7 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
   });
 
   return Object.values(chapterLink).map(({ link, title, date }) =>
-    NovelBuilder.createChapterByLink(PassLink(`${DEFAULT_NOVEL_LINK}/${link}`), { name: title, date: date })
+    NovelBuilder.createChapterByLink(PassLink(`${link}`), { name: title, date: date })
   );
 };
 
@@ -103,12 +109,14 @@ export const GetChapterNameApi = ($: CheerioStatic) => {
   // if (name && name !== "") return name;
 
   let element = $("h2[style=margin\\:0px\\;font-size\\:17px\\;color\\:\\#ffffff]");
-
   name = element.text();
   if (name && name !== "") return name;
 
+  // NOVEL_WARN.clone()
+  //   .loadString("Cannot get chapter name")
+  //   .printAndExit();
+
   return "";
-  // throw NovelWarning.clone().loadString("Cannot get chapter name");
 };
 
 export const getNovelContentV1 = ($: CheerioStatic) => {
@@ -126,10 +134,12 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
         const text = query.text().trim();
         if (text !== "" && text !== "\n") {
           // log(WrapTMC("debug", "Content", text));
-          result.push({
-            tag: "p",
-            text: text
-          });
+          result.push(
+            new HtmlNode({
+              tag: "p",
+              text: text
+            })
+          );
         }
       }
     });
@@ -152,17 +162,19 @@ export const getNovelContentV2 = ($: CheerioStatic) => {
           log(WrapTMC("debug", "Html paragraph node", text));
 
           // FIXME: sometime cause all text go to 1 node (1851491 chap=5)
-          result.push({
-            tag: "p",
-            text: text
-          });
+          result.push(
+            new HtmlNode({
+              tag: "p",
+              text: text
+            })
+          );
         }
       }
     });
   return result;
 };
 
-export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
+export const GetNovelContent = ($: CheerioStatic) => {
   let result: HtmlNode[] = [];
   if ($("div#story-content").text() !== "") {
     result = getNovelContentV2($);
@@ -170,9 +182,30 @@ export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
     result = getNovelContentV1($);
   }
 
-  return CreateHtmlApi(chapter, result);
+  if (result.length < 1)
+    NOVEL_WARN.clone()
+      .loadString("Cannot get novel content")
+      .printAndExit();
+
+  return result;
 };
 
 export const CheckIsNovel = ($: CheerioStatic) => {
   return $(".txt-content").length < 1;
+};
+
+export const NormalizeNovelName = (name: string) => {
+  return name
+    .replace(" ", "-")
+    .replace("\t", "-")
+    .replace("\n", "-")
+    .replace("\r\n", "-")
+    .replace("[", "")
+    .replace("]", "")
+    .replace("*", "-")
+    .replace("$", "_")
+    .replace("&", "_")
+    .replace("%", "_")
+    .replace("#", "_")
+    .replace("@", "_");
 };

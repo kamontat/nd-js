@@ -9,8 +9,9 @@ import { SeperateArgumentApi, ByLength, ValidList, ThrowIf } from "../../helpers
 import { WrapTM } from "../../models/LoggerWrapper";
 import { Exception } from "../../models/Exception";
 import { GetNID } from "../../helpers/novel";
-import { DownloadApi } from "../../apis/download";
-import { NovelBuilder } from "../../models/Novel";
+import { FetchApi } from "../../apis/download";
+import { NovelBuilder } from "../../builder/novel";
+import { LOGGER_LEVEL } from "../../constants/default.const";
 
 /**
  * This is initial command.
@@ -34,17 +35,12 @@ export default (a: any) => {
     let config = Config.Load();
     config.updateByOption(options);
 
-    DownloadApi(NovelBuilder.createChapter(id, "0"))
+    FetchApi(NovelBuilder.createChapter(id, "0"))
       .then(res => {
-        NovelBuilder.build(id, res.cheerio).then(novel => {
-          novel.print();
-        });
-
-        // novel.print({ color: true, long: all, all: true });
-        // log(WrapTMC("verbose", "Novel id", novel._id));
-        // const list = API_CREATE_NOVEL_CHAPTER_LIST(res.cheerio);
-        // list.forEach(chap => log(WrapTMC("info", `Chapter ${chap._chapterNumber}`, chap._name)));
-        // res.cheerio
+        return NovelBuilder.build(id, res.cheerio);
+      })
+      .then(novel => {
+        novel.print({ withChapter: LOGGER_LEVEL === "verbose" });
       })
       .catch((err: Exception) => {
         err.printAndExit();

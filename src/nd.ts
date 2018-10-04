@@ -12,7 +12,6 @@ import setting from "./models/Logger";
 
 import { VERSION } from "./constants/nd.const";
 import { MakeCommand, MakeOption } from "./helpers/command";
-import { HELPER_LOAD_CONFIG } from "./helpers/config";
 
 import {
   DEBUG_OPT,
@@ -31,8 +30,10 @@ import {
   CONFIG_CMD,
   SET_CONFIG_CMD,
   RAW_DOWNLOAD_CMD,
-  FETCH_CMD
+  FETCH_CMD,
+  DOWNLOAD_CMD
 } from "./constants/command.const";
+import Config from "./models/Config";
 
 program.version(`nd version: ${VERSION}`, "-v, --version");
 
@@ -50,10 +51,9 @@ MakeCommand(program, INIT_CMD);
 MakeCommand(program, CONFIG_CMD);
 MakeCommand(program, SET_CONFIG_CMD);
 
+MakeCommand(program, DOWNLOAD_CMD);
 MakeCommand(program, RAW_DOWNLOAD_CMD);
 MakeCommand(program, FETCH_CMD);
-
-HELPER_LOAD_CONFIG();
 
 program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
   winston.configure(setting());

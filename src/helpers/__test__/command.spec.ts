@@ -46,30 +46,3 @@ test("Should make command", function() {
   program.parse(["node", "/tmp/name.js", "test"]);
   expect(mockFunction).toHaveBeenCalled();
 });
-
-test("Should make command with option", function() {
-  const program = new Command();
-
-  const mockFunction = jest.fn();
-
-  MakeCommand(program, {
-    name: "hello",
-    desc: "hello to world",
-    alias: "T",
-    options: [
-      {
-        name: "-A, --all",
-        desc: "test option",
-        default: false
-      }
-    ],
-    fn: (args: any[]) => {
-      let options: { [key: string]: any } = args.filter(v => typeof v === "object")[0];
-      mockFunction(options.all);
-    }
-  });
-
-  program.parse(["node", "/filename.js", "hello", "-A", "param1", "param2"]);
-
-  expect(mockFunction).toHaveBeenCalledWith(true);
-});

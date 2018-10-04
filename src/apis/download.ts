@@ -9,10 +9,10 @@ import { load } from "cheerio";
 import { Response } from "request";
 import { decode } from "iconv-lite";
 
-import { NovelChapter } from "../models/Novel";
-import { WrapTMC } from "../models/LoggerWrapper";
+import { NovelChapter } from "../models/Chapter";
+import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
 import { NOVEL_WARN } from "../constants/error.const";
-import { CheckIsNovel } from "./novel";
+import { CheckIsNovel, GetChapterNameApi, GetChapterDateListApi, GetChapterDateApi } from "./novel";
 
 function download(url: URL) {
   return request({
@@ -42,15 +42,17 @@ function download(url: URL) {
   });
 }
 
-export const DownloadApi: (b: NovelChapter) => Promise<{ cheerio: CheerioStatic; chapter: NovelChapter }> = (
+export const FetchApi: (chapter: NovelChapter) => Promise<{ cheerio: CheerioStatic; chapter: NovelChapter }> = (
   chapter: NovelChapter
 ) => {
-  log(WrapTMC("verbose", "Start download link", chapter.link()));
-  log(WrapTMC("verbose", "Start download file", chapter.file()));
+  log(WrapTMC("debug", "Start download link", chapter.link()));
 
   return new Promise((res, rej) => {
     return download(chapter.link()).then(($: CheerioStatic) => {
       if (CheckIsNovel($)) {
+        // log(WrapTM("debug", "status", "This is novel content"));
+        chapter.setName(GetChapterNameApi($));
+        chapter.setDate(GetChapterDateApi($));
         return res({ cheerio: $, chapter: chapter });
       } else {
         return rej(

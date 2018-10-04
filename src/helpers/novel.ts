@@ -4,7 +4,7 @@
  */
 
 import { URL } from "url";
-import { DEFAULT_NOVEL_LINK, DEFAULT_FILE_TEMPLATE } from "../constants/novel.const";
+import { DEFAULT_NOVEL_LINK, DEFAULT_CHAPTER_FILE_TEMPLATE } from "../constants/novel.const";
 import { PARAM_WRONG_ERR } from "../constants/error.const";
 import { format } from "util";
 
@@ -60,5 +60,5 @@ export const PassLink = (str: string) => {
 };
 
 export const GetChapterFile = (chapter: string) => {
-  return `${format(DEFAULT_FILE_TEMPLATE, chapter)}`;
+  return `${format(DEFAULT_CHAPTER_FILE_TEMPLATE, chapter)}`;
 };

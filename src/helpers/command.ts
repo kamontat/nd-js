@@ -10,6 +10,8 @@ import { CommanderStatic, Command } from "commander";
 import setting from "../models/Logger";
 import { COption } from "../models/Option";
 import { CCommand } from "../models/Command";
+import { HELPER_LOAD_CONFIG } from "./config";
+import Config from "../models/Config";
 
 export const MakeOption = (program: Command | CommanderStatic, o: COption) => {
   program.option(o.name, o.desc, o.fn, o.default);
@@ -32,6 +34,8 @@ const addAction = (program: Command | CommanderStatic, c: CCommand) => {
   program.action((...args: any[]) => {
     // setup logger configuration
     configure(setting());
+    Config.Load();
+
     c.fn(args);
   });
 };

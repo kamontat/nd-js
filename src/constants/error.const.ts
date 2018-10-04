@@ -18,7 +18,7 @@ export const OPTION_WARN: Throwable = new Warning("Option have warning message",
 export const OPTION_WRONG_ERR: Throwable = new EError("Wrong option", 2);
 export const OPTION_FAIL_ERR: Throwable = new FError("Fail to update by option", 2);
 
-export const NOVEL_WARN: Throwable = new Warning("Novel have warning message", 3);
+export const NOVEL_WARN: Throwable = new Warning("Novel warning", 3);
 export const NOVEL_NOTFOUND_ERR: Throwable = new NFError("Required novel not found", 3);
 export const NOVEL_ERR: Throwable = new FError("Cannot create the novel", 3);
 
