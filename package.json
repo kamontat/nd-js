@@ -102,17 +102,14 @@
     "coverage:ci": "jest --ci --coverage --verbose"
   },
   "pkg": {
-    "assets": "package.json"
+    "assets": ["package.json", "node_modules/config/**/*.*"]
   },
   "bin": ".caches/nd.min.js",
   "jest": {
     "setupTestFrameworkScriptFile": "./test/jest.setup.js",
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "testMatch": [
-      "**/src/**/__tests__/**/*.ts?(x)",
-      "**/src/**/?(*.)+(spec|test).ts?(x)"
-    ],
+    "testMatch": ["**/src/**/__tests__/**/*.ts?(x)", "**/src/**/?(*.)+(spec|test).ts?(x)"],
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/actions/command/**/*.ts",
@@ -121,17 +118,8 @@
       "!src/constants/option.const.ts",
       "!**/node_modules/**"
     ],
-    "coverageReporters": [
-      "json",
-      "lcov",
-      "text-summary"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "ts",
-      "html",
-      "mustache"
-    ],
+    "coverageReporters": ["json", "lcov", "text-summary"],
+    "moduleFileExtensions": ["js", "ts", "html", "mustache"],
     "transform": {
       "^.+\\.js$": "babel-jest",
       "^.+\\.mustache$": "<rootDir>/test/htmlLoader.js",
