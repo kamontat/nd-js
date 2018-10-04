@@ -22,12 +22,21 @@
   <meta name="copyright" content="Copyright© 2018">
   <meta name="city" content="Bangkok">
   <meta name="country" content="TH">
-  
-  <meta name="format-detection" content="telephone=yes"/>
-  <meta name="HandheldFriendly" content="true"/> 
 
+  <meta name="format-detection" content="telephone=yes" />
+  <meta name="HandheldFriendly" content="true" />
 
-  <title>{{novelName}} {{title}}</title>
+  {{#novelName}}
+  <title>{{novelName}} | {{chapterName}} ({{chapterNumber}})</title>
+  {{/novelName}}
+  {{^novelName}}
+  <title>{{chapterName}} ({{chapterNumber}})</title>
+  {{/novelName}}
+
+  {{! <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css" integrity="sha256-zIG416V1ynj3Wgju/scU80KAEWOsO5rRLfVyRDuOv7Q="
+    crossorigin="anonymous" /> }}
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
   <style type="text/css" media="screen">
     body {
@@ -36,13 +45,38 @@
       font-weight: normal;
     }
 
+    .title {
+      margin-top: 2rem
+    }
+
     .footer {
       min-height: 60px;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
       margin-left: 0.75rem;
       margin-right: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    #detail {
+      font-size: 0.75rem;
+      color: hsl(0, 0%, 71%);
+    }
+
+    .next-chapter:after {
+      content: 'Next';
+    }
+
+    .next-chapter:hover:after {
+      content:'Page {{next}}';
+    }
+
+    .prev-chapter:after {
+      content: 'Previous';
+    }
+
+    .prev-chapter:hover:after {
+      content:'Page {{prev}}';
     }
   </style>
 
@@ -54,6 +88,13 @@
 <body>
   <header class="title">
     <h1 id="title">{{chapterName}}</h1>
+    {{! TODO: if novel name not exist }}
+    <h4>
+      {{novelName}}
+      {{#lastUpdate}}
+      | <i class="far fa-clock"></i> {{lastUpdate}}
+      {{/lastUpdate}}
+    </h4>
   </header>
 
   <main role="main">
@@ -64,22 +105,21 @@
     </div>
   </main>
 
+  {{! Add toc }}
+
   <footer class="footer">
-    <div class="prev-chapter">
-      <a id="prevChapter" href="chapter{{previousChapter}}.html">
-        Chapter {{previousChapter}}
-      </a>
+    <div class="pagination">
+      <a class="prev-chapter" id="prevChapter" href="chapter{{prev}}.html"></a>
+      <a class="next-chapter" id="nextChapter" href="chapter{{next}}.html"></a>
     </div>
-    <div class="next-chapter">
-      <a id="nextChapter" href="chapter{{nextChapter}}.html">
-        Chapter {{nextChapter}}
-      </a>
+    <div class="credit">
+      <p id="detail">
+        N{{novelID}} was created <br />
+        on {{date}} <br />
+        by {{command}} command version {{version}}
+      </p>
     </div>
   </footer>
-
-  <p style="display: none;">
-    N{{id}} was created on {{date}} by {{command}} command
-  </p>
 </body>
 
 </html>

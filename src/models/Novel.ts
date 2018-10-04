@@ -13,13 +13,15 @@ import { GetNovelNameApi, CreateChapterListApi, GetNovelDateApi, NormalizeNovelN
 import { WrapTMCT } from "./LoggerWrapper";
 import { COLORS } from "../constants/color.const";
 import { CheckIsExist } from "../helpers/helper";
-import { DownloadApi } from "../apis/download";
 import { DEFAULT_NOVEL_FOLDER_NAME } from "../constants/novel.const";
 import { existsSync } from "fs";
 import { mkdirpSync } from "fs-extra";
 import { Exception } from "./Exception";
 import { NovelChapter } from "./Chapter";
 import { NovelBuilder } from "../builder/novel";
+import { FetchApi } from "../apis/download";
+import { HtmlBuilder } from "../builder/html";
+import { WriteFile } from "../apis/file";
 
 export class Novel {
   // TODO: add required information attribute
@@ -67,7 +69,7 @@ export class Novel {
     const link = GetLink(this._id);
     log(WrapTMCT("info", "Novel name", this._name, { message: COLORS.Name }));
     log(WrapTMCT("info", "Novel link", link));
-    log(WrapTMCT("info", "Novel location", this._location));
+    if (this._location) log(WrapTMCT("info", "Novel location", this._location));
     log(
       WrapTMCT("info", "Chapters", this._chapters && this._chapters.map(c => c._chapterNumber), {
         message: COLORS.ChapterList
@@ -90,25 +92,31 @@ export class Novel {
         .printAndExit();
       return;
     }
+
     mkdirpSync(this._location || "");
+
     NovelBuilder.createZeroChapter(this)
-      .download()
+      .download(force)
       .then(() => {
         if (this._chapters) {
           this._chapters.forEach(v => {
-            DownloadApi(v, force)
-              .then(c => {
-                log(WrapTMCT("info", `Chapter ${c._chapterNumber}`, c.toString()));
-                log(WrapTMCT("debug", `Chapter ${c._chapterNumber}`, c.file()));
+            FetchApi(v)
+              .then(res => {
+                const html = HtmlBuilder.template(res.chapter._nid)
+                  .addChap(res.chapter)
+                  .addName(this._name)
+                  .addContent(HtmlBuilder.buildContent(res.cheerio))
+                  .renderDefault();
+                WriteFile(html, res.chapter, force);
               })
-              .catch(e => {
-                if (CheckIsExist(e)) {
-                  const exception: Exception = e;
-                  exception.printAndExit();
-                }
+              .catch((e: Exception) => {
+                e.printAndExit();
               });
           });
         }
+      })
+      .catch((e: Exception) => {
+        e.printAndExit();
       });
   }
 }

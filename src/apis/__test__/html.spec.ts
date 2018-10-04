@@ -1,28 +1,37 @@
 import "jest-extended";
-import { GetHtmlTemplateApi, CreateHtmlApi } from "../html";
-import { DEFAULT_HTML_TEMPLATE } from "../../constants/html.const";
-import { NovelBuilder } from "../../builder/novel";
 
-test("Should create html template via API", function() {
-  const template = GetHtmlTemplateApi(DEFAULT_HTML_TEMPLATE);
-  const html = template.build();
+import { load } from "cheerio";
 
-  expect(html).toInclude('<html lang="en">');
-  expect(html).toInclude("<body>");
-  expect(html).toInclude("<head>");
-  expect(html).toInclude("<title>");
+import { Query } from "../html";
+
+const mockHtml = `<div>
+<div class="world">
+  <span>Good bye</span>
+</div>
+<div class="next">
+  <p class="hello">
+    Hello world
+  </p>
+</div>
+</div>`;
+
+test("Should try the query", function() {
+  const $ = load(mockHtml);
+
+  const hello = Query($, c => c.hasClass("hello"), "div", "p");
+  if (hello) expect(hello.text()).toInclude("Hello world");
 });
 
-test("Should build html via API", function() {
-  const html = CreateHtmlApi(NovelBuilder.createChapter("123", "5"), [
-    {
-      tag: "p",
-      text: "hello world, this is content"
-    }
-  ]);
+test("Should try another query", function() {
+  const $ = load(mockHtml);
 
-  expect(html).toInclude("123");
-  expect(html).toInclude("5");
-  expect(html).toInclude("hello");
-  expect(html).toInclude("content");
+  const result = Query($, c => c.text() != null, "span");
+  if (result) expect(result.text()).toInclude("Good bye");
+});
+
+test("Should return undefined if not exist", function() {
+  const $ = load(mockHtml);
+
+  const result = Query($, c => c.hasClass("nothing"), ".noway", "span", "div");
+  expect(result).toBeUndefined();
 });

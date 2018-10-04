@@ -28,17 +28,13 @@ export const WrapTitleMessageColor = (
   level: level,
   title: any,
   message: any,
-  theme?: { title: ColorType; message: ColorType }
+  theme?: { title?: ColorType; message?: ColorType }
 ) => {
   title = title.charAt(0).toUpperCase() + title.slice(1);
-  if (!theme) {
-    theme = {
-      title: COLORS.Title,
-      message: COLORS.String
-    };
-  }
+  const titleTheme = theme && theme.title ? theme.title : COLORS.Title;
+  const messageTheme = theme && theme.message ? theme.message : COLORS.String;
 
-  return WrapTitleMessage(level, theme.title.formatColor(title), theme.message.formatColor(message), true);
+  return WrapTitleMessage(level, titleTheme.formatColor(title), messageTheme.formatColor(message), true);
 };
 export const WrapTMC = WrapTitleMessageColor;
 

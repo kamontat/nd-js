@@ -14,8 +14,8 @@ import { GetChapterFile, GetLinkWithChapter } from "../helpers/novel";
 import { NOVEL_ERR } from "../constants/error.const";
 import { FetchApi } from "../apis/download";
 import { Novel } from "./Novel";
-import { BuildTOC, CreateHtmlApi } from "../apis/html";
-import { BuildNovelHtml } from "../apis/novel";
+import { HtmlBuilder } from "../builder/html";
+import { WriteFile } from "../apis/file";
 
 export class NovelChapter {
   _nid: string;
@@ -51,6 +51,10 @@ export class NovelChapter {
 
   setDate(date: Moment) {
     this._date = date;
+  }
+
+  getDate() {
+    return (this._date && this._date.format("d MMM YYYY")) || "";
   }
 
   setLocation(location: string | undefined) {
@@ -89,18 +93,14 @@ export class NovelZeroChapter extends NovelChapter {
     this._novel = novel;
   }
 
-  download() {
+  download(force?: boolean) {
     return FetchApi(this).then(res => {
-      // const html = BuildNovelHtml(res.chapter, res.cheerio, { novel: this._novel, toc: true });
+      const html = HtmlBuilder.template(this._nid)
+        .addNovel(this._novel)
+        .addContent(HtmlBuilder.buildContent(res.cheerio))
+        .renderDefault();
 
-      // CreateHtmlApi(res.chapter)
-
-      // const html = BuildNovelHtml(res.chapter, res.cheerio);
-
-      console.log(res.chapter);
-      return new Promise((res, _) => {
-        res();
-      });
+      return WriteFile(html, res.chapter, force);
     });
   }
 }

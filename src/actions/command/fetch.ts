@@ -11,6 +11,7 @@ import { Exception } from "../../models/Exception";
 import { GetNID } from "../../helpers/novel";
 import { FetchApi } from "../../apis/download";
 import { NovelBuilder } from "../../builder/novel";
+import { LOGGER_LEVEL } from "../../constants/default.const";
 
 /**
  * This is initial command.
@@ -39,7 +40,7 @@ export default (a: any) => {
         return NovelBuilder.build(id, res.cheerio);
       })
       .then(novel => {
-        novel.print();
+        novel.print({ withChapter: LOGGER_LEVEL === "verbose" });
       })
       .catch((err: Exception) => {
         err.printAndExit();
