@@ -14,3 +14,5 @@ export const DEFAULT_CHAPTER_FILE_TEMPLATE = "chapter%s.html";
 export const DEFAULT_NOVEL_FOLDER_NAME = (name: string) => {
   return `${name}`;
 };
+
+export const DEFAULT_RESOURCE_NAME = "nd.resource.json";

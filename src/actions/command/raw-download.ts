@@ -12,7 +12,7 @@ import { FetchApi } from "../../apis/download";
 import Config from "../../models/Config";
 import { WrapTM, WrapTMC, WrapTMCT } from "../../models/LoggerWrapper";
 import { HtmlBuilder } from "../../builder/html";
-import { WriteFile } from "../../apis/file";
+import { WriteChapter } from "../../apis/file";
 import { GetNovelNameApi } from "../../apis/novel";
 
 export default (a: any[]) => {
@@ -40,7 +40,7 @@ export default (a: any[]) => {
               .addName(GetNovelNameApi(res.cheerio))
               .addChap(res.chapter)
               .addContent(HtmlBuilder.buildContent(res.cheerio));
-            return WriteFile(html.renderDefault(), res.chapter, options.force);
+            return WriteChapter(html.renderDefault(), res.chapter, options.force);
           })
           .then(result => {
             log(WrapTMCT("info", "Result file", result.file()));

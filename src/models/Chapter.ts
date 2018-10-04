@@ -15,10 +15,11 @@ import { NOVEL_ERR } from "../constants/error.const";
 import { FetchApi } from "../apis/download";
 import { Novel } from "./Novel";
 import { HtmlBuilder } from "../builder/html";
-import { WriteFile } from "../apis/file";
+import { WriteChapter } from "../apis/file";
 import { render } from "mustache";
 
 export class NovelChapter {
+  // TODO: status of downloaded
   _nid: string;
   _name?: string;
   _chapterNumber: string = "0";
@@ -105,7 +106,7 @@ export class NovelZeroChapter extends NovelChapter {
         .addContent(HtmlBuilder.buildContent(res.cheerio))
         .renderDefault();
 
-      return WriteFile(html, res.chapter, force);
+      return WriteChapter(html, res.chapter, force);
     });
   }
 }

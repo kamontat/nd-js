@@ -20,7 +20,7 @@ import { NovelChapter } from "./Chapter";
 import { NovelBuilder } from "../builder/novel";
 import { FetchApi } from "../apis/download";
 import { HtmlBuilder } from "../builder/html";
-import { WriteFile } from "../apis/file";
+import { WriteChapter } from "../apis/file";
 
 export class Novel {
   // TODO: add required information attribute
@@ -107,7 +107,7 @@ export class Novel {
                   .addName(this._name)
                   .addContent(HtmlBuilder.buildContent(res.cheerio))
                   .renderDefault();
-                WriteFile(html, res.chapter, force);
+                WriteChapter(html, res.chapter, force);
               })
               .catch((e: Exception) => {
                 e.printAndExit();

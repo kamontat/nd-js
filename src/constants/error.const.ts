@@ -23,3 +23,5 @@ export const NOVEL_NOTFOUND_ERR: Throwable = new NFError("Required novel not fou
 export const NOVEL_ERR: Throwable = new FError("Cannot create the novel", 3);
 
 export const DOWNLOAD_ERR: Throwable = new EError("Cannot download file", 4);
+
+export const FILE_ERR: Throwable = new EError("Cannot save file", 5);
