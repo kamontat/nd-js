@@ -55,7 +55,6 @@ export const FetchApi: (chapter: NovelChapter) => Promise<{ cheerio: CheerioStat
         chapter.setDate(GetChapterDateApi($));
         return res({ cheerio: $, chapter: chapter });
       } else {
-        // TODO: update chapter date
         return rej(
           NOVEL_WARN.clone().loadString(`Novel(${chapter._nid}) on chapter ${chapter._chapterNumber} is not exist`)
         );
