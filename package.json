@@ -1,6 +1,6 @@
 {
   "name": "nd",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-beta.0",
   "description": "Novel dek-d Downloader",
   "main": "nd.js",
   "author": "Kamontat Chantrachirathumrong <kamontat_c@hotmail.com>",
@@ -109,10 +109,27 @@
     "setupTestFrameworkScriptFile": "./test/jest.setup.js",
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "testMatch": ["**/src/**/__tests__/**/*.ts?(x)", "**/src/**/?(*.)+(spec|test).ts?(x)"],
-    "collectCoverageFrom": ["src/**/*.ts", "!src/actions/command/**/*.ts", "!src/nd.ts", "!**/node_modules/**"],
-    "coverageReporters": ["json", "lcov", "text-summary"],
-    "moduleFileExtensions": ["js", "ts", "html", "mustache"],
+    "testMatch": [
+      "**/src/**/__tests__/**/*.ts?(x)",
+      "**/src/**/?(*.)+(spec|test).ts?(x)"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/actions/command/**/*.ts",
+      "!src/nd.ts",
+      "!**/node_modules/**"
+    ],
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text-summary"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "html",
+      "mustache"
+    ],
     "transform": {
       "^.+\\.js$": "babel-jest",
       "^.+\\.mustache$": "<rootDir>/test/htmlLoader.js",
