@@ -101,7 +101,10 @@
   
   <footer class="footer">
     <div class="follow-group-btn">
-      <a class="prev-chapter" id="prevChapter" href="chapter{{prev}}.html">Previous</a>
+      <div class="prev-group">
+        <a class="home-chapter" id="homeChapter" href="chapter0.html">Home</a>
+        <a class="prev-chapter" id="prevChapter" href="chapter{{prev}}.html">Previous</a>
+      </div>
       <div class="pagination">
         {{#toc}}
           <a href="chapter{{_chapterNumber}}.html">
@@ -116,12 +119,11 @@
 
     <div class="credit">
       <p id="detail">
-        N{{novelID}} was created <br />
+        <a href="{{link}}">{{novelID}}</a> was created <br />
         on {{date}} <br />
         by {{command}} command version {{version}}
       </p>
     </div>
   </footer>
 </body>
-
 </html>

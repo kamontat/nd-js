@@ -11,6 +11,11 @@ h6 {
   margin: 0px;
 }
 
+.prev-group {
+  display: flex;
+  flex-direction: column;
+}
+
 .pagination {
   display: flex;
   flex-direction: row;

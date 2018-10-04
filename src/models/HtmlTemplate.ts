@@ -10,6 +10,8 @@ import { CssTemplate } from "./HtmlCss";
 import { PROJECT_NAME, VERSION } from "../constants/nd.const";
 import { HTML_FILE, DEFAULT_CSS_TEMPLATE } from "../constants/html.const";
 import { NovelChapter } from "./Chapter";
+import { PassLink, GetLinkWithChapter } from "../helpers/novel";
+import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 
 export class HtmlTemplate {
   novelID: string;
@@ -27,6 +29,7 @@ export class HtmlTemplate {
 
   toc?: NovelChapter[];
 
+  link?: string; // update when call build
   command?: string; // update when call build
   version?: string; // update when call build
   date?: string; // update when call build
@@ -63,6 +66,9 @@ export class HtmlTemplate {
     this.command = PROJECT_NAME;
     this.version = VERSION;
     this.css = css.getStyle();
+
+    const link = GetLinkWithChapter(this.novelID, this.chapterNumber);
+    this.link = link && link.toString();
     return render(html, this);
   }
 
