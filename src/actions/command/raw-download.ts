@@ -16,6 +16,7 @@ import { WriteChapter } from "../../apis/file";
 import { GetNovelNameApi } from "../../apis/novel";
 import { NovelStatus } from "../../models/Chapter";
 import { NOVEL_SOLD_WARN } from "../../constants/error.const";
+import { ExceptionStorage } from "../../models/ExceptionStorage";
 
 export default (a: any[]) => {
   const { options, args } = SeperateArgumentApi(a);
@@ -42,7 +43,9 @@ export default (a: any[]) => {
       );
 
       await novel.save({ force: options.force, resource: false });
+
       novel.print();
+      ExceptionStorage.CONST.print();
     });
   } catch (e) {
     e.printAndExit();
