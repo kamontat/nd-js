@@ -8,6 +8,7 @@ import { Novel } from "../models/Novel";
 import { NovelChapter, NovelZeroChapter } from "../models/Chapter";
 import { GetNID } from "../helpers/novel";
 import { Moment } from "moment";
+import { Resource } from "../models/Resource";
 
 type NovelChapterBuilderOption = { name?: string; location?: string; date?: Moment };
 
@@ -21,6 +22,11 @@ export class NovelBuilder {
   static build(id: string, $: CheerioStatic, option?: { location?: string }) {
     const novel = new Novel(id, option && option.location);
     return novel.load($);
+  }
+
+  static buildLocal(location: string) {
+    const resource = Resource.Load(location);
+    return resource.novel;
   }
 
   static createChapter(id: string, chapter?: string, option?: NovelChapterBuilderOption) {

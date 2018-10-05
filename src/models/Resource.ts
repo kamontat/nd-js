@@ -8,7 +8,6 @@ import { Timestamp } from "../helpers/helper";
 
 export class Resource {
   // TODO: Add change history
-
   novel: Novel;
 
   constructor(novel: Novel) {
@@ -40,13 +39,6 @@ export class Resource {
   }
 
   /**
-   * Load the resource file to this model
-   */
-  load() {
-    // this.novel =
-  }
-
-  /**
    * Save the result to resource file
    */
   save(force?: boolean) {
@@ -54,5 +46,17 @@ export class Resource {
     const path = join(location, DEFAULT_RESOURCE_NAME);
     mkdirpSync(dirname(path));
     return WriteFile(JSON.stringify(this.buildJSON(), undefined, "  "), path, force);
+  }
+
+  static Load(location: string): Resource {
+    // FIXME: json file not load
+    const path = join(location, DEFAULT_RESOURCE_NAME);
+    const json = require(path);
+
+    console.log(json);
+
+    // mock
+    const novel = new Novel("12");
+    return new Resource(novel);
   }
 }

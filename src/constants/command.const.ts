@@ -10,6 +10,7 @@ import Download from "../actions/command/download";
 import Config, { ConfigSet } from "../actions/command/config";
 import RawDownload from "../actions/command/raw-download";
 import Fetch from "../actions/command/fetch";
+import Update from "../actions/command/update";
 import { LOCATION_OPT } from "./option.const";
 
 export const CHANGELOG_CMD: CCommand = {
@@ -95,4 +96,11 @@ export const FETCH_CMD: CCommand = {
   alias: "E",
   desc: "Fetching novel from website and show the result",
   fn: Fetch
+};
+
+export const UPDATE_CMD: CCommand = {
+  name: "update",
+  alias: "U",
+  desc: "Update individual novel in location",
+  fn: Update
 };

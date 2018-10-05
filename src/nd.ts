@@ -31,7 +31,8 @@ import {
   SET_CONFIG_CMD,
   RAW_DOWNLOAD_CMD,
   FETCH_CMD,
-  DOWNLOAD_CMD
+  DOWNLOAD_CMD,
+  UPDATE_CMD
 } from "./constants/command.const";
 import Config from "./models/Config";
 
@@ -54,6 +55,7 @@ MakeCommand(program, SET_CONFIG_CMD);
 MakeCommand(program, DOWNLOAD_CMD);
 MakeCommand(program, RAW_DOWNLOAD_CMD);
 MakeCommand(program, FETCH_CMD);
+MakeCommand(program, UPDATE_CMD);
 
 program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
   winston.configure(setting());
