@@ -25,7 +25,7 @@ export class Resource {
       novel: {
         id: this.novel._id,
         name: this.novel._name,
-        lateUpdate: this.novel._updateAt,
+        lastUpdate: this.novel._updateAt,
         chapters:
           (this.novel._chapters &&
             this.novel._chapters.map(chap => ({
