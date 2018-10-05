@@ -10,9 +10,11 @@ import { Response } from "request";
 import { decode } from "iconv-lite";
 
 import { NovelChapter } from "../models/Chapter";
-import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
+import { WrapTMC } from "../models/LoggerWrapper";
 import { NOVEL_WARN } from "../constants/error.const";
-import { CheckIsNovel, GetChapterNameApi, GetChapterDateListApi, GetChapterDateApi } from "./novel";
+import { CheckIsNovel, GetChapterNameApi, GetChapterDateApi, GetNovelNameApi } from "./novel";
+import { HtmlBuilder } from "../builder/html";
+import { WriteChapter } from "./file";
 
 function download(url: URL) {
   return request({
@@ -61,6 +63,28 @@ export const FetchApi: (chapter: NovelChapter) => Promise<{ cheerio: CheerioStat
       }
     });
   });
+};
+
+export const DownloadChapter: (chapter: NovelChapter, force?: boolean) => Promise<NovelChapter> = (
+  chapter: NovelChapter,
+  force?: boolean
+) => {
+  return FetchApi(chapter).then(res => {
+    const html = HtmlBuilder.template(res.chapter._nid)
+      .addName(GetNovelNameApi(res.cheerio))
+      .addChap(res.chapter)
+      .addContent(HtmlBuilder.buildContent(res.cheerio))
+      .renderDefault();
+
+    return WriteChapter(html, res.chapter, force);
+  });
+};
+
+export const DownloadChapters: (force: boolean | undefined, chapters: NovelChapter[]) => Promise<NovelChapter[]> = (
+  force: boolean | undefined,
+  chapters: NovelChapter[]
+) => {
+  return Promise.all(chapters.map(c => DownloadChapter(c, force)));
 };
 
 // TODO: Add multiple thread downloader https://github.com/tusharmath/Multi-threaded-downloader

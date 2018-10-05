@@ -8,7 +8,7 @@ import { log } from "winston";
 import { GetNID } from "../../helpers/novel";
 import { Exception } from "../../models/Exception";
 import { NovelBuilder } from "../../builder/novel";
-import { FetchApi } from "../../apis/download";
+import { FetchApi, DownloadChapters, DownloadChapter } from "../../apis/download";
 import Config from "../../models/Config";
 import { WrapTM, WrapTMC, WrapTMCT } from "../../models/LoggerWrapper";
 import { HtmlBuilder } from "../../builder/html";
@@ -27,36 +27,23 @@ export default (a: any[]) => {
 
   try {
     let id = GetNID(args[0]);
-    let chapter: string[] = options.chapter;
+    let chapterString: string[] = options.chapter;
     log(WrapTMC("debug", "novel ID", id));
-    log(WrapTMC("debug", "Chapter list", chapter));
+    log(WrapTMC("debug", "Chapter list", chapterString));
 
     let config = Config.Load();
 
-    chapter
-      .map(chap => NovelBuilder.createChapter(id, chap, { location: config.getNovelLocation() }))
-      .forEach(element =>
-        FetchApi(element)
-          .then(async res => {
-            try {
-              const html = HtmlBuilder.template(res.chapter._nid)
-                .addName(GetNovelNameApi(res.cheerio))
-                .addChap(res.chapter)
-                .addContent(HtmlBuilder.buildContent(res.cheerio))
-                .renderDefault();
-
-              await WriteChapter(html, res.chapter, options.force);
-
-              log(WrapTMCT("info", "Result file", res.chapter.file()));
-              log(WrapTMCT("verbose", `Chapter ${res.chapter._chapterNumber}`, res.chapter.toString()));
-            } catch (e) {
-              e.printAndExit();
-            }
-          })
-          .catch(e => {
-            e.printAndExit();
-          })
+    NovelBuilder.create(id, { location: config.getNovelLocation() }).then(async novel => {
+      // do not create novel folder
+      novel._location = config.getNovelLocation();
+      // update chapter to novel
+      novel._chapters = chapterString.map(chapter =>
+        NovelBuilder.createChapter(id, chapter, { location: config.getNovelLocation() })
       );
+
+      await novel.save({ force: options.force, resource: false });
+      novel.print();
+    });
   } catch (e) {
     e.printAndExit();
   }

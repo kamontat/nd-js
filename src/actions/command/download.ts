@@ -9,9 +9,9 @@ export default (a: any) => {
   const ids = args.map(arg => GetNID(arg));
   ids.forEach(id => {
     NovelBuilder.create(id)
-      .then(novel => {
+      .then(async novel => {
+        await novel.save({ force: options.force });
         novel.print();
-        novel.save(options.force);
       })
       .catch(err => {
         const e: Exception = err;
