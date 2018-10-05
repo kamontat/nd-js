@@ -27,7 +27,13 @@
   <meta name="HandheldFriendly" content="true" />
 
   {{#novelName}}
-  <title>{{chapterName}} ({{chapterNumber}}) | {{novelName}}</title>
+    {{#chapterName}}
+      <title>{{chapterName}} ({{chapterNumber}}) | {{novelName}}</title>
+    {{/chapterName}}
+    {{^chapterName}}
+      <title>{{novelName}}</title>
+    {{/chapterName}}
+  
   {{/novelName}}
   {{^novelName}}
   <title>{{chapterName}} ({{chapterNumber}})</title>
