@@ -24,6 +24,7 @@ import { WriteChapter } from "../apis/file";
 import { Resource } from "./Resource";
 import { os } from "pjson";
 import { exit } from "shelljs";
+import { MakeReadableNumberArray } from "../helpers/helper";
 
 export class Novel {
   // TODO: add required information attribute
@@ -77,8 +78,10 @@ export class Novel {
     log(WrapTMCT("info", "Novel link", link));
     if (this._location) log(WrapTMCT("info", "Novel location", this._location));
     if (this._location) log(WrapTMCT("info", "First chapter", NovelBuilder.createZeroChapter(this).file()));
+    const chapters: string[] | undefined =
+      this._chapters && this._chapters.filter(c => c.status === NovelStatus.COMPLETED).map(c => c._chapterNumber);
     log(
-      WrapTMCT("info", "Chapters", this._chapters && this._chapters.map(c => c._chapterNumber), {
+      WrapTMCT("info", "Chapters", chapters, {
         message: COLORS.ChapterList
       })
     );
