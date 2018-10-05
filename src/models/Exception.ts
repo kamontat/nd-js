@@ -5,6 +5,7 @@
 
 import { log } from "winston";
 import { WrapTMC } from "./LoggerWrapper";
+import { ExceptionStorage } from "./ExceptionStorage";
 
 export default interface Throwable extends Error {
   exit(): void;
@@ -13,12 +14,16 @@ export default interface Throwable extends Error {
   loadString(e: string): Exception;
 
   clone(): Exception;
+
+  equal(e: any | undefined): boolean;
 }
 
 export class Exception extends Error implements Throwable {
   code: number = 1;
   description: string = "";
   warn: boolean = false;
+
+  called: boolean = false;
 
   constructor(title: string, code?: number, shift?: number) {
     super(title);
@@ -32,9 +37,13 @@ export class Exception extends Error implements Throwable {
     if (shift) {
       this.code += shift;
     }
+
+    ExceptionStorage.CONST.add(this);
   }
 
   printAndExit = () => {
+    this.called = true;
+
     if (this.warn) {
       log(WrapTMC("warn", "Warning", this.message));
     } else {
@@ -61,6 +70,11 @@ export class Exception extends Error implements Throwable {
 
   clone = (): Exception => {
     return this;
+  };
+
+  equal = (e: any | undefined): boolean => {
+    if (!e) return false;
+    return e.code === this.code;
   };
 }
 
