@@ -127,10 +127,10 @@ export class Novel {
             log(WrapTMCT("verbose", "Completed", `${chap.toString()}`));
             chap.setStatus(NovelStatus.COMPLETED);
           } catch (e) {
-            if (e === NOVEL_SOLD_WARN) {
+            if (NOVEL_SOLD_WARN.equal(e)) {
               e.loadString(`chapter ${chap._chapterNumber}`);
               chap.setStatus(NovelStatus.SOLD);
-            } else if (e === NOVEL_CLOSED_WARN) {
+            } else if (NOVEL_CLOSED_WARN.equal(e)) {
               e.loadString(`chapter ${chap._chapterNumber}`);
               chap.setStatus(NovelStatus.SOLD);
             }

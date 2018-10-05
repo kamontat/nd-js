@@ -197,9 +197,9 @@ export const GetNovelContent = ($: CheerioStatic) => {
 
   if (result.some(node => node.text.includes("ตอนนี้เป็นส่วนหนึ่งในแพ็กเกจนิยาย"))) {
     log(WrapTMCT("debug", `Chapter status`, "sold chapter !! "));
-    throw NOVEL_SOLD_WARN;
+    throw NOVEL_SOLD_WARN.clone();
   } else if (result.some(node => node.text.includes("ผู้แต่งปิดการเข้าถึง"))) {
-    throw NOVEL_CLOSED_WARN;
+    throw NOVEL_CLOSED_WARN.clone();
   }
 
   if (result.length < 1)
