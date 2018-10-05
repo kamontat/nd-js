@@ -11,7 +11,7 @@ export default (a: any) => {
     NovelBuilder.create(id)
       .then(async novel => {
         await novel.save({ force: options.force });
-        novel.print();
+        novel.print({ withChapter: options.withChapter });
       })
       .catch(err => {
         const e: Exception = err;

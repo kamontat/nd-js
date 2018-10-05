@@ -80,6 +80,11 @@ export const DOWNLOAD_CMD: CCommand = {
       name: "-F, --force",
       desc: "Force download even folder is exist",
       default: false
+    },
+    {
+      name: "-W, --with-chapter",
+      desc: "List the result with chapter",
+      default: false
     }
   ],
   fn: Download
