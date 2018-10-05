@@ -6,11 +6,11 @@
 import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 
 import { log } from "winston";
-import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
+import { WrapTM, WrapTMC, WrapTMCT } from "../models/LoggerWrapper";
 
 import { NovelBuilder } from "../builder/novel";
 import { NovelChapter } from "../models/Chapter";
-import { PassLink, GetChapter } from "../helpers/novel";
+import { PassLink, GetChapterNumber } from "../helpers/novel";
 
 import { Query } from "./html";
 
@@ -20,7 +20,7 @@ import "moment/locale/th";
 import { locale } from "moment";
 import moment = require("moment");
 import { TrimString, CheckIsExist, FormatMomentDateTime } from "../helpers/helper";
-import { NOVEL_WARN } from "../constants/error.const";
+import { NOVEL_WARN, NOVEL_SOLD_WARN, NOVEL_CLOSED_WARN } from "../constants/error.const";
 import { HtmlNode } from "../models/HtmlNode";
 
 export const GetNovelNameApi = ($: CheerioStatic) => {
@@ -58,7 +58,7 @@ export const GetNovelDateApi = ($: CheerioStatic): moment.Moment => {
 };
 
 export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
-  const chapterLink: { [key: string]: { link: string; title: string; date: moment.Moment } } = {};
+  const chapters: { [key: string]: NovelChapter } = {};
 
   let query = Query($, c => c.length > 0, "a.chapter-item-name[target=_blank]", "a[target=_blank]");
   if (!query) throw NOVEL_WARN.clone().loadString("cannot get chapter list");
@@ -74,26 +74,22 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
       locale("th");
       // 28 ก.ย. 61
       const date = FormatMomentDateTime($(dateQuery.get(i)).text(), "D MMM YY");
-      const chapter = GetChapter(link);
+      const chapterNumber = GetChapterNumber(link);
+
+      const builtChapter = NovelBuilder.createChapterByLink(PassLink(link), { name: title, date: date });
+      const savedChapter = chapters[chapterNumber];
 
       // to avoid deplicate chapter chapter
-      if (chapterLink[chapter] === undefined) {
+      if (savedChapter === undefined) {
         log(WrapTM("debug", "chapter link", `${link}`));
         log(WrapTM("debug", "chapter title", title));
         log(WrapTM("debug", "date", date));
       }
 
-      chapterLink[chapter] = {
-        link: link,
-        title: title,
-        date: date
-      };
+      chapters[chapterNumber] = builtChapter;
     }
   });
-
-  return Object.values(chapterLink).map(({ link, title, date }) =>
-    NovelBuilder.createChapterByLink(PassLink(`${link}`), { name: title, date: date })
-  );
+  return Object.values(chapters);
 };
 
 export const GetChapterNameApi = ($: CheerioStatic) => {
@@ -159,7 +155,7 @@ export const getNovelContentV2 = ($: CheerioStatic) => {
       if (text !== "" && text !== "\n") {
         // filter text that contain in BlackList
         if (HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
-          log(WrapTMC("debug", "Html paragraph node", text));
+          log(WrapTMC("debug", "Html paragraph node", text.substr(0, 20))); // limit 20 first chap
 
           // FIXME: sometime cause all text go to 1 node (1851491 chap=5)
           result.push(
@@ -182,6 +178,13 @@ export const GetNovelContent = ($: CheerioStatic) => {
     result = getNovelContentV1($);
   }
 
+  if (result.some(node => node.text.includes("ตอนนี้เป็นส่วนหนึ่งในแพ็กเกจนิยาย"))) {
+    log(WrapTMCT("debug", `Chapter status`, "sold chapter !! "));
+    throw NOVEL_SOLD_WARN;
+  } else if (result.some(node => node.text.includes("ผู้แต่งปิดการเข้าถึง"))) {
+    throw NOVEL_CLOSED_WARN;
+  }
+
   if (result.length < 1)
     NOVEL_WARN.clone()
       .loadString("Cannot get novel content")
@@ -195,17 +198,5 @@ export const CheckIsNovel = ($: CheerioStatic) => {
 };
 
 export const NormalizeNovelName = (name: string) => {
-  return name
-    .replace(" ", "-")
-    .replace("\t", "-")
-    .replace("\n", "-")
-    .replace("\r\n", "-")
-    .replace("[", "")
-    .replace("]", "")
-    .replace("*", "-")
-    .replace("$", "_")
-    .replace("&", "_")
-    .replace("%", "_")
-    .replace("#", "_")
-    .replace("@", "_");
+  return name.replace(/([ \n\t\r\n])/g, "-").replace(/([\(\)\[\]\&\%\$\#\@\^\*])/g, "_");
 };

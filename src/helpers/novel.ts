@@ -18,12 +18,12 @@ export const GetNID = (str: string) => {
   throw PARAM_WRONG_ERR.clone().loadString("input is not either link or id");
 };
 
-export const GetChapter = (str: string) => {
+export const GetChapterNumber = (link: string) => {
   try {
-    let link = PassLink(str);
-    return link.searchParams.get("chapter") || "0";
+    let url = PassLink(link);
+    return url.searchParams.get("chapter") || "0";
   } catch (e) {
-    if (IsID(str)) return str;
+    if (IsID(link)) return link;
   }
   throw PARAM_WRONG_ERR.clone().loadString("input is not either link or id");
 };

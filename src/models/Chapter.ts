@@ -18,6 +18,13 @@ import { HtmlBuilder } from "../builder/html";
 import { WriteChapter } from "../apis/file";
 import { render } from "mustache";
 
+export enum NovelStatus {
+  UNKNOWN = "unknown",
+  COMPLETED = "completed",
+  CLOSED = "closed",
+  SOLD = "sold"
+}
+
 export class NovelChapter {
   // TODO: status of downloaded
   _nid: string;
@@ -26,6 +33,8 @@ export class NovelChapter {
   _location: string;
 
   _date?: Moment;
+
+  status: NovelStatus = NovelStatus.UNKNOWN;
 
   constructor(id: string, chapter?: string, name?: string, location?: string, date?: Moment) {
     this._nid = id;
@@ -45,6 +54,10 @@ export class NovelChapter {
         log(WrapTMC("warn", "Novel creator", `Chapter is not number (${chapter})`));
       }
     }
+  }
+
+  setStatus(status: NovelStatus) {
+    this.status = status;
   }
 
   setName(name: string) {

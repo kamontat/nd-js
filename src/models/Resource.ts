@@ -4,6 +4,7 @@ import { join, dirname } from "path";
 import { DEFAULT_RESOURCE_NAME } from "../constants/novel.const";
 import { mkdirpSync } from "fs-extra";
 import { PROJECT_NAME, VERSION } from "../constants/nd.const";
+import { Timestamp } from "../helpers/helper";
 
 export class Resource {
   // TODO: Add change history
@@ -19,7 +20,7 @@ export class Resource {
       command: {
         name: PROJECT_NAME,
         version: VERSION,
-        date: this.novel._downloadAt.format("X")
+        date: Timestamp(this.novel._downloadAt)
       },
       novel: {
         id: this.novel._id,
@@ -27,7 +28,12 @@ export class Resource {
         lateUpdate: this.novel._updateAt,
         chapters:
           (this.novel._chapters &&
-            this.novel._chapters.map(chap => ({ name: chap._name, number: chap._chapterNumber, date: chap._date }))) ||
+            this.novel._chapters.map(chap => ({
+              name: chap._name,
+              number: chap._chapterNumber,
+              date: Timestamp(chap._date),
+              status: chap.status
+            }))) ||
           []
       }
     };
@@ -47,6 +53,6 @@ export class Resource {
     const location = this.novel._location || "";
     const path = join(location, DEFAULT_RESOURCE_NAME);
     mkdirpSync(dirname(path));
-    WriteFile(JSON.stringify(this.buildJSON(), undefined, "  "), path, force);
+    return WriteFile(JSON.stringify(this.buildJSON(), undefined, "  "), path, force);
   }
 }

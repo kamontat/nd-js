@@ -7,20 +7,23 @@ import moment, { Moment } from "moment";
 
 import { log } from "winston";
 import { GetLink } from "../helpers/novel";
-import { NOVEL_WARN } from "../constants/error.const";
+import { NOVEL_WARN, NOVEL_SOLD_WARN } from "../constants/error.const";
 import { join } from "path";
 import { GetNovelNameApi, CreateChapterListApi, GetNovelDateApi, NormalizeNovelName } from "../apis/novel";
 import { WrapTMCT } from "./LoggerWrapper";
 import { COLORS } from "../constants/color.const";
 import { DEFAULT_NOVEL_FOLDER_NAME } from "../constants/novel.const";
 import { existsSync } from "fs";
-import { mkdirpSync } from "fs-extra";
+import { mkdirpSync, mkdirp } from "fs-extra";
 import { Exception } from "./Exception";
-import { NovelChapter } from "./Chapter";
+import { NovelChapter, NovelStatus } from "./Chapter";
 import { NovelBuilder } from "../builder/novel";
 import { FetchApi } from "../apis/download";
 import { HtmlBuilder } from "../builder/html";
 import { WriteChapter } from "../apis/file";
+import { Resource } from "./Resource";
+import { os } from "pjson";
+import { exit } from "shelljs";
 
 export class Novel {
   // TODO: add required information attribute
@@ -33,11 +36,15 @@ export class Novel {
   _downloadAt: Moment; // manually collect
   _updateAt?: Moment; // this from website
 
+  resource: Resource; // auto initial
+
   constructor(id: string, location?: string) {
     this._id = id;
     if (location) this._location = location;
 
     this._downloadAt = moment();
+
+    this.resource = new Resource(this);
   }
 
   update($: CheerioStatic) {
@@ -85,7 +92,7 @@ export class Novel {
     log(WrapTMCT("verbose", "Update at", this._updateAt));
   }
 
-  save(force?: boolean) {
+  async save(force?: boolean) {
     if (this._location && existsSync(this._location) && !force) {
       NOVEL_WARN.clone()
         .loadString(`Novel ID ${this._id} is exist`)
@@ -93,30 +100,41 @@ export class Novel {
       return;
     }
 
-    mkdirpSync(this._location || "");
+    await mkdirp(this._location || "");
 
-    NovelBuilder.createZeroChapter(this)
-      .download(force)
-      .then(() => {
-        if (this._chapters) {
-          this._chapters.forEach(v => {
-            FetchApi(v)
-              .then(res => {
-                const html = HtmlBuilder.template(res.chapter._nid)
-                  .addChap(res.chapter)
-                  .addName(this._name)
-                  .addContent(HtmlBuilder.buildContent(res.cheerio))
-                  .renderDefault();
-                WriteChapter(html, res.chapter, force);
-              })
-              .catch((e: Exception) => {
-                e.printAndExit();
-              });
-          });
-        }
-      })
-      .catch((e: Exception) => {
+    try {
+      const zero = NovelBuilder.createZeroChapter(this);
+      await zero.download(force);
+    } catch (e) {
+      e.printAndExit();
+    }
+
+    if (this._chapters) {
+      await Promise.all(
+        this._chapters.map(async chap => {
+          try {
+            const res = await FetchApi(chap);
+            const html = HtmlBuilder.template(res.chapter._nid)
+              .addChap(res.chapter)
+              .addName(this._name)
+              .addContent(HtmlBuilder.buildContent(res.cheerio))
+              .renderDefault();
+
+            await WriteChapter(html, res.chapter, force);
+            chap.setStatus(NovelStatus.COMPLETED);
+          } catch (e) {
+            if (e === NOVEL_SOLD_WARN) {
+              chap.setStatus(NovelStatus.SOLD);
+            }
+            e.printAndExit();
+          }
+        })
+      );
+      try {
+        await this.resource.save(force);
+      } catch (e) {
         e.printAndExit();
-      });
+      }
+    }
   }
 }

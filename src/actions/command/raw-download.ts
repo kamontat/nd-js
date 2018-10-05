@@ -14,6 +14,8 @@ import { WrapTM, WrapTMC, WrapTMCT } from "../../models/LoggerWrapper";
 import { HtmlBuilder } from "../../builder/html";
 import { WriteChapter } from "../../apis/file";
 import { GetNovelNameApi } from "../../apis/novel";
+import { NovelStatus } from "../../models/Chapter";
+import { NOVEL_SOLD_WARN } from "../../constants/error.const";
 
 export default (a: any[]) => {
   const { options, args } = SeperateArgumentApi(a);
@@ -35,20 +37,27 @@ export default (a: any[]) => {
       .map(chap => NovelBuilder.createChapter(id, chap, { location: config.getNovelLocation() }))
       .forEach(element =>
         FetchApi(element)
-          .then(res => {
-            const html = HtmlBuilder.template(res.chapter._nid)
-              .addName(GetNovelNameApi(res.cheerio))
-              .addChap(res.chapter)
-              .addContent(HtmlBuilder.buildContent(res.cheerio));
-            return WriteChapter(html.renderDefault(), res.chapter, options.force);
+          .then(async res => {
+            try {
+              const html = HtmlBuilder.template(res.chapter._nid)
+                .addName(GetNovelNameApi(res.cheerio))
+                .addChap(res.chapter)
+                .addContent(HtmlBuilder.buildContent(res.cheerio))
+                .renderDefault();
+
+              await WriteChapter(html, res.chapter, options.force);
+
+              log(WrapTMCT("info", "Result file", res.chapter.file()));
+              log(WrapTMCT("verbose", `Chapter ${res.chapter._chapterNumber}`, res.chapter.toString()));
+            } catch (e) {
+              e.printAndExit();
+            }
           })
-          .then(result => {
-            log(WrapTMCT("info", "Result file", result.file()));
-            log(WrapTMCT("verbose", `Chapter ${result._chapterNumber}`, result.toString()));
+          .catch(e => {
+            e.printAndExit();
           })
       );
   } catch (e) {
-    let exception: Exception = e;
-    exception.printAndExit();
+    e.printAndExit();
   }
 };
