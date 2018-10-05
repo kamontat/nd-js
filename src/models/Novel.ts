@@ -74,25 +74,43 @@ export class Novel {
 
   print(option?: { withChapter?: boolean }) {
     const link = GetLink(this._id);
+
     log(WrapTMCT("info", "Novel name", this._name, { message: COLORS.Name }));
     log(WrapTMCT("info", "Novel link", link));
+
     if (this._location) log(WrapTMCT("info", "Novel location", this._location));
     if (this._location) log(WrapTMCT("info", "First chapter", NovelBuilder.createZeroChapter(this).file()));
-    const chapters: string[] | undefined =
-      this._chapters && this._chapters.filter(c => c.status === NovelStatus.COMPLETED).map(c => c._chapterNumber);
-    log(
-      WrapTMCT("info", "Chapters", chapters, {
-        message: COLORS.ChapterList
-      })
-    );
+
+    this.printChapterNumber();
+
     if (this._chapters && option && option.withChapter) {
       this._chapters.forEach(chapter => {
-        log(WrapTMCT("verbose", `Chapter ${chapter._chapterNumber}`, chapter.toString()));
+        log(WrapTMCT("info", `Chapter ${chapter._chapterNumber}`, chapter.toString()));
       });
     }
 
     log(WrapTMCT("verbose", "Download at", this._downloadAt));
     log(WrapTMCT("verbose", "Update at", this._updateAt));
+  }
+
+  printChapterNumber() {
+    const completedChapters: string[] | undefined =
+      this._chapters && this._chapters.filter(c => c.status === NovelStatus.COMPLETED).map(c => c._chapterNumber);
+    const closedChapters: string[] | undefined =
+      this._chapters && this._chapters.filter(c => c.status === NovelStatus.CLOSED).map(c => c._chapterNumber);
+    const soldChapters: string[] | undefined =
+      this._chapters && this._chapters.filter(c => c.status === NovelStatus.SOLD).map(c => c._chapterNumber);
+    const unknownChapters: string[] | undefined =
+      this._chapters && this._chapters.filter(c => c.status === NovelStatus.UNKNOWN).map(c => c._chapterNumber);
+
+    if (completedChapters && completedChapters.length > 0)
+      log(WrapTMCT("info", "Completed chapters", completedChapters, { message: COLORS.ChapterList }));
+    if (closedChapters && closedChapters.length > 0)
+      log(WrapTMCT("verbose", "Closed chapters", closedChapters, { message: COLORS.ChapterList }));
+    if (soldChapters && soldChapters.length > 0)
+      log(WrapTMCT("verbose", "Sold chapters", soldChapters, { message: COLORS.ChapterList }));
+    if (unknownChapters && unknownChapters.length > 0)
+      log(WrapTMCT("debug", "Unknown chapters", unknownChapters, { message: COLORS.ChapterList }));
   }
 
   async save({ force = false, resource = true }) {
