@@ -7,10 +7,10 @@ import moment, { Moment } from "moment";
 
 import { log } from "winston";
 import { GetLink } from "../helpers/novel";
-import { NOVEL_WARN, NOVEL_SOLD_WARN } from "../constants/error.const";
+import { NOVEL_WARN, NOVEL_SOLD_WARN, NOVEL_CLOSED_WARN } from "../constants/error.const";
 import { join } from "path";
 import { GetNovelNameApi, CreateChapterListApi, GetNovelDateApi, NormalizeNovelName } from "../apis/novel";
-import { WrapTMCT } from "./LoggerWrapper";
+import { WrapTMCT, WrapTMC, WrapTM } from "./LoggerWrapper";
 import { COLORS } from "../constants/color.const";
 import { DEFAULT_NOVEL_FOLDER_NAME } from "../constants/novel.const";
 import { existsSync } from "fs";
@@ -92,7 +92,8 @@ export class Novel {
     log(WrapTMCT("verbose", "Update at", this._updateAt));
   }
 
-  async save(force?: boolean) {
+  async save({ force = false, resource = true }) {
+    // const force = option && option.force;
     if (this._location && existsSync(this._location) && !force) {
       NOVEL_WARN.clone()
         .loadString(`Novel ID ${this._id} is exist`)
@@ -113,7 +114,9 @@ export class Novel {
       await Promise.all(
         this._chapters.map(async chap => {
           try {
+            log(WrapTM("debug", "start download", `chapter ${chap._chapterNumber}`));
             const res = await FetchApi(chap);
+            log(WrapTM("debug", "start build html file", `chapter ${chap._chapterNumber}`));
             const html = HtmlBuilder.template(res.chapter._nid)
               .addChap(res.chapter)
               .addName(this._name)
@@ -121,20 +124,27 @@ export class Novel {
               .renderDefault();
 
             await WriteChapter(html, res.chapter, force);
+            log(WrapTMCT("verbose", "Completed", `${chap.toString()}`));
             chap.setStatus(NovelStatus.COMPLETED);
           } catch (e) {
             if (e === NOVEL_SOLD_WARN) {
+              e.loadString(`chapter ${chap._chapterNumber}`);
+              chap.setStatus(NovelStatus.SOLD);
+            } else if (e === NOVEL_CLOSED_WARN) {
+              e.loadString(`chapter ${chap._chapterNumber}`);
               chap.setStatus(NovelStatus.SOLD);
             }
             e.printAndExit();
           }
         })
       );
-      try {
-        await this.resource.save(force);
-      } catch (e) {
-        e.printAndExit();
-      }
+
+      if (resource)
+        try {
+          await this.resource.save(force);
+        } catch (e) {
+          e.printAndExit();
+        }
     }
   }
 }
