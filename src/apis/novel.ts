@@ -118,6 +118,23 @@ export const GetChapterNameApi = ($: CheerioStatic) => {
 export const getNovelContentV1 = ($: CheerioStatic) => {
   let result: HtmlNode[] = [];
 
+  // เรื่องย่อ
+  const header = $("span.desc_head")
+    .parent()
+    .get(0);
+  const headText = $(header)
+    .text()
+    .replace("แนะนำเรื่องแบบย่อๆ", "");
+
+  if (headText !== null && headText !== "")
+    result.push(
+      new HtmlNode({
+        tag: "p",
+        text: headText
+      })
+    );
+  // end
+
   $("table#story_body")
     .children()
     .children()
