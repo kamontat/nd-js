@@ -25,6 +25,7 @@ import { Resource } from "./Resource";
 import { os } from "pjson";
 import { exit } from "shelljs";
 import { MakeReadableNumberArray } from "../helpers/helper";
+import { ResourceBuilder } from "../builder/resource";
 
 export class Novel {
   // TODO: add required information attribute
@@ -37,15 +38,11 @@ export class Novel {
   _downloadAt: Moment; // manually collect
   _updateAt?: Moment; // this from website
 
-  resource: Resource; // auto initial
-
   constructor(id: string, location?: string) {
     this._id = id;
     if (location) this._location = location;
 
     this._downloadAt = moment();
-
-    this.resource = new Resource(this);
   }
 
   update($: CheerioStatic) {
@@ -113,23 +110,16 @@ export class Novel {
       log(WrapTMCT("debug", "Unknown chapters", unknownChapters, { message: COLORS.ChapterList }));
   }
 
-  async save({ force = false, resource = true }) {
+  async save({ force = false }) {
     // const force = option && option.force;
     if (this._location && existsSync(this._location) && !force) {
-      NOVEL_WARN.clone()
-        .loadString(`Novel ID ${this._id} is exist`)
-        .printAndExit();
-      return;
+      throw NOVEL_WARN.clone().loadString(`Novel ID ${this._id} is exist`);
     }
 
     await mkdirp(this._location || "");
 
-    try {
-      const zero = NovelBuilder.createZeroChapter(this);
-      await zero.download(force);
-    } catch (e) {
-      e.printAndExit();
-    }
+    const zero = NovelBuilder.createZeroChapter(this);
+    await zero.download(force);
 
     if (this._chapters) {
       await Promise.all(
@@ -154,18 +144,20 @@ export class Novel {
             } else if (NOVEL_CLOSED_WARN.equal(e)) {
               e.loadString(`chapter ${chap._chapterNumber}`);
               chap.setStatus(NovelStatus.SOLD);
+            } else {
+              if (e instanceof Exception) {
+                if (!e.warn) throw e;
+                else e.printAndExit();
+              }
             }
-            e.printAndExit();
           }
         })
       );
 
-      if (resource)
-        try {
-          await this.resource.save(force);
-        } catch (e) {
-          e.printAndExit();
-        }
+      if (!this._location) {
+        // const resource = ResourceBuilder.build(this._location || "", this);
+        // await resource.save(force);
+      }
     }
   }
 }

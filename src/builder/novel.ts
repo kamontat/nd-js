@@ -24,9 +24,8 @@ export class NovelBuilder {
     return novel.load($);
   }
 
-  static buildLocal(location: string) {
-    const resource = Resource.Load(location);
-    return resource.novel;
+  static buildLocal(_: string) {
+    // TODO: implement is resource loading by location path
   }
 
   static createChapter(id: string, chapter?: string, option?: NovelChapterBuilderOption) {

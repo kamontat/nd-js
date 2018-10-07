@@ -28,9 +28,7 @@ import { CONFIG_CREATE_ERR, CONFIG_WARN } from "../constants/error.const";
 import { CONFIG_FAIL_ERR } from "../constants/error.const";
 import { WrapTM, WrapTMC, WrapTMCT } from "./LoggerWrapper";
 import { LOG_TYPE, HAS_COLOR } from "../constants/default.const";
-import { Server } from "net";
 import { CheckIsExist } from "../helpers/helper";
-import { ColorType } from "./Color";
 import { COLORS } from "../constants/color.const";
 
 /**

@@ -42,7 +42,7 @@ export default (a: any[]) => {
         NovelBuilder.createChapter(id, chapter, { location: config.getNovelLocation() })
       );
 
-      await novel.save({ force: options.force, resource: false });
+      await novel.save({ force: options.force });
 
       novel.print();
       ExceptionStorage.CONST.print();
