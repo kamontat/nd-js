@@ -57,9 +57,7 @@ export const FetchApi: (chapter: NovelChapter) => Promise<{ cheerio: CheerioStat
         chapter.setDate(GetChapterDateApi($));
         return res({ cheerio: $, chapter: chapter });
       } else {
-        return rej(
-          NOVEL_WARN.clone().loadString(`Novel(${chapter._nid}) on chapter ${chapter._chapterNumber} is not exist`)
-        );
+        return rej(NOVEL_WARN.clone().loadString(`Novel(${chapter.id}) on chapter ${chapter.number} is not exist`));
       }
     });
   });
@@ -70,7 +68,7 @@ export const DownloadChapter: (chapter: NovelChapter, force?: boolean) => Promis
   force?: boolean
 ) => {
   return FetchApi(chapter).then(res => {
-    const html = HtmlBuilder.template(res.chapter._nid)
+    const html = HtmlBuilder.template(res.chapter.id)
       .addName(GetNovelNameApi(res.cheerio))
       .addChap(res.chapter)
       .addContent(HtmlBuilder.buildContent(res.cheerio))

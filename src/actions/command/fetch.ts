@@ -35,18 +35,18 @@ export default (a: any) => {
     let config = Config.Load();
     config.updateByOption(options);
 
-    FetchApi(NovelBuilder.createChapter(id, "0"))
+    NovelBuilder.fetch(id)
       .then(res => {
         return NovelBuilder.build(id, res.cheerio);
       })
       .then(novel => {
-        novel.print({ withChapter: LOGGER_LEVEL === "verbose" });
+        novel.print({ withChapter: options.withChapter });
       })
       .catch((err: Exception) => {
         err.printAndExit();
       });
   } catch (e) {
-    let exception: Exception = e;
-    exception.printAndExit();
+    console.error(e);
+    e.printAndExit();
   }
 };

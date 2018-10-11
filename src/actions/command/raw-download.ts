@@ -25,16 +25,18 @@ export default (a: any[]) => {
   log(WrapTM("debug", "start command", "raw download"));
 
   ThrowIf(ValidList(args, ByLength, 1));
+  let id = GetNID(args[0]);
+  let chapterString: string[] = options.chapter;
+  log(WrapTMC("debug", "novel ID", id));
+  log(WrapTMC("debug", "Chapter list", chapterString));
 
-  try {
-    let id = GetNID(args[0]);
-    let chapterString: string[] = options.chapter;
-    log(WrapTMC("debug", "novel ID", id));
-    log(WrapTMC("debug", "Chapter list", chapterString));
+  let config = Config.Load();
 
-    let config = Config.Load();
-
-    NovelBuilder.create(id, { location: config.getNovelLocation() }).then(async novel => {
+  NovelBuilder.fetch(id, { location: config.getNovelLocation() })
+    .then(res => {
+      return NovelBuilder.build(res.chapter.id, res.cheerio);
+    })
+    .then(async novel => {
       // do not create novel folder
       novel._location = config.getNovelLocation();
       // update chapter to novel
@@ -42,12 +44,11 @@ export default (a: any[]) => {
         NovelBuilder.createChapter(id, chapter, { location: config.getNovelLocation() })
       );
 
-      await novel.save({ force: options.force });
-
-      novel.print();
+      await novel.saveAll({ force: options.force });
+      novel.print({ withChapter: options.withChapter });
       ExceptionStorage.CONST.print();
+    })
+    .catch(err => {
+      err.printAndExit();
     });
-  } catch (e) {
-    e.printAndExit();
-  }
 };
