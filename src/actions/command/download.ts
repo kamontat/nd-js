@@ -1,4 +1,4 @@
-import { SeperateArgumentApi } from "../../helpers/action";
+import { SeperateArgumentApi, ThrowIf } from "../../helpers/action";
 import { NovelBuilder } from "../../builder/novel";
 import { GetNID } from "../../helpers/novel";
 import { error } from "util";
@@ -23,10 +23,10 @@ export default (a: any) => {
           novel.print({ withChapter: options.withChapter });
         })
         .catch(err => {
-          err.printAndExit();
+          ThrowIf(err);
         });
     } catch (err) {
-      err.printAndExit();
+      ThrowIf(err);
     }
   });
 };

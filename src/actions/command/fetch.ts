@@ -43,10 +43,9 @@ export default (a: any) => {
         novel.print({ withChapter: options.withChapter });
       })
       .catch((err: Exception) => {
-        err.printAndExit();
+        ThrowIf(err);
       });
-  } catch (e) {
-    console.error(e);
-    e.printAndExit();
+  } catch (err) {
+    ThrowIf(err);
   }
 };

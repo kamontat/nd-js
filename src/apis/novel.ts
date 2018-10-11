@@ -118,10 +118,6 @@ export const GetChapterNameApi = ($: CheerioStatic) => {
   name = element.text();
   if (name && name !== "") return name;
 
-  // NOVEL_WARN.clone()
-  //   .loadString("Cannot get chapter name")
-  //   .printAndExit();
-
   return "";
 };
 

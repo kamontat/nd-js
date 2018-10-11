@@ -49,6 +49,6 @@ export default (a: any[]) => {
       ExceptionStorage.CONST.print();
     })
     .catch(err => {
-      err.printAndExit();
+      ThrowIf(err);
     });
 };

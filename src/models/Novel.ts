@@ -29,6 +29,7 @@ import { ResourceBuilder } from "../builder/resource";
 import Config from "./Config";
 
 import terminalLink from "terminal-link";
+import { ThrowIf } from "../helpers/action";
 
 export class Novel {
   // TODO: add required information attribute
@@ -162,10 +163,7 @@ export class Novel {
               e.loadString(`chapter ${chap.number}`);
               chap.setStatus(NovelStatus.SOLD);
             } else {
-              if (e instanceof Exception) {
-                if (!e.warn) throw e;
-                else e.printAndExit();
-              }
+              ThrowIf(e);
             }
           }
         })
