@@ -27,7 +27,7 @@ export const WriteChapter = (html: string, chapter: NovelChapter, force?: boolea
       log(WrapTMC("debug", "Saved file", chapter.file()));
       writeFile(chapter.file(), html, err => (err ? rej(err) : res(chapter)));
     } else {
-      rej(NOVEL_WARN.clone().loadString(`Chapter ${chapter._chapterNumber} of novel ${chapter._nid} is exist`));
+      rej(NOVEL_WARN.clone().loadString(`Chapter ${chapter.number} of novel ${chapter.id} is exist`));
     }
   });
 };

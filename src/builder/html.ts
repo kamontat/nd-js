@@ -26,8 +26,8 @@ export class HtmlBuild extends HtmlTemplate {
   }
 
   addChap(chapter: NovelChapter) {
-    return this.addChapName(chapter._name)
-      .addChapNum(chapter._chapterNumber)
+    return this.addChapName(chapter.name)
+      .addChapNum(chapter.number)
       .addLastUpdate(chapter.getDate());
   }
 

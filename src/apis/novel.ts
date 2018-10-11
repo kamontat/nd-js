@@ -9,7 +9,7 @@ import { log } from "winston";
 import { WrapTM, WrapTMC, WrapTMCT } from "../models/LoggerWrapper";
 
 import { NovelBuilder } from "../builder/novel";
-import { NovelChapter } from "../models/Chapter";
+import { NovelChapter, NovelStatus } from "../models/Chapter";
 import { PassLink, GetChapterNumber } from "../helpers/novel";
 
 import { Query } from "./html";
@@ -68,6 +68,13 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
   query.each(function(i, e) {
     let link = `${DEFAULT_NOVEL_LINK}/${$(e).attr("href")}`;
     let title = TrimString($(e).attr("title"));
+    let sold = $(e)
+      .parentsUntil(".chapter-item")
+      .hasClass("chapter-sell");
+
+    let closed = $(e)
+      .parentsUntil(".chapter-item")
+      .hasClass("chapter-state-hidden");
     if (!CheckIsExist(title)) title = TrimString($(e).text());
 
     if (link.includes("viewlongc.php")) {
@@ -77,8 +84,11 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
       const chapterNumber = GetChapterNumber(link);
 
       const builtChapter = NovelBuilder.createChapterByLink(PassLink(link), { name: title, date: date });
-      const savedChapter = chapters[chapterNumber];
+      if (sold) builtChapter.markSell();
+      else if (closed) builtChapter.markClose();
+      else builtChapter.markComplete();
 
+      const savedChapter = chapters[chapterNumber];
       // to avoid deplicate chapter chapter
       if (savedChapter === undefined) {
         log(WrapTM("debug", "chapter link", `${link}`));

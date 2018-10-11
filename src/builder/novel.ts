@@ -9,18 +9,17 @@ import { NovelChapter, NovelZeroChapter } from "../models/Chapter";
 import { GetNID } from "../helpers/novel";
 import { Moment } from "moment";
 import { Resource } from "../models/Resource";
+import Config from "../models/Config";
 
 type NovelChapterBuilderOption = { name?: string; location?: string; date?: Moment };
 
 export class NovelBuilder {
-  static create(id: string, option?: { location?: string }) {
-    return FetchApi(NovelBuilder.createChapter(id, undefined, { location: option && option.location })).then(res => {
-      return NovelBuilder.build(res.chapter._nid, res.cheerio, { location: res.chapter._location });
-    });
+  static fetch(id: string, option?: { location?: string }) {
+    return FetchApi(NovelBuilder.createChapter(id, undefined, { location: option && option.location }));
   }
 
   static build(id: string, $: CheerioStatic, option?: { location?: string }) {
-    const novel = new Novel(id, option && option.location);
+    const novel = new Novel(id, (option && option.location) || Config.Load().getNovelLocation());
     return novel.load($);
   }
 
