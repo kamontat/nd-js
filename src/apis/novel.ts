@@ -52,7 +52,7 @@ export const GetNovelDateApi = ($: CheerioStatic): moment.Moment => {
     .replace("อัพเดท ", "");
   // 29 ก.ย. 61 / 19:00
   const date = FormatMomentDateTime(dateString, "D MMM YY [/] HH:mm");
-  log(WrapTMC("debug", "novel date", date));
+  // log(WrapTMC("debug", "novel date", date));
 
   return date;
 };
@@ -88,13 +88,14 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
       else if (closed) builtChapter.markClose();
       else builtChapter.markComplete();
 
-      const savedChapter = chapters[chapterNumber];
+      // For debugging
+      // const savedChapter = chapters[chapterNumber];
       // to avoid deplicate chapter chapter
-      if (savedChapter === undefined) {
-        log(WrapTM("debug", "chapter link", `${link}`));
-        log(WrapTM("debug", "chapter title", title));
-        log(WrapTM("debug", "date", date));
-      }
+      // if (savedChapter === undefined) {
+      //   log(WrapTM("debug", "chapter link", `${link}`));
+      //   log(WrapTM("debug", "chapter title", title));
+      //   log(WrapTM("debug", "date", date));
+      // }
 
       chapters[chapterNumber] = builtChapter;
     }
@@ -178,7 +179,7 @@ export const getNovelContentV2 = ($: CheerioStatic) => {
       if (text !== "" && text !== "\n") {
         // filter text that contain in BlackList
         if (HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
-          log(WrapTMC("debug", "Html paragraph node", text.substr(0, 20))); // limit 20 first chap
+          // log(WrapTMC("debug", "Html paragraph node", text.substr(0, 20))); // limit 20 first chap
 
           // FIXME: sometime cause all text go to 1 node (1851491 chap=5)
           result.push(
@@ -202,7 +203,7 @@ export const GetNovelContent = ($: CheerioStatic) => {
   }
 
   if (result.some(node => node.text.includes("ตอนนี้เป็นส่วนหนึ่งในแพ็กเกจนิยาย"))) {
-    log(WrapTMCT("debug", `Chapter status`, "sold chapter !! "));
+    // log(WrapTMCT("debug", `Chapter status`, "sold chapter !! "));
     throw NOVEL_SOLD_WARN.clone();
   } else if (result.some(node => node.text.includes("ผู้แต่งปิดการเข้าถึง"))) {
     throw NOVEL_CLOSED_WARN.clone();

@@ -17,8 +17,6 @@ import { WrapTM, WrapTMC } from "../../models/LoggerWrapper";
  * @see {@link Config}
  */
 export default () => {
-  log(WrapTM("debug", "start command", "config"));
-
   try {
     const config = Config.Load();
     log(WrapTMC("info", "configuration", config.configLocation));

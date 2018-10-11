@@ -1,4 +1,4 @@
-import Listr, { ListrTask } from "listr";
+import Listr, { ListrTask, ListrOptions } from "listr";
 import { Novel } from "../models/Novel";
 import { ThrowIf } from "./action";
 
@@ -17,12 +17,17 @@ export class ListrHelper {
 
 export class ListrApis {
   private list: Listr;
-  constructor() {
-    this.list = new Listr();
+  constructor(options?: ListrOptions) {
+    this.list = new Listr(undefined, options);
   }
 
   add(task: ListrTask) {
     this.list.add(task);
+    return this;
+  }
+
+  adds(tasks: ReadonlyArray<ListrTask>) {
+    this.list.add(tasks);
     return this;
   }
 
