@@ -35,7 +35,8 @@ ${info.message}
 });
 
 const customJSON = printf(info => {
-  return JSON.stringify(info, undefined, "  ");
+  console.log(info);
+  return JSON.stringify(info, undefined, "  ").replace(/\u001b\[.*?m/g, "");
 });
 
 const customTimestamp = timestamp({ format: "DD-MM-YYYY::HH.mm.ss" });
@@ -71,6 +72,7 @@ export default (
     transports.push(
       new DailyRotateFile({
         format: format.combine(...fileFormat),
+        level: option.level,
         json: true,
         dirname: option.log.folder,
         filename: "nd-%DATE%.log",

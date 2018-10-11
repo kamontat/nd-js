@@ -89,13 +89,13 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
       else builtChapter.markComplete();
 
       // For debugging
-      // const savedChapter = chapters[chapterNumber];
+      const savedChapter = chapters[chapterNumber];
       // to avoid deplicate chapter chapter
-      // if (savedChapter === undefined) {
-      //   log(WrapTM("debug", "chapter link", `${link}`));
-      //   log(WrapTM("debug", "chapter title", title));
-      //   log(WrapTM("debug", "date", date));
-      // }
+      if (savedChapter === undefined) {
+        log(WrapTM("debug", "chapter link", `${link}`));
+        log(WrapTM("debug", "chapter title", title));
+        log(WrapTM("debug", "date", date));
+      }
 
       chapters[chapterNumber] = builtChapter;
     }
