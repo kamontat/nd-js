@@ -73,7 +73,6 @@ export class HtmlTemplate {
   }
 
   renderDefault() {
-    // console.log(this.chapterName);
     return this.render(HTML_FILE, DEFAULT_CSS_TEMPLATE);
   }
 }
