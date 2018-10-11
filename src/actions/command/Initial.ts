@@ -19,8 +19,6 @@ import { Exception } from "../../models/Exception";
  * @see {@link Config}
  */
 export default (a: any) => {
-  log(WrapTM("debug", "start command", "initial"));
-
   const { options } = SeperateArgumentApi(a);
 
   try {

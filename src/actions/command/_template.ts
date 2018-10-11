@@ -4,5 +4,5 @@
 
 // export const Name = (a: any[]) => {
 //   const { args } = SeperateArgument(a);
-//   verbose("execute");
+//   log(WrapTMC("verbose", "title", "execution"));
 // };

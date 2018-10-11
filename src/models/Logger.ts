@@ -70,10 +70,11 @@ export default (
   if (option.log.has) {
     transports.push(
       new DailyRotateFile({
+        format: format.combine(...fileFormat),
         json: true,
         dirname: option.log.folder,
         filename: "nd-%DATE%.log",
-        datePattern: "MM-YYYY",
+        datePattern: "DD-MM-YYYY",
         zippedArchive: true,
         maxSize: "10m",
         maxFiles: "100"
@@ -83,7 +84,6 @@ export default (
 
   return {
     level: option.level,
-    format: format.combine(...fileFormat),
     transports: transports
   };
 };
