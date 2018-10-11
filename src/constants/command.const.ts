@@ -95,6 +95,13 @@ export const FETCH_CMD: CCommand = {
   name: "fetch",
   alias: "E",
   desc: "Fetching novel from website and show the result",
+  options: [
+    {
+      name: "-W, --with-chapter",
+      desc: "List the result with chapter",
+      default: false
+    }
+  ],
   fn: Fetch
 };
 
