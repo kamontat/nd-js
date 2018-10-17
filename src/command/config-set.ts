@@ -3,8 +3,8 @@
  * @module commander.command
  */
 
-import { SeperateArgumentApi, ThrowIf, ValidList, ByLength, ByMatchSome } from "../../helpers/action";
-import Config from "../../models/Config";
+import { SeperateArgumentApi, ThrowIf, ValidList, ByLength, ByMatchSome } from "../helpers/action";
+import Config from "../models/Config";
 
 /**
  * This is configuration setting command, This command able to set the value to config file.

@@ -1,6 +1,6 @@
-import { SeperateArgumentApi, ThrowIf } from "../../helpers/action";
-import { NovelBuilder } from "../../builder/novel";
-import { GetNID } from "../../helpers/novel";
+import { SeperateArgumentApi, ThrowIf } from "../helpers/action";
+import { NovelBuilder } from "../builder/novel";
+import { GetNID } from "../helpers/novel";
 
 export default (a: any) => {
   const { options, args } = SeperateArgumentApi(a);

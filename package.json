@@ -122,7 +122,7 @@
     ],
     "collectCoverageFrom": [
       "src/**/*.ts",
-      "!src/actions/command/**/*.ts",
+      "!src/command/**/*.ts",
       "!src/nd.ts",
       "!src/constants/command.const.ts",
       "!src/constants/option.const.ts",

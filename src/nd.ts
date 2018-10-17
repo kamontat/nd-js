@@ -10,7 +10,7 @@ import winston from "winston";
 
 import setting from "./models/Logger";
 
-import { VERSION } from "./constants/nd.const";
+import { VERSION, PROJECT_NAME } from "./constants/nd.const";
 import { MakeCommand, MakeOption } from "./helpers/command";
 
 import {
@@ -32,11 +32,11 @@ import {
   RAW_DOWNLOAD_CMD,
   FETCH_CMD,
   DOWNLOAD_CMD,
-  UPDATE_CMD
+  UPDATE_CMD,
+  VERSION_CMD
 } from "./constants/command.const";
-import Config from "./models/Config";
 
-program.version(`nd version: ${VERSION}`, "-v, --version");
+program.name(PROJECT_NAME).version(`nd version: ${VERSION}`, "-v, --version");
 
 MakeOption(program, VERBOSE_OPT);
 MakeOption(program, DEBUG_OPT);
@@ -47,6 +47,7 @@ MakeOption(program, LOG_PATH_OPT);
 MakeOption(program, SHORT_OUT_OPT);
 MakeOption(program, LONG_OUT_OPT);
 
+MakeCommand(program, VERSION_CMD);
 MakeCommand(program, CHANGELOG_CMD);
 MakeCommand(program, INIT_CMD);
 MakeCommand(program, CONFIG_CMD);
@@ -59,10 +60,16 @@ MakeCommand(program, UPDATE_CMD);
 
 program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
   winston.configure(setting());
-
   winston.error(`${args} is not valid.`);
   program.outputHelp();
   process.exit(1);
+});
+
+program.on("--help", function() {
+  console.log("");
+  console.log("Examples:");
+  console.log(`$ ${PROJECT_NAME} --help`);
+  console.log(`$ ${PROJECT_NAME} --[help|changelog|version]`);
 });
 
 program.allowUnknownOption(false);

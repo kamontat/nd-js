@@ -3,13 +3,11 @@
  * @module commander.command
  */
 
-import { log } from "winston";
-import Config from "../../models/Config";
-import { SeperateArgumentApi, ByLength, ValidList, ThrowIf } from "../../helpers/action";
-import { WrapTM } from "../../models/LoggerWrapper";
-import { GetNID } from "../../helpers/novel";
-import { NovelBuilder } from "../../builder/novel";
-import { ListrApis } from "../../helpers/listr";
+import Config from "../models/Config";
+import { SeperateArgumentApi, ByLength, ValidList, ThrowIf } from "../helpers/action";
+import { GetNID } from "../helpers/novel";
+import { NovelBuilder } from "../builder/novel";
+import { ListrApis } from "../helpers/listr";
 
 /**
  * This is fetching novel information

@@ -10,8 +10,7 @@ import { CssTemplate } from "./HtmlCss";
 import { PROJECT_NAME, VERSION } from "../constants/nd.const";
 import { HTML_FILE, DEFAULT_CSS_TEMPLATE } from "../constants/html.const";
 import { NovelChapter } from "./Chapter";
-import { PassLink, GetLinkWithChapter } from "../helpers/novel";
-import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
+import { GetLinkWithChapter } from "../helpers/novel";
 
 export class HtmlTemplate {
   novelID: string;

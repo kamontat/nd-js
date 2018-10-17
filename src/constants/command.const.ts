@@ -4,15 +4,25 @@
  */
 import { CCommand } from "../models/Command";
 
-import Changelog from "../actions/command/changelog";
-import Initial from "../actions/command/Initial";
-import Download from "../actions/command/download";
-import Config from "../actions/command/config";
-import ConfigSet from "../actions/command/config-set";
-import RawDownload from "../actions/command/download-raw";
-import Fetch from "../actions/command/fetch";
-import Update from "../actions/command/update";
+import Changelog from "../command/changelog";
+import Initial from "../command/Initial";
+import Download from "../command/download";
+import Config from "../command/config";
+import ConfigSet from "../command/config-set";
+import RawDownload from "../command/download-raw";
+import Fetch from "../command/fetch";
+import Update from "../command/update";
 import { LOCATION_OPT } from "./option.const";
+import { log } from "winston";
+import { WrapTMC } from "../models/LoggerWrapper";
+import { VERSION, PROJECT_NAME } from "./nd.const";
+
+export const VERSION_CMD: CCommand = {
+  name: "version",
+  alias: "V",
+  desc: "Show command version",
+  fn: () => log(WrapTMC("info", `${PROJECT_NAME}`, `v${VERSION}`))
+};
 
 export const CHANGELOG_CMD: CCommand = {
   name: "changelog",

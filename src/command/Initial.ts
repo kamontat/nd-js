@@ -4,10 +4,9 @@
  */
 
 import { log } from "winston";
-import Config from "../../models/Config";
-import { SeperateArgumentApi, ThrowIf } from "../../helpers/action";
-import { WrapTMC, WrapTM } from "../../models/LoggerWrapper";
-import { Exception } from "../../models/Exception";
+import Config from "../models/Config";
+import { SeperateArgumentApi, ThrowIf } from "../helpers/action";
+import { WrapTMC } from "../models/LoggerWrapper";
 
 /**
  * This is initial command.

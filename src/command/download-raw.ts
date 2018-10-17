@@ -3,12 +3,11 @@
  * @module commander.command
  */
 
-import { SeperateArgumentApi, ThrowIf, ValidList, ByLength } from "../../helpers/action";
-import { log } from "winston";
-import { GetNID } from "../../helpers/novel";
-import { NovelBuilder } from "../../builder/novel";
-import Config from "../../models/Config";
-import { ExceptionStorage } from "../../models/ExceptionStorage";
+import { SeperateArgumentApi, ThrowIf, ValidList, ByLength } from "../helpers/action";
+import { GetNID } from "../helpers/novel";
+import { NovelBuilder } from "../builder/novel";
+import Config from "../models/Config";
+import { ExceptionStorage } from "../models/ExceptionStorage";
 
 export default (a: any[]) => {
   const { options, args } = SeperateArgumentApi(a);
