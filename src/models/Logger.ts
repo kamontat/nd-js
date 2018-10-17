@@ -35,8 +35,19 @@ ${info.message}
 });
 
 const customJSON = printf(info => {
-  console.log(info);
-  return JSON.stringify(info, undefined, "  ").replace(/\u001b\[.*?m/g, "");
+  return JSON.stringify(
+    { level: info.level, message: info.message, timestamp: info.timestamp },
+    (_, value: string) => {
+      if (typeof value === "string") {
+        return value
+          .replace(/\u001b\[.*?m/g, "") // color
+          .replace(/\u001b\]8;;/g, "") // link
+          .replace(/\u0007/g, " "); // link
+      }
+      return value;
+    },
+    "  "
+  );
 });
 
 const customTimestamp = timestamp({ format: "DD-MM-YYYY::HH.mm.ss" });
@@ -62,7 +73,7 @@ export default (
   transports.push(
     new Console({
       format: format.combine(...consoleFormat),
-      level: option.level,
+      level: "info", // option.level,
       stderrLevels: ["error", "warn"],
       silent: option.quiet
     })

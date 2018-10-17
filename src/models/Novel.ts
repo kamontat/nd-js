@@ -114,11 +114,11 @@ export class Novel {
     if (completedChapters && completedChapters.length > 0)
       log(WrapTMCT("info", "Completed chapters", completedChapters, { message: COLORS.ChapterList }));
     if (closedChapters && closedChapters.length > 0)
-      log(WrapTMCT("verbose", "Closed chapters", closedChapters, { message: COLORS.ChapterList }));
+      log(WrapTMCT("info", "Closed chapters", closedChapters, { message: COLORS.ChapterList }));
     if (soldChapters && soldChapters.length > 0)
-      log(WrapTMCT("verbose", "Sold chapters", soldChapters, { message: COLORS.ChapterList }));
+      log(WrapTMCT("info", "Sold chapters", soldChapters, { message: COLORS.ChapterList }));
     if (unknownChapters && unknownChapters.length > 0)
-      log(WrapTMCT("debug", "Unknown chapters", unknownChapters, { message: COLORS.ChapterList }));
+      log(WrapTMCT("info", "Unknown chapters", unknownChapters, { message: COLORS.ChapterList }));
   }
 
   async validateBeforeSave({ force = false }) {
@@ -142,9 +142,9 @@ export class Novel {
       await Promise.all(
         this._chapters.map(async chap => {
           try {
-            log(WrapTM("debug", "start download", `chapter ${chap.number}`));
+            // log(WrapTM("debug", "start download", `chapter ${chap.number}`));
             const res = await FetchApi(chap);
-            log(WrapTM("debug", "start build html file", `chapter ${chap.number}`));
+            // log(WrapTM("debug", "start build html file", `chapter ${chap.number}`));
 
             const html = HtmlBuilder.template(res.chapter.id)
               .addChap(res.chapter)

@@ -10,10 +10,10 @@ import moment, { isDate, isMoment, Moment } from "moment";
 import { CheckIsNumber, CheckIsExist, CheckIsPathExist, CheckIsBoolean } from "../helpers/helper";
 import { TransferAsDate, TransferNothing, TransferReadableList, noValidator } from "../helpers/color";
 
-export const TITLE_COLOR = chalk.greenBright;
+export const TITLE_COLOR = chalk.blueBright;
 
 export const TOKEN_COLOR = chalk.blue.underline;
-export const NAME_COLOR = chalk.red.underline;
+export const NAME_COLOR = chalk.greenBright;
 
 export const CHAPTER_NAME_COLOR = chalk.magentaBright;
 export const NUMBER_COLOR = chalk.yellow;
