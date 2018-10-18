@@ -35,6 +35,7 @@ import {
   UPDATE_CMD,
   VERSION_CMD
 } from "./constants/command.const";
+import { OPTION_COLOR, ARGUMENT_COLOR, PARAMETER_COLOR } from "./constants/color.const";
 
 program.name(PROJECT_NAME).version(`nd version: ${VERSION}`, "-v, --version");
 
@@ -59,7 +60,8 @@ MakeCommand(program, FETCH_CMD);
 MakeCommand(program, UPDATE_CMD);
 
 program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
-  winston.configure(setting());
+  const setup = setting();
+  if (setup) winston.configure(setup);
   winston.error(`${args} is not valid.`);
   program.outputHelp();
   process.exit(1);
@@ -67,9 +69,11 @@ program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
 
 program.on("--help", function() {
   console.log("");
-  console.log("Examples:");
-  console.log(`$ ${PROJECT_NAME} --help`);
-  console.log(`$ ${PROJECT_NAME} --[help|changelog|version]`);
+  console.log(`Examples:
+$ ${PROJECT_NAME} ${ARGUMENT_COLOR("initial")} [${OPTION_COLOR("--force")}]
+$ ${PROJECT_NAME} ${ARGUMENT_COLOR("set-config")} [${PARAMETER_COLOR("token")}|${PARAMETER_COLOR("username")}|${PARAMETER_COLOR("color")}|${PARAMETER_COLOR("location")}]
+$ ${PROJECT_NAME} ${OPTION_COLOR("--")}[${OPTION_COLOR("help")}|${OPTION_COLOR("changelog")}|${OPTION_COLOR("version")}]
+`);
 });
 
 program.allowUnknownOption(false);

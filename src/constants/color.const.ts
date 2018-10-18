@@ -34,6 +34,10 @@ export const IMPORTANT_COLOR = chalk.red.bold.underline;
 export const STRING_COLOR = chalk.reset;
 export const UNDEFINED_COLOR = chalk.reset;
 
+export const OPTION_COLOR = chalk.blueBright; // cmd --option
+export const ARGUMENT_COLOR = chalk.greenBright; // cmd argument
+export const PARAMETER_COLOR = chalk.cyanBright; // cmd -p <parameter>
+
 export const COLORS = {
   Title: new ColorType("title", noValidator, TITLE_COLOR, TransferNothing),
   Token: new ColorType("token", noValidator, TOKEN_COLOR, TransferNothing),

@@ -10,11 +10,11 @@ import { CommanderStatic, Command } from "commander";
 import setting from "../models/Logger";
 import { COption } from "../models/Option";
 import { CCommand } from "../models/Command";
-import { HELPER_LOAD_CONFIG } from "./config";
 import Config from "../models/Config";
+import { ThrowIf } from "./action";
 
 export const MakeOption = (program: Command | CommanderStatic, o: COption) => {
-  program.option(o.name, o.desc, o.fn, o.default);
+  program.option(o.name, o.desc, o.fn && getAction(o.fn), o.default);
 };
 
 const makeCommand = (program: Command | CommanderStatic, c: CCommand) => {
@@ -30,17 +30,21 @@ const makeCommand = (program: Command | CommanderStatic, c: CCommand) => {
   return p;
 };
 
-const addAction = (program: Command | CommanderStatic, c: CCommand) => {
-  program.action((...args: any[]) => {
+const getAction = (fn: (...args: any) => void) => {
+  return (...args: any) => {
     // setup logger configuration
-    configure(setting());
-    Config.Load();
-
-    c.fn(args);
-  });
+    const setup = setting();
+    if (setup) configure(setup);
+    try {
+      Config.Load();
+      fn(args);
+    } catch (e) {
+      ThrowIf(e);
+    }
+  };
 };
 
 export const MakeCommand = (program: Command | CommanderStatic, c: CCommand) => {
   let p = makeCommand(program, c);
-  addAction(p, c);
+  p.action(getAction(c.fn));
 };

@@ -30,6 +30,7 @@ import { WrapTM, WrapTMC, WrapTMCT } from "./LoggerWrapper";
 import { LOG_TYPE, HAS_COLOR } from "../constants/default.const";
 import { CheckIsExist } from "../helpers/helper";
 import { COLORS } from "../constants/color.const";
+import { Security } from "./Security";
 
 /**
  * @class
@@ -166,6 +167,9 @@ export default class Config {
     this.setNovelLocation(doc.setting.location || this.getNovelLocation());
 
     this.setOutputType(doc.setting.output || this.getOutputType());
+    if (bypass === false) {
+      Security.Checking(this.getToken(), this.getUsername());
+    }
   }
 
   /**
@@ -255,7 +259,7 @@ setting:
    * Load config from default path
    * @return {@link Config}
    *
-   * @throws {@link ConfigFailError}
+   * @throws {@link ConfigFailError}, {@link SECURITY_FAIL_ERR}
    */
   static Load(option?: { quiet?: boolean; bypass?: boolean }): Config {
     const quiet = option && option.quiet ? option.quiet : false;

@@ -52,6 +52,8 @@ const customJSON = printf(info => {
 
 const customTimestamp = timestamp({ format: "DD-MM-YYYY::HH.mm.ss" });
 
+let called = false;
+
 export default (
   option: LogOption = {
     level: LOGGER_LEVEL,
@@ -60,6 +62,9 @@ export default (
     log: { has: HAS_LOG_FILE, folder: LOG_FOLDER_PATH }
   }
 ) => {
+  if (called) return undefined;
+  else called = true;
+
   let consoleFormat: Format[] = [];
   let fileFormat: Format[] = [];
 
