@@ -40,6 +40,14 @@ export const INIT_CMD: CCommand = {
     {
       name: "-F, --force",
       desc: "Force to create config even it exist"
+    },
+    {
+      name: "-R, --raw <json>",
+      desc: "Pass raw json token to initial config file"
+    },
+    {
+      name: "-E, --file <path>",
+      desc: "Pass json file to create configuration"
     }
   ],
   fn: Initial
