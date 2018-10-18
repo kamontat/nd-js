@@ -4,7 +4,7 @@
  */
 
 import { log } from "winston";
-import { ThrowIf } from "../helpers/action";
+import { ThrowIf, SeperateArgumentApi } from "../helpers/action";
 import Config from "../models/Config";
 import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
 
@@ -16,10 +16,16 @@ import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
  * @version 1.0
  * @see {@link Config}
  */
-export default () => {
+export default (a: any) => {
+  const { options } = SeperateArgumentApi(a);
   try {
     const config = Config.Load();
-    log(WrapTMC("info", "configuration", config.configLocation));
+
+    if (options.raw) {
+      console.log(config.configLocation);
+    } else {
+      log(WrapTMC("info", "configuration", config.configLocation));
+    }
   } catch (e) {
     ThrowIf(e);
   }

@@ -7,6 +7,7 @@ import { BeChangeLevel, BeColor, BeQuiet, BeLog, BeLoggerTo, BeShortOutput, BeLo
 import { COption } from "../models/Option";
 import Config from "../models/Config";
 import { HELPER_LOAD_CONFIG } from "../helpers/config";
+import { ThrowIf } from "../helpers/action";
 
 export const VERBOSE_OPT: COption = {
   name: "-V, --verbose",
@@ -51,6 +52,6 @@ export const LOCATION_OPT: COption = {
   name: "-L, --location <location>",
   desc: "Custom output location",
   fn: location => {
-    Config.Load({ quiet: true }).setNovelLocation(location);
+    Config.Load({ quiet: true }).setNovelLocation(location[0]);
   }
 };

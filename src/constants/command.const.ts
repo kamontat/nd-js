@@ -8,7 +8,7 @@ import Changelog from "../command/changelog";
 import Initial from "../command/Initial";
 import Download from "../command/download";
 import Config from "../command/config";
-import ConfigSet from "../command/config-set";
+import ConfigSet, { CONFIG_SET_LIST } from "../command/config-set";
 import RawDownload from "../command/download-raw";
 import Fetch from "../command/fetch";
 import Update from "../command/update";
@@ -48,13 +48,19 @@ export const CONFIG_CMD: CCommand = {
   name: "configuration",
   alias: "config",
   desc: `Get config location path`,
+  options: [
+    {
+      name: "-R, --raw",
+      desc: "Show only the path result"
+    }
+  ],
   fn: Config
 };
 
 export const SET_CONFIG_CMD: CCommand = {
   name: "set-config",
   alias: "setc",
-  desc: "Set config value",
+  desc: `Set config value [${CONFIG_SET_LIST}]`,
   fn: ConfigSet
 };
 
