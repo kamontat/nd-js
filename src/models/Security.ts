@@ -1,4 +1,9 @@
 import { SECURITY_FAIL_ERR } from "../constants/error.const";
+import { verify, decode } from "jsonwebtoken";
+import { ND } from "../constants/nd.const";
+import { log } from "winston";
+import { WrapTMCT } from "./LoggerWrapper";
+import { COLORS } from "../constants/color.const";
 
 export class Security {
   static Checking(token: string, username: string) {
@@ -51,6 +56,10 @@ export class UsernameValidator implements Validator {
     return this.username[2];
   }
 
+  get key() {
+    return this.username.join(" ").concat(" ", ND.A);
+  }
+
   isValid() {
     // must be form of `name surname email`
     if (this.username.length !== 3)
@@ -80,7 +89,16 @@ export class NDValidator implements Validator {
   }
 
   isValid() {
-    // check is token generate from username
-    return false;
+    verify(this.token.token, this.username.key, { subject: "ND-JS" });
+    const result = decode(this.token.token, {
+      json: true,
+      complete: false
+    });
+    log(
+      WrapTMCT("info", "Your login", typeof result === "string" ? result : result && result.name, {
+        message: COLORS.Name
+      })
+    );
+    return true;
   }
 }

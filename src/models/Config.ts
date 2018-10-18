@@ -24,7 +24,7 @@ import Exception from "./Exception";
 
 import { ND } from "../constants/nd.const";
 
-import { CONFIG_CREATE_ERR, CONFIG_WARN } from "../constants/error.const";
+import { CONFIG_CREATE_ERR, CONFIG_WARN, SECURITY_FAIL_ERR } from "../constants/error.const";
 import { CONFIG_FAIL_ERR } from "../constants/error.const";
 import { WrapTM, WrapTMC, WrapTMCT } from "./LoggerWrapper";
 import { LOG_TYPE, HAS_COLOR } from "../constants/default.const";
@@ -148,8 +148,8 @@ export default class Config {
    * Load config file from system and save to memory. This command also valid the correctness of the file.
    * @throws {@link ConfigFailError} exception
    */
-  load(bypass?: boolean) {
-    if (bypass === false) {
+  load(bypass = false) {
+    if (!bypass) {
       let err = this.valid();
       if (err) {
         throw err;
@@ -167,8 +167,10 @@ export default class Config {
     this.setNovelLocation(doc.setting.location || this.getNovelLocation());
 
     this.setOutputType(doc.setting.output || this.getOutputType());
-    if (bypass === false) {
-      Security.Checking(this.getToken(), this.getUsername());
+    if (!bypass) {
+      if (!Security.Checking(this.getToken(), this.getUsername())) {
+        throw SECURITY_FAIL_ERR.loadString("unknown error");
+      }
     }
   }
 
