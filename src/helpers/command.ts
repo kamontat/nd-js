@@ -30,7 +30,7 @@ const makeCommand = (program: Command | CommanderStatic, c: CCommand) => {
 };
 
 const getAction = (fn: (...args: any[]) => void) => {
-  return (args: any[]) => {
+  return (...args: any[]) => {
     // setup logger configuration
     const setup = setting();
     if (setup) configure(setup);
