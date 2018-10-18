@@ -4,6 +4,7 @@ import { ND } from "../constants/nd.const";
 import { log } from "winston";
 import { WrapTMCT } from "./LoggerWrapper";
 import { COLORS } from "../constants/color.const";
+import { VerifyToken, DecodeToken } from "../apis/token";
 
 export class Security {
   static Checking(token: string, username: string) {
@@ -30,9 +31,11 @@ export class TokenValidator implements Validator {
   }
 
   isValid() {
+    const min = 200;
+    const max = 250;
     // between 205 <-> 210
-    if (this.token.length <= 205) throw SECURITY_FAIL_ERR.loadString("Token must have more than 205 charactor");
-    if (this.token.length > 210) throw SECURITY_FAIL_ERR.loadString("Token cannot have more than 210 charactor");
+    if (this.token.length <= min) throw SECURITY_FAIL_ERR.loadString(`Token must have more than ${min} charactor`);
+    if (this.token.length > max) throw SECURITY_FAIL_ERR.loadString(`Token cannot have more than ${max} charactor`);
     return true;
   }
 }
@@ -89,16 +92,7 @@ export class NDValidator implements Validator {
   }
 
   isValid() {
-    verify(this.token.token, this.username.key, { subject: "ND-JS" });
-    const result = decode(this.token.token, {
-      json: true,
-      complete: false
-    });
-    log(
-      WrapTMCT("info", "Your login", typeof result === "string" ? result : result && result.name, {
-        message: COLORS.Name
-      })
-    );
+    VerifyToken(this.token, this.username);
     return true;
   }
 }

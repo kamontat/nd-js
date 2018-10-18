@@ -5,7 +5,7 @@
 
 import { log } from "winston";
 import { PARAM_WRONG_ERR } from "../constants/error.const";
-import { Exception } from "../models/Exception";
+import Throwable, { Exception } from "../models/Exception";
 import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
 import { os } from "pjson";
 
@@ -63,6 +63,11 @@ export const ThrowIf = (e?: Error) => {
       process.exit(1);
     }
   }
+};
+
+export const Throw = (e: Throwable, message?: string) => {
+  if (message) e.loadString(message);
+  ThrowIf(e);
 };
 
 /**

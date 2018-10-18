@@ -133,5 +133,11 @@ export const ADMIN_CMD: CCommand = {
   name: "admin",
   alias: "A",
   desc: "Create token for current application",
+  options: [
+    {
+      name: "-J, --json",
+      desc: "Export as json format"
+    }
+  ],
   fn: Admin
 };

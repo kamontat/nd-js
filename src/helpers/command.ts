@@ -12,7 +12,7 @@ import { COption } from "../models/Option";
 import { CCommand } from "../models/Command";
 import Config from "../models/Config";
 import { ThrowIf } from "./action";
-import { CONFIG_CMD, SET_CONFIG_CMD } from "../constants/command.const";
+import { CONFIG_CMD, SET_CONFIG_CMD, ADMIN_CMD } from "../constants/command.const";
 
 export const MakeOption = (program: Command | CommanderStatic, o: COption) => {
   program.option(o.name, o.desc, o.fn && getAction(o.fn), o.default);
@@ -36,7 +36,9 @@ const getAction = (fn: (...args: any[]) => void, c?: CCommand) => {
     const setup = setting();
     if (setup) configure(setup);
     try {
-      Config.Load({ bypass: c && c === SET_CONFIG_CMD });
+      const bypassCMD = [SET_CONFIG_CMD, ADMIN_CMD];
+      const bypass: boolean = c ? bypassCMD.includes(c) : false;
+      Config.Load({ bypass: bypass });
       fn(args);
     } catch (e) {
       ThrowIf(e);

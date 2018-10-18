@@ -31,6 +31,7 @@ import { LOG_TYPE, HAS_COLOR } from "../constants/default.const";
 import { CheckIsExist } from "../helpers/helper";
 import { COLORS } from "../constants/color.const";
 import { Security } from "./Security";
+import { DecodeToken } from "../apis/token";
 
 /**
  * @class
@@ -167,9 +168,17 @@ export default class Config {
     this.setNovelLocation(doc.setting.location || this.getNovelLocation());
 
     this.setOutputType(doc.setting.output || this.getOutputType());
+
     if (!bypass) {
       if (!Security.Checking(this.getToken(), this.getUsername())) {
         throw SECURITY_FAIL_ERR.loadString("unknown error");
+      } else {
+        const result = DecodeToken(this.getToken());
+        log(
+          WrapTMCT("info", "Your login", typeof result === "string" ? result : result && result.name, {
+            message: COLORS.Name
+          })
+        );
       }
     }
   }

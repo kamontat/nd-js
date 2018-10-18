@@ -42,6 +42,7 @@
     "@types/core-js": "2.5.0",
     "@types/fs-extra": "5.0.4",
     "@types/iconv-lite": "0.0.1",
+    "@types/inquirer": "^0.0.43",
     "@types/jest": "23.3.2",
     "@types/js-yaml": "3.11.2",
     "@types/jsonwebtoken": "7.2.8",
@@ -110,14 +111,20 @@
     "coverage:ci": "jest --ci --coverage --verbose"
   },
   "pkg": {
-    "assets": ["package.json", "node_modules/config/**/*.*"]
+    "assets": [
+      "package.json",
+      "node_modules/config/**/*.*"
+    ]
   },
   "bin": ".caches/nd.min.js",
   "jest": {
     "setupTestFrameworkScriptFile": "./test/jest.setup.js",
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "testMatch": ["**/src/**/__tests__/**/*.ts?(x)", "**/src/**/?(*.)+(spec|test).ts?(x)"],
+    "testMatch": [
+      "**/src/**/__tests__/**/*.ts?(x)",
+      "**/src/**/?(*.)+(spec|test).ts?(x)"
+    ],
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/command/**/*.ts",
@@ -126,8 +133,17 @@
       "!src/constants/option.const.ts",
       "!**/node_modules/**"
     ],
-    "coverageReporters": ["json", "lcov", "text-summary"],
-    "moduleFileExtensions": ["js", "ts", "html", "mustache"],
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text-summary"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "html",
+      "mustache"
+    ],
     "transform": {
       "^.+\\.js$": "babel-jest",
       "^.+\\.mustache$": "<rootDir>/test/htmlLoader.js",
