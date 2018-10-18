@@ -3,7 +3,7 @@
  * @module commander.const
  */
 
-export let LOGGER_LEVEL = "info";
+export let LOGGER_LEVEL = "verbose";
 export const BeChangeLevel = (level: string) => (LOGGER_LEVEL = level);
 
 export let HAS_COLOR = true;
