@@ -74,7 +74,10 @@ program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
 program.on("--help", function() {
   console.log("");
   console.log(`Examples:
-$ ${ND.PROJECT_NAME} ${ARGUMENT_COLOR("initial")} [${OPTION_COLOR("--force")}]
+
+$ ${
+    ND.PROJECT_NAME
+  } ${ARGUMENT_COLOR("initial")} ${OPTION_COLOR("--")}[${OPTION_COLOR("force")}] ${OPTION_COLOR("--")}[${OPTION_COLOR("raw")} <${ARGUMENT_COLOR("json")}>|${OPTION_COLOR("file")} <${ARGUMENT_COLOR("path")}>]
 $ ${
     ND.PROJECT_NAME
   } ${ARGUMENT_COLOR("set-config")} [${PARAMETER_COLOR("token")}|${PARAMETER_COLOR("username")}|${PARAMETER_COLOR("color")}|${PARAMETER_COLOR("location")}]

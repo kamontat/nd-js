@@ -5,11 +5,13 @@ import { SECURITY_FAIL_ERR } from "../constants/error.const";
 
 export type TokenDataType = { issuedate: string; expiredate: string; fullname: string; username: string };
 export const CreateToken = (data: TokenDataType) => {
-  return sign({ sub: "ND-JS", name: data.username }, new UsernameValidator(data.fullname).key, {
+  return sign({ name: data.username }, new UsernameValidator(data.fullname).key, {
     expiresIn: data.expiredate,
     issuer: "ND-JS master",
     notBefore: data.issuedate,
-    algorithm: ND.ALGO
+    algorithm: ND.ALGO,
+    jwtid: ND.ID,
+    subject: "ND-JS"
   });
 };
 
