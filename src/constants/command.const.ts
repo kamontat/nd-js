@@ -12,6 +12,7 @@ import ConfigSet, { CONFIG_SET_LIST } from "../command/config-set";
 import RawDownload from "../command/download-raw";
 import Fetch from "../command/fetch";
 import Update from "../command/update";
+import Admin from "../command/admin";
 import { LOCATION_OPT } from "./option.const";
 import { log } from "winston";
 import { WrapTMC } from "../models/LoggerWrapper";
@@ -127,4 +128,10 @@ export const UPDATE_CMD: CCommand = {
   alias: "U",
   desc: "Update individual novel in location",
   fn: Update
+};
+export const ADMIN_CMD: CCommand = {
+  name: "admin",
+  alias: "A",
+  desc: "Create token for current application",
+  fn: Admin
 };

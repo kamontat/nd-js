@@ -33,7 +33,8 @@ import {
   FETCH_CMD,
   DOWNLOAD_CMD,
   UPDATE_CMD,
-  VERSION_CMD
+  VERSION_CMD,
+  ADMIN_CMD
 } from "./constants/command.const";
 import { OPTION_COLOR, ARGUMENT_COLOR, PARAMETER_COLOR } from "./constants/color.const";
 
@@ -58,6 +59,7 @@ MakeCommand(program, DOWNLOAD_CMD);
 MakeCommand(program, RAW_DOWNLOAD_CMD);
 MakeCommand(program, FETCH_CMD);
 MakeCommand(program, UPDATE_CMD);
+MakeCommand(program, ADMIN_CMD);
 
 program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
   const setup = setting();
