@@ -52,6 +52,6 @@ export const LOCATION_OPT: COption = {
   name: "-L, --location <location>",
   desc: "Custom output location",
   fn: location => {
-    Config.Load({ quiet: true }).setNovelLocation(location[0]);
+    Config.Load({ quiet: true }).setNovelLocation(location);
   }
 };

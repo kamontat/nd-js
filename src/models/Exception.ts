@@ -45,9 +45,9 @@ export class Exception extends Error implements Throwable {
     this.called = true;
 
     if (this.warn) {
-      log(WrapTMC("warn", "Warning", this.message));
+      log(WrapTMC("warn", "Warning", this.stack ? this.stack : this.message));
     } else {
-      log(WrapTMC("error", "Error", this.message));
+      log(WrapTMC("error", "Error", this.stack ? this.stack : this.message));
     }
     this.exit();
   };

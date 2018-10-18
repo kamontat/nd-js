@@ -59,7 +59,7 @@ export const ThrowIf = (e?: Error) => {
   if (e) {
     if (e instanceof Exception) e.printAndExit();
     else {
-      log(WrapTM("error", "Error", e.message));
+      log(WrapTM("error", "Error", e.stack ? e.stack : e.message));
       process.exit(1);
     }
   }

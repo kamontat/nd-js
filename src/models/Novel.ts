@@ -135,7 +135,7 @@ export class Novel {
     await zero.download(force);
   }
 
-  async saveChapters({ validate = false, force = false }) {
+  async saveChapters({ validate = false, force = false, completeFn = (_: NovelChapter) => {} }) {
     if (validate) this.validateBeforeSave({ force: force });
 
     if (this._chapters) {
@@ -153,6 +153,9 @@ export class Novel {
               .renderDefault();
 
             await WriteChapter(html, res.chapter, force);
+            completeFn(chap);
+            // console.log(`Completed ${res.chapter.number}`);
+
             log(WrapTMCT("verbose", "Completed", `${chap.toString()}`));
             chap.setStatus(NovelStatus.COMPLETED);
           } catch (e) {
@@ -180,17 +183,16 @@ export class Novel {
     return new Promise<Novel>(res => res(this));
   }
 
-  async saveNovel({ force = false }) {
-    await this.validateBeforeSave({ force: force });
-    await this.saveChapters({ force: force });
-    await this.saveZero({ force: force });
+  async saveNovel({ force = false, completeFn = (_: NovelChapter) => {} }) {
+    await this.validateBeforeSave({ force });
+    await this.saveChapters({ force, completeFn });
+    await this.saveZero({ force });
     return new Promise<Novel>(res => res(this));
   }
 
-  async saveAll({ force = false }) {
-    await this.validateBeforeSave({ force: force });
-    await this.saveZero({ force: force });
-    await this.saveChapters({ force: force });
+  async saveAll({ force = false, completeFn = (_: NovelChapter) => {} }) {
+    await this.saveNovel({ force, completeFn });
     await this.saveResource();
+    return new Promise<Novel>(res => res(this));
   }
 }

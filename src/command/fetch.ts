@@ -31,6 +31,6 @@ export default (a: any) => {
 
   new ListrApis()
     .addByHelper("Fetching Novel", NovelBuilder.fetch(id))
-    .addFnByHelper("Building Novel", ctx => NovelBuilder.build(id, ctx.result.cheerio))
+    .addFnByHelper("Building Novel", ctx => NovelBuilder.build(id, ctx.result.cheerio), "novel")
     .runNovel({ withChapter: options.withChapter });
 };
