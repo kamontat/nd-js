@@ -26,12 +26,11 @@ const makeCommand = (program: Command | CommanderStatic, c: CCommand) => {
   if (c.options) {
     c.options.forEach(o => MakeOption(p, o));
   }
-
   return p;
 };
 
-const getAction = (fn: (...args: any) => void) => {
-  return (...args: any) => {
+const getAction = (fn: (...args: any[]) => void) => {
+  return (args: any[]) => {
     // setup logger configuration
     const setup = setting();
     if (setup) configure(setup);

@@ -4,6 +4,9 @@
  */
 
 import p from "pjson";
-export const VERSION = p.version;
 
-export const PROJECT_NAME = p.name;
+export class ND {
+  static VERSION = p.version;
+  static PROJECT_NAME = p.name;
+  static A = "salt-nd-js";
+}

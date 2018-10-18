@@ -22,7 +22,7 @@ import config from "config";
 import { CONFIG_FILE_PATH } from "../constants/config.const";
 import Exception from "./Exception";
 
-import { VERSION } from "../constants/nd.const";
+import { ND } from "../constants/nd.const";
 
 import { CONFIG_CREATE_ERR, CONFIG_WARN } from "../constants/error.const";
 import { CONFIG_FAIL_ERR } from "../constants/error.const";
@@ -141,7 +141,7 @@ export default class Config {
   }
 
   getVersion(): number {
-    return this._version === undefined ? major(VERSION) : this._version;
+    return this._version === undefined ? major(ND.VERSION) : this._version;
   }
 
   /**
@@ -183,7 +183,7 @@ export default class Config {
       return CONFIG_FAIL_ERR.clone().loadString("version key is required.");
     }
 
-    if (!semver.major(VERSION) === config.get("version")) {
+    if (!semver.major(ND.VERSION) === config.get("version")) {
       return CONFIG_FAIL_ERR.clone().loadString("version is missing or not matches.");
     }
 

@@ -15,13 +15,13 @@ import Update from "../command/update";
 import { LOCATION_OPT } from "./option.const";
 import { log } from "winston";
 import { WrapTMC } from "../models/LoggerWrapper";
-import { VERSION, PROJECT_NAME } from "./nd.const";
+import { ND } from "./nd.const";
 
 export const VERSION_CMD: CCommand = {
   name: "version",
   alias: "V",
   desc: "Show command version",
-  fn: () => log(WrapTMC("info", `${PROJECT_NAME}`, `v${VERSION}`))
+  fn: () => log(WrapTMC("info", `${ND.PROJECT_NAME}`, `v${ND.VERSION}`))
 };
 
 export const CHANGELOG_CMD: CCommand = {

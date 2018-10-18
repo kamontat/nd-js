@@ -10,7 +10,7 @@ import winston from "winston";
 
 import setting from "./models/Logger";
 
-import { VERSION, PROJECT_NAME } from "./constants/nd.const";
+import { ND } from "./constants/nd.const";
 import { MakeCommand, MakeOption } from "./helpers/command";
 
 import {
@@ -37,7 +37,7 @@ import {
 } from "./constants/command.const";
 import { OPTION_COLOR, ARGUMENT_COLOR, PARAMETER_COLOR } from "./constants/color.const";
 
-program.name(PROJECT_NAME).version(`nd version: ${VERSION}`, "-v, --version");
+program.name(ND.PROJECT_NAME).version(`nd version: ${ND.VERSION}`, "-v, --version");
 
 MakeOption(program, VERBOSE_OPT);
 MakeOption(program, DEBUG_OPT);
@@ -70,9 +70,13 @@ program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
 program.on("--help", function() {
   console.log("");
   console.log(`Examples:
-$ ${PROJECT_NAME} ${ARGUMENT_COLOR("initial")} [${OPTION_COLOR("--force")}]
-$ ${PROJECT_NAME} ${ARGUMENT_COLOR("set-config")} [${PARAMETER_COLOR("token")}|${PARAMETER_COLOR("username")}|${PARAMETER_COLOR("color")}|${PARAMETER_COLOR("location")}]
-$ ${PROJECT_NAME} ${OPTION_COLOR("--")}[${OPTION_COLOR("help")}|${OPTION_COLOR("changelog")}|${OPTION_COLOR("version")}]
+$ ${ND.PROJECT_NAME} ${ARGUMENT_COLOR("initial")} [${OPTION_COLOR("--force")}]
+$ ${
+    ND.PROJECT_NAME
+  } ${ARGUMENT_COLOR("set-config")} [${PARAMETER_COLOR("token")}|${PARAMETER_COLOR("username")}|${PARAMETER_COLOR("color")}|${PARAMETER_COLOR("location")}]
+$ ${
+    ND.PROJECT_NAME
+  } ${OPTION_COLOR("--")}[${OPTION_COLOR("help")}|${OPTION_COLOR("changelog")}|${OPTION_COLOR("version")}]
 `);
 });
 
