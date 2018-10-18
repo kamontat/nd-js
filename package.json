@@ -15,9 +15,10 @@
     "fs-extra": "7.0.0",
     "glob": "7.1.3",
     "iconv-lite": "0.4.24",
+    "inquirer": "6.2.0",
     "js-yaml": "3.12.0",
-    "jsonwebtoken": "^8.3.0",
-    "listr": "^0.14.2",
+    "jsonwebtoken": "8.3.0",
+    "listr": "0.14.2",
     "moment": "2.22.2",
     "mustache": "3.0.0",
     "pjson": "1.0.9",
@@ -26,7 +27,7 @@
     "request-promise": "4.2.2",
     "semver": "5.5.1",
     "sqlite3": "4.0.2",
-    "terminal-link": "^1.1.0",
+    "terminal-link": "1.1.0",
     "uglify-es": "3.3.9",
     "uuid": "3.3.2",
     "vorpal": "1.12.0",
@@ -43,14 +44,14 @@
     "@types/iconv-lite": "0.0.1",
     "@types/jest": "23.3.2",
     "@types/js-yaml": "3.11.2",
-    "@types/jsonwebtoken": "^7.2.8",
-    "@types/listr": "^0.13.0",
+    "@types/jsonwebtoken": "7.2.8",
+    "@types/listr": "0.13.0",
     "@types/mustache": "0.8.31",
     "@types/request": "2.47.1",
     "@types/request-promise": "4.1.42",
     "@types/semver": "5.5.0",
     "@types/sqlite3": "3.1.3",
-    "@types/tmp": "^0.0.33",
+    "@types/tmp": "0.0.33",
     "@types/uuid": "3.4.4",
     "@types/vorpal": "1.11.0",
     "babel-core": "6.26.3",
@@ -65,8 +66,8 @@
     "jest-raw-loader": "1.0.1",
     "pkg": "4.3.1",
     "rimraf": "2.6.2",
-    "terser-webpack-plugin": "^1.1.0",
-    "tmp": "^0.0.33",
+    "terser-webpack-plugin": "1.1.0",
+    "tmp": "0.0.33",
     "to-string-loader": "1.1.5",
     "ts-jest": "23.10.3",
     "ts-loader": "5.1.1",
@@ -109,20 +110,14 @@
     "coverage:ci": "jest --ci --coverage --verbose"
   },
   "pkg": {
-    "assets": [
-      "package.json",
-      "node_modules/config/**/*.*"
-    ]
+    "assets": ["package.json", "node_modules/config/**/*.*"]
   },
   "bin": ".caches/nd.min.js",
   "jest": {
     "setupTestFrameworkScriptFile": "./test/jest.setup.js",
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "testMatch": [
-      "**/src/**/__tests__/**/*.ts?(x)",
-      "**/src/**/?(*.)+(spec|test).ts?(x)"
-    ],
+    "testMatch": ["**/src/**/__tests__/**/*.ts?(x)", "**/src/**/?(*.)+(spec|test).ts?(x)"],
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/command/**/*.ts",
@@ -131,17 +126,8 @@
       "!src/constants/option.const.ts",
       "!**/node_modules/**"
     ],
-    "coverageReporters": [
-      "json",
-      "lcov",
-      "text-summary"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "ts",
-      "html",
-      "mustache"
-    ],
+    "coverageReporters": ["json", "lcov", "text-summary"],
+    "moduleFileExtensions": ["js", "ts", "html", "mustache"],
     "transform": {
       "^.+\\.js$": "babel-jest",
       "^.+\\.mustache$": "<rootDir>/test/htmlLoader.js",
