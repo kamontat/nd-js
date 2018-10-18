@@ -16,7 +16,6 @@ import { MakeCommand, MakeOption } from "./helpers/command";
 import {
   DEBUG_OPT,
   QUIET_OPT,
-  VERBOSE_OPT,
   NO_COLOR_OPT,
   NO_LOG_OPT,
   LOG_PATH_OPT,
@@ -42,7 +41,7 @@ import { OPTION_COLOR, ARGUMENT_COLOR, PARAMETER_COLOR } from "./constants/color
 
 program.name(ND.PROJECT_NAME).version(`nd version: ${ND.VERSION}`, "-v, --version");
 
-MakeOption(program, VERBOSE_OPT);
+// MakeOption(program, VERBOSE_OPT);
 MakeOption(program, DEBUG_OPT);
 MakeOption(program, QUIET_OPT);
 MakeOption(program, NO_COLOR_OPT);

@@ -9,11 +9,11 @@ import Config from "../models/Config";
 import { HELPER_LOAD_CONFIG } from "../helpers/config";
 import { ThrowIf } from "../helpers/action";
 
-export const VERBOSE_OPT: COption = {
-  name: "-V, --verbose",
-  desc: "Be verbose",
-  fn: () => BeChangeLevel("verbose")
-};
+// export const VERBOSE_OPT: COption = {
+//   name: "-V, --verbose",
+//   desc: "Be verbose",
+//   fn: () => BeChangeLevel("verbose")
+// };
 
 export const DEBUG_OPT: COption = {
   name: "-D, --debug",
