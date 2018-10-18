@@ -1,5 +1,7 @@
 const path = require("path");
 const nodeExternals = require("webpack-node-externals");
+
+const TerserPlugin = require("terser-webpack-plugin");
 const DashboardPlugin = require("webpack-dashboard/plugin");
 
 module.exports = {
@@ -23,6 +25,43 @@ module.exports = {
         use: "ts-loader",
         exclude: /node_modules/
       }
+    ]
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          compress: {
+            ecma: 6,
+            keep_fargs: false,
+            module: true,
+            toplevel: true,
+            warnings: true,
+            unsafe_methods: true,
+            unsafe_undefined: true
+          },
+          output: {
+            beautify: false,
+            comments: false
+            // output options
+          },
+          warnings: false,
+          mangle: {
+            module: true,
+            toplevel: true,
+            properties: {
+              regex: /_$/
+            }
+          },
+          toplevel: true,
+          module: true,
+          ie8: false,
+          keep_classnames: false,
+          keep_fnames: false,
+          safari10: false
+        }
+      })
     ]
   },
   resolve: {
