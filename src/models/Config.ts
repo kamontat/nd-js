@@ -175,7 +175,7 @@ export default class Config {
       } else {
         const result = DecodeToken(this.getToken());
         log(
-          WrapTMCT("info", "Your login", typeof result === "string" ? result : result && result.name, {
+          WrapTMCT("info", "Your username", typeof result === "string" ? result : result && result.name, {
             message: COLORS.Name
           })
         );
