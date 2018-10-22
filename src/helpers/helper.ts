@@ -71,9 +71,12 @@ export const CheckIsPathExist = (pathname: any) => {
  *
  */
 export const MakeReadableNumberArray = (array: Array<string>) => {
-  let result = array[0];
+  // sort the array low - high
+  array = array.sort((a, b) => {
+    return parseInt(a) - parseInt(b);
+  });
 
-  // should already sorted
+  let result = array[0];
   let cont = false;
   let dash = false;
   for (let i = 0; i < array.length; i++) {

@@ -4,20 +4,21 @@ import { ThrowIf } from "./action";
 import { ExceptionStorage } from "../models/ExceptionStorage";
 import Observable from "zen-observable";
 import { NovelChapter } from "../models/Chapter";
+import Bluebird from "bluebird";
 
 export class ListrHelper {
-  static createFn(title: string, fn: (ctx: any) => Promise<any> | Observable<any>, contextKey = "result"): ListrTask {
+  static createFn(title: string, fn: (ctx: any) => Bluebird<any> | Observable<any>, contextKey = "result"): ListrTask {
     return {
       title: title,
       task: ctx => {
         let result = fn(ctx);
-        if (result instanceof Promise) return result.then(res => (ctx[contextKey] = res));
+        if (result instanceof Bluebird) return result.then(res => (ctx[contextKey] = res));
         else return <any>result;
       }
     };
   }
 
-  static create(title: string, promise: Promise<any>, contextKey = "result"): ListrTask {
+  static create(title: string, promise: Bluebird<any>, contextKey = "result"): ListrTask {
     return ListrHelper.createFn(title, _ => promise, contextKey);
   }
 }
@@ -38,12 +39,12 @@ export class ListrApis {
     return this;
   }
 
-  addByHelper(title: string, promise: Promise<any>, contextKey = "result") {
+  addByHelper(title: string, promise: Bluebird<any>, contextKey = "result") {
     this.list.add(ListrHelper.create(title, promise, contextKey));
     return this;
   }
 
-  addFnByHelper(title: string, fn: (ctx: any) => Promise<any> | Observable<any>, contextKey = "result") {
+  addFnByHelper(title: string, fn: (ctx: any) => Bluebird<any> | Observable<any>, contextKey = "result") {
     this.list.add(ListrHelper.createFn(title, fn, contextKey));
     return this;
   }
@@ -74,11 +75,10 @@ export class ListrApis {
   }
 
   runNovel({ withChapter = false, ctx = {}, contextKey = "novel" }) {
-    this.list
+    return this.list
       .run(ctx)
       .then(ctx => {
         (<Novel>ctx[contextKey]).print({ withChapter: withChapter });
-        ExceptionStorage.CONST.print();
       })
       .catch(ThrowIf);
   }

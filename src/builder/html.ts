@@ -62,9 +62,9 @@ export class HtmlBuilder {
     return new HtmlBuild(id);
   }
 
-  static buildContent($: CheerioStatic) {
+  static buildContent(chapter: NovelChapter, $: CheerioStatic) {
     const content = new HtmlContent();
-    content.adds(GetNovelContent($));
+    content.adds(GetNovelContent(chapter, $));
     return content;
   }
 

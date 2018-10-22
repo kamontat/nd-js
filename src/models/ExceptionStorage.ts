@@ -21,4 +21,8 @@ export class ExceptionStorage {
     log(WrapTMC("warn", "Exception", "---------------"));
     this.list().forEach((v, i) => log(WrapTMC(v.warn ? "warn" : "error", `Exception ${i}`, v.message)));
   }
+
+  reset() {
+    this.exceptions.forEach(exp => (exp.called = false));
+  }
 }

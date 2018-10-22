@@ -194,25 +194,32 @@ export const getNovelContentV2 = ($: CheerioStatic) => {
   return result;
 };
 
-export const GetNovelContent = ($: CheerioStatic) => {
+export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
   let result: HtmlNode[] = [];
   if ($("div#story-content").text() !== "") {
+    log(WrapTM("debug", `${chapter.id}, at chap ${chapter.number}`, "version 2"));
     result = getNovelContentV2($);
   } else {
+    log(WrapTM("debug", `${chapter.id}, at chap ${chapter.number}`, "version 1"));
     result = getNovelContentV1($);
   }
 
+  log(WrapTM("debug", "Result of novel content", result.map(node => node.text).join("|")));
+
   if (result.some(node => node.text.includes("ตอนนี้เป็นส่วนหนึ่งในแพ็กเกจนิยาย"))) {
-    // log(WrapTMCT("debug", `Chapter status`, "sold chapter !! "));
+    log(WrapTMCT("debug", `${chapter.id} => ${chapter.number} status`, "Sell!! "));
     throw NOVEL_SOLD_WARN.clone();
   } else if (result.some(node => node.text.includes("ผู้แต่งปิดการเข้าถึง"))) {
+    log(WrapTMCT("debug", `${chapter.id} => ${chapter.number} status`, "Close!! "));
     throw NOVEL_CLOSED_WARN.clone();
   }
 
-  if (result.length < 1)
+  if (result.length < 1) {
+    log(WrapTM("debug", "The raw result", $.html()));
     NOVEL_WARN.clone()
-      .loadString("Cannot get novel content")
+      .loadString(`Cannot get ${chapter.id} chapter ${chapter.number} content`)
       .printAndExit();
+  }
 
   return result;
 };

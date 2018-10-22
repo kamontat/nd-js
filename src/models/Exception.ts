@@ -41,8 +41,12 @@ export class Exception extends Error implements Throwable {
     ExceptionStorage.CONST.add(this);
   }
 
-  printAndExit = () => {
+  save = () => {
     this.called = true;
+  };
+
+  printAndExit = () => {
+    this.save();
 
     if (this.warn) {
       log(WrapTMC("warn", "Warning", this.stack ? this.stack : this.message));

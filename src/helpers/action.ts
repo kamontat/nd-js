@@ -7,7 +7,6 @@ import { log } from "winston";
 import { PARAM_WRONG_ERR } from "../constants/error.const";
 import Throwable, { Exception } from "../models/Exception";
 import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
-import { os } from "pjson";
 
 /**
  * Helper for {@link IfValidate} function
@@ -63,6 +62,10 @@ export const ThrowIf = (e?: Error) => {
       process.exit(1);
     }
   }
+};
+
+export const SaveIf = (e?: Exception) => {
+  if (e && e.save) e.save();
 };
 
 export const Throw = (e: Throwable, message?: string) => {

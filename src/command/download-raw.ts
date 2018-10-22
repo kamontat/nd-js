@@ -7,13 +7,10 @@ import { SeperateArgumentApi, ThrowIf, ValidList, ByLength } from "../helpers/ac
 import { GetNID } from "../helpers/novel";
 import { NovelBuilder } from "../builder/novel";
 import Config from "../models/Config";
-import { ExceptionStorage } from "../models/ExceptionStorage";
 import { WrapTMC } from "../models/LoggerWrapper";
 import { log } from "winston";
 import { ListrApis } from "../helpers/listr";
 import { Novel } from "../models/Novel";
-import { NovelChapter } from "../models/Chapter";
-import Observable from "zen-observable";
 
 export default (a: any) => {
   log(WrapTMC("verbose", "prepare", "raw download"));

@@ -154,7 +154,7 @@ export class NovelZeroChapter extends NovelChapter {
     return FetchApi(this).then(res => {
       const html = HtmlBuilder.template(this._nid)
         .addNovel(this._novel)
-        .addContent(HtmlBuilder.buildContent(res.cheerio))
+        .addContent(HtmlBuilder.buildContent(res.chapter, res.cheerio))
         .renderDefault();
 
       return WriteChapter(html, res.chapter, force);

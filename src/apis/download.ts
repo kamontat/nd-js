@@ -13,6 +13,7 @@ import { NOVEL_WARN } from "../constants/error.const";
 import { CheckIsNovel, GetChapterNameApi, GetChapterDateApi, GetNovelNameApi } from "./novel";
 import { HtmlBuilder } from "../builder/html";
 import { WriteChapter } from "./file";
+import Bluebird, { Promise } from "bluebird";
 
 function download(url: URL) {
   return request({
@@ -42,42 +43,40 @@ function download(url: URL) {
   });
 }
 
-export const FetchApi: (chapter: NovelChapter) => Promise<{ cheerio: CheerioStatic; chapter: NovelChapter }> = (
+export const FetchApi: (chapter: NovelChapter) => Bluebird<{ cheerio: CheerioStatic; chapter: NovelChapter }> = (
   chapter: NovelChapter
 ) => {
   return new Promise((res, rej) => {
-    return download(chapter.link()).then(($: CheerioStatic) => {
-      if (CheckIsNovel($)) {
-        chapter.setName(GetChapterNameApi($));
-        chapter.setDate(GetChapterDateApi($));
-        return res({ cheerio: $, chapter: chapter });
-      } else {
-        return rej(NOVEL_WARN.clone().loadString(`Novel(${chapter.id}) on chapter ${chapter.number} is not exist`));
-      }
-    });
+    return download(chapter.link())
+      .then(($: CheerioStatic) => {
+        if (CheckIsNovel($)) {
+          chapter.setName(GetChapterNameApi($));
+          chapter.setDate(GetChapterDateApi($));
+          return res({ cheerio: $, chapter: chapter });
+        } else {
+          return rej(NOVEL_WARN.clone().loadString(`Novel(${chapter.id}) on chapter ${chapter.number} is not exist`));
+        }
+      })
+      .catch(rej);
   });
 };
 
-export const DownloadChapter: (chapter: NovelChapter, force?: boolean) => Promise<NovelChapter> = (
-  chapter: NovelChapter,
-  force?: boolean
-) => {
+export const DownloadChapter = (chapter: NovelChapter, force?: boolean) => {
   return FetchApi(chapter).then(res => {
     const html = HtmlBuilder.template(res.chapter.id)
       .addName(GetNovelNameApi(res.cheerio))
       .addChap(res.chapter)
-      .addContent(HtmlBuilder.buildContent(res.cheerio))
+      .addContent(HtmlBuilder.buildContent(res.chapter, res.cheerio))
       .renderDefault();
 
     return WriteChapter(html, res.chapter, force);
   });
 };
 
-export const DownloadChapters: (force: boolean | undefined, chapters: NovelChapter[]) => Promise<NovelChapter[]> = (
-  force: boolean | undefined,
-  chapters: NovelChapter[]
-) => {
-  return Promise.all(chapters.map(c => DownloadChapter(c, force)));
+export const DownloadChapters = (force: boolean | undefined, chapters: NovelChapter[]) => {
+  return Promise.each(chapters, function(item) {
+    return DownloadChapter(item, force);
+  });
 };
 
 // TODO: Add multiple thread downloader https://github.com/tusharmath/Multi-threaded-downloader

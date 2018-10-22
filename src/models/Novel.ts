@@ -7,29 +7,24 @@ import moment, { Moment } from "moment";
 
 import { log } from "winston";
 import { GetLink } from "../helpers/novel";
-import { NOVEL_WARN, NOVEL_SOLD_WARN, NOVEL_CLOSED_WARN } from "../constants/error.const";
+import { NOVEL_WARN, NOVEL_SOLD_WARN, NOVEL_CLOSED_WARN, NOVEL_NOTFOUND_ERR } from "../constants/error.const";
 import { join } from "path";
 import { GetNovelNameApi, CreateChapterListApi, GetNovelDateApi, NormalizeNovelName } from "../apis/novel";
-import { WrapTMCT, WrapTMC, WrapTM } from "./LoggerWrapper";
+import { WrapTMCT } from "./LoggerWrapper";
 import { COLORS } from "../constants/color.const";
 import { DEFAULT_NOVEL_FOLDER_NAME } from "../constants/novel.const";
 import { existsSync } from "fs";
-import { mkdirpSync, mkdirp } from "fs-extra";
-import { Exception } from "./Exception";
+import { mkdirp } from "fs-extra";
 import { NovelChapter, NovelStatus } from "./Chapter";
 import { NovelBuilder } from "../builder/novel";
 import { FetchApi } from "../apis/download";
 import { HtmlBuilder } from "../builder/html";
 import { WriteChapter } from "../apis/file";
-import { Resource } from "./Resource";
-import { os } from "pjson";
-import { exit } from "shelljs";
-import { MakeReadableNumberArray } from "../helpers/helper";
-import { ResourceBuilder } from "../builder/resource";
 import Config from "./Config";
 
 import terminalLink from "terminal-link";
-import { ThrowIf } from "../helpers/action";
+import { SaveIf } from "../helpers/action";
+import Bluebird from "bluebird";
 
 export class Novel {
   // TODO: add required information attribute
@@ -54,8 +49,8 @@ export class Novel {
     this._updateAt = GetNovelDateApi($);
   }
 
-  load($: CheerioStatic): Promise<Novel> {
-    return new Promise(res => {
+  load($: CheerioStatic): Bluebird<Novel> {
+    return new Bluebird(res => {
       this._name = GetNovelNameApi($);
 
       if (this._location)
@@ -135,43 +130,38 @@ export class Novel {
     await zero.download(force);
   }
 
-  async saveChapters({ validate = false, force = false, completeFn = (_: NovelChapter) => {} }) {
+  saveChapters({ validate = false, force = false, completeFn = (_: NovelChapter) => {} }) {
     if (validate) this.validateBeforeSave({ force: force });
 
-    if (this._chapters) {
-      await Promise.all(
-        this._chapters.map(async chap => {
-          try {
-            // log(WrapTM("debug", "start download", `chapter ${chap.number}`));
-            const res = await FetchApi(chap);
-            // log(WrapTM("debug", "start build html file", `chapter ${chap.number}`));
+    if (this._chapters && this._chapters.length > 0) {
+      return Bluebird.each(this._chapters, async chap => {
+        try {
+          const res = await FetchApi(chap);
+          const html = HtmlBuilder.template(res.chapter.id)
+            .addChap(res.chapter)
+            .addName(this._name)
+            .addContent(HtmlBuilder.buildContent(res.chapter, res.cheerio))
+            .renderDefault();
 
-            const html = HtmlBuilder.template(res.chapter.id)
-              .addChap(res.chapter)
-              .addName(this._name)
-              .addContent(HtmlBuilder.buildContent(res.cheerio))
-              .renderDefault();
+          await WriteChapter(html, res.chapter, force);
+          completeFn(chap);
+          // console.log(`Completed ${res.chapter.number}`);
 
-            await WriteChapter(html, res.chapter, force);
-            completeFn(chap);
-            // console.log(`Completed ${res.chapter.number}`);
-
-            log(WrapTMCT("verbose", "Completed", `${chap.toString()}`));
-            chap.setStatus(NovelStatus.COMPLETED);
-          } catch (e) {
-            if (NOVEL_SOLD_WARN.equal(e)) {
-              e.loadString(`chapter ${chap.number}`);
-              chap.setStatus(NovelStatus.SOLD);
-            } else if (NOVEL_CLOSED_WARN.equal(e)) {
-              e.loadString(`chapter ${chap.number}`);
-              chap.setStatus(NovelStatus.SOLD);
-            } else {
-              ThrowIf(e);
-            }
+          chap.setStatus(NovelStatus.COMPLETED);
+          log(WrapTMCT("verbose", chap.status, `${chap.toString()}`));
+        } catch (e) {
+          if (NOVEL_SOLD_WARN.equal(e)) {
+            e.loadString(`id ${chap.id} chapter ${chap.number}`);
+            chap.setStatus(NovelStatus.SOLD);
+          } else if (NOVEL_CLOSED_WARN.equal(e)) {
+            e.loadString(`id ${chap.id} chapter ${chap.number}`);
+            chap.setStatus(NovelStatus.CLOSED);
           }
-        })
-      );
+          SaveIf(e);
+        }
+      });
     }
+    return Bluebird.reject(NOVEL_NOTFOUND_ERR.loadString("don't have any chapters"));
   }
 
   async saveResource() {
@@ -180,14 +170,14 @@ export class Novel {
       // const resource = ResourceBuilder.build(this._location || "", this);
       // await resource.save(force);
     }
-    return new Promise<Novel>(res => res(this));
+    return Bluebird.resolve(this);
   }
 
   async saveNovel({ force = false, completeFn = (_: NovelChapter) => {} }) {
     await this.validateBeforeSave({ force });
     await this.saveChapters({ force, completeFn });
     await this.saveZero({ force });
-    return new Promise<Novel>(res => res(this));
+    return Bluebird.resolve(this);
   }
 
   async saveAll({ force = false, completeFn = (_: NovelChapter) => {} }) {
