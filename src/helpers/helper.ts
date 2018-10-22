@@ -36,7 +36,8 @@ export const CheckIsExist = (value: string | undefined | null) => {
  * @return true, if input value contains only number
  */
 export const CheckIsNumber = (value: string) => {
-  return value && value.toString().match(/^\d+$/) !== null;
+  if (!value) return false;
+  return value.toString().match(/^\d+$/) !== null;
 };
 
 export const CheckIsEmail = (value: string) => {
