@@ -73,14 +73,27 @@ export default class Config {
     this._option = option;
   }
 
-  showStatus() {
+  showStatus(options?: { console?: boolean; all: boolean }) {
     if (!this._isQuite()) {
-      log(WrapTMCT("verbose", "Config.token", this._token, { message: COLORS.Token }));
-      log(WrapTMCT("verbose", "Config.username", this._username, { message: COLORS.Name }));
-      log(WrapTMCT("debug", "Config.version", this._version));
-      log(WrapTMCT("debug", "Config.color", this._color));
-      log(WrapTMCT("debug", "Config.type", this._outputType));
-      log(WrapTMCT("debug", "Config.location", this._novelLocation));
+      if (options && options.all) {
+        log(
+          WrapTMCT(options && options.console ? "info" : "verbose", "Config.token", this._token, {
+            message: COLORS.Token
+          })
+        );
+        log(
+          WrapTMCT(options && options.console ? "info" : "verbose", "Config.username", this._username, {
+            message: COLORS.Name
+          })
+        );
+        log(WrapTMCT(options && options.console ? "info" : "debug", "Config.version", this._version));
+        log(WrapTMCT(options && options.console ? "info" : "debug", "Config.color", this._color));
+        log(WrapTMCT(options && options.console ? "info" : "debug", "Config.type", this._outputType));
+        log(WrapTMCT(options && options.console ? "info" : "debug", "Config.location", this._novelLocation));
+      }
+      if (options && options.console) {
+        Security.Printer(this.getToken(), this.getUsername());
+      }
     }
   }
 
@@ -170,7 +183,7 @@ export default class Config {
     this.setOutputType(doc.setting.output || this.getOutputType());
 
     if (!bypass) {
-      if (!Security.Checking(this.getToken(), this.getUsername())) {
+      if (!Security.Checking(this.getToken(), this.getUsername()).isValid()) {
         throw SECURITY_FAIL_ERR.loadString("unknown error");
       } else {
         const result = DecodeToken(this.getToken());

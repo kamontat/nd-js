@@ -13,6 +13,7 @@ import RawDownload from "../command/download-raw";
 import Fetch from "../command/fetch";
 import Update from "../command/update";
 import Admin from "../command/admin";
+import Validator from "../command/validator";
 import { LOCATION_OPT } from "./option.const";
 import { log } from "winston";
 import { WrapTMC } from "../models/LoggerWrapper";
@@ -148,4 +149,16 @@ export const ADMIN_CMD: CCommand = {
     }
   ],
   fn: Admin
+};
+export const VALIDATOR_CMD: CCommand = {
+  name: "validator",
+  alias: "valid",
+  desc: "Validate the command",
+  options: [
+    {
+      name: "-I, --info",
+      desc: "Also receive the information"
+    }
+  ],
+  fn: Validator
 };

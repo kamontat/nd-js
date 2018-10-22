@@ -54,10 +54,11 @@ export const ValidList = (
  *
  * @param e exception to be throw if exist
  */
-export const ThrowIf = (e?: Error) => {
+export const ThrowIf = (e?: Throwable) => {
   if (e) {
-    if (e instanceof Exception) e.printAndExit();
-    else {
+    if (e.printAndExit) {
+      e.printAndExit();
+    } else {
       log(WrapTM("error", "Error", e.stack ? e.stack : e.message));
       process.exit(1);
     }

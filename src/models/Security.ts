@@ -1,18 +1,35 @@
+/**
+ * @internal
+ * @module nd.security
+ */
+
 import { SECURITY_FAIL_ERR } from "../constants/error.const";
-import { verify, decode } from "jsonwebtoken";
 import { ND } from "../constants/nd.const";
+import { VerifyToken, DecodeToken } from "../apis/token";
 import { log } from "winston";
 import { WrapTMCT } from "./LoggerWrapper";
+import { CheckIsExist, CheckIsEmail, Timestamp, RevertTimestamp } from "../helpers/helper";
 import { COLORS } from "../constants/color.const";
-import { VerifyToken, DecodeToken } from "../apis/token";
 
 export class Security {
   static Checking(token: string, username: string) {
     const tv = new TokenValidator(token);
     const uv = new UsernameValidator(username);
-    const nv = new NDValidator(tv, uv);
+    return new NDValidator(tv, uv);
+  }
 
-    return tv.isValid() && uv.isValid() && nv.isValid();
+  static Printer(token: string, username: string) {
+    const validator = Security.Checking(token, username);
+
+    log(WrapTMCT("info", "Name", validator.username.name, { message: COLORS.Name }));
+    log(WrapTMCT("info", "Surname", validator.username.surname, { message: COLORS.Name }));
+    log(WrapTMCT("info", "Email", validator.username.email));
+
+    const decode = DecodeToken(token);
+    log(WrapTMCT("info", "Username", decode.name, { message: COLORS.Name }));
+    log(WrapTMCT("info", "Issue at", RevertTimestamp(decode.iat), { message: COLORS.DateTime }));
+    log(WrapTMCT("info", "Not before", RevertTimestamp(decode.nbf), { message: COLORS.DateTime }));
+    log(WrapTMCT("info", "Expire at", RevertTimestamp(decode.exp), { message: COLORS.DateTime }));
   }
 }
 
@@ -71,13 +88,7 @@ export class UsernameValidator implements Validator {
     if (!this.name.match(/^\w+$/)) throw SECURITY_FAIL_ERR.loadString("Name must contains only english charactor");
     if (!this.surname.match(/^\w+$/))
       throw SECURITY_FAIL_ERR.loadString("Surname must contains only english charactor");
-    if (
-      !this.email.match(
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )
-    )
-      throw SECURITY_FAIL_ERR.loadString("Wrong email format");
-
+    if (!CheckIsEmail(this.email)) throw SECURITY_FAIL_ERR.loadString("Wrong email format");
     return true;
   }
 }
@@ -92,7 +103,8 @@ export class NDValidator implements Validator {
   }
 
   isValid() {
-    VerifyToken(this.token, this.username);
-    return true;
+    const result = this.token.isValid() && this.username.isValid();
+    const decode = VerifyToken(this.token, this.username);
+    return result && CheckIsExist(decode && decode.toString());
   }
 }

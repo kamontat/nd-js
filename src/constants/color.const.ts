@@ -7,13 +7,20 @@ import chalk from "chalk";
 import { URL } from "url";
 import { ColorType } from "../models/Color";
 import moment, { isDate, isMoment, Moment } from "moment";
-import { CheckIsNumber, CheckIsExist, CheckIsPathExist, CheckIsBoolean } from "../helpers/helper";
-import { TransferAsDate, TransferNothing, TransferReadableList, noValidator } from "../helpers/color";
+import { CheckIsNumber, CheckIsExist, CheckIsPathExist, CheckIsBoolean, CheckIsEmail } from "../helpers/helper";
+import {
+  TransferAsDate,
+  TransferNothing,
+  TransferReadableList,
+  noValidator,
+  TransferAsDateTime
+} from "../helpers/color";
 
 export const TITLE_COLOR = chalk.blueBright;
 
 export const TOKEN_COLOR = chalk.blue.underline;
 export const NAME_COLOR = chalk.greenBright;
+export const EMAIL_COLOR = chalk.blueBright;
 
 export const CHAPTER_NAME_COLOR = chalk.magentaBright;
 export const NUMBER_COLOR = chalk.yellow;
@@ -42,6 +49,7 @@ export const COLORS = {
   Title: new ColorType("title", noValidator, TITLE_COLOR, TransferNothing),
   Token: new ColorType("token", noValidator, TOKEN_COLOR, TransferNothing),
   Name: new ColorType("name", noValidator, NAME_COLOR, TransferNothing),
+  Email: new ColorType("email", CheckIsEmail, EMAIL_COLOR, TransferNothing),
   ChapterName: new ColorType("chapter name", noValidator, CHAPTER_NAME_COLOR, TransferNothing),
   ChapterNumber: new ColorType("chapter number", noValidator, CHAPTER_NUMBER_COLOR, TransferNothing),
   ChapterList: new ColorType("chapter list", obj => obj instanceof Array, CHAPTER_NUMBERS_COLOR, TransferReadableList),
@@ -53,7 +61,15 @@ export const COLORS = {
     DATE_TODAY_COLOR,
     (v: Moment) => v.isSame(moment(), "day")
   ),
-  Location: new ColorType("location", obj => CheckIsPathExist(obj), LOCATION_COLOR, TransferNothing),
+  DateTime: new ColorType(
+    "datetime",
+    obj => isMoment(obj) || isDate(obj),
+    DATE_COLOR,
+    TransferAsDateTime,
+    DATE_TODAY_COLOR,
+    (v: Moment) => v.isSame(moment(), "day")
+  ),
+  Location: new ColorType("location", CheckIsPathExist, LOCATION_COLOR, TransferNothing),
   Link: new ColorType("link", obj => obj instanceof URL, LINK_COLOR, TransferNothing),
   Boolean: new ColorType(
     "boolean",
@@ -63,7 +79,7 @@ export const COLORS = {
     BOOLEAN_FALSE_COLOR,
     v => v === false
   ),
-  Number: new ColorType("number", obj => CheckIsNumber(obj.toString()), NUMBER_COLOR, TransferNothing),
+  Number: new ColorType("number", CheckIsNumber, NUMBER_COLOR, TransferNothing),
   String: new ColorType("string", noValidator, STRING_COLOR, TransferNothing),
   Undefined: new ColorType("undefined", obj => !CheckIsExist(obj), UNDEFINED_COLOR, TransferNothing),
   Important: new ColorType("important", noValidator, IMPORTANT_COLOR, TransferNothing)

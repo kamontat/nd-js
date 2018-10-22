@@ -32,7 +32,8 @@ import {
   FETCH_CMD,
   DOWNLOAD_CMD,
   UPDATE_CMD,
-  VERSION_CMD
+  VERSION_CMD,
+  VALIDATOR_CMD
 } from "./constants/command.const";
 
 import { ADMIN_CMD } from "./constants/command.const";
@@ -55,11 +56,13 @@ MakeCommand(program, CHANGELOG_CMD);
 MakeCommand(program, INIT_CMD);
 MakeCommand(program, CONFIG_CMD);
 MakeCommand(program, SET_CONFIG_CMD);
+MakeCommand(program, VALIDATOR_CMD);
 
 MakeCommand(program, DOWNLOAD_CMD);
 MakeCommand(program, RAW_DOWNLOAD_CMD);
 MakeCommand(program, FETCH_CMD);
 MakeCommand(program, UPDATE_CMD);
+
 if (ND.isDev()) MakeCommand(program, ADMIN_CMD);
 
 program.command("*", undefined, { noHelp: true }).action((args: any[]) => {

@@ -62,17 +62,3 @@ test("Should able to update config by command options", function() {
 
   expect(config.getNovelLocation()).toEqual("/tmp/newlocation");
 });
-
-test("Should able to save new config", function() {
-  const config = Config.Initial(true);
-  config.load(true);
-
-  expect(config.getToken()).toEqual("");
-  expect(config.getUsername()).toEqual("");
-
-  config.setToken("ABCOPQ");
-  config.setUsername("KC");
-  config.save();
-
-  expect(config.valid()).toBeUndefined();
-});

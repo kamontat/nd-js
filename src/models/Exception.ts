@@ -7,23 +7,62 @@ import { log } from "winston";
 import { WrapTMC } from "./LoggerWrapper";
 import { ExceptionStorage } from "./ExceptionStorage";
 
+/**
+ * This is the throwable interface, which use to contain more helper method than Error interface
+ *
+ * @author Kamontat Chantrachirathumrong
+ * @version 1.0.0
+ * @since Obtober 22, 2018
+ */
 export default interface Throwable extends Error {
+  /**
+   * Print the result and call {@link exit} method
+   */
+  printAndExit(): void;
+
+  /**
+   * This will exit the process (using {@link process.exit(code)}), if and only if the error isn't warning exception
+   */
   exit(): void;
 
+  /**
+   * To check is the error is a warning error
+   */
+  warn(): boolean;
+
+  /**
+   * This will load cause error from parameter
+   * @param e cause error
+   */
   loadError(e: Error): Exception;
+  /**
+   * This will load cause message from parameter
+   * @param e cause message
+   */
   loadString(e: string): Exception;
 
+  /**
+   * Clone the exception, if the error may cause more than 1 place
+   */
   clone(): Exception;
 
+  /**
+   * This will check is input error is same as current throwable
+   * @param e another object
+   */
   equal(e: any | undefined): boolean;
 }
 
 export class Exception extends Error implements Throwable {
   code: number = 1;
   description: string = "";
-  warn: boolean = false;
 
-  called: boolean = false;
+  protected called: boolean = false;
+  protected _warn: boolean = false;
+
+  get call() {
+    return this.called;
+  }
 
   constructor(title: string, code?: number, shift?: number) {
     super(title);
@@ -41,14 +80,22 @@ export class Exception extends Error implements Throwable {
     ExceptionStorage.CONST.add(this);
   }
 
+  warn = () => {
+    return this._warn;
+  };
+
   save = () => {
     this.called = true;
+  };
+
+  reset = () => {
+    this.called = false;
   };
 
   printAndExit = () => {
     this.save();
 
-    if (this.warn) {
+    if (this.warn()) {
       log(WrapTMC("warn", "Warning", this.stack ? this.stack : this.message));
     } else {
       log(WrapTMC("error", "Error", this.stack ? this.stack : this.message));
@@ -57,7 +104,7 @@ export class Exception extends Error implements Throwable {
   };
 
   exit = () => {
-    if (!this.warn) {
+    if (!this.warn()) {
       process.exit(this.code);
     }
   };
@@ -134,7 +181,7 @@ export class FError extends Exception {
 }
 
 export class Warning extends Exception {
-  warn = true;
+  _warn = true;
 
   constructor(title: string, shift?: number) {
     super(title, 100, shift);
@@ -144,7 +191,7 @@ export class Warning extends Exception {
     let n = new Warning(this.message);
     n.code = this.code;
     n.description = this.description;
-    n.warn = this.warn;
+    n._warn = this.warn();
     return n;
   };
 }

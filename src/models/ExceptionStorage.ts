@@ -14,7 +14,7 @@ export class ExceptionStorage {
   }
 
   list() {
-    return this.exceptions.filter(e => e.called);
+    return this.exceptions.filter(e => e.call);
   }
 
   print() {
@@ -23,6 +23,6 @@ export class ExceptionStorage {
   }
 
   reset() {
-    this.exceptions.forEach(exp => (exp.called = false));
+    this.exceptions.forEach(exp => exp.reset());
   }
 }
