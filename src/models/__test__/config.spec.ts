@@ -4,6 +4,8 @@ import { major } from "semver";
 import { ND } from "../../constants/nd.const";
 import { homedir } from "os";
 
+import { TEST_NAME, TEST_TOKEN } from "../../../test/test";
+
 test("Should have default value in config", function() {
   const config = new Config("/tmp", { quiet: true });
 
@@ -25,7 +27,6 @@ test("Should initial config file", function() {
     expect(e.message).toInclude("exist");
   }
 });
-
 test("Should load the config from file", function() {
   const config = Config.Initial(true);
 
@@ -34,7 +35,7 @@ test("Should load the config from file", function() {
 });
 
 test("Should able to set the value of config", function() {
-  const config = Config.Load();
+  const config = Config.Load({ bypass: true });
 
   config.setColor("false");
   expect(config.getColor()).toEqual(false);
@@ -61,4 +62,13 @@ test("Should able to update config by command options", function() {
   config.updateByOption({ location: "/tmp/newlocation" });
 
   expect(config.getNovelLocation()).toEqual("/tmp/newlocation");
+});
+
+test("Should set the valid token to file", function() {
+  const config = Config.Load({ bypass: true, quiet: true });
+  config.setToken(TEST_TOKEN);
+  config.setUsername(TEST_NAME);
+  config.save();
+
+  expect(config.getToken()).toEqual(TEST_TOKEN);
 });

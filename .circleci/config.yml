@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: 'circleci/node:9'
+      - image: "circleci/node:9"
     working_directory: ~/nd-js
     steps:
       - checkout
@@ -11,8 +11,8 @@ jobs:
             - 'v1-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}'
             - 'v1-dependencies-{{ checksum "package.json" }}'
             - v1-dependencies-
-      - run: 
-          name: Install dependencies 
+      - run:
+          name: Install dependencies
           command: yarn install
       - run:
           name: Setup Code Climate test-reporter
@@ -29,15 +29,15 @@ jobs:
           command: |
             yarn compile
             yarn start initial --force
-            yarn start setc token ABCDE
-            yarn start setc username CUSTOM
-      - run: 
+            yarn start setc token $ND_TOKEN
+            yarn start setc username $ND_USERNAME
+      - run:
           name: Testing
           command: |
             ./cc-test-reporter before-build
             yarn coverage:ci
             ./cc-test-reporter after-build --exit-code $?
-      - run: 
+      - run:
           name: Update CodeCov.io
           command: |
             curl -s https://codecov.io/bash | bash

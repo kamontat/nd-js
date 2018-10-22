@@ -89,6 +89,8 @@ export class UsernameValidator implements Validator {
     if (!this.surname.match(/^\w+$/))
       throw SECURITY_FAIL_ERR.loadString("Surname must contains only english charactor");
     if (!CheckIsEmail(this.email)) throw SECURITY_FAIL_ERR.loadString("Wrong email format");
+
+    if (this.email === "admin@nd.com" && ND.isProd()) throw SECURITY_FAIL_ERR.loadString("You using mockup token");
     return true;
   }
 }
