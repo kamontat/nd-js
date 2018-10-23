@@ -108,13 +108,13 @@ if $yes || lib "promptYN" "create release of version $version"; then
 
 	# save work
 	git add .
-	git commit -m "[release] Version: $version"
+	git commit -m "[release] Version: $expected"
 
 	# create bin file
 	yarn deploy
 
 	# create git tag
-	git tag "$version"
+	git tag "$expected"
 
 	# update work
 	if $yes || lib "promptYN" "execute git push code and tag"; then
@@ -131,11 +131,11 @@ if $yes || lib "promptYN" "create release of version $version"; then
 			printf "your release title message is "
 			read -r title
 		fi
-		message="$(git-chglog --config ./.gitgo/chglog/config.yml "$version")"
+		message="$(git-chglog --config ./.gitgo/chglog/config.yml "$expected")"
 
 		final="$(printf '%s\n%s' "$title" "$message")"
 
-		hub release create "$prerelease" --message="$final" "$version" -a "./bin/nd-linux" -a "./bin/nd-macos" -a "./bin/nd-win.exe"
+		hub release create "$prerelease" --message="$final" "$expected" -a "./bin/nd-linux" -a "./bin/nd-macos" -a "./bin/nd-win.exe"
 	fi
 else
 	echo "exit"
