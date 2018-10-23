@@ -1,3 +1,9 @@
+/**
+ * @internal
+ * @module nd.builder
+ * @description Html builder
+ */
+
 import { HtmlTemplate } from "../models/HtmlTemplate";
 import { HtmlContent } from "../models/HtmlContent";
 import { HtmlToc } from "../models/HtmlTOC";

@@ -1,7 +1,11 @@
+/**
+ * @external
+ * @module logger
+ */
+
 import Listr, { ListrTask, ListrOptions } from "listr";
 import { Novel } from "../models/Novel";
 import { ThrowIf } from "./action";
-import { ExceptionStorage } from "../models/ExceptionStorage";
 import Observable from "zen-observable";
 import { NovelChapter } from "../models/Chapter";
 import Bluebird from "bluebird";

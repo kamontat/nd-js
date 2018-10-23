@@ -6,8 +6,6 @@
 import { BeChangeLevel, BeColor, BeQuiet, BeLog, BeLoggerTo, BeShortOutput, BeLongOutput } from "./default.const";
 import { COption } from "../models/Option";
 import Config from "../models/Config";
-import { HELPER_LOAD_CONFIG } from "../helpers/config";
-import { ThrowIf } from "../helpers/action";
 
 // export const VERBOSE_OPT: COption = {
 //   name: "-V, --verbose",

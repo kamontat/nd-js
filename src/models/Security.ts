@@ -8,7 +8,7 @@ import { ND } from "../constants/nd.const";
 import { VerifyToken, DecodeToken } from "../apis/token";
 import { log } from "winston";
 import { WrapTMCT } from "./LoggerWrapper";
-import { CheckIsExist, CheckIsEmail, Timestamp, RevertTimestamp } from "../helpers/helper";
+import { CheckIsExist, CheckIsEmail, RevertTimestamp } from "../helpers/helper";
 import { COLORS } from "../constants/color.const";
 
 export class Security {

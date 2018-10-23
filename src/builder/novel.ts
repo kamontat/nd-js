@@ -1,6 +1,7 @@
 /**
  * @internal
  * @module nd.builder
+ * @description Novel object builder and chapter builder
  */
 
 import { FetchApi } from "../apis/download";

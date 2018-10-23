@@ -1,5 +1,3 @@
-import { NormalizeNovelName } from "../apis/novel";
-
 /**
  * @internal
  * @module nd.novel

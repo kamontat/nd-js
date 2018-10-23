@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
 import { SeperateArgumentApi, ThrowIf, ValidList, ByMatchSome, ByLength } from "../helpers/action";
 import { log } from "winston";
 import { WrapTMC } from "../models/LoggerWrapper";

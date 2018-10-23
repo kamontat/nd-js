@@ -53,13 +53,29 @@ export default interface Throwable extends Error {
   equal(e: any | undefined): boolean;
 }
 
+/**
+ * The Exception will throw if nd error occurred.
+ *
+ * @author Kamontat Chantrachirathumrong
+ * @version 1.0.0
+ * @since Obtober 22, 2018
+ */
 export class Exception extends Error implements Throwable {
+  /**
+   * code is the error code if exception is not warning
+   */
   code: number = 1;
+  /**
+   * description why error occurred
+   */
   description: string = "";
 
   protected called: boolean = false;
   protected _warn: boolean = false;
 
+  /**
+   * This is flag, will be true if the exception occurred
+   */
   get call() {
     return this.called;
   }
@@ -80,18 +96,30 @@ export class Exception extends Error implements Throwable {
     ExceptionStorage.CONST.add(this);
   }
 
+  /**
+   * This is flag is exception is warning
+   */
   warn = () => {
     return this._warn;
   };
 
+  /**
+   * Call this when exception be throw. This will automatic call if you print the result out
+   */
   save = () => {
     this.called = true;
   };
 
+  /**
+   * reset the exception to no call again
+   */
   reset = () => {
     this.called = false;
   };
 
+  /**
+   * Helper method, for print and exit if not warning
+   */
   printAndExit = () => {
     this.save();
 
@@ -103,26 +131,41 @@ export class Exception extends Error implements Throwable {
     this.exit();
   };
 
+  /**
+   * Exit the process if not warning exception
+   */
   exit = () => {
     if (!this.warn()) {
       process.exit(this.code);
     }
   };
 
+  /**
+   * @inheritdoc
+   */
   loadError = (e: Error) => {
     this.message = `${this.description} cause by "${e.message}"`;
     return this;
   };
 
+  /**
+   * @inheritdoc
+   */
   loadString = (message: string) => {
     this.message = `${this.description} cause by "${message}"`;
     return this;
   };
 
+  /**
+   * @inheritdoc
+   */
   clone = (): Exception => {
     return this;
   };
 
+  /**
+   * @inheritdoc
+   */
   equal = (e: any | undefined): boolean => {
     if (!e) return false;
     return e.code === this.code;
@@ -131,6 +174,10 @@ export class Exception extends Error implements Throwable {
 
 /**
  * NFError is not found error
+ *
+ * @author Kamontat Chantrachirathumrong
+ * @version 1.0.0
+ * @since Obtober 22, 2018
  */
 export class NFError extends Exception {
   constructor(title: string, shift?: number) {
@@ -148,6 +195,10 @@ export class NFError extends Exception {
 
 /**
  * EError is error or wrong input
+ *
+ * @author Kamontat Chantrachirathumrong
+ * @version 1.0.0
+ * @since Obtober 22, 2018
  */
 export class EError extends Exception {
   constructor(title: string, shift?: number) {
@@ -165,6 +216,10 @@ export class EError extends Exception {
 
 /**
  * FError is fail to do something
+ *
+ * @author Kamontat Chantrachirathumrong
+ * @version 1.0.0
+ * @since Obtober 22, 2018
  */
 export class FError extends Exception {
   constructor(title: string, shift?: number) {
@@ -180,6 +235,13 @@ export class FError extends Exception {
   };
 }
 
+/**
+ * Warning error, this would not exit the process if exit method called.
+ *
+ * @author Kamontat Chantrachirathumrong
+ * @version 1.0.0
+ * @since Obtober 22, 2018
+ */
 export class Warning extends Exception {
   _warn = true;
 
