@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>nd.builder | ND JS</title>
+	<title>NovelStatus | ND JS</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,59 +56,102 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="nd_builder.html">nd.builder</a>
+					<a href="../modules/nd_novel.html">nd.novel</a>
+				</li>
+				<li>
+					<a href="nd_novel.novelstatus.html">NovelStatus</a>
 				</li>
 			</ul>
-			<h1>External module nd.builder</h1>
+			<h1>Enumeration NovelStatus</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The status of novel chapter</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Classes</h3>
+							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/nd_builder.novelbuilder.html" class="tsd-kind-icon">Novel<wbr>Builder</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Type aliases</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported"><a href="nd_builder.html#novelchapterbuilderoption" class="tsd-kind-icon">Novel<wbr>Chapter<wbr>Builder<wbr>Option</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="nd_novel.novelstatus.html#closed" class="tsd-kind-icon">CLOSED</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="nd_novel.novelstatus.html#completed" class="tsd-kind-icon">COMPLETED</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="nd_novel.novelstatus.html#sold" class="tsd-kind-icon">SOLD</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="nd_novel.novelstatus.html#unknown" class="tsd-kind-icon">UNKNOWN</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="novelchapterbuilderoption" class="tsd-anchor"></a>
-					<h3>Novel<wbr>Chapter<wbr>Builder<wbr>Option</h3>
-					<div class="tsd-signature tsd-kind-icon">Novel<wbr>Chapter<wbr>Builder<wbr>Option<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Enumeration members</h2>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="closed" class="tsd-anchor"></a>
+					<h3>CLOSED</h3>
+					<div class="tsd-signature tsd-kind-icon">CLOSED<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;closed&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/builder/novel.ts#L14">builder/novel.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Chapter.ts#L38">models/Chapter.ts:38</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> date<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Moment</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> location<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
-							</li>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Closed will set if the auto detect, have detected the close chapter</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="completed" class="tsd-anchor"></a>
+					<h3>COMPLETED</h3>
+					<div class="tsd-signature tsd-kind-icon">COMPLETED<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;completed&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Chapter.ts#L33">models/Chapter.ts:33</a></li>
 						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Completed will set when the network downloaded the chapter and save completely</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="sold" class="tsd-anchor"></a>
+					<h3>SOLD</h3>
+					<div class="tsd-signature tsd-kind-icon">SOLD<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;sold&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Chapter.ts#L43">models/Chapter.ts:43</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Sold will set if the autodetect, have detected the sold chapter</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="unknown" class="tsd-anchor"></a>
+					<h3>UNKNOWN</h3>
+					<div class="tsd-signature tsd-kind-icon">UNKNOWN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;unknown&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Chapter.ts#L28">models/Chapter.ts:28</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Unknown will be the default status of novel chapter</p>
+						</div>
 					</div>
 				</section>
 			</section>
@@ -120,17 +163,41 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="nd_builder.html">nd.builder</a>
+						<a href="../modules/nd_novel.html">nd.novel</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/nd_builder.novelbuilder.html" class="tsd-kind-icon">Novel<wbr>Builder</a>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-enum tsd-parent-kind-external-module">
+						<a href="nd_novel.novelstatus.html" class="tsd-kind-icon">Novel<wbr>Status</a>
+						<ul>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="nd_novel.novelstatus.html#closed" class="tsd-kind-icon">CLOSED</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="nd_novel.novelstatus.html#completed" class="tsd-kind-icon">COMPLETED</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="nd_novel.novelstatus.html#sold" class="tsd-kind-icon">SOLD</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="nd_novel.novelstatus.html#unknown" class="tsd-kind-icon">UNKNOWN</a>
+							</li>
+						</ul>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="nd_builder.html#novelchapterbuilderoption" class="tsd-kind-icon">Novel<wbr>Chapter<wbr>Builder<wbr>Option</a>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/nd_novel.novel.html" class="tsd-kind-icon">Novel</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/nd_novel.novelchapter.html" class="tsd-kind-icon">Novel<wbr>Chapter</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/nd_novel.novelzerochapter.html" class="tsd-kind-icon">Novel<wbr>Zero<wbr>Chapter</a>
 					</li>
 				</ul>
 			</nav>

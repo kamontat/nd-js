@@ -69,6 +69,24 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>This is the throwable interface, which use to contain more helper method than Error interface</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>author</dt>
+						<dd><p>Kamontat Chantrachirathumrong</p>
+						</dd>
+						<dt>version</dt>
+						<dd><p>1.0.0</p>
+						</dd>
+						<dt>since</dt>
+						<dd><p>Obtober 22, 2018</p>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -109,9 +127,12 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="nd_exception.throwable.html#clone" class="tsd-kind-icon">clone</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="nd_exception.throwable.html#equal" class="tsd-kind-icon">equal</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="nd_exception.throwable.html#exit" class="tsd-kind-icon">exit</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="nd_exception.throwable.html#loaderror" class="tsd-kind-icon">load<wbr>Error</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="nd_exception.throwable.html#loadstring" class="tsd-kind-icon">load<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="nd_exception.throwable.html#printandexit" class="tsd-kind-icon">print<wbr>And<wbr>Exit</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="nd_exception.throwable.html#warn" class="tsd-kind-icon">warn</a></li>
 							</ul>
 						</section>
 					</div>
@@ -176,10 +197,46 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/models/Exception.ts#L15">models/Exception.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Exception.ts#L47">models/Exception.ts:47</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Clone the exception, if the error may cause more than 1 place</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../classes/nd_exception.exception.html" class="tsd-signature-type">Exception</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="equal" class="tsd-anchor"></a>
+					<h3>equal</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">equal<span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Exception.ts#L53">models/Exception.ts:53</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This will check is input error is same as current throwable</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>e: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>another object</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -193,9 +250,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/models/Exception.ts#L10">models/Exception.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Exception.ts#L26">models/Exception.ts:26</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This will exit the process (using {@link process.exit(code)}), if and only if the error isn&#39;t warning exception</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -210,13 +272,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/models/Exception.ts#L12">models/Exception.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Exception.ts#L37">models/Exception.ts:37</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This will load cause error from parameter</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>e: <span class="tsd-signature-type">Error</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>cause error</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../classes/nd_exception.exception.html" class="tsd-signature-type">Exception</a></h4>
@@ -233,16 +303,68 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/models/Exception.ts#L13">models/Exception.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Exception.ts#L42">models/Exception.ts:42</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This will load cause message from parameter</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>e: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>cause message</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../classes/nd_exception.exception.html" class="tsd-signature-type">Exception</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="printandexit" class="tsd-anchor"></a>
+					<h3>print<wbr>And<wbr>Exit</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">print<wbr>And<wbr>Exit<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Exception.ts#L21">models/Exception.ts:21</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Print the result and call <a href="nd_exception.throwable.html#exit">exit</a> method</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="warn" class="tsd-anchor"></a>
+					<h3>warn</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">warn<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Exception.ts#L31">models/Exception.ts:31</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>To check is the error is a warning error</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -254,62 +376,8 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class="label tsd-is-external">
-						<span>Internals</span>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_actions_command_download_.html">"actions/command/download"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_builder_html_.html">"builder/html"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_constants_novel_const_.html">"constants/novel.const"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_helpers_helper_.html">"helpers/helper"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/commander_command.html">commander.command</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/commander_const.html">commander.const</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/logger.html">logger</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd.html">nd</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd_apis.html">nd.apis</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd_builder.html">nd.builder</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd_color.html">nd.color</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd_config.html">nd.config</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd_core.html">nd.core</a>
-					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="../modules/nd_exception.html">nd.exception</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd_html.html">nd.html</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd_novel.html">nd.novel</a>
-					</li>
-					<li class="label tsd-is-external">
-						<span>Externals</span>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/commander_option.html">commander.option</a>
 					</li>
 				</ul>
 			</nav>
@@ -351,6 +419,9 @@
 								<a href="nd_exception.throwable.html#clone" class="tsd-kind-icon">clone</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="nd_exception.throwable.html#equal" class="tsd-kind-icon">equal</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="nd_exception.throwable.html#exit" class="tsd-kind-icon">exit</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
@@ -358,6 +429,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="nd_exception.throwable.html#loadstring" class="tsd-kind-icon">load<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="nd_exception.throwable.html#printandexit" class="tsd-kind-icon">print<wbr>And<wbr>Exit</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="nd_exception.throwable.html#warn" class="tsd-kind-icon">warn</a>
 							</li>
 						</ul>
 					</li>
@@ -379,10 +456,19 @@
 						<a href="../modules/nd_exception.html#download_err" class="tsd-kind-icon">DOWNLOAD_<wbr>ERR</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="../modules/nd_exception.html#file_err" class="tsd-kind-icon">FILE_<wbr>ERR</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="../modules/nd_exception.html#novel_closed_warn" class="tsd-kind-icon">NOVEL_<wbr>CLOSED_<wbr>WARN</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="../modules/nd_exception.html#novel_err" class="tsd-kind-icon">NOVEL_<wbr>ERR</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="../modules/nd_exception.html#novel_notfound_err" class="tsd-kind-icon">NOVEL_<wbr>NOTFOUND_<wbr>ERR</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="../modules/nd_exception.html#novel_sold_warn" class="tsd-kind-icon">NOVEL_<wbr>SOLD_<wbr>WARN</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="../modules/nd_exception.html#novel_warn" class="tsd-kind-icon">NOVEL_<wbr>WARN</a>
@@ -391,10 +477,16 @@
 						<a href="../modules/nd_exception.html#option_fail_err" class="tsd-kind-icon">OPTION_<wbr>FAIL_<wbr>ERR</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="../modules/nd_exception.html#option_notfound_err" class="tsd-kind-icon">OPTION_<wbr>NOTFOUND_<wbr>ERR</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="../modules/nd_exception.html#option_warn" class="tsd-kind-icon">OPTION_<wbr>WARN</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="../modules/nd_exception.html#option_wrong_err" class="tsd-kind-icon">OPTION_<wbr>WRONG_<wbr>ERR</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="../modules/nd_exception.html#param_fail_err" class="tsd-kind-icon">PARAM_<wbr>FAIL_<wbr>ERR</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="../modules/nd_exception.html#param_notfound_err" class="tsd-kind-icon">PARAM_<wbr>NOTFOUND_<wbr>ERR</a>
@@ -404,6 +496,12 @@
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="../modules/nd_exception.html#param_wrong_err" class="tsd-kind-icon">PARAM_<wbr>WRONG_<wbr>ERR</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="../modules/nd_exception.html#security_fail_err" class="tsd-kind-icon">SECURITY_<wbr>FAIL_<wbr>ERR</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="../modules/nd_exception.html#wip_err" class="tsd-kind-icon">WIP_<wbr>ERR</a>
 					</li>
 				</ul>
 			</nav>

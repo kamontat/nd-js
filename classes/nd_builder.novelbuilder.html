@@ -85,10 +85,11 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="nd_builder.novelbuilder.html#build" class="tsd-kind-icon">build</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="nd_builder.novelbuilder.html#create" class="tsd-kind-icon">create</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="nd_builder.novelbuilder.html#buildlocal" class="tsd-kind-icon">build<wbr>Local</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="nd_builder.novelbuilder.html#createchapter" class="tsd-kind-icon">create<wbr>Chapter</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="nd_builder.novelbuilder.html#createchapterbylink" class="tsd-kind-icon">create<wbr>Chapter<wbr>ByLink</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="nd_builder.novelbuilder.html#createzerochapter" class="tsd-kind-icon">create<wbr>Zero<wbr>Chapter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="nd_builder.novelbuilder.html#fetch" class="tsd-kind-icon">fetch</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,13 +101,13 @@
 					<a name="build" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> build</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">build<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, $<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CheerioStatic</span>, option<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="nd_novel.novel.html" class="tsd-signature-type">Novel</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">build<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, $<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CheerioStatic</span>, option<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Bluebird</span><span class="tsd-signature-symbol">&lt;</span><a href="nd_novel.novel.html" class="tsd-signature-type">Novel</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/builder/novel.ts#L21">builder/novel.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/builder/novel.ts#L21">builder/novel.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -121,33 +122,30 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> option: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="nd_novel.novel.html" class="tsd-signature-type">Novel</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Bluebird</span><span class="tsd-signature-symbol">&lt;</span><a href="nd_novel.novel.html" class="tsd-signature-type">Novel</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="create" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> create</h3>
+					<a name="buildlocal" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> build<wbr>Local</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, option<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="nd_novel.novel.html" class="tsd-signature-type">Novel</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">build<wbr>Local<span class="tsd-signature-symbol">(</span>_<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/builder/novel.ts#L15">builder/novel.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/builder/novel.ts#L26">builder/novel.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>id: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> option: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></h5>
+									<h5>_: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="nd_novel.novel.html" class="tsd-signature-type">Novel</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -161,7 +159,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/builder/novel.ts#L26">builder/novel.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/builder/novel.ts#L30">builder/novel.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -190,7 +188,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/builder/novel.ts#L34">builder/novel.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/builder/novel.ts#L38">builder/novel.ts:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -216,7 +214,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/builder/novel.ts#L30">builder/novel.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/builder/novel.ts#L34">builder/novel.ts:34</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -229,6 +227,32 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="fetch" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> fetch</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">fetch<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, option<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Bluebird</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/builder/novel.ts#L17">builder/novel.ts:17</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> option: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Bluebird</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -237,62 +261,8 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class="label tsd-is-external">
-						<span>Internals</span>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_actions_command_download_.html">"actions/command/download"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_builder_html_.html">"builder/html"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_constants_novel_const_.html">"constants/novel.const"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_helpers_helper_.html">"helpers/helper"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/commander_command.html">commander.command</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/commander_const.html">commander.const</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/logger.html">logger</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd.html">nd</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd_apis.html">nd.apis</a>
-					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="../modules/nd_builder.html">nd.builder</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd_color.html">nd.color</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd_config.html">nd.config</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd_core.html">nd.core</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd_exception.html">nd.exception</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd_html.html">nd.html</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/nd_novel.html">nd.novel</a>
-					</li>
-					<li class="label tsd-is-external">
-						<span>Externals</span>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/commander_option.html">commander.option</a>
 					</li>
 				</ul>
 			</nav>
@@ -307,7 +277,7 @@
 								<a href="nd_builder.novelbuilder.html#build" class="tsd-kind-icon">build</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="nd_builder.novelbuilder.html#create" class="tsd-kind-icon">create</a>
+								<a href="nd_builder.novelbuilder.html#buildlocal" class="tsd-kind-icon">build<wbr>Local</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="nd_builder.novelbuilder.html#createchapter" class="tsd-kind-icon">create<wbr>Chapter</a>
@@ -317,6 +287,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="nd_builder.novelbuilder.html#createzerochapter" class="tsd-kind-icon">create<wbr>Zero<wbr>Chapter</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="nd_builder.novelbuilder.html#fetch" class="tsd-kind-icon">fetch</a>
 							</li>
 						</ul>
 					</li>

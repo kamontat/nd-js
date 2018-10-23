@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>nd.builder | ND JS</title>
+	<title>NDValidator | ND JS</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,60 +56,130 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="nd_builder.html">nd.builder</a>
+					<a href="../modules/nd_security.html">nd.security</a>
+				</li>
+				<li>
+					<a href="nd_security.ndvalidator.html">NDValidator</a>
 				</li>
 			</ul>
-			<h1>External module nd.builder</h1>
+			<h1>Class NDValidator</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">NDValidator</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/nd_security.validator.html" class="tsd-signature-type">Validator</a></li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Classes</h3>
+							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/nd_builder.novelbuilder.html" class="tsd-kind-icon">Novel<wbr>Builder</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="nd_security.ndvalidator.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Type aliases</h3>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported"><a href="nd_builder.html#novelchapterbuilderoption" class="tsd-kind-icon">Novel<wbr>Chapter<wbr>Builder<wbr>Option</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="nd_security.ndvalidator.html#token" class="tsd-kind-icon">token</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="nd_security.ndvalidator.html#username" class="tsd-kind-icon">username</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="nd_security.ndvalidator.html#isvalid" class="tsd-kind-icon">is<wbr>Valid</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="novelchapterbuilderoption" class="tsd-anchor"></a>
-					<h3>Novel<wbr>Chapter<wbr>Builder<wbr>Option</h3>
-					<div class="tsd-signature tsd-kind-icon">Novel<wbr>Chapter<wbr>Builder<wbr>Option<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new NDValidator<span class="tsd-signature-symbol">(</span>token<span class="tsd-signature-symbol">: </span><a href="nd_security.tokenvalidator.html" class="tsd-signature-type">TokenValidator</a>, username<span class="tsd-signature-symbol">: </span><a href="nd_security.usernamevalidator.html" class="tsd-signature-type">UsernameValidator</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="nd_security.ndvalidator.html" class="tsd-signature-type">NDValidator</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Security.ts#L100">models/Security.ts:100</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>token: <a href="nd_security.tokenvalidator.html" class="tsd-signature-type">TokenValidator</a></h5>
+								</li>
+								<li>
+									<h5>username: <a href="nd_security.usernamevalidator.html" class="tsd-signature-type">UsernameValidator</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="nd_security.ndvalidator.html" class="tsd-signature-type">NDValidator</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="token" class="tsd-anchor"></a>
+					<h3>token</h3>
+					<div class="tsd-signature tsd-kind-icon">token<span class="tsd-signature-symbol">:</span> <a href="nd_security.tokenvalidator.html" class="tsd-signature-type">TokenValidator</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/builder/novel.ts#L14">builder/novel.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Security.ts#L99">models/Security.ts:99</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> date<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Moment</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> location<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
-							</li>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="username" class="tsd-anchor"></a>
+					<h3>username</h3>
+					<div class="tsd-signature tsd-kind-icon">username<span class="tsd-signature-symbol">:</span> <a href="nd_security.usernamevalidator.html" class="tsd-signature-type">UsernameValidator</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Security.ts#L100">models/Security.ts:100</a></li>
 						</ul>
-					</div>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="isvalid" class="tsd-anchor"></a>
+					<h3>is<wbr>Valid</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Valid<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/nd_security.validator.html">Validator</a>.<a href="../interfaces/nd_security.validator.html#isvalid">isValid</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/models/Security.ts#L107">models/Security.ts:107</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -120,17 +190,59 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="nd_builder.html">nd.builder</a>
+						<a href="../modules/nd_security.html">nd.security</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="nd_security.ndvalidator.html" class="tsd-kind-icon">NDValidator</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="nd_security.ndvalidator.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="nd_security.ndvalidator.html#token" class="tsd-kind-icon">token</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="nd_security.ndvalidator.html#username" class="tsd-kind-icon">username</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="nd_security.ndvalidator.html#isvalid" class="tsd-kind-icon">is<wbr>Valid</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/nd_builder.novelbuilder.html" class="tsd-kind-icon">Novel<wbr>Builder</a>
+						<a href="nd_security.security.html" class="tsd-kind-icon">Security</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="nd_security.tokenvalidator.html" class="tsd-kind-icon">Token<wbr>Validator</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="nd_security.usernamevalidator.html" class="tsd-kind-icon">Username<wbr>Validator</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/nd_security.validator.html" class="tsd-kind-icon">Validator</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="nd_builder.html#novelchapterbuilderoption" class="tsd-kind-icon">Novel<wbr>Chapter<wbr>Builder<wbr>Option</a>
+						<a href="../modules/nd_security.html#resulttoken" class="tsd-kind-icon">Result<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/nd_security.html#tokendatatype" class="tsd-kind-icon">Token<wbr>Data<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/nd_security.html#createtoken" class="tsd-kind-icon">Create<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/nd_security.html#decodetoken" class="tsd-kind-icon">Decode<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/nd_security.html#verifytoken" class="tsd-kind-icon">Verify<wbr>Token</a>
 					</li>
 				</ul>
 			</nav>

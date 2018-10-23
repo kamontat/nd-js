@@ -75,12 +75,14 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#checkisnovel" class="tsd-kind-icon">Check<wbr>IsNovel</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#createchapterlistapi" class="tsd-kind-icon">Create<wbr>Chapter<wbr>List<wbr>Api</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#downloadchapter" class="tsd-kind-icon">Download<wbr>Chapter</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#downloadchapters" class="tsd-kind-icon">Download<wbr>Chapters</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#fetchapi" class="tsd-kind-icon">Fetch<wbr>Api</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#getchapter" class="tsd-kind-icon">Get<wbr>Chapter</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#getchapterdateapi" class="tsd-kind-icon">Get<wbr>Chapter<wbr>Date<wbr>Api</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#getchapterdatelistapi" class="tsd-kind-icon">Get<wbr>Chapter<wbr>Date<wbr>List<wbr>Api</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#getchapterfile" class="tsd-kind-icon">Get<wbr>Chapter<wbr>File</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#getchapternameapi" class="tsd-kind-icon">Get<wbr>Chapter<wbr>Name<wbr>Api</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#getchapternumber" class="tsd-kind-icon">Get<wbr>Chapter<wbr>Number</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#getlink" class="tsd-kind-icon">Get<wbr>Link</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#getlinkwithchapter" class="tsd-kind-icon">Get<wbr>Link<wbr>With<wbr>Chapter</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#getnid" class="tsd-kind-icon">GetNID</a></li>
@@ -91,6 +93,7 @@
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#normalizenovelname" class="tsd-kind-icon">Normalize<wbr>Novel<wbr>Name</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#passlink" class="tsd-kind-icon">Pass<wbr>Link</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#query" class="tsd-kind-icon">Query</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#writechapter" class="tsd-kind-icon">Write<wbr>Chapter</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#writefile" class="tsd-kind-icon">Write<wbr>File</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="nd_apis.html#download" class="tsd-kind-icon">download</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="nd_apis.html#getnovelcontentv1" class="tsd-kind-icon">get<wbr>Novel<wbr>Content<wbr>V1</a></li>
@@ -112,7 +115,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/novel.ts#L193">apis/novel.ts:193</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/novel.ts#L227">apis/novel.ts:227</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -135,7 +138,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/novel.ts#L60">apis/novel.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/novel.ts#L60">apis/novel.ts:60</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -149,16 +152,68 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="fetchapi" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> Fetch<wbr>Api</h3>
+					<a name="downloadchapter" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Download<wbr>Chapter</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">Fetch<wbr>Api<span class="tsd-signature-symbol">(</span>chapter<span class="tsd-signature-symbol">: </span><a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">Download<wbr>Chapter<span class="tsd-signature-symbol">(</span>chapter<span class="tsd-signature-symbol">: </span><a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a>, force<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Bluebird</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/download.ts#L45">apis/download.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/download.ts#L64">apis/download.ts:64</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>chapter: <a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> force: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Bluebird</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="downloadchapters" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Download<wbr>Chapters</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">Download<wbr>Chapters<span class="tsd-signature-symbol">(</span>force<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, chapters<span class="tsd-signature-symbol">: </span><a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Bluebird</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/download.ts#L76">apis/download.ts:76</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>force: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+								</li>
+								<li>
+									<h5>chapters: <a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Bluebird</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="fetchapi" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Fetch<wbr>Api</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">Fetch<wbr>Api<span class="tsd-signature-symbol">(</span>chapter<span class="tsd-signature-symbol">: </span><a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Bluebird</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/download.ts#L46">apis/download.ts:46</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -167,30 +222,7 @@
 									<h5>chapter: <a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="getchapter" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> Get<wbr>Chapter</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">Get<wbr>Chapter<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/helpers/novel.ts#L21">helpers/novel.ts:21</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>str: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Bluebird</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -204,7 +236,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/novel.ts#L41">apis/novel.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/novel.ts#L41">apis/novel.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -227,7 +259,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/novel.ts#L37">apis/novel.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/novel.ts#L37">apis/novel.ts:37</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -250,7 +282,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/helpers/novel.ts#L62">helpers/novel.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/helpers/novel.ts#L62">helpers/novel.ts:62</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -273,13 +305,36 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/novel.ts#L99">apis/novel.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/novel.ts#L106">apis/novel.ts:106</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>$: <span class="tsd-signature-type">CheerioStatic</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="getchapternumber" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Get<wbr>Chapter<wbr>Number</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Chapter<wbr>Number<span class="tsd-signature-symbol">(</span>link<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/helpers/novel.ts#L21">helpers/novel.ts:21</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>link: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -296,7 +351,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/helpers/novel.ts#L35">helpers/novel.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/helpers/novel.ts#L35">helpers/novel.ts:35</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -322,7 +377,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/helpers/novel.ts#L44">helpers/novel.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/helpers/novel.ts#L44">helpers/novel.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -351,7 +406,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/helpers/novel.ts#L11">helpers/novel.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/helpers/novel.ts#L11">helpers/novel.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -368,17 +423,20 @@
 					<a name="getnovelcontent" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> Get<wbr>Novel<wbr>Content</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">Get<wbr>Novel<wbr>Content<span class="tsd-signature-symbol">(</span>$<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CheerioStatic</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/nd_html.htmlnode.html" class="tsd-signature-type">HtmlNode</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>Novel<wbr>Content<span class="tsd-signature-symbol">(</span>chapter<span class="tsd-signature-symbol">: </span><a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a>, $<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CheerioStatic</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/nd_html.htmlnode.html" class="tsd-signature-type">HtmlNode</a><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/novel.ts#L177">apis/novel.ts:177</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/novel.ts#L197">apis/novel.ts:197</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
+								<li>
+									<h5>chapter: <a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a></h5>
+								</li>
 								<li>
 									<h5>$: <span class="tsd-signature-type">CheerioStatic</span></h5>
 								</li>
@@ -397,7 +455,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/novel.ts#L48">apis/novel.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/novel.ts#L48">apis/novel.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -420,7 +478,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/novel.ts#L26">apis/novel.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/novel.ts#L26">apis/novel.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -443,7 +501,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/helpers/novel.ts#L31">helpers/novel.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/helpers/novel.ts#L31">helpers/novel.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -466,7 +524,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/novel.ts#L197">apis/novel.ts:197</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/novel.ts#L231">apis/novel.ts:231</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -489,7 +547,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/helpers/novel.ts#L58">helpers/novel.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/helpers/novel.ts#L58">helpers/novel.ts:58</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -512,7 +570,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/html.ts#L6">apis/html.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/html.ts#L6">apis/html.ts:6</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -553,16 +611,16 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="writefile" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> Write<wbr>File</h3>
+					<a name="writechapter" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Write<wbr>Chapter</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">Write<wbr>File<span class="tsd-signature-symbol">(</span>html<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, chapter<span class="tsd-signature-symbol">: </span><a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a>, force<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">Write<wbr>Chapter<span class="tsd-signature-symbol">(</span>html<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, chapter<span class="tsd-signature-symbol">: </span><a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a>, force<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/nd_novel.novelchapter.html" class="tsd-signature-type">NovelChapter</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/file.ts#L13">apis/file.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/file.ts#L23">apis/file.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -581,6 +639,35 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="writefile" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Write<wbr>File</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">Write<wbr>File<span class="tsd-signature-symbol">(</span>html<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, location<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, force<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/file.ts#L13">apis/file.ts:13</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>html: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>location: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> force: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
 					<a name="download" class="tsd-anchor"></a>
 					<h3>download</h3>
@@ -591,7 +678,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/download.ts#L17">apis/download.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/download.ts#L18">apis/download.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -614,7 +701,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/novel.ts#L122">apis/novel.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/novel.ts#L125">apis/novel.ts:125</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -637,7 +724,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/38180e8/src/apis/novel.ts#L150">apis/novel.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/c411f48/src/apis/novel.ts#L170">apis/novel.ts:170</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -658,62 +745,8 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class="label tsd-is-external">
-						<span>Internals</span>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_actions_command_download_.html">"actions/command/download"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_builder_html_.html">"builder/html"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_constants_novel_const_.html">"constants/novel.const"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_helpers_helper_.html">"helpers/helper"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="commander_command.html">commander.command</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="commander_const.html">commander.const</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="logger.html">logger</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="nd.html">nd</a>
-					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="nd_apis.html">nd.apis</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="nd_builder.html">nd.builder</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="nd_color.html">nd.color</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="nd_config.html">nd.config</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="nd_core.html">nd.core</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="nd_exception.html">nd.exception</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="nd_html.html">nd.html</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="nd_novel.html">nd.novel</a>
-					</li>
-					<li class="label tsd-is-external">
-						<span>Externals</span>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="commander_option.html">commander.option</a>
 					</li>
 				</ul>
 			</nav>
@@ -726,10 +759,13 @@
 						<a href="nd_apis.html#createchapterlistapi" class="tsd-kind-icon">Create<wbr>Chapter<wbr>List<wbr>Api</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="nd_apis.html#fetchapi" class="tsd-kind-icon">Fetch<wbr>Api</a>
+						<a href="nd_apis.html#downloadchapter" class="tsd-kind-icon">Download<wbr>Chapter</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="nd_apis.html#getchapter" class="tsd-kind-icon">Get<wbr>Chapter</a>
+						<a href="nd_apis.html#downloadchapters" class="tsd-kind-icon">Download<wbr>Chapters</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="nd_apis.html#fetchapi" class="tsd-kind-icon">Fetch<wbr>Api</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="nd_apis.html#getchapterdateapi" class="tsd-kind-icon">Get<wbr>Chapter<wbr>Date<wbr>Api</a>
@@ -742,6 +778,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="nd_apis.html#getchapternameapi" class="tsd-kind-icon">Get<wbr>Chapter<wbr>Name<wbr>Api</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="nd_apis.html#getchapternumber" class="tsd-kind-icon">Get<wbr>Chapter<wbr>Number</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="nd_apis.html#getlink" class="tsd-kind-icon">Get<wbr>Link</a>
@@ -772,6 +811,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="nd_apis.html#query" class="tsd-kind-icon">Query</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="nd_apis.html#writechapter" class="tsd-kind-icon">Write<wbr>Chapter</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="nd_apis.html#writefile" class="tsd-kind-icon">Write<wbr>File</a>
