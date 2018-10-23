@@ -2,8 +2,8 @@
 ## [Unreleased]
 
 
-<a name="v1.0.0-beta.2"></a>
-## [v1.0.0-beta.2] - 2018-10-23
+<a name="1.0.0-beta.2"></a>
+## [1.0.0-beta.2] - 2018-10-23
 ### 1) Features
 - Add validator command and more
 - Add new output to download and fix report error
@@ -32,6 +32,9 @@
 - Change title if chapter name not exist
 
 ### 3) Fixes Bug
+- Fix changelog to next tag
+- Fix error when deploy new version
+- Fix the way to release new version
 - Fix all error test
 - Fix checking type error
 - Fix typo of username output
@@ -167,8 +170,8 @@
 - Add gitgo command
 
 
-[Unreleased]: https://github.com/kamontat/nd-js/compare/v1.0.0-beta.2...HEAD
-[v1.0.0-beta.2]: https://github.com/kamontat/nd-js/compare/v1.0.0-beta.1...v1.0.0-beta.2
+[Unreleased]: https://github.com/kamontat/nd-js/compare/1.0.0-beta.2...HEAD
+[1.0.0-beta.2]: https://github.com/kamontat/nd-js/compare/v1.0.0-beta.1...1.0.0-beta.2
 [v1.0.0-beta.1]: https://github.com/kamontat/nd-js/compare/v1.0.0-beta.0...v1.0.0-beta.1
 [v1.0.0-beta.0]: https://github.com/kamontat/nd-js/compare/v1.0.0-alpha.1...v1.0.0-beta.0
 [v1.0.0-alpha.1]: https://github.com/kamontat/nd-js/compare/1.0.0-alpha.0...v1.0.0-alpha.1
