@@ -29,8 +29,8 @@ jobs:
           command: |
             yarn compile
             yarn start initial --force
-            yarn start setc token $ND_TOKEN
-            yarn start setc username $ND_USERNAME
+            yarn start setc token "$ND_TOKEN"
+            yarn start setc username "$ND_USERNAME"
       - run:
           name: Testing
           command: |
