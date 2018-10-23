@@ -22,6 +22,17 @@ export const TransferAsDate = (v: any) => {
   else if (isDate(v)) return moment(<Date>v).calendar(undefined, settings) || "";
   return v;
 };
+export const TransferAsDateTime = (v: any) => {
+  const settings = {
+    sameDay: "[วันนี้] ตอน HH:mm:ss",
+    lastDay: "[เมื่อวาน] ตอน HH:mm:ss",
+    lastWeek: "[วัน]dddd[ที่แล้ว] ตอน HH:mm:ss",
+    sameElse: "DD/MM/YYYY HH:mm:ss"
+  };
+  if (isMoment(v)) return (<Moment>v).calendar(undefined, settings) || "";
+  else if (isDate(v)) return moment(<Date>v).calendar(undefined, settings) || "";
+  return v;
+};
 export const TransferReadableList = (v: Array<any>) => {
   if (v.every(v => CheckIsNumber(v) !== null)) {
     return MakeReadableNumberArray(v);

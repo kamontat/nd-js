@@ -1,8 +1,10 @@
 import "jest-extended";
 import Config from "../Config";
 import { major } from "semver";
-import { VERSION } from "../../constants/nd.const";
+import { ND } from "../../constants/nd.const";
 import { homedir } from "os";
+
+import { TEST_NAME, TEST_TOKEN } from "../../../test/test";
 
 test("Should have default value in config", function() {
   const config = new Config("/tmp", { quiet: true });
@@ -13,7 +15,7 @@ test("Should have default value in config", function() {
   let username = config.getUsername();
   expect(username).toBeEmpty();
 
-  expect(config.getVersion()).toEqual(major(VERSION));
+  expect(config.getVersion()).toEqual(major(ND.VERSION));
 
   expect(config.getNovelLocation()).toEqual(homedir());
 });
@@ -25,7 +27,6 @@ test("Should initial config file", function() {
     expect(e.message).toInclude("exist");
   }
 });
-
 test("Should load the config from file", function() {
   const config = Config.Initial(true);
 
@@ -34,7 +35,7 @@ test("Should load the config from file", function() {
 });
 
 test("Should able to set the value of config", function() {
-  const config = Config.Load();
+  const config = Config.Load({ bypass: true });
 
   config.setColor("false");
   expect(config.getColor()).toEqual(false);
@@ -63,16 +64,11 @@ test("Should able to update config by command options", function() {
   expect(config.getNovelLocation()).toEqual("/tmp/newlocation");
 });
 
-test("Should able to save new config", function() {
-  const config = Config.Initial(true);
-  config.load(true);
-
-  expect(config.getToken()).toEqual("");
-  expect(config.getUsername()).toEqual("");
-
-  config.setToken("ABCOPQ");
-  config.setUsername("KC");
+test("Should set the valid token to file", function() {
+  const config = Config.Load({ bypass: true, quiet: true });
+  config.setToken(TEST_TOKEN);
+  config.setUsername(TEST_NAME);
   config.save();
 
-  expect(config.valid()).toBeUndefined();
+  expect(config.getToken()).toEqual(TEST_TOKEN);
 });

@@ -8,7 +8,7 @@ import { WriteFile } from "../apis/file";
 import { join, dirname } from "path";
 import { DEFAULT_RESOURCE_NAME } from "../constants/novel.const";
 import { mkdirpSync, readFileSync } from "fs-extra";
-import { PROJECT_NAME, VERSION } from "../constants/nd.const";
+import { ND } from "../constants/nd.const";
 import { Timestamp } from "../helpers/helper";
 import { NOVEL_NOTFOUND_ERR } from "../constants/error.const";
 import { ResourceObjectType } from "./ResourceType";

@@ -3,7 +3,7 @@
  * @module nd.resource
  */
 
-import { PROJECT_NAME, VERSION } from "../constants/nd.const";
+import { ND } from "../constants/nd.const";
 import { Moment } from "moment";
 import { Timestamp, RevertTimestamp } from "../helpers/helper";
 import moment = require("moment");
@@ -20,8 +20,8 @@ export class CommandResource {
   updateAt?: string;
 
   constructor({
-    name = PROJECT_NAME,
-    version = VERSION,
+    name = ND.PROJECT_NAME,
+    version = ND.VERSION,
     lastUpdate = moment()
   }: {
     name: string;

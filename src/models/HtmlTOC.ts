@@ -14,7 +14,7 @@ export class HtmlToc {
   }
 
   build() {
-    if (this._novel._chapters) return this._novel._chapters;
+    if (this._novel._chapters) return this._novel._chapters.filter(c => c.isCompleted());
     else return [];
   }
 }

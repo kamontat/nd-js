@@ -3,7 +3,7 @@
  * @module nd.exception
  */
 
-import Throwable, { NFError, EError, FError, Warning } from "../models/Exception";
+import Throwable, { NFError, EError, FError, Warning, Exception } from "../models/Exception";
 
 export const CONFIG_WARN: Throwable = new Warning("Config have warning message", 0);
 export const PARAM_WARN: Throwable = new Warning("Parameter have warning message", 1);
@@ -28,3 +28,6 @@ export const CONFIG_FAIL_ERR: Throwable = new FError("Cannot pass config file", 
 export const PARAM_FAIL_ERR: Throwable = new FError("Fail to update by parameter", 1);
 export const OPTION_FAIL_ERR: Throwable = new FError("Fail to update by option", 2);
 export const NOVEL_ERR: Throwable = new FError("Cannot create the novel", 3);
+export const SECURITY_FAIL_ERR: Throwable = new FError("You key is not pass security condition", 10);
+
+export const WIP_ERR: Throwable = new Exception("This feature will coming soon", 255);

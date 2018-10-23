@@ -22,14 +22,16 @@ import config from "config";
 import { CONFIG_FILE_PATH } from "../constants/config.const";
 import Exception from "./Exception";
 
-import { VERSION } from "../constants/nd.const";
+import { ND } from "../constants/nd.const";
 
-import { CONFIG_CREATE_ERR, CONFIG_WARN } from "../constants/error.const";
+import { CONFIG_CREATE_ERR, CONFIG_WARN, SECURITY_FAIL_ERR } from "../constants/error.const";
 import { CONFIG_FAIL_ERR } from "../constants/error.const";
 import { WrapTM, WrapTMC, WrapTMCT } from "./LoggerWrapper";
 import { LOG_TYPE, HAS_COLOR } from "../constants/default.const";
 import { CheckIsExist } from "../helpers/helper";
 import { COLORS } from "../constants/color.const";
+import { Security } from "./Security";
+import { DecodeToken } from "../apis/token";
 
 /**
  * @class
@@ -71,14 +73,27 @@ export default class Config {
     this._option = option;
   }
 
-  showStatus() {
+  showStatus(options?: { console?: boolean; all: boolean }) {
     if (!this._isQuite()) {
-      log(WrapTMCT("verbose", "Config.token", this._token, { message: COLORS.Token }));
-      log(WrapTMCT("verbose", "Config.username", this._username, { message: COLORS.Name }));
-      log(WrapTMCT("debug", "Config.version", this._version));
-      log(WrapTMCT("debug", "Config.color", this._color));
-      log(WrapTMCT("debug", "Config.type", this._outputType));
-      log(WrapTMCT("debug", "Config.location", this._novelLocation));
+      if (options && options.all) {
+        log(
+          WrapTMCT(options && options.console ? "info" : "verbose", "Config.token", this._token, {
+            message: COLORS.Token
+          })
+        );
+        log(
+          WrapTMCT(options && options.console ? "info" : "verbose", "Config.username", this._username, {
+            message: COLORS.Name
+          })
+        );
+        log(WrapTMCT(options && options.console ? "info" : "debug", "Config.version", this._version));
+        log(WrapTMCT(options && options.console ? "info" : "debug", "Config.color", this._color));
+        log(WrapTMCT(options && options.console ? "info" : "debug", "Config.type", this._outputType));
+        log(WrapTMCT(options && options.console ? "info" : "debug", "Config.location", this._novelLocation));
+      }
+      if (options && options.console) {
+        Security.Printer(this.getToken(), this.getUsername());
+      }
     }
   }
 
@@ -140,15 +155,15 @@ export default class Config {
   }
 
   getVersion(): number {
-    return this._version === undefined ? major(VERSION) : this._version;
+    return this._version === undefined ? major(ND.VERSION) : this._version;
   }
 
   /**
    * Load config file from system and save to memory. This command also valid the correctness of the file.
    * @throws {@link ConfigFailError} exception
    */
-  load(bypass?: boolean) {
-    if (bypass === false) {
+  load(bypass = false) {
+    if (!bypass) {
       let err = this.valid();
       if (err) {
         throw err;
@@ -166,6 +181,19 @@ export default class Config {
     this.setNovelLocation(doc.setting.location || this.getNovelLocation());
 
     this.setOutputType(doc.setting.output || this.getOutputType());
+
+    if (!bypass) {
+      if (!Security.Checking(this.getToken(), this.getUsername()).isValid()) {
+        throw SECURITY_FAIL_ERR.loadString("unknown error");
+      } else {
+        const result = DecodeToken(this.getToken());
+        log(
+          WrapTMCT("info", "Your username", typeof result === "string" ? result : result && result.name, {
+            message: COLORS.Name
+          })
+        );
+      }
+    }
   }
 
   /**
@@ -179,7 +207,7 @@ export default class Config {
       return CONFIG_FAIL_ERR.clone().loadString("version key is required.");
     }
 
-    if (!semver.major(VERSION) === config.get("version")) {
+    if (!semver.major(ND.VERSION) === config.get("version")) {
       return CONFIG_FAIL_ERR.clone().loadString("version is missing or not matches.");
     }
 
@@ -255,7 +283,7 @@ setting:
    * Load config from default path
    * @return {@link Config}
    *
-   * @throws {@link ConfigFailError}
+   * @throws {@link ConfigFailError}, {@link SECURITY_FAIL_ERR}
    */
   static Load(option?: { quiet?: boolean; bypass?: boolean }): Config {
     const quiet = option && option.quiet ? option.quiet : false;

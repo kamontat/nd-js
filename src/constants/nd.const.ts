@@ -4,6 +4,23 @@
  */
 
 import p from "pjson";
-export const VERSION = p.version;
+import moment = require("moment");
 
-export const PROJECT_NAME = p.name;
+export class ND {
+  static VERSION = p.version;
+  static PROJECT_NAME = p.name;
+  static A = "salt-nd-js";
+  static Z = `master-password-${moment().get("dayOfYear")}`;
+  static ID = `KC-SKE`;
+  static ALGO = "HS256";
+
+  static ENV = process.env.NODE_ENV;
+
+  static isDev() {
+    return this.ENV === "development";
+  }
+
+  static isProd() {
+    return this.ENV === "production";
+  }
+}

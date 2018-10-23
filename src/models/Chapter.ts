@@ -6,7 +6,7 @@
 import { log } from "winston";
 import { Moment } from "moment";
 import Config from "./Config";
-import { CheckIsNumber } from "../helpers/helper";
+import { CheckIsNumber, Timestamp } from "../helpers/helper";
 import { WrapTMC } from "./LoggerWrapper";
 import { COLORS } from "../constants/color.const";
 import { join } from "path";
@@ -18,23 +18,52 @@ import { HtmlBuilder } from "../builder/html";
 import { WriteChapter } from "../apis/file";
 import { render } from "mustache";
 
+/**
+ * The status of novel chapter
+ */
 export enum NovelStatus {
+  /**
+   * Unknown will be the default status of novel chapter
+   */
   UNKNOWN = "unknown",
+
+  /**
+   * Completed will set when the network downloaded the chapter and save completely
+   */
   COMPLETED = "completed",
+
+  /**
+   * Closed will set if the auto detect, have detected the close chapter
+   */
   CLOSED = "closed",
+
+  /**
+   * Sold will set if the autodetect, have detected the sold chapter
+   */
   SOLD = "sold"
 }
 
 export class NovelChapter {
-  // TODO: status of downloaded
-  _nid: string;
-  _name?: string;
-  _chapterNumber: string = "0";
-  _location: string;
+  protected _nid: string;
+  protected _name?: string;
+  protected _chapterNumber: string = "0";
+  protected _location: string;
 
-  _date?: Moment;
+  protected _date?: Moment;
 
   status: NovelStatus = NovelStatus.UNKNOWN;
+
+  get id() {
+    return this._nid;
+  }
+
+  get name() {
+    return this._name || "";
+  }
+
+  get number() {
+    return this._chapterNumber;
+  }
 
   constructor(id: string, chapter?: string, name?: string, location?: string, date?: Moment) {
     this._nid = id;
@@ -96,15 +125,42 @@ export class NovelChapter {
     if (this._name) result += COLORS.ChapterName.color(this._name);
     else result += "no-name";
 
+    result += ` ${COLORS.Important.color(this.status.toUpperCase())} `;
+
     if (this._date) result += ` [อัพเดตล่าสุดเมื่อ ${COLORS.Date.formatColor(this._date)}]`;
     else result += ` [ไม่รู้การอัพเดตล่าสุด]`;
 
     return result;
   }
+
+  buildJSON() {
+    return {
+      name: this._name,
+      number: this._chapterNumber,
+      date: Timestamp(this._date),
+      status: this.status
+    };
+  }
+
+  isCompleted() {
+    return this.status === NovelStatus.COMPLETED;
+  }
+
+  markSell() {
+    this.status = NovelStatus.SOLD;
+  }
+
+  markClose() {
+    this.status = NovelStatus.CLOSED;
+  }
+
+  markComplete() {
+    this.status = NovelStatus.COMPLETED;
+  }
 }
 
 export class NovelZeroChapter extends NovelChapter {
-  _novel: Novel;
+  private _novel: Novel;
 
   constructor(novel: Novel) {
     super(novel._id, "0", undefined, novel._location);
@@ -116,7 +172,7 @@ export class NovelZeroChapter extends NovelChapter {
     return FetchApi(this).then(res => {
       const html = HtmlBuilder.template(this._nid)
         .addNovel(this._novel)
-        .addContent(HtmlBuilder.buildContent(res.cheerio))
+        .addContent(HtmlBuilder.buildContent(res.chapter, res.cheerio))
         .renderDefault();
 
       return WriteChapter(html, res.chapter, force);
