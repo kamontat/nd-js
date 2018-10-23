@@ -82,7 +82,6 @@ if test -z "$semver"; then
 fi
 
 expected="$(update_version "$semver")"
-echo "$expected"
 yarn version --new-version "$expected" --no-git-tag-version
 
 ################################
@@ -100,7 +99,7 @@ if $yes || lib "promptYN" "create release of version $version"; then
 
 	# create changelog
 	# bypass gitgo since it not support --next-tag option
-	git-chglog --config ./.gitgo/chglog/config.yml --next-tag "$version" -o "./CHANGELOG.md"
+	git-chglog --config ./.gitgo/chglog/config.yml --next-tag "$expected" -o "./CHANGELOG.md"
 
 	# create jsdoc
 	yarn docs
