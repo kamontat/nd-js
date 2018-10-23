@@ -3,7 +3,7 @@
 
 
 <a name="v1.0.0-beta.2"></a>
-## [v1.0.0-beta.2] - 2018-10-22
+## [v1.0.0-beta.2] - 2018-10-23
 ### 1) Features
 - Add validator command and more
 - Add new output to download and fix report error
