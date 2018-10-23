@@ -31,32 +31,51 @@
 # How to use
 ## ./deploy.sh [alpha|beta|patch|minor|major] [--yes <title>]
 
+################################
+## Input from user            ##
+################################
 semver="$1"
 yes=false
 [[ $2 == "--yes" ]] && yes=true
-title="$3"
 
-lib_sh() {
-	filename="$1"
-	"./scripts/lib/$filename.sh" "$2"
-}
+shift 2
+title="$*"
 
+################################
+## Summary result             ##
+################################
+echo "Expected version: $semver"
+echo "Is always yes: $yes"
+echo "What is the title"
+
+################################
+## Helper method              ##
+################################
 lib() {
 	filename="$1"
 	node "./scripts/lib/$filename.js" "$2"
 }
 
 update_version() {
-	local semver="$1"
-	[[ $semver == "alpha" ]] && yarn --silent version:alpha "$version" && return
-	[[ $semver == "beta" ]] && yarn --silent version:beta "$version" && return
-	[[ $semver == "patch" ]] && yarn --silent version:patch "$version" && return
-	[[ $semver == "minor" ]] && yarn --silent version:minor "$version" && return
-	[[ $semver == "major" ]] && yarn --silent version:major "$version" && return
+	local ver="$1"
+	[[ $ver == "alpha" ]] && yarn --silent version:alpha "$version" && return
+	[[ $ver == "beta" ]] && yarn --silent version:beta "$version" && return
+	[[ $ver == "patch" ]] && yarn --silent version:patch "$version" && return
+	[[ $ver == "minor" ]] && yarn --silent version:minor "$version" && return
+	[[ $ver == "major" ]] && yarn --silent version:major "$version" && return
 
 	echo "invalid version" && exit 5
 }
 
+################################
+## Get current version        ##
+################################
+export version
+version="v$(lib "getVersion")"
+
+################################
+## Update new version         ##
+################################
 if test -z "$semver"; then
 	printf "Update version: (alpha|beta|patch|minor|major) "
 	read -r semver
@@ -66,14 +85,15 @@ expected="$(update_version "$semver")"
 echo "$expected"
 yarn version --new-version "$expected" --no-git-tag-version
 
-version="v$(lib "getVersion")"
-
-if lib "promptYN" "create release of version $version" || yes; then
+################################
+## Start deployment           ##
+################################
+if $yes || lib "promptYN" "create release of version $version"; then
 	# check git status
 	status="$(git status --short)"
 
 	if test -z "$status"; then
-		if (! lib "promptYN" "git status must be empty") || yes; then
+		if $yes || (! lib "promptYN" "git status must be empty"); then
 			exit 1
 		fi
 	fi
@@ -98,12 +118,12 @@ if lib "promptYN" "create release of version $version" || yes; then
 	git tag "$version"
 
 	# update work
-	if lib "promptYN" "execute git push code and tag" || yes; then
+	if $yes || lib "promptYN" "execute git push code and tag"; then
 		git push && git push --tag
 	fi
 
 	# create release
-	if lib "promptYN" "create release in github" || yes; then
+	if $yes || lib "promptYN" "create release in github"; then
 		prerelease=""
 		if [[ "$semver" == "alpha" ]] || [[ "$semver" == "beta" ]]; then
 			prerelease="--prerelease"
