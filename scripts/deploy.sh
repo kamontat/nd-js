@@ -28,6 +28,14 @@
 #//               0.0.2b1 -- beta-format
 #//               0.0.2a1 -- alpha-format
 
+# How to use
+## ./deploy.sh [alpha|beta|patch|minor|major] [--yes <title>]
+
+semver="$1"
+yes=false
+[[ $2 == "--yes" ]] && yes=true
+title="$3"
+
 lib_sh() {
 	filename="$1"
 	"./scripts/lib/$filename.sh" "$2"
@@ -49,8 +57,10 @@ update_version() {
 	echo "invalid version" && exit 5
 }
 
-printf "Update version: (alpha|beta|patch|minor|major) "
-read -r semver
+if test -z "$semver"; then
+	printf "Update version: (alpha|beta|patch|minor|major) "
+	read -r semver
+fi
 
 expected="$(update_version "$semver")"
 echo "$expected"
@@ -58,12 +68,12 @@ yarn version --new-version "$expected" --no-git-tag-version
 
 version="v$(lib "getVersion")"
 
-if lib "promptYN" "create release of version $version"; then
+if lib "promptYN" "create release of version $version" || yes; then
 	# check git status
 	status="$(git status --short)"
 
 	if test -z "$status"; then
-		if ! lib "promptYN" "git status must be empty"; then
+		if (! lib "promptYN" "git status must be empty") || yes; then
 			exit 1
 		fi
 	fi
@@ -88,18 +98,20 @@ if lib "promptYN" "create release of version $version"; then
 	git tag "$version"
 
 	# update work
-	if lib "promptYN" "execute git push code and tag"; then
+	if lib "promptYN" "execute git push code and tag" || yes; then
 		git push && git push --tag
 	fi
 
 	# create release
-	if lib "promptYN" "create release in github"; then
+	if lib "promptYN" "create release in github" || yes; then
 		prerelease=""
 		if [[ "$semver" == "alpha" ]] || [[ "$semver" == "beta" ]]; then
 			prerelease="--prerelease"
 		fi
-		printf "your release title message is "
-		read -r title
+		if test -z "$title"; then
+			printf "your release title message is "
+			read -r title
+		fi
 		message="$(git-chglog --config ./.gitgo/chglog/config.yml "$version")"
 
 		final="$(printf '%s\n%s' "$title" "$message")"
