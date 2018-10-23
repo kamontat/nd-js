@@ -38,7 +38,21 @@ lib() {
 	node "./scripts/lib/$filename.js" "$2"
 }
 
-expected="$(lib_sh setVersion)"
+update_version() {
+	local semver="$1"
+	[[ $semver == "alpha" ]] && yarn --silent version:alpha "$version" && return
+	[[ $semver == "beta" ]] && yarn --silent version:beta "$version" && return
+	[[ $semver == "patch" ]] && yarn --silent version:patch "$version" && return
+	[[ $semver == "minor" ]] && yarn --silent version:minor "$version" && return
+	[[ $semver == "major" ]] && yarn --silent version:major "$version" && return
+
+	echo "invalid version" && exit 5
+}
+
+printf "Update version: (alpha|beta|patch|minor|major) "
+read -r semver
+
+expected="$(update_version "$semver")"
 echo "$expected"
 yarn version --new-version "$expected" --no-git-tag-version
 
@@ -81,7 +95,7 @@ if lib "promptYN" "create release of version $version"; then
 	# create release
 	if lib "promptYN" "create release in github"; then
 		prerelease=""
-		if lib "promptYN" "This is prerelease"; then
+		if [[ "$semver" == "alpha" ]] || [[ "$semver" == "beta" ]]; then
 			prerelease="--prerelease"
 		fi
 		printf "your release title message is "
