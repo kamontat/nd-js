@@ -13,7 +13,7 @@ test("Should write content to file", function() {
 
   expect.hasAssertions();
   return WriteChapter("Content", NovelBuilder.createChapter(id, "4", { location: temp.name }), false).then(c => {
-    expect(c._nid).toEqual("1837353");
+    expect(c.id).toEqual("1837353");
     expect(existsSync(c.file())).toBeTrue();
   });
 });

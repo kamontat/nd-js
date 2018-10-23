@@ -35,10 +35,24 @@ ${info.message}
 });
 
 const customJSON = printf(info => {
-  return JSON.stringify(info, undefined, "  ");
+  return JSON.stringify(
+    { level: info.level, message: info.message, timestamp: info.timestamp },
+    (_, value: string) => {
+      if (typeof value === "string") {
+        return value
+          .replace(/\u001b\[.*?m/g, "") // color
+          .replace(/\u001b\]8;;/g, "") // link
+          .replace(/\u0007/g, " "); // link
+      }
+      return value;
+    },
+    "  "
+  );
 });
 
 const customTimestamp = timestamp({ format: "DD-MM-YYYY::HH.mm.ss" });
+
+let called = false;
 
 export default (
   option: LogOption = {
@@ -48,6 +62,9 @@ export default (
     log: { has: HAS_LOG_FILE, folder: LOG_FOLDER_PATH }
   }
 ) => {
+  if (called) return undefined;
+  else called = true;
+
   let consoleFormat: Format[] = [];
   let fileFormat: Format[] = [];
 
@@ -61,7 +78,7 @@ export default (
   transports.push(
     new Console({
       format: format.combine(...consoleFormat),
-      level: option.level,
+      level: "info", // option.level,
       stderrLevels: ["error", "warn"],
       silent: option.quiet
     })
@@ -70,10 +87,12 @@ export default (
   if (option.log.has) {
     transports.push(
       new DailyRotateFile({
+        format: format.combine(...fileFormat),
+        level: option.level,
         json: true,
         dirname: option.log.folder,
         filename: "nd-%DATE%.log",
-        datePattern: "MM-YYYY",
+        datePattern: "DD-MM-YYYY",
         zippedArchive: true,
         maxSize: "10m",
         maxFiles: "100"
@@ -83,7 +102,6 @@ export default (
 
   return {
     level: option.level,
-    format: format.combine(...fileFormat),
     transports: transports
   };
 };

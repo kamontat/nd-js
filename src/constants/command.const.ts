@@ -4,14 +4,27 @@
  */
 import { CCommand } from "../models/Command";
 
-import Changelog from "../actions/command/changelog";
-import Initial from "../actions/command/Initial";
-import Download from "../actions/command/download";
-import Config, { ConfigSet } from "../actions/command/config";
-import RawDownload from "../actions/command/raw-download";
-import Fetch from "../actions/command/fetch";
-import Update from "../actions/command/update";
+import Changelog from "../command/changelog";
+import Initial from "../command/Initial";
+import Download from "../command/download";
+import Config from "../command/config";
+import ConfigSet, { CONFIG_SET_LIST } from "../command/config-set";
+import RawDownload from "../command/download-raw";
+import Fetch from "../command/fetch";
+import Update from "../command/update";
+import Admin from "../command/admin";
+import Validator from "../command/validator";
 import { LOCATION_OPT } from "./option.const";
+import { log } from "winston";
+import { WrapTMC } from "../models/LoggerWrapper";
+import { ND } from "./nd.const";
+
+export const VERSION_CMD: CCommand = {
+  name: "version",
+  alias: "V",
+  desc: "Show command version",
+  fn: () => log(WrapTMC("info", `${ND.PROJECT_NAME}`, `v${ND.VERSION}`))
+};
 
 export const CHANGELOG_CMD: CCommand = {
   name: "changelog",
@@ -28,6 +41,14 @@ export const INIT_CMD: CCommand = {
     {
       name: "-F, --force",
       desc: "Force to create config even it exist"
+    },
+    {
+      name: "-R, --raw <json>",
+      desc: "Pass raw json token to initial config file"
+    },
+    {
+      name: "-E, --file <path>",
+      desc: "Pass json file to create configuration"
     }
   ],
   fn: Initial
@@ -37,13 +58,19 @@ export const CONFIG_CMD: CCommand = {
   name: "configuration",
   alias: "config",
   desc: `Get config location path`,
+  options: [
+    {
+      name: "-R, --raw",
+      desc: "Show only the path result"
+    }
+  ],
   fn: Config
 };
 
 export const SET_CONFIG_CMD: CCommand = {
   name: "set-config",
   alias: "setc",
-  desc: "Set config value",
+  desc: `Set config value [${CONFIG_SET_LIST}]`,
   fn: ConfigSet
 };
 
@@ -95,6 +122,13 @@ export const FETCH_CMD: CCommand = {
   name: "fetch",
   alias: "E",
   desc: "Fetching novel from website and show the result",
+  options: [
+    {
+      name: "-W, --with-chapter",
+      desc: "List the result with chapter",
+      default: false
+    }
+  ],
   fn: Fetch
 };
 
@@ -103,4 +137,28 @@ export const UPDATE_CMD: CCommand = {
   alias: "U",
   desc: "Update individual novel in location",
   fn: Update
+};
+export const ADMIN_CMD: CCommand = {
+  name: "admin",
+  alias: "A",
+  desc: "Create token for current application",
+  options: [
+    {
+      name: "-J, --json",
+      desc: "Export as json format"
+    }
+  ],
+  fn: Admin
+};
+export const VALIDATOR_CMD: CCommand = {
+  name: "validator",
+  alias: "valid",
+  desc: "Validate the command",
+  options: [
+    {
+      name: "-I, --info",
+      desc: "Also receive the information"
+    }
+  ],
+  fn: Validator
 };

@@ -1,0 +1,41 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
+import { log } from "winston";
+import Config from "../models/Config";
+import { SeperateArgumentApi, ThrowIf } from "../helpers/action";
+import { WrapTMC } from "../models/LoggerWrapper";
+import { readJSONSync } from "fs-extra";
+
+/**
+ * This is initial command.
+ *
+ * @public
+ * @param a argument pass from commandline
+ *
+ * @version 1.0
+ * @see {@link Config}
+ */
+export default (a: any) => {
+  const { options } = SeperateArgumentApi(a);
+
+  try {
+    let config = Config.Initial(options.force);
+    if (options.raw) {
+      const json: { token?: string; username?: string } = JSON.parse(options.raw);
+      config.setToken(json.token);
+      config.setUsername(json.username);
+      config.save();
+    } else if (options.file) {
+      const json: { token?: string; username?: string } = readJSONSync(options.file);
+      config.setToken(json.token);
+      config.setUsername(json.username);
+      config.save();
+    }
+    log(WrapTMC("info", "config", config.configLocation));
+  } catch (e) {
+    ThrowIf(e);
+  }
+};

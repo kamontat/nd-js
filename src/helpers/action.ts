@@ -4,10 +4,9 @@
  */
 
 import { log } from "winston";
-
 import { PARAM_WRONG_ERR } from "../constants/error.const";
-import { Exception } from "../models/Exception";
-import { WrapTMC } from "../models/LoggerWrapper";
+import Throwable, { Exception } from "../models/Exception";
+import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
 
 /**
  * Helper for {@link IfValidate} function
@@ -55,10 +54,24 @@ export const ValidList = (
  *
  * @param e exception to be throw if exist
  */
-export const ThrowIf = (e?: Exception) => {
+export const ThrowIf = (e?: Throwable) => {
   if (e) {
-    e.printAndExit();
+    if (e.printAndExit) {
+      e.printAndExit();
+    } else {
+      log(WrapTM("error", "Error", e.stack ? e.stack : e.message));
+      process.exit(1);
+    }
   }
+};
+
+export const SaveIf = (e?: Exception) => {
+  if (e && e.save) e.save();
+};
+
+export const Throw = (e: Throwable, message?: string) => {
+  if (message) e.loadString(message);
+  ThrowIf(e);
 };
 
 /**

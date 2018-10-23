@@ -26,8 +26,8 @@ export class HtmlBuild extends HtmlTemplate {
   }
 
   addChap(chapter: NovelChapter) {
-    return this.addChapName(chapter._name)
-      .addChapNum(chapter._chapterNumber)
+    return this.addChapName(chapter.name)
+      .addChapNum(chapter.number)
       .addLastUpdate(chapter.getDate());
   }
 
@@ -62,9 +62,9 @@ export class HtmlBuilder {
     return new HtmlBuild(id);
   }
 
-  static buildContent($: CheerioStatic) {
+  static buildContent(chapter: NovelChapter, $: CheerioStatic) {
     const content = new HtmlContent();
-    content.adds(GetNovelContent($));
+    content.adds(GetNovelContent(chapter, $));
     return content;
   }
 

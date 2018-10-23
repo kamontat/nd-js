@@ -9,8 +9,8 @@ test("Should save attribute correctly", function() {
   const number = "3";
   const chapter = NovelBuilder.createChapter(id, number);
 
-  expect(chapter._nid).toEqual(id);
-  expect(chapter._chapterNumber).toEqual(number);
+  expect(chapter.id).toEqual(id);
+  expect(chapter.number).toEqual(number);
 });
 
 test("Should create correctly link format", function() {
@@ -29,8 +29,8 @@ test("Should build default chapter", function() {
   const id = "412331";
   const chapter = NovelBuilder.createChapter(id);
 
-  expect(chapter._nid).toEqual(id);
-  expect(chapter._chapterNumber).toEqual("0");
+  expect(chapter.id).toEqual(id);
+  expect(chapter.number).toEqual("0");
 });
 
 test("Should decode chapter from link", function() {
@@ -42,15 +42,8 @@ test("Should decode chapter from link", function() {
 
   const chapter = NovelBuilder.createChapterByLink(link);
 
-  expect(chapter._nid).toEqual(id);
-  expect(chapter._chapterNumber).toEqual(number);
-});
-
-test("Should able to custm location", function() {
-  const location = "/custom/location";
-  const chapter = NovelBuilder.createChapter("123", "5", { location: location });
-
-  expect(chapter._location).toEqual(location);
+  expect(chapter.id).toEqual(id);
+  expect(chapter.number).toEqual(number);
 });
 
 test("Should set chapter name", function() {
@@ -58,18 +51,18 @@ test("Should set chapter name", function() {
   const chapter = NovelBuilder.createChapter("123123", "102");
   chapter.setName(name);
 
-  expect(chapter._name).not.toBeUndefined();
-  expect(chapter._name).toEqual(name);
+  expect(chapter.name).not.toBeUndefined();
+  expect(chapter.name).toEqual(name);
 });
 
 test("Should set chapter to zero if negative occurred", function() {
   const id = "1411";
   const number = "-412";
   const chapter = NovelBuilder.createChapter(id, number);
-  expect(chapter._chapterNumber).toEqual("0");
+  expect(chapter.number).toEqual("0");
 
   const chapter2 = NovelBuilder.createChapter(id, "ABC");
-  expect(chapter2._chapterNumber).toEqual("0");
+  expect(chapter2.number).toEqual("0");
 });
 
 test("Should outtput file in input location", function() {
