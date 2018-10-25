@@ -14,11 +14,15 @@ export class ExceptionStorage {
   }
 
   list() {
-    return this.exceptions.filter(e => e.called);
+    return this.exceptions.filter(e => e.call);
   }
 
   print() {
     log(WrapTMC("warn", "Exception", "---------------"));
     this.list().forEach((v, i) => log(WrapTMC(v.warn ? "warn" : "error", `Exception ${i}`, v.message)));
+  }
+
+  reset() {
+    this.exceptions.forEach(exp => exp.reset());
   }
 }

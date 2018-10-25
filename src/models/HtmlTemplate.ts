@@ -7,11 +7,10 @@ import moment = require("moment");
 import { render } from "mustache";
 
 import { CssTemplate } from "./HtmlCss";
-import { PROJECT_NAME, VERSION } from "../constants/nd.const";
+import { ND } from "../constants/nd.const";
 import { HTML_FILE, DEFAULT_CSS_TEMPLATE } from "../constants/html.const";
 import { NovelChapter } from "./Chapter";
-import { PassLink, GetLinkWithChapter } from "../helpers/novel";
-import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
+import { GetLinkWithChapter } from "../helpers/novel";
 
 export class HtmlTemplate {
   novelID: string;
@@ -63,8 +62,8 @@ export class HtmlTemplate {
     this.prev = chap <= 1 ? "0" : (chap - 1).toString();
 
     this.date = moment().format("dddd, Do MMM YYYY | HH.mm.ss Z");
-    this.command = PROJECT_NAME;
-    this.version = VERSION;
+    this.command = ND.PROJECT_NAME;
+    this.version = ND.VERSION;
     this.css = css.getStyle();
 
     const link = GetLinkWithChapter(this.novelID, this.chapterNumber);

@@ -18,10 +18,28 @@ import { HtmlBuilder } from "../builder/html";
 import { WriteChapter } from "../apis/file";
 import { render } from "mustache";
 
+/**
+ * The status of novel chapter
+ */
 export enum NovelStatus {
+  /**
+   * Unknown will be the default status of novel chapter
+   */
   UNKNOWN = "unknown",
+
+  /**
+   * Completed will set when the network downloaded the chapter and save completely
+   */
   COMPLETED = "completed",
+
+  /**
+   * Closed will set if the auto detect, have detected the close chapter
+   */
   CLOSED = "closed",
+
+  /**
+   * Sold will set if the autodetect, have detected the sold chapter
+   */
   SOLD = "sold"
 }
 
@@ -154,7 +172,7 @@ export class NovelZeroChapter extends NovelChapter {
     return FetchApi(this).then(res => {
       const html = HtmlBuilder.template(this._nid)
         .addNovel(this._novel)
-        .addContent(HtmlBuilder.buildContent(res.cheerio))
+        .addContent(HtmlBuilder.buildContent(res.chapter, res.cheerio))
         .renderDefault();
 
       return WriteChapter(html, res.chapter, force);

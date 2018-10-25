@@ -1,5 +1,5 @@
-import { SeperateArgumentApi } from "../../helpers/action";
-import { NovelBuilder } from "../../builder/novel";
+import { SeperateArgumentApi } from "../helpers/action";
+import { NovelBuilder } from "../builder/novel";
 
 export default (a: any) => {
   const { args } = SeperateArgumentApi(a);

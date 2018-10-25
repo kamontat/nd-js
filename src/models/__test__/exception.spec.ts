@@ -5,7 +5,7 @@ import { setProperty } from "../../../test/test";
 test("Should able to create new Exception class", function() {
   const exception = new Exception("Test error");
 
-  expect(exception.warn).toBeFalse();
+  expect(exception.warn()).toBeFalse();
   expect(exception.code).toEqual(1);
   expect(exception.message).toInclude("Test error");
 });
@@ -36,7 +36,7 @@ test("Should able to create FError class", function() {
 
 test("Should create warning exception", function() {
   const warn = new Warning("Warning", 2);
-  expect(warn.warn).toBeTrue();
+  expect(warn.warn()).toBeTrue();
 });
 
 test("Should able to load load cause", function() {
@@ -76,7 +76,7 @@ test("Should clone to their own object", function() {
 
   expect(e3.message).toInclude("Add new error");
 
-  expect(e4.clone().warn).toBeTrue();
+  expect(e4.clone().warn()).toBeTrue();
 });
 
 test("Shouldn't clone Exception class", function() {

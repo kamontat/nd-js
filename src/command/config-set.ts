@@ -3,8 +3,10 @@
  * @module commander.command
  */
 
-import { SeperateArgumentApi, ThrowIf, ValidList, ByLength, ByMatchSome } from "../../helpers/action";
-import Config from "../../models/Config";
+import { SeperateArgumentApi, ThrowIf, ValidList, ByLength, ByMatchSome } from "../helpers/action";
+import Config from "../models/Config";
+
+export const CONFIG_SET_LIST = ["token", "username", "color", "location"];
 
 /**
  * This is configuration setting command, This command able to set the value to config file.
@@ -20,7 +22,7 @@ export default (a: any) => {
   try {
     let config = Config.Load({ bypass: true });
 
-    ThrowIf(ValidList(args, ByMatchSome, ["token", "username", "color", "location"]));
+    ThrowIf(ValidList(args, ByMatchSome, CONFIG_SET_LIST));
     ThrowIf(ValidList(args, ByLength, 2));
 
     if (args.includes("token")) config.setToken(args[1]);
