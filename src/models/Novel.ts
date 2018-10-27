@@ -25,6 +25,7 @@ import Config from "./Config";
 import terminalLink from "terminal-link";
 import { SaveIf } from "../helpers/action";
 import Bluebird from "bluebird";
+import { History } from "./History";
 
 export class Novel {
   // TODO: add required information attribute
@@ -37,16 +38,16 @@ export class Novel {
   private _downloadAt: Moment; // manually collect
   private _updateAt?: Moment; // this from website
 
+  private _history: History;
+
   constructor(id: string, location?: string) {
+    this._history = new History();
+
     this._id = id;
-    if (location) this._location = location;
-    else this._location = Config.Load().getNovelLocation();
+    if (location) this.setLocation(location);
+    else this.setLocation(Config.Load().getNovelLocation());
 
     this._downloadAt = moment();
-  }
-
-  public set location(v: string) {
-    this._location = v;
   }
 
   public get location(): string {
@@ -61,6 +62,10 @@ export class Novel {
     return this._name || "";
   }
 
+  get history() {
+    return this._history;
+  }
+
   get lastUpdateAt() {
     return this._updateAt || moment();
   }
@@ -72,6 +77,18 @@ export class Novel {
   addChapter(n: NovelChapter) {
     if (this._chapters) this._chapters.push(n);
     else this._chapters = [n];
+  }
+
+  setName(n: string) {
+    if (this._name) this.history.addMODIFIEDNode("Novel name", { before: this._name, after: n });
+    else this._history.addADDNode("Novel name", { after: n });
+    this._name = n;
+  }
+
+  setLocation(v: string) {
+    if (this._location) this.history.addMODIFIEDNode("Novel location", { before: this._location, after: v });
+    else this._history.addADDNode("Novel location", { after: v });
+    this._location = v;
   }
 
   setChapter(ns: NovelChapter[], opt?: { force?: boolean }) {
