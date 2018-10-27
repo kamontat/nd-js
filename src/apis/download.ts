@@ -9,11 +9,12 @@ import { Response } from "request";
 import { decode } from "iconv-lite";
 
 import { NovelChapter } from "../models/Chapter";
-import { NOVEL_WARN } from "../constants/error.const";
+import { NOVEL_WARN, DOWNLOAD_ERR } from "../constants/error.const";
 import { CheckIsNovel, GetChapterNameApi, GetChapterDateApi, GetNovelNameApi } from "./novel";
 import { HtmlBuilder } from "../builder/html";
 import { WriteChapter } from "./file";
 import Bluebird, { Promise } from "bluebird";
+import { RequestError } from "request-promise/errors";
 
 function download(url: URL) {
   return request({
@@ -57,7 +58,12 @@ export const FetchApi: (chapter: NovelChapter) => Bluebird<{ cheerio: CheerioSta
           return rej(NOVEL_WARN.clone().loadString(`Novel(${chapter.id}) on chapter ${chapter.number} is not exist`));
         }
       })
-      .catch(rej);
+      .catch(e => {
+        if (e instanceof RequestError) {
+          return rej(DOWNLOAD_ERR.clone().loadString("No internet connection"));
+        }
+        return rej(e);
+      });
   });
 };
 

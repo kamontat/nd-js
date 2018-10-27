@@ -28,14 +28,14 @@ import Bluebird from "bluebird";
 
 export class Novel {
   // TODO: add required information attribute
-  _id: string;
-  _location?: string;
+  private _id: string;
+  private _location?: string;
 
-  _name?: string;
-  _chapters?: NovelChapter[];
+  private _name?: string;
+  private _chapters?: NovelChapter[];
 
-  _downloadAt: Moment; // manually collect
-  _updateAt?: Moment; // this from website
+  private _downloadAt: Moment; // manually collect
+  private _updateAt?: Moment; // this from website
 
   constructor(id: string, location?: string) {
     this._id = id;
@@ -43,6 +43,57 @@ export class Novel {
     else this._location = Config.Load().getNovelLocation();
 
     this._downloadAt = moment();
+  }
+
+  public set location(v: string) {
+    this._location = v;
+  }
+
+  public get location(): string {
+    return this._location || Config.Load({ quiet: true }).getNovelLocation();
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  get name() {
+    return this._name || "";
+  }
+
+  get lastUpdateAt() {
+    return this._updateAt || moment();
+  }
+
+  get startDownloadAt() {
+    return this._downloadAt || moment();
+  }
+
+  addChapter(n: NovelChapter) {
+    if (this._chapters) this._chapters.push(n);
+    else this._chapters = [n];
+  }
+
+  setChapter(ns: NovelChapter[], opt?: { force?: boolean }) {
+    if (opt && opt.force) this._chapters = ns;
+    if (this._chapters) this._chapters.push(...ns);
+    else this._chapters = ns;
+  }
+
+  mapChapter(fn: (n: NovelChapter) => any) {
+    return (this._chapters && this._chapters.map(fn)) || [];
+  }
+
+  get completedChapter() {
+    return (this._chapters && this._chapters.filter(c => c.isCompleted())) || [];
+  }
+
+  get chapterSize() {
+    if (!this._chapters || this._chapters.length < 1) return { start: 0, end: 0 };
+    return {
+      start: this._chapters[0].number,
+      end: this._chapters[this._chapters.length - 1].number
+    };
   }
 
   update($: CheerioStatic) {

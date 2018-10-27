@@ -22,10 +22,10 @@ export class NovelResource {
 
   build() {
     return {
-      id: this.novel._id,
-      name: this.novel._name,
-      lastUpdate: Timestamp(this.novel._updateAt),
-      chapters: (this.novel._chapters && this.novel._chapters.map(chap => chap.buildJSON())) || []
+      id: this.novel.id,
+      name: this.novel.name,
+      lastUpdate: Timestamp(this.novel.lastUpdateAt),
+      chapters: this.novel.mapChapter(chap => chap.buildJSON())
     };
   }
 

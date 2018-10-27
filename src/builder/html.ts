@@ -15,7 +15,7 @@ export class HtmlBuild extends HtmlTemplate {
   }
 
   addNovel(novel: Novel) {
-    return this.addName(novel._name)
+    return this.addName(novel.name)
       .addChapNum("0")
       .addToc(HtmlBuilder.buildToc(novel));
   }

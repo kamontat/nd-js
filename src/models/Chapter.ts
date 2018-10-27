@@ -163,7 +163,7 @@ export class NovelZeroChapter extends NovelChapter {
   private _novel: Novel;
 
   constructor(novel: Novel) {
-    super(novel._id, "0", undefined, novel._location);
+    super(novel.id, "0", undefined, novel.location);
 
     this._novel = novel;
   }

@@ -32,11 +32,12 @@ export default (a: any) => {
       force: options.force,
       contextKey: "novel",
       overrideNovel: (novel: Novel) => {
-        novel._location = config.getNovelLocation();
+        novel.location = config.getNovelLocation();
         // update chapter to novel
-        novel._chapters = chapterString.map(chapter =>
+        const chapters = chapterString.map(chapter =>
           NovelBuilder.createChapter(id, chapter, { location: config.getNovelLocation() })
         );
+        novel.setChapter(chapters, { force: true });
       }
     })
     .runNovel({ contextKey: "novel", withChapter: options.withChapter });
