@@ -65,18 +65,22 @@ export class UsernameValidator implements Validator {
   }
 
   get name() {
+    if (this.username.length !== 3) return "";
     return this.username[0];
   }
 
   get surname() {
+    if (this.username.length !== 3) return "";
     return this.username[1];
   }
 
   get email() {
+    if (this.username.length !== 3) return "";
     return this.username[2];
   }
 
   get key() {
+    if (this.username.length !== 3) return "";
     return this.username.join(" ").concat(" ", ND.A);
   }
 
