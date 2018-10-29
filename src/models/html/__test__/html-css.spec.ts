@@ -1,5 +1,5 @@
 import "jest-extended";
-import { DEFAULT_CSS_TEMPLATE } from "../../constants/html.const";
+import { DEFAULT_CSS_TEMPLATE } from "../../../constants/html.const";
 
 test("Should get css", function() {
   const css = DEFAULT_CSS_TEMPLATE;

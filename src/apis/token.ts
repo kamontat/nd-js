@@ -7,8 +7,8 @@ import { decode, sign, verify } from "jsonwebtoken";
 
 import { SECURITY_FAIL_ERR } from "../constants/error.const";
 import { ND } from "../constants/nd.const";
-import { TokenValidator } from "../models/SecurityTokenValidator";
-import { UsernameValidator } from "../models/SecurityUsernameValidator";
+import { TokenValidator } from "../models/security/TokenValidator";
+import { UsernameValidator } from "../models/security/UsernameValidator";
 
 interface ResultToken {
   name: string;

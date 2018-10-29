@@ -11,21 +11,21 @@ import { join } from "path";
 import terminalLink from "terminal-link";
 import { log } from "winston";
 
-import { FetchApi } from "../apis/download";
-import { WriteChapter } from "../apis/file";
-import { CreateChapterListApi, GetNovelDateApi, GetNovelNameApi, NormalizeNovelName } from "../apis/novel";
-import { HtmlBuilder } from "../builder/html";
-import { NovelBuilder } from "../builder/novel";
-import { COLORS } from "../constants/color.const";
-import { NOVEL_CLOSED_WARN, NOVEL_NOTFOUND_ERR, NOVEL_SOLD_WARN, NOVEL_WARN } from "../constants/error.const";
-import { DEFAULT_NOVEL_FOLDER_NAME } from "../constants/novel.const";
-import { SaveIf } from "../helpers/action";
-import { GetLink } from "../helpers/novel";
+import { FetchApi } from "../../apis/download";
+import { WriteChapter } from "../../apis/file";
+import { CreateChapterListApi, GetNovelDateApi, GetNovelNameApi, NormalizeNovelName } from "../../apis/novel";
+import { HtmlBuilder } from "../../builder/html";
+import { NovelBuilder } from "../../builder/novel";
+import { COLORS } from "../../constants/color.const";
+import { NOVEL_CLOSED_WARN, NOVEL_NOTFOUND_ERR, NOVEL_SOLD_WARN, NOVEL_WARN } from "../../constants/error.const";
+import { DEFAULT_NOVEL_FOLDER_NAME } from "../../constants/novel.const";
+import { SaveIf } from "../../helpers/action";
+import { GetLink } from "../../helpers/novel";
+import Config from "../Config";
+import { History } from "../History";
+import { WrapTMCT } from "../LoggerWrapper";
 
 import { NovelChapter, NovelStatus } from "./Chapter";
-import Config from "./Config";
-import { History } from "./History";
-import { WrapTMCT } from "./LoggerWrapper";
 
 export class Novel {
   private _id: string;
@@ -85,6 +85,10 @@ export class Novel {
     }
   }
 
+  public resetChapter() {
+    this._chapters = [];
+  }
+
   public setName(n: string) {
     if (this._name) {
       this.history.addMODIFIEDNode("Novel name", { before: this._name, after: n });
@@ -116,8 +120,8 @@ export class Novel {
       return { start: 0, end: 0 };
     }
     return {
-      start: this._chapters[0].number,
-      end: this._chapters[this._chapters.length - 1].number,
+      start: parseInt(this._chapters[0].number),
+      end: parseInt(this._chapters[this._chapters.length - 1].number),
     };
   }
 

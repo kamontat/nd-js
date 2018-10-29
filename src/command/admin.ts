@@ -7,7 +7,7 @@ import { ND } from "../constants/nd.const";
 import { SeperateArgumentApi } from "../helpers/action";
 import { Throw } from "../helpers/action";
 import { WrapTMC } from "../models/LoggerWrapper";
-import { UsernameValidator } from "../models/SecurityUsernameValidator";
+import { UsernameValidator } from "../models/security/UsernameValidator";
 
 interface passwordType {
   password: string;

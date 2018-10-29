@@ -1,8 +1,8 @@
 import "jest-extended";
 
-import { NovelBuilder } from "../../builder/novel";
-import { DEFAULT_NOVEL_LINK } from "../../constants/novel.const";
-import { PassLink } from "../../helpers/novel";
+import { NovelBuilder } from "../../../builder/novel";
+import { DEFAULT_NOVEL_LINK } from "../../../constants/novel.const";
+import { PassLink } from "../../../helpers/novel";
 
 test("Should save attribute correctly", function() {
   const id = "123456789";

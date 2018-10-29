@@ -4,7 +4,7 @@ import { NovelBuilder } from "../builder/novel";
 import { SeperateArgumentApi } from "../helpers/action";
 import { ListrHelper } from "../helpers/listr";
 import { GetNID } from "../helpers/novel";
-import { ExceptionStorage } from "../models/ExceptionStorage";
+import { ExceptionStorage } from "../models/error/ExceptionStorage";
 
 export default (a: any) => {
   const { options, args } = SeperateArgumentApi(a);

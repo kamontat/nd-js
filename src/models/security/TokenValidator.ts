@@ -3,9 +3,9 @@
  * @module nd.security
  */
 
-import { SECURITY_FAIL_ERR } from "../constants/error.const";
+import { SECURITY_FAIL_ERR } from "../../constants/error.const";
 
-import { Validator } from "./SecurityValidator";
+import { Validator } from "./Validator";
 
 export class TokenValidator implements Validator {
   constructor(token: string) {

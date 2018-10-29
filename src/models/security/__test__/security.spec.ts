@@ -1,12 +1,12 @@
 import "jest-extended";
 
-import { ND } from "../../constants/nd.const";
-import { SECURITY_FAIL_ERR } from "../../constants/error.const";
+import { ND } from "../../../constants/nd.const";
+import { SECURITY_FAIL_ERR } from "../../../constants/error.const";
 import uuid = require("uuid");
-import { TEST_NAME, TEST_TOKEN } from "../../../test/test";
-import { TokenValidator } from "../SecurityTokenValidator";
-import { UsernameValidator } from "../SecurityUsernameValidator";
-import { Security } from "../../apis/security";
+import { TEST_NAME, TEST_TOKEN } from "../../../../test/test";
+import { TokenValidator } from "../TokenValidator";
+import { UsernameValidator } from "../UsernameValidator";
+import { Security } from "../../../apis/security";
 
 describe("Security", function() {
   describe("Token validator", function() {

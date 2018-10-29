@@ -3,11 +3,11 @@
  * @module nd.security
  */
 
-import { VerifyToken } from "../apis/token";
-import { CheckIsExist } from "../helpers/helper";
+import { VerifyToken } from "../../apis/token";
+import { CheckIsExist } from "../../helpers/helper";
 
-import { TokenValidator } from "./SecurityTokenValidator";
-import { UsernameValidator } from "./SecurityUsernameValidator";
+import { TokenValidator } from "./TokenValidator";
+import { UsernameValidator } from "./UsernameValidator";
 
 export interface Validator {
   /**

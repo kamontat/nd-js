@@ -12,7 +12,7 @@ import { RequestError } from "request-promise/errors";
 
 import { HtmlBuilder } from "../builder/html";
 import { DOWNLOAD_ERR, NOVEL_WARN } from "../constants/error.const";
-import { NovelChapter } from "../models/Chapter";
+import { NovelChapter } from "../models/novel/Chapter";
 
 import { WriteChapter } from "./file";
 import { CheckIsNovel, GetChapterDateApi, GetChapterNameApi, GetNovelNameApi } from "./novel";

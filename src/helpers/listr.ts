@@ -8,8 +8,8 @@ import Listr, { ListrOptions, ListrTask } from "listr";
 import { Observable } from "rxjs";
 
 import { ListrApi } from "../apis/listr";
-import { NovelChapter } from "../models/Chapter";
-import { Novel } from "../models/Novel";
+import { NovelChapter } from "../models/novel/Chapter";
+import { Novel } from "../models/novel/Novel";
 
 import { ThrowIf } from "./action";
 

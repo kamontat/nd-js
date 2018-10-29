@@ -1,6 +1,10 @@
 import "jest-extended";
-import { Exception, EError, NFError, FError, Warning } from "../Exception";
-import { setProperty } from "../../../test/test";
+import { setProperty } from "../../../../test/test";
+import { NFError } from "../NotFoundError";
+import { EError } from "../ErrorError";
+import { FError } from "../FailError";
+import { Warning } from "../Warning";
+import { Exception } from "../Exception";
 
 test("Should able to create new Exception class", function() {
   const exception = new Exception("Test error");

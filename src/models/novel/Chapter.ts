@@ -8,16 +8,16 @@ import { render } from "mustache";
 import { join } from "path";
 import { log } from "winston";
 
-import { FetchApi } from "../apis/download";
-import { WriteChapter } from "../apis/file";
-import { HtmlBuilder } from "../builder/html";
-import { COLORS } from "../constants/color.const";
-import { NOVEL_ERR } from "../constants/error.const";
-import { CheckIsNumber, Timestamp } from "../helpers/helper";
-import { GetChapterFile, GetLinkWithChapter } from "../helpers/novel";
+import { FetchApi } from "../../apis/download";
+import { WriteChapter } from "../../apis/file";
+import { HtmlBuilder } from "../../builder/html";
+import { COLORS } from "../../constants/color.const";
+import { NOVEL_ERR } from "../../constants/error.const";
+import { CheckIsNumber, Timestamp } from "../../helpers/helper";
+import { GetChapterFile, GetLinkWithChapter } from "../../helpers/novel";
+import Config from "../Config";
+import { WrapTMC } from "../LoggerWrapper";
 
-import Config from "./Config";
-import { WrapTMC } from "./LoggerWrapper";
 import { Novel } from "./Novel";
 
 /**
@@ -46,7 +46,6 @@ export enum NovelStatus {
 }
 
 export class NovelChapter {
-
   get id() {
     return this._nid;
   }
@@ -104,12 +103,16 @@ export class NovelChapter {
   }
 
   public setLocation(location: string | undefined) {
-    if (location) { this._location = location; }
+    if (location) {
+      this._location = location;
+    }
   }
 
   public link() {
     const link = GetLinkWithChapter(this._nid, this._chapterNumber);
-    if (link) { return link; }
+    if (link) {
+      return link;
+    }
     throw NOVEL_ERR.clone().loadString("cannot generate download link");
   }
 
@@ -122,13 +125,23 @@ export class NovelChapter {
   }
 
   public toString() {
-    if (this._chapterNumber === "0") { return COLORS.ChapterName.color("chapter zero"); }
+    if (this._chapterNumber === "0") {
+      return COLORS.ChapterName.color("chapter zero");
+    }
     let result = "";
-    if (this._name) { result += COLORS.ChapterName.color(this._name); } else { result += "no-name"; }
+    if (this._name) {
+      result += COLORS.ChapterName.color(this._name);
+    } else {
+      result += "no-name";
+    }
 
     result += ` ${COLORS.Important.color(this.status.toUpperCase())} `;
 
-    if (this._date) { result += ` [อัพเดตล่าสุดเมื่อ ${COLORS.Date.formatColor(this._date)}]`; } else { result += ` [ไม่รู้การอัพเดตล่าสุด]`; }
+    if (this._date) {
+      result += ` [อัพเดตล่าสุดเมื่อ ${COLORS.Date.formatColor(this._date)}]`;
+    } else {
+      result += ` [ไม่รู้การอัพเดตล่าสุด]`;
+    }
 
     return result;
   }
@@ -169,7 +182,7 @@ export class NovelZeroChapter extends NovelChapter {
   }
 
   public download(force?: boolean) {
-    return FetchApi(this).then((res) => {
+    return FetchApi(this).then(res => {
       const html = HtmlBuilder.template(this._nid)
         .addNovel(this._novel)
         .addContent(HtmlBuilder.buildContent(res.chapter, res.cheerio))

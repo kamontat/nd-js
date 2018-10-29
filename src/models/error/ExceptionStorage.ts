@@ -1,10 +1,10 @@
 import { log } from "winston";
 
+import { WrapTMC } from "../LoggerWrapper";
+
 import { Exception } from "./Exception";
-import { WrapTMC } from "./LoggerWrapper";
 
 export class ExceptionStorage {
-
   constructor() {}
 
   public exceptions: Exception[] = [];
@@ -14,7 +14,7 @@ export class ExceptionStorage {
   }
 
   public list() {
-    return this.exceptions.filter((e) => e.call);
+    return this.exceptions.filter(e => e.call);
   }
 
   public print() {
@@ -23,7 +23,7 @@ export class ExceptionStorage {
   }
 
   public reset() {
-    this.exceptions.forEach((exp) => exp.reset());
+    this.exceptions.forEach(exp => exp.reset());
   }
   public static CONST = new ExceptionStorage();
 }

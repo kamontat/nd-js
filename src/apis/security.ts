@@ -8,9 +8,9 @@ import { log } from "winston";
 import { COLORS } from "../constants/color.const";
 import { RevertTimestamp } from "../helpers/helper";
 import { WrapTMCT } from "../models/LoggerWrapper";
-import { TokenValidator } from "../models/SecurityTokenValidator";
-import { UsernameValidator } from "../models/SecurityUsernameValidator";
-import { NDValidator } from "../models/SecurityValidator";
+import { TokenValidator } from "../models/security/TokenValidator";
+import { UsernameValidator } from "../models/security/UsernameValidator";
+import { NDValidator } from "../models/security/Validator";
 
 import { DecodeToken } from "./token";
 

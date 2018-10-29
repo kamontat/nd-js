@@ -3,11 +3,11 @@
  * @module nd.security
  */
 
-import { SECURITY_FAIL_ERR } from "../constants/error.const";
-import { ND } from "../constants/nd.const";
-import { CheckIsEmail } from "../helpers/helper";
+import { SECURITY_FAIL_ERR } from "../../constants/error.const";
+import { ND } from "../../constants/nd.const";
+import { CheckIsEmail } from "../../helpers/helper";
 
-import { Validator } from "./SecurityValidator";
+import { Validator } from "./Validator";
 
 export class UsernameValidator implements Validator {
   get name() {

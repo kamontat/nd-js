@@ -11,7 +11,7 @@ import { ListrHelper } from "../helpers/listr";
 import { GetNID } from "../helpers/novel";
 import Config from "../models/Config";
 import { WrapTMC } from "../models/LoggerWrapper";
-import { Novel } from "../models/Novel";
+import { Novel } from "../models/novel/Novel";
 
 export default (a: any) => {
   log(WrapTMC("verbose", "prepare", "raw download"));
@@ -40,7 +40,8 @@ export default (a: any) => {
         const chapters = chapterString.map(chapter =>
           NovelBuilder.createChapter(id, chapter, { location: config.getNovelLocation() }),
         );
-        novel.setChapter(chapters, { force: true });
+        novel.resetChapter();
+        chapters.forEach(novel.addChapter);
       },
     })
     .runNovel({ contextKey: "novel", withChapter: options.withChapter });

@@ -3,12 +3,13 @@
  * @module nd.html
  */
 
-import { HtmlBuilder } from "../builder/html";
-import { NovelChapter } from "../models/Chapter";
-import { HtmlContent } from "../models/HtmlContent";
-import { HtmlTemplate } from "../models/HtmlTemplate";
-import { HtmlToc } from "../models/HtmlTOC";
-import { Novel } from "../models/Novel";
+import { HtmlBuilder } from "../../builder/html";
+import { NovelChapter } from "../novel/Chapter";
+import { Novel } from "../novel/Novel";
+
+import { HtmlContent } from "./HtmlContent";
+import { HtmlTemplate } from "./HtmlTemplate";
+import { HtmlToc } from "./HtmlTOC";
 
 export class HtmlBuild extends HtmlTemplate {
   constructor(id: string) {

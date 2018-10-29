@@ -5,8 +5,8 @@
 
 import { log } from "winston";
 
-import { WrapTM } from "./LoggerWrapper";
-import { Novel } from "./Novel";
+import { WrapTM } from "../LoggerWrapper";
+import { Novel } from "../novel/Novel";
 
 export class HtmlToc {
   constructor(novel: Novel) {

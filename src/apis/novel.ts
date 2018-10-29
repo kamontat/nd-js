@@ -14,9 +14,9 @@ import { HTML_BLACKLIST_TEXT } from "../constants/html.const";
 import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 import { CheckIsExist, FormatMomentDateTime, TrimString } from "../helpers/helper";
 import { GetChapterNumber, PassLink } from "../helpers/novel";
-import { NovelChapter, NovelStatus } from "../models/Chapter";
-import { HtmlNode } from "../models/HtmlNode";
+import { HtmlNode } from "../models/html/HtmlNode";
 import { WrapTM, WrapTMC, WrapTMCT } from "../models/LoggerWrapper";
+import { NovelChapter, NovelStatus } from "../models/novel/Chapter";
 
 import { Query } from "./html";
 

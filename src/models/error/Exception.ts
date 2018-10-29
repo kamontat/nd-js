@@ -5,8 +5,9 @@
 
 import { log } from "winston";
 
+import { WrapTMC } from "../LoggerWrapper";
+
 import { ExceptionStorage } from "./ExceptionStorage";
-import { WrapTMC } from "./LoggerWrapper";
 
 /**
  * This is the throwable interface, which use to contain more helper method than Error interface
@@ -128,71 +129,5 @@ export class Exception extends Error implements Throwable {
       return false;
     }
     return e.code === this.code;
-  };
-}
-
-/**
- * NFError is not found error
- */
-export class NFError extends Exception {
-  constructor(title: string, shift?: number) {
-    super(title, 10, shift);
-  }
-
-  public clone = (): Exception => {
-    const n = new NFError(this.message);
-    n.code = this.code;
-    n.description = this.description;
-    n.warn = this.warn;
-    return n;
-  };
-}
-
-/**
- * EError is error or wrong input
- */
-export class EError extends Exception {
-  constructor(title: string, shift?: number) {
-    super(title, 30, shift);
-  }
-
-  public clone = (): Exception => {
-    const n = new EError(this.message);
-    n.code = this.code;
-    n.description = this.description;
-    n.warn = this.warn;
-    return n;
-  };
-}
-
-/**
- * FError is fail to do something
- */
-export class FError extends Exception {
-  constructor(title: string, shift?: number) {
-    super(title, 50, shift);
-  }
-
-  public clone = (): Exception => {
-    const n = new FError(this.message);
-    n.code = this.code;
-    n.description = this.description;
-    n.warn = this.warn;
-    return n;
-  };
-}
-
-export class Warning extends Exception {
-  constructor(title: string, shift?: number) {
-    super(title, 100, shift);
-  }
-  public _warn = true;
-
-  public clone = (): Exception => {
-    const n = new Warning(this.message);
-    n.code = this.code;
-    n.description = this.description;
-    n._warn = this.warn();
-    return n;
   };
 }

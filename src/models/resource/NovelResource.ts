@@ -3,9 +3,9 @@
  * @module nd.resource
  */
 
-import { Timestamp } from "../helpers/helper";
+import { Timestamp } from "../../helpers/helper";
 
-import { Novel } from "./Novel";
+import { Novel } from "../novel/Novel";
 
 export interface NovelResourceType {
   id: string;
@@ -26,7 +26,7 @@ export class NovelResource {
       id: this.novel.id,
       name: this.novel.name,
       lastUpdate: Timestamp(this.novel.lastUpdateAt),
-      chapters: this.novel.mapChapter((chap) => chap.buildJSON()),
+      chapters: this.novel.mapChapter(chap => chap.buildJSON())
     };
   }
 

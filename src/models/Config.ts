@@ -20,7 +20,7 @@ import { CONFIG_FAIL_ERR } from "../constants/error.const";
 import { ND } from "../constants/nd.const";
 import { CheckIsExist } from "../helpers/helper";
 
-import Exception from "./Exception";
+import Exception from "./error/Exception";
 import { WrapTM, WrapTMC, WrapTMCT } from "./LoggerWrapper";
 
 /**

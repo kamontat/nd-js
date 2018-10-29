@@ -7,10 +7,9 @@ import { Moment } from "moment";
 
 import { FetchApi } from "../apis/download";
 import { GetNID } from "../helpers/novel";
-import { NovelChapter, NovelZeroChapter } from "../models/Chapter";
 import Config from "../models/Config";
-import { Novel } from "../models/Novel";
-import { Resource } from "../models/Resource";
+import { NovelChapter, NovelZeroChapter } from "../models/novel/Chapter";
+import { Novel } from "../models/novel/Novel";
 
 interface NovelChapterBuilderOption {
   name?: string;

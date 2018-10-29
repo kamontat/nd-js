@@ -3,19 +3,7 @@
  * @module nd.resource
  */
 
-import { mkdirpSync, readFileSync } from "fs-extra";
-import { dirname, join } from "path";
-
-import { WriteFile } from "../apis/file";
-import { NOVEL_NOTFOUND_ERR } from "../constants/error.const";
-import { ND } from "../constants/nd.const";
-import { DEFAULT_RESOURCE_NAME } from "../constants/novel.const";
-import { Timestamp } from "../helpers/helper";
-
-import { CommandResource } from "./CommandResource";
-import { Novel } from "./Novel";
-import { NovelResource } from "./NovelResource";
-import { ResourceObjectType } from "./ResourceType";
+import { Novel } from "../novel/Novel";
 
 export class Resource {
   // TODO: Add change history

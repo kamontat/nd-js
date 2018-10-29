@@ -4,11 +4,11 @@
  */
 
 import { GetNovelContent } from "../apis/novel";
-import { NovelChapter } from "../models/Chapter";
-import { HtmlBuild } from "../models/HtmlBuilding";
-import { HtmlContent } from "../models/HtmlContent";
-import { HtmlToc } from "../models/HtmlTOC";
-import { Novel } from "../models/Novel";
+import { HtmlBuild } from "../models/html/HtmlBuilding";
+import { HtmlContent } from "../models/html/HtmlContent";
+import { HtmlToc } from "../models/html/HtmlTOC";
+import { NovelChapter } from "../models/novel/Chapter";
+import { Novel } from "../models/novel/Novel";
 
 export class HtmlBuilder {
   public static template(id: string) {

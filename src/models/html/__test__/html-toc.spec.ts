@@ -1,6 +1,6 @@
 import "jest-extended";
 import { HtmlToc } from "../HtmlTOC";
-import { NovelBuilder } from "../../builder/novel";
+import { NovelBuilder } from "../../../builder/novel";
 
 test("Should create toc element", function() {
   jest.setTimeout(10000);
@@ -17,7 +17,6 @@ test("Should create toc element", function() {
       const tocContent = toc.build();
 
       expect(tocContent).not.toHaveLength(0);
-      expect(mock._chapters).not.toBeUndefined();
-      if (mock._chapters) expect(tocContent).toHaveLength(mock._chapters.length);
+      expect(mock.chapterSize.end).toBeGreaterThan(0);
     });
 });

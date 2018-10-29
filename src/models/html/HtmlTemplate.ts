@@ -6,15 +6,14 @@
 import moment = require("moment");
 import { render } from "mustache";
 
-import { DEFAULT_CSS_TEMPLATE, HTML_FILE } from "../constants/html.const";
-import { ND } from "../constants/nd.const";
-import { GetLinkWithChapter } from "../helpers/novel";
+import { DEFAULT_CSS_TEMPLATE, HTML_FILE } from "../../constants/html.const";
+import { ND } from "../../constants/nd.const";
+import { GetLinkWithChapter } from "../../helpers/novel";
+import { NovelChapter } from "../novel/Chapter";
 
-import { NovelChapter } from "./Chapter";
 import { CssTemplate } from "./HtmlCss";
 
 export class HtmlTemplate {
-
   constructor(build: {
     id: string;
     name?: string;
