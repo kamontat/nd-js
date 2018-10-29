@@ -1,7 +1,10 @@
 require("jest-extended");
 
 process.env.NODE_CONFIG_ENV = "development";
-process.env.NODE_CONFIG_STRICT_MODE = false;
+process.env.NODE_CONFIG_STRICT_MODE = "false";
+process.env.SUPPRESS_NO_CONFIG_WARNING = "true";
+
+process.env.NODE_CONFIG_DIR = "/tmp";
 
 const winston = require("winston");
 const setting = require("../src/models/Logger").default;

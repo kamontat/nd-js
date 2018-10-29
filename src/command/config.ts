@@ -4,7 +4,8 @@
  */
 
 import { log } from "winston";
-import { ThrowIf, SeperateArgumentApi } from "../helpers/action";
+
+import { SeperateArgumentApi, ThrowIf } from "../helpers/action";
 import Config from "../models/Config";
 import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
 

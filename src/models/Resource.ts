@@ -3,17 +3,19 @@
  * @module nd.resource
  */
 
-import { Novel } from "./Novel";
-import { WriteFile } from "../apis/file";
-import { join, dirname } from "path";
-import { DEFAULT_RESOURCE_NAME } from "../constants/novel.const";
 import { mkdirpSync, readFileSync } from "fs-extra";
-import { ND } from "../constants/nd.const";
-import { Timestamp } from "../helpers/helper";
+import { dirname, join } from "path";
+
+import { WriteFile } from "../apis/file";
 import { NOVEL_NOTFOUND_ERR } from "../constants/error.const";
-import { ResourceObjectType } from "./ResourceType";
+import { ND } from "../constants/nd.const";
+import { DEFAULT_RESOURCE_NAME } from "../constants/novel.const";
+import { Timestamp } from "../helpers/helper";
+
 import { CommandResource } from "./CommandResource";
+import { Novel } from "./Novel";
 import { NovelResource } from "./NovelResource";
+import { ResourceObjectType } from "./ResourceType";
 
 export class Resource {
   // TODO: Add change history
@@ -27,7 +29,7 @@ export class Resource {
     // this.command = new CommandResource({lastUpdate: this.novel.novel._updateAt});
   }
 
-  buildJSON() {
+  public buildJSON() {
     return {};
   }
 

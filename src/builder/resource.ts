@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.resource.builder
+ */
+
 import { Novel } from "../models/Novel";
 import { Resource } from "../models/Resource";
 

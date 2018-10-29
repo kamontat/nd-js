@@ -6,7 +6,7 @@
 import { CommandResourceType } from "./CommandResource";
 import { NovelResourceType } from "./NovelResource";
 
-export type ResourceObjectType = {
+export interface ResourceObjectType {
   command: CommandResourceType;
   novel: NovelResourceType;
-};
+}

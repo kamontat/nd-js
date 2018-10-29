@@ -22,7 +22,28 @@ module.exports = {
       },
       {
         test: /\.ts?$/,
-        use: "ts-loader",
+        enforce: "pre",
+        use: [
+          {
+            loader: "tslint-loader",
+            options: {
+              typeCheck: false,
+              fix: true
+            }
+          }
+        ],
+        exclude: /node_modules/
+      },
+      {
+        test: /\.ts?$/,
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              /* Loader options go here */
+            }
+          }
+        ],
         exclude: /node_modules/
       }
     ]

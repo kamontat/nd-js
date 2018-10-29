@@ -3,7 +3,8 @@
  * @module nd.color
  */
 
-import moment, { isMoment, isDate, Moment } from "moment";
+import moment, { isDate, isMoment, Moment } from "moment";
+
 import { CheckIsNumber, MakeReadableNumberArray } from "./helper";
 
 /************************/
@@ -16,10 +17,13 @@ export const TransferAsDate = (v: any) => {
     sameDay: "[วันนี้]",
     lastDay: "[เมื่อวาน]",
     lastWeek: "[วัน]dddd[ที่แล้ว]",
-    sameElse: "DD/MM/YYYY"
+    sameElse: "DD/MM/YYYY",
   };
-  if (isMoment(v)) return (<Moment>v).calendar(undefined, settings) || "";
-  else if (isDate(v)) return moment(<Date>v).calendar(undefined, settings) || "";
+  if (isMoment(v)) {
+    return (v as Moment).calendar(undefined, settings) || "";
+  } else if (isDate(v)) {
+    return moment(v as Date).calendar(undefined, settings) || "";
+  }
   return v;
 };
 export const TransferAsDateTime = (v: any) => {
@@ -27,17 +31,20 @@ export const TransferAsDateTime = (v: any) => {
     sameDay: "[วันนี้] ตอน HH:mm:ss",
     lastDay: "[เมื่อวาน] ตอน HH:mm:ss",
     lastWeek: "[วัน]dddd[ที่แล้ว] ตอน HH:mm:ss",
-    sameElse: "DD/MM/YYYY HH:mm:ss"
+    sameElse: "DD/MM/YYYY HH:mm:ss",
   };
-  if (isMoment(v)) return (<Moment>v).calendar(undefined, settings) || "";
-  else if (isDate(v)) return moment(<Date>v).calendar(undefined, settings) || "";
+  if (isMoment(v)) {
+    return (v as Moment).calendar(undefined, settings) || "";
+  } else if (isDate(v)) {
+    return moment(v as Date).calendar(undefined, settings) || "";
+  }
   return v;
 };
-export const TransferReadableList = (v: Array<any>) => {
-  if (v.every(v => CheckIsNumber(v) !== null)) {
-    return MakeReadableNumberArray(v);
+export const TransferReadableList = (array: any[]) => {
+  if (array.every(v => CheckIsNumber(v) !== null)) {
+    return MakeReadableNumberArray(array);
   }
-  return v.toString();
+  return array.toString();
 };
 
 /************************/

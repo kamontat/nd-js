@@ -3,35 +3,25 @@
  * @module nd.config
  */
 
-// import uuid from "uuid/v1";
-import semver, { major } from "semver";
-import yaml from "js-yaml";
+import config from "config";
 import fs, { existsSync } from "fs-extra";
-
-import { resolve, dirname } from "path";
+import yaml from "js-yaml";
+import { dirname, resolve } from "path";
+import semver, { major } from "semver";
 import { log } from "winston";
 
-import { CONFIG_FOLDER_PATH } from "../constants/config.const";
-
-process.env["SUPPRESS_NO_CONFIG_WARNING"] = process.env.NODE_ENV === "test" ? "true" : "false";
-process.env["NODE_CONFIG_STRICT_MODE"] = "false";
-process.env["NODE_CONFIG_DIR"] = CONFIG_FOLDER_PATH;
-
-import config from "config";
-
+import { Security } from "../apis/security";
+import { DecodeToken } from "../apis/token";
+import { COLORS } from "../constants/color.const";
 import { CONFIG_FILE_PATH } from "../constants/config.const";
-import Exception from "./Exception";
-
-import { ND } from "../constants/nd.const";
-
+import { HAS_COLOR, LOG_TYPE } from "../constants/default.const";
 import { CONFIG_CREATE_ERR, CONFIG_WARN, SECURITY_FAIL_ERR } from "../constants/error.const";
 import { CONFIG_FAIL_ERR } from "../constants/error.const";
-import { WrapTM, WrapTMC, WrapTMCT } from "./LoggerWrapper";
-import { LOG_TYPE, HAS_COLOR } from "../constants/default.const";
+import { ND } from "../constants/nd.const";
 import { CheckIsExist } from "../helpers/helper";
-import { COLORS } from "../constants/color.const";
-import { Security } from "./Security";
-import { DecodeToken } from "../apis/token";
+
+import Exception from "./Exception";
+import { WrapTM, WrapTMC, WrapTMCT } from "./LoggerWrapper";
 
 /**
  * @class
@@ -40,51 +30,51 @@ import { DecodeToken } from "../apis/token";
  * @version 1.0
  */
 export default class Config {
-  static _CONFIG: Config;
-
-  // config location
-  configLocation: string;
-  _username?: string;
-  _token?: string;
-
-  _outputType?: "short" | "long";
-  _color?: boolean;
-  // novel default location
-  _novelLocation?: string;
-
-  _version?: number;
-
-  _option?: { quiet: boolean };
-
   constructor(path: string, option?: { quiet: boolean }) {
     this.configLocation = path;
     this._option = option;
   }
 
-  _setter(key: "_username" | "_token" | "_outputType" | "_color" | "_novelLocation", value: any | undefined) {
+  // config location
+  public configLocation: string;
+  public _username?: string;
+  public _token?: string;
+
+  public _outputType?: "short" | "long";
+  public _color?: boolean;
+  // novel default location
+  public _novelLocation?: string;
+
+  public _version?: number;
+
+  public _option?: { quiet: boolean };
+
+  public _setter(key: "_username" | "_token" | "_outputType" | "_color" | "_novelLocation", value: any | undefined) {
     // log(WrapTM("debug", "setter be called", `key=${key}, value=${value}, quiet=${this._option && this._option.quiet}`));
     if (CheckIsExist(value)) {
-      if (!this._isQuite()) log(WrapTM("debug", "update property", `this.${key} will be set to ${value}`));
+      if (!this._isQuite()) {
+        log(WrapTM("debug", "update property", `this.${key} will be set to ${value}`));
+      }
       this[key] = value;
     }
   }
 
-  setOption(option: { quiet: boolean }) {
+  public setOption(option: { quiet: boolean }) {
     this._option = option;
   }
 
-  showStatus(options?: { console?: boolean; all: boolean }) {
+  public showStatus(options?: { console?: boolean; all: boolean }) {
     if (!this._isQuite()) {
       if (options && options.all) {
         log(
           WrapTMCT(options && options.console ? "info" : "verbose", "Config.token", this._token, {
-            message: COLORS.Token
-          })
+            message: COLORS.Token,
+          }),
         );
         log(
           WrapTMCT(options && options.console ? "info" : "verbose", "Config.username", this._username, {
-            message: COLORS.Name
-          })
+            message: COLORS.Name,
+          }),
         );
         log(WrapTMCT(options && options.console ? "info" : "debug", "Config.version", this._version));
         log(WrapTMCT(options && options.console ? "info" : "debug", "Config.color", this._color));
@@ -97,56 +87,58 @@ export default class Config {
     }
   }
 
-  _isQuite() {
+  public _isQuite() {
     return this._option && this._option.quiet;
   }
 
-  updateByOption(option: { [key: string]: string }) {
-    if (option.location) this.setNovelLocation(option.location);
+  public updateByOption(option: { [key: string]: string }) {
+    if (option.location) {
+      this.setNovelLocation(option.location);
+    }
   }
 
-  setUsername(id: string | undefined) {
+  public setUsername(id: string | undefined) {
     this._setter("_username", id);
   }
 
-  getUsername(): string {
+  public getUsername(): string {
     return this._username === undefined ? "" : this._username;
   }
 
-  setToken(token: string | undefined) {
+  public setToken(token: string | undefined) {
     this._setter("_token", token);
   }
 
-  getToken(): string {
+  public getToken(): string {
     return this._token === undefined ? "" : this._token;
   }
 
-  setOutputType(type: "long" | "short" | undefined) {
+  public setOutputType(type: "long" | "short" | undefined) {
     this._setter("_outputType", type);
   }
 
-  getOutputType(): "long" | "short" {
+  public getOutputType(): "long" | "short" {
     return this._outputType === undefined ? LOG_TYPE : this._outputType;
   }
 
-  setColor(color: string | undefined) {
+  public setColor(color: string | undefined) {
     this._setter("_color", color === "true");
   }
 
-  getColor(): boolean {
+  public getColor(): boolean {
     return this._color === undefined ? HAS_COLOR : this._color;
   }
 
-  setNovelLocation(location: string | undefined) {
+  public setNovelLocation(location: string | undefined) {
     this._setter("_novelLocation", location);
   }
 
-  getNovelLocation() {
+  public getNovelLocation() {
     return this._novelLocation === undefined ? resolve(process.env.HOME || "~") : this._novelLocation;
   }
 
-  setVersion(version: string) {
-    let valid = semver.valid(version);
+  public setVersion(version: string) {
+    const valid = semver.valid(version);
     if (valid == null) {
       this._version = this.getVersion();
     } else {
@@ -154,7 +146,7 @@ export default class Config {
     }
   }
 
-  getVersion(): number {
+  public getVersion(): number {
     return this._version === undefined ? major(ND.VERSION) : this._version;
   }
 
@@ -162,9 +154,9 @@ export default class Config {
    * Load config file from system and save to memory. This command also valid the correctness of the file.
    * @throws {@link ConfigFailError} exception
    */
-  load(bypass = false) {
+  public load(bypass = false) {
     if (!bypass) {
-      let err = this.valid();
+      const err = this.valid();
       if (err) {
         throw err;
       }
@@ -189,8 +181,8 @@ export default class Config {
         const result = DecodeToken(this.getToken());
         log(
           WrapTMCT("info", "Your username", typeof result === "string" ? result : result && result.name, {
-            message: COLORS.Name
-          })
+            message: COLORS.Name,
+          }),
         );
       }
     }
@@ -202,7 +194,7 @@ export default class Config {
    *
    * @return {@link Exception} or undefined
    */
-  valid(): Exception | undefined {
+  public valid(): Exception | undefined {
     if (!config.has("version")) {
       return CONFIG_FAIL_ERR.clone().loadString("version key is required.");
     }
@@ -228,9 +220,10 @@ export default class Config {
    *
    * @throws {@link CreateConfigError}
    */
-  create(force: boolean = false) {
-    let yaml = `version: ${this.getVersion()}
-security: 
+  public create(force: boolean = false) {
+    // tslint:disable-next-line
+    const yaml = `version: ${this.getVersion()}
+security:
   token: ${this.getToken()}
   username: ${this.getUsername()}
 setting:
@@ -241,7 +234,7 @@ setting:
 
     log(WrapTMC("debug", "Config location", this.configLocation));
     if (fs.existsSync(this.configLocation) && !force) {
-      let e = CONFIG_CREATE_ERR.clone();
+      const e = CONFIG_CREATE_ERR.clone();
       e.loadString(`${this.configLocation} is exist.`);
       throw e;
     }
@@ -250,7 +243,7 @@ setting:
     try {
       fs.writeFileSync(this.configLocation, yaml);
     } catch (err) {
-      let e = CONFIG_CREATE_ERR.clone();
+      const e = CONFIG_CREATE_ERR.clone();
       e.loadError(err);
       throw e;
     }
@@ -261,9 +254,10 @@ setting:
    *
    * @throws {@link Exception} is saving have problem
    */
-  save() {
+  public save() {
     this.create(true);
   }
+  public static _CONFIG: Config;
 
   /**
    * setup {@link Config} and create file to default path
@@ -272,11 +266,10 @@ setting:
    *
    * @see {@link Config#Initial}
    */
-  static Initial(force: boolean = false): Config {
-    let config = new Config(CONFIG_FILE_PATH);
-    config.create(force);
-
-    return config;
+  public static Initial(force: boolean = false): Config {
+    const result = new Config(CONFIG_FILE_PATH);
+    result.create(force);
+    return result;
   }
 
   /**
@@ -285,10 +278,10 @@ setting:
    *
    * @throws {@link ConfigFailError}, {@link SECURITY_FAIL_ERR}
    */
-  static Load(option?: { quiet?: boolean; bypass?: boolean }): Config {
+  public static Load(option?: { quiet?: boolean; bypass?: boolean }): Config {
     const quiet = option && option.quiet ? option.quiet : false;
     if (!Config._CONFIG) {
-      Config._CONFIG = new Config(CONFIG_FILE_PATH, { quiet: quiet });
+      Config._CONFIG = new Config(CONFIG_FILE_PATH, { quiet });
       if (existsSync(CONFIG_FILE_PATH)) {
         Config._CONFIG.load(option && option.bypass);
       } else {
@@ -296,7 +289,7 @@ setting:
       }
       Config._CONFIG.showStatus();
     }
-    Config._CONFIG.setOption({ quiet: quiet });
+    Config._CONFIG.setOption({ quiet });
     return Config._CONFIG;
   }
 }

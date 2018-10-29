@@ -3,24 +3,24 @@
  * @module nd.core
  */
 
-import p from "pjson";
 import moment = require("moment");
+import p from "pjson";
 
 export class ND {
-  static VERSION = p.version;
-  static PROJECT_NAME = p.name;
-  static A = "salt-nd-js";
-  static Z = `master-password-${moment().get("dayOfYear")}`;
-  static ID = `KC-SKE`;
-  static ALGO = "HS256";
+  public static VERSION = p.version;
+  public static PROJECT_NAME = p.name;
+  public static A = "salt-nd-js";
+  public static Z = `master-password-${moment().get("dayOfYear")}`;
+  public static ID = `KC-SKE`;
+  public static ALGO = "HS256";
 
-  static ENV = process.env.NODE_ENV;
+  public static ENV = process.env.NODE_ENV;
 
-  static isDev() {
+  public static isDev() {
     return this.ENV === "development";
   }
 
-  static isProd() {
+  public static isProd() {
     return this.ENV === "production";
   }
 }

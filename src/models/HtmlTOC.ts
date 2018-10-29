@@ -3,17 +3,18 @@
  * @module nd.html
  */
 
-import { Novel } from "./Novel";
 import { log } from "winston";
+
 import { WrapTM } from "./LoggerWrapper";
+import { Novel } from "./Novel";
 
 export class HtmlToc {
-  _novel: Novel;
   constructor(novel: Novel) {
     this._novel = novel;
   }
+  public _novel: Novel;
 
-  build() {
+  public build() {
     return this._novel.completedChapter;
   }
 }

@@ -6,33 +6,14 @@
 import moment = require("moment");
 import { render } from "mustache";
 
-import { CssTemplate } from "./HtmlCss";
+import { DEFAULT_CSS_TEMPLATE, HTML_FILE } from "../constants/html.const";
 import { ND } from "../constants/nd.const";
-import { HTML_FILE, DEFAULT_CSS_TEMPLATE } from "../constants/html.const";
-import { NovelChapter } from "./Chapter";
 import { GetLinkWithChapter } from "../helpers/novel";
 
+import { NovelChapter } from "./Chapter";
+import { CssTemplate } from "./HtmlCss";
+
 export class HtmlTemplate {
-  novelID: string;
-  novelName?: string;
-
-  chapterNumber: string;
-  chapterName?: string;
-
-  lastUpdate?: string;
-
-  next?: string;
-  prev?: string;
-
-  content: string;
-
-  toc?: NovelChapter[];
-
-  link?: string; // update when call build
-  command?: string; // update when call build
-  version?: string; // update when call build
-  date?: string; // update when call build
-  css?: string; // update when call build
 
   constructor(build: {
     id: string;
@@ -52,8 +33,28 @@ export class HtmlTemplate {
 
     this.content = build.content;
   }
+  public novelID: string;
+  public novelName?: string;
 
-  render(html: string, css: CssTemplate) {
+  public chapterNumber: string;
+  public chapterName?: string;
+
+  public lastUpdate?: string;
+
+  public next?: string;
+  public prev?: string;
+
+  public content: string;
+
+  public toc?: NovelChapter[];
+
+  public link?: string; // update when call build
+  public command?: string; // update when call build
+  public version?: string; // update when call build
+  public date?: string; // update when call build
+  public css?: string; // update when call build
+
+  public render(html: string, css: CssTemplate) {
     this.lastUpdate = this.lastUpdate === "Invalid date" ? "" : this.lastUpdate;
 
     const chap = parseInt(this.chapterNumber);
@@ -71,7 +72,7 @@ export class HtmlTemplate {
     return render(html, this);
   }
 
-  renderDefault() {
+  public renderDefault() {
     return this.render(HTML_FILE, DEFAULT_CSS_TEMPLATE);
   }
 }

@@ -4,34 +4,34 @@
  */
 
 import { load } from "cheerio";
+
 import { HtmlNode } from "./HtmlNode";
 
 export class HtmlContent {
-  _nodes: HtmlNode[];
   constructor() {
     this._nodes = [];
   }
+  public _nodes: HtmlNode[];
 
-  add(node: HtmlNode) {
+  public add(node: HtmlNode) {
     this._nodes.push(node);
   }
 
-  adds(nodes: HtmlNode[]) {
+  public adds(nodes: HtmlNode[]) {
     this._nodes.push(...nodes);
   }
 
-  build() {
-    let content = load("<div></div>", {
+  public build() {
+    const content = load("<div></div>", {
       decodeEntities: false,
       lowerCaseTags: true,
-      xmlMode: false
+      xmlMode: false,
     });
 
-    let result: Cheerio | undefined = undefined;
+    let result: Cheerio | undefined;
 
-    for (let n = 0; n < this._nodes.length; n++) {
-      let node = this._nodes[n];
-      let tag = `<${node.tag}>${node.text}</${node.tag}>`;
+    for (const node of this._nodes) {
+      const tag = `<${node.tag}>${node.text}</${node.tag}>`;
       if (result) {
         result = result.append(tag);
       } else {
@@ -41,6 +41,7 @@ export class HtmlContent {
           .append(tag);
       }
     }
+
     return (result && result.parent().html()) || "";
   }
 }

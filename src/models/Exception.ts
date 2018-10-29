@@ -4,8 +4,9 @@
  */
 
 import { log } from "winston";
-import { WrapTMC } from "./LoggerWrapper";
+
 import { ExceptionStorage } from "./ExceptionStorage";
+import { WrapTMC } from "./LoggerWrapper";
 
 /**
  * This is the throwable interface, which use to contain more helper method than Error interface
@@ -54,15 +55,12 @@ export default interface Throwable extends Error {
 }
 
 export class Exception extends Error implements Throwable {
-  code: number = 1;
-  description: string = "";
-
-  protected called: boolean = false;
-  protected _warn: boolean = false;
-
   get call() {
     return this.called;
   }
+
+  protected called: boolean = false;
+  protected _warn: boolean = false;
 
   constructor(title: string, code?: number, shift?: number) {
     super(title);
@@ -79,20 +77,22 @@ export class Exception extends Error implements Throwable {
 
     ExceptionStorage.CONST.add(this);
   }
+  public code: number = 1;
+  public description: string = "";
 
-  warn = () => {
+  public warn = () => {
     return this._warn;
   };
 
-  save = () => {
+  public save = () => {
     this.called = true;
   };
 
-  reset = () => {
+  public reset = () => {
     this.called = false;
   };
 
-  printAndExit = () => {
+  public printAndExit = () => {
     this.save();
 
     if (this.warn()) {
@@ -103,28 +103,30 @@ export class Exception extends Error implements Throwable {
     this.exit();
   };
 
-  exit = () => {
+  public exit = () => {
     if (!this.warn()) {
       process.exit(this.code);
     }
   };
 
-  loadError = (e: Error) => {
+  public loadError = (e: Error) => {
     this.message = `${this.description} cause by "${e.message}"`;
     return this;
   };
 
-  loadString = (message: string) => {
+  public loadString = (message: string) => {
     this.message = `${this.description} cause by "${message}"`;
     return this;
   };
 
-  clone = (): Exception => {
+  public clone = (): Exception => {
     return this;
   };
 
-  equal = (e: any | undefined): boolean => {
-    if (!e) return false;
+  public equal = (e: any | undefined): boolean => {
+    if (!e) {
+      return false;
+    }
     return e.code === this.code;
   };
 }
@@ -137,8 +139,8 @@ export class NFError extends Exception {
     super(title, 10, shift);
   }
 
-  clone = (): Exception => {
-    let n = new NFError(this.message);
+  public clone = (): Exception => {
+    const n = new NFError(this.message);
     n.code = this.code;
     n.description = this.description;
     n.warn = this.warn;
@@ -154,8 +156,8 @@ export class EError extends Exception {
     super(title, 30, shift);
   }
 
-  clone = (): Exception => {
-    let n = new EError(this.message);
+  public clone = (): Exception => {
+    const n = new EError(this.message);
     n.code = this.code;
     n.description = this.description;
     n.warn = this.warn;
@@ -171,8 +173,8 @@ export class FError extends Exception {
     super(title, 50, shift);
   }
 
-  clone = (): Exception => {
-    let n = new FError(this.message);
+  public clone = (): Exception => {
+    const n = new FError(this.message);
     n.code = this.code;
     n.description = this.description;
     n.warn = this.warn;
@@ -181,14 +183,13 @@ export class FError extends Exception {
 }
 
 export class Warning extends Exception {
-  _warn = true;
-
   constructor(title: string, shift?: number) {
     super(title, 100, shift);
   }
+  public _warn = true;
 
-  clone = (): Exception => {
-    let n = new Warning(this.message);
+  public clone = (): Exception => {
+    const n = new Warning(this.message);
     n.code = this.code;
     n.description = this.description;
     n._warn = this.warn();

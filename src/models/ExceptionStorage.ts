@@ -1,28 +1,29 @@
-import { Exception } from "./Exception";
 import { log } from "winston";
+
+import { Exception } from "./Exception";
 import { WrapTMC } from "./LoggerWrapper";
 
 export class ExceptionStorage {
-  static CONST = new ExceptionStorage();
-
-  exceptions: Exception[] = [];
 
   constructor() {}
 
-  add(exception: Exception) {
+  public exceptions: Exception[] = [];
+
+  public add(exception: Exception) {
     this.exceptions.push(exception);
   }
 
-  list() {
-    return this.exceptions.filter(e => e.call);
+  public list() {
+    return this.exceptions.filter((e) => e.call);
   }
 
-  print() {
+  public print() {
     log(WrapTMC("warn", "Exception", "---------------"));
     this.list().forEach((v, i) => log(WrapTMC(v.warn ? "warn" : "error", `Exception ${i}`, v.message)));
   }
 
-  reset() {
-    this.exceptions.forEach(exp => exp.reset());
+  public reset() {
+    this.exceptions.forEach((exp) => exp.reset());
   }
+  public static CONST = new ExceptionStorage();
 }

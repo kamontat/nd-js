@@ -1,58 +1,83 @@
 import "jest-extended";
-import { HistoryNode, HistoryAction, History } from "../History";
-import uuid = require("uuid");
-import moment = require("moment");
-import { Timestamp } from "../../helpers/helper";
-import { listLanguages } from "highlight.js";
+import { History } from "../History";
+import { Moment } from "moment";
+import Random from "random-js";
+import { HistoryAction, HistoryNode } from "../HistoryNode";
 
-test("Creator of historyNode", function() {
-  const node = new HistoryNode(HistoryAction.ADDED, "Test", {});
+function randomText(size: number) {
+  return new Random(Random.engines.mt19937().autoSeed()).string(size);
+}
 
-  expect(node.action).toEqual(HistoryAction.ADDED);
-});
+function randomNode(
+  value: {
+    action?: HistoryAction;
+    title?: string;
+    before?: string;
+    after?: string;
+    description?: string;
+    time?: Moment;
+  } = {}
+) {
+  const rand = new Random(Random.engines.mt19937().autoSeed());
 
-test("HistoryNode action cannot change", function() {
-  const node = new HistoryNode(
-    HistoryAction.MODIFIED,
-    "Change things",
-    { before: "T", after: "V" },
-    { description: "This is description" }
+  const listAction = [HistoryAction.ADDED, HistoryAction.DELETED, HistoryAction.MODIFIED];
+  if (!value.action) value.action = rand.pick(listAction);
+  if (!value.title) value.title = randomText(25);
+
+  return new HistoryNode(
+    value.action,
+    value.title,
+    { before: value.before, after: value.after },
+    { description: value.description, time: value.time }
   );
+}
 
-  const json = node.toJSON();
-  json.action = HistoryAction.ADDED; // shouldn't update action in node
+describe("History, node, and action", function() {
+  describe("Creator of node", function() {
+    test("Should created with default value", function() {
+      const node = randomNode({ action: HistoryAction.ADDED });
+      expect(node.action).toEqual(HistoryAction.ADDED);
+      expect(node.toJSON().description).toBeEmpty();
+    });
 
-  expect(node.action).toEqual(HistoryAction.MODIFIED);
+    test("Should create the input title", function() {
+      const title = randomText(5);
+      const node = randomNode({ title: title });
+      expect(node.toJSON().title).toEqual(title);
+    });
+
+    test("Should custom the description", function() {
+      const desc = randomText(5);
+      const node = randomNode({ description: desc });
+      expect(node.toJSON().description).toEqual(desc);
+    });
+
+    test("Shouldn't to mutation any value in Node", function() {
+      const node = randomNode({ action: HistoryAction.MODIFIED });
+
+      const json = node.toJSON();
+      json.action = HistoryAction.ADDED; // shouldn't update action in node
+
+      expect(node.action).toEqual(HistoryAction.MODIFIED);
+    });
+  });
 });
+
+// ----------- OLD TESTCASE ----------- //
 
 test("HistoryNode should print something out", function() {
-  const node = new HistoryNode(HistoryAction.DELETED, "Title", {});
-
+  const node = randomNode({ action: HistoryAction.DELETED });
   expect(node.toString()).toInclude(HistoryAction.DELETED);
 });
 
-test("HistoryNode JSON builder (fully information)", function() {
+test("Should build the same input title", function() {
   // mocking information
-  const title = "Some information";
-  const description = uuid.v1();
-  const before = "B";
-  const after = "A";
+  const title = randomText(15);
 
-  const time = moment().subtract(12, "day");
-
-  // data
-  const node = new HistoryNode(
-    HistoryAction.ADDED,
-    title,
-    { before: before, after: after },
-    { description: description, time: time }
-  );
-
+  const node = randomNode({ title: title });
   const json = node.toJSON();
 
   expect(json.title).toEqual(title);
-  expect(json.description).toEqual(description);
-  expect(json.time).toEqual(Timestamp(time));
 });
 
 test("History is the collection of historyNode", function() {

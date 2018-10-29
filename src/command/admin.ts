@@ -1,19 +1,22 @@
-import { SeperateArgumentApi } from "../helpers/action";
-import { log } from "winston";
-import { WrapTMC } from "../models/LoggerWrapper";
 import { prompt } from "inquirer";
-import { ND } from "../constants/nd.const";
-import { Throw } from "../helpers/action";
-import { SECURITY_FAIL_ERR } from "../constants/error.const";
-import { TokenDataType, CreateToken } from "../apis/token";
-import { UsernameValidator } from "../models/Security";
+import { log } from "winston";
 
-type passwordType = { password: string };
+import { CreateToken, TokenDataType } from "../apis/token";
+import { SECURITY_FAIL_ERR } from "../constants/error.const";
+import { ND } from "../constants/nd.const";
+import { SeperateArgumentApi } from "../helpers/action";
+import { Throw } from "../helpers/action";
+import { WrapTMC } from "../models/LoggerWrapper";
+import { UsernameValidator } from "../models/SecurityUsernameValidator";
+
+interface passwordType {
+  password: string;
+}
 const password = {
   type: "password",
   message: "Enter a admin password",
   name: "password",
-  mask: "*"
+  mask: "*",
 };
 
 const information = [
@@ -21,12 +24,12 @@ const information = [
     type: "input",
     name: "fullname",
     message: "Enter your full name (name surname email)",
-    validate: (str: string) => new UsernameValidator(str).isValid()
+    validate: (str: string) => new UsernameValidator(str).isValid(),
   },
   {
     type: "input",
     name: "username",
-    message: "Enter username"
+    message: "Enter username",
   },
   {
     type: "list",
@@ -40,8 +43,8 @@ const information = [
       { name: "7 days", value: "7d" },
       { name: "30 days", value: "30d" },
       { name: "180 days", value: "180d" },
-      { name: "1 year", value: "1y" }
-    ]
+      { name: "1 year", value: "1y" },
+    ],
   },
   {
     type: "list",
@@ -52,13 +55,15 @@ const information = [
       { name: "1 hours", value: "1h" },
       { name: "5 hours", value: "5h" },
       { name: "10 hours", value: "10h" },
-      { name: "1 day", value: "1d" }
-    ]
-  }
+      { name: "1 day", value: "1d" },
+    ],
+  },
 ];
 
 export default (a: any) => {
-  if (ND.isProd()) throw SECURITY_FAIL_ERR.loadString("Admin not work in production.");
+  if (ND.isProd()) {
+    throw SECURITY_FAIL_ERR.loadString("Admin not work in production.");
+  }
   const { options } = SeperateArgumentApi(a);
   log(WrapTMC("verbose", "start admin", ND.ENV));
   prompt<passwordType>([password]).then(answers => {
@@ -68,14 +73,16 @@ export default (a: any) => {
 
     prompt<TokenDataType>(information).then(answers => {
       const token = CreateToken(answers);
-      if (options.json)
+      if (options.json) {
         console.log(
           JSON.stringify({
-            token: token,
-            username: answers.fullname
-          })
+            token,
+            username: answers.fullname,
+          }),
         );
-      else log(WrapTMC("info", `Token for ${ND.PROJECT_NAME} v${ND.VERSION}`, token));
+      } else {
+        log(WrapTMC("info", `Token for ${ND.PROJECT_NAME} v${ND.VERSION}`, token));
+      }
     });
   });
 };

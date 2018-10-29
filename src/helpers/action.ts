@@ -4,9 +4,10 @@
  */
 
 import { log } from "winston";
+
 import { PARAM_WRONG_ERR } from "../constants/error.const";
 import Throwable, { Exception } from "../models/Exception";
-import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
+import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
 
 /**
  * Helper for {@link IfValidate} function
@@ -16,7 +17,7 @@ import { WrapTMC, WrapTM } from "../models/LoggerWrapper";
  *
  */
 export const ByMatchSome = (a: any[], b: any[]) => {
-  return b.some(v => v === (a[0] === undefined ? "" : a[0]));
+  return b.some((v) => v === (a[0] === undefined ? "" : a[0]));
 };
 
 /**
@@ -41,7 +42,7 @@ export const ByLength = (a: any[], b: number) => {
 export const ValidList = (
   args: any[],
   validFn: (a: any[], b: any) => boolean,
-  expected: any
+  expected: any,
 ): Exception | undefined => {
   if (!validFn(args, expected)) {
     return PARAM_WRONG_ERR.clone().loadString(`Expected [${expected}] but got [${args}]`);
@@ -66,11 +67,11 @@ export const ThrowIf = (e?: Throwable) => {
 };
 
 export const SaveIf = (e?: Exception) => {
-  if (e && e.save) e.save();
+  if (e && e.save) { e.save(); }
 };
 
 export const Throw = (e: Throwable, message?: string) => {
-  if (message) e.loadString(message);
+  if (message) { e.loadString(message); }
   ThrowIf(e);
 };
 
@@ -82,14 +83,14 @@ export const Throw = (e: Throwable, message?: string) => {
  *
  */
 export const SeperateArgumentApi = (a: any[]) => {
-  let cmd: { [key: string]: any } = a.filter(v => typeof v === "object")[0];
-  let args: string[] = a.filter(v => typeof v === "string").map(v => v.toString());
+  const cmd: { [key: string]: any } = a.filter((v) => typeof v === "object")[0];
+  const args: string[] = a.filter((v) => typeof v === "string").map((v) => v.toString());
 
   log(WrapTMC("silly", "option", cmd));
   log(WrapTMC("debug", "argument", args));
 
   return {
     options: cmd,
-    args: args
+    args,
   };
 };

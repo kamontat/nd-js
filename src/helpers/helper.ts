@@ -3,8 +3,8 @@
  * @module helper
  */
 
-import moment from "moment";
 import { existsSync } from "fs";
+import moment from "moment";
 
 import "moment/locale/th";
 
@@ -36,16 +36,16 @@ export const CheckIsExist = (value: string | undefined | null) => {
  * @return true, if input value contains only number
  */
 export const CheckIsNumber = (value: string) => {
-  if (!value) return false;
+  if (!value) { return false; }
   return value.toString().match(/^\d+$/) !== null;
 };
 
 export const CheckIsEmail = (value: string) => {
-  if (!value) return false;
+  if (!value) { return false; }
   const str = value.toString();
   return (
     str.match(
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     ) !== null
   );
 };
@@ -59,8 +59,8 @@ export const CheckIsEmail = (value: string) => {
  * @return true, if input string is path
  */
 export const CheckIsPathExist = (pathname: any) => {
-  if (!CheckIsExist(pathname)) return false;
-  let exist = existsSync(pathname.toString());
+  if (!CheckIsExist(pathname)) { return false; }
+  const exist = existsSync(pathname.toString());
   return exist;
 };
 
@@ -81,7 +81,7 @@ export const CheckIsPathExist = (pathname: any) => {
  * Output: "1-2, 6-8"
  *
  */
-export const MakeReadableNumberArray = (array: Array<string>) => {
+export const MakeReadableNumberArray = (array: string[]) => {
   // sort the array low - high
   array = array.sort((a, b) => {
     return parseInt(a) - parseInt(b);
@@ -92,7 +92,7 @@ export const MakeReadableNumberArray = (array: Array<string>) => {
   let dash = false;
   for (let i = 0; i < array.length; i++) {
     const current = parseInt(array[i]);
-    if (isNaN(current)) return array.toString();
+    if (isNaN(current)) { return array.toString(); }
     if (i + 1 < array.length) {
       const next = parseInt(array[i + 1]);
       cont = current + 1 == next;
@@ -129,9 +129,9 @@ export const MakeReadableNumberArray = (array: Array<string>) => {
  * @return trim string or empty string if trim not available
  */
 export const TrimString = (obj: any | undefined | null) => {
-  if (!CheckIsExist(obj)) return "";
+  if (!CheckIsExist(obj)) { return ""; }
   const str: string = obj.toString();
-  if (str) return str.trim();
+  if (str) { return str.trim(); }
   return "";
 };
 
@@ -146,7 +146,7 @@ export const TrimString = (obj: any | undefined | null) => {
  * @return true if input value is boolean or string that indicate boolean
  */
 export const CheckIsBoolean = (obj: any) => {
-  if (!CheckIsExist(obj)) return false;
+  if (!CheckIsExist(obj)) { return false; }
   return obj === "true" || obj === true || obj === "false" || obj === false;
 };
 
