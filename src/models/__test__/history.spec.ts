@@ -33,7 +33,7 @@ function randomNode(
 }
 
 describe("History, node, and action", function() {
-  describe("Creator of node", function() {
+  describe("Node creation", function() {
     test("Should created with default value", function() {
       const node = randomNode({ action: HistoryAction.ADDED });
       expect(node.action).toEqual(HistoryAction.ADDED);
@@ -60,102 +60,139 @@ describe("History, node, and action", function() {
 
       expect(node.action).toEqual(HistoryAction.MODIFIED);
     });
+
+    test("Should print information out", function() {
+      const node = randomNode({ action: HistoryAction.DELETED });
+      expect(node.toString()).toInclude(HistoryAction.DELETED);
+    });
   });
-});
 
-// ----------- OLD TESTCASE ----------- //
+  describe("Node information", function() {
+    test("Should display the input title", function() {
+      const title = randomText(15);
 
-test("HistoryNode should print something out", function() {
-  const node = randomNode({ action: HistoryAction.DELETED });
-  expect(node.toString()).toInclude(HistoryAction.DELETED);
-});
+      const node = randomNode({ title: title });
+      const json = node.toJSON();
 
-test("Should build the same input title", function() {
-  // mocking information
-  const title = randomText(15);
+      expect(json.title).toEqual(title);
+    });
 
-  const node = randomNode({ title: title });
-  const json = node.toJSON();
+    test("Should display the input description", function() {
+      const description = randomText(15);
 
-  expect(json.title).toEqual(title);
-});
+      const node = randomNode({ description: description });
+      const json = node.toJSON();
 
-test("History is the collection of historyNode", function() {
-  const hist = new History();
-
-  expect(hist.list()).toBeEmpty();
-});
-
-test("History should add new node", function() {
-  const hist = new History();
-  const node = new HistoryNode(HistoryAction.ADDED, "Title", {});
-
-  hist.addNode(node);
-
-  expect(hist.list()).not.toBeEmpty();
-  expect(hist.list()).toBeArrayOfSize(1);
-  expect(hist.list()).toContain(node);
-});
-
-test("History should able to add multiple node", function() {
-  const hist = new History();
-  const nodes = [
-    new HistoryNode(HistoryAction.ADDED, "TitleA", {}),
-    new HistoryNode(HistoryAction.DELETED, "TitleD", {}),
-    new HistoryNode(HistoryAction.MODIFIED, "TitleM", {}),
-    new HistoryNode(HistoryAction.ADDED, "TitleA2", {})
-  ];
-
-  hist.addNodes(nodes);
-
-  expect(hist.list()).toEqual(nodes);
-});
-
-test("History can be reset", function() {
-  const hist = new History();
-  hist.addADDNode("Adding staff", { after: "staff" });
-  hist.addMODIFIEDNode("Update staff", { before: "staff", after: "staff2" });
-
-  expect(hist.list()).toBeArray();
-  expect(hist.list()).toBeArrayOfSize(2);
-
-  hist.resetNode();
-
-  expect(hist.list()).toBeArrayOfSize(0);
-});
-
-test("History can custom the way to list things", function() {
-  const hist = new History();
-  hist.addDELETEDNode("Deleting staff", { before: "staff" });
-  hist.addDELETEDNode("Deleting staff2", { before: "staff2" });
-
-  const jsonString = hist.list({ reduce: (p, c) => `${p} ${JSON.stringify(c.toJSON())}` });
-
-  expect(jsonString).toBeString();
-  expect(jsonString).not.toBeEmpty();
-
-  hist.list({
-    map: n => {
-      expect(n.toJSON().action).toEqual(HistoryAction.DELETED);
-      return "";
-    }
+      expect(json.description).toEqual(description);
+    });
   });
-});
 
-test("History custom adding should work fine", function() {
-  const hist = new History();
+  describe("History collection", function() {
+    test("Should create empty collection", function() {
+      const hist = new History();
+      expect(hist.list()).toBeEmpty();
+    });
 
-  hist.addADDNode("TestA", { after: "ATest" });
+    test("Should able to add new node", function() {
+      const hist = new History();
+      hist.addNode(randomNode());
 
-  hist.addMODIFIEDNode("TestM", { before: "ATest", after: "MTest" });
+      expect(hist.list()).not.toBeEmpty();
+      expect(hist.list()).toBeArrayOfSize(1);
+    });
 
-  hist.addDELETEDNode("TestD", { before: "MTest" });
+    test("Should input the mutation node in history", function() {
+      const hist = new History();
+      const node = randomNode();
+      hist.addNode(node);
+      expect(hist.list()).toContain(node);
+    });
 
-  expect(hist.list()).toBeArrayOfSize(3);
+    test("Should add multiple node in once time", function() {
+      const hist = new History();
+      const nodes = [randomNode(), randomNode(), randomNode(), randomNode()];
 
-  const historytime = hist.list() as HistoryNode[];
+      hist.addNodes(nodes);
 
-  expect(historytime[0].toJSON().title).toEqual("TestA");
-  expect(historytime[1].toJSON().value.after).toEqual("MTest");
-  expect(historytime[2].toJSON().action).toEqual(HistoryAction.DELETED);
+      expect(hist.list()).toEqual(nodes);
+    });
+
+    test("Should resetable", function() {
+      const hist = new History();
+      hist.addNode(randomNode());
+      hist.addNode(randomNode());
+      expect(hist.list()).toBeArrayOfSize(2);
+
+      hist.resetNode();
+      expect(hist.list()).toBeArrayOfSize(0);
+    });
+
+    test("Should add custom 'ADD' node", function() {
+      const title = randomText(6);
+      const hist = new History();
+      hist.addADDNode(title, { after: randomText(3) });
+
+      const list: HistoryNode[] = hist.list() as HistoryNode[];
+      expect(list[0].toJSON().title).toEqual(title);
+    });
+
+    test("Should add custom 'ADDED' node", function() {
+      const title = randomText(6);
+      const hist = new History();
+      hist.addADDNode(title, { after: randomText(3) });
+
+      const list: HistoryNode[] = hist.list() as HistoryNode[];
+      expect(list[0].toJSON().title).toEqual(title);
+      expect(list[0].toJSON().action).toEqual(HistoryAction.ADDED);
+    });
+
+    test("Should add custom 'MODIFIED' node", function() {
+      const title = randomText(6);
+      const hist = new History();
+      hist.addMODIFIEDNode(title, { after: randomText(3), before: randomText(3) });
+
+      const list: HistoryNode[] = hist.list() as HistoryNode[];
+      expect(list[0].toJSON().title).toEqual(title);
+      expect(list[0].toJSON().action).toEqual(HistoryAction.MODIFIED);
+    });
+
+    test("Should add custom 'DELETED' node", function() {
+      const title = randomText(6);
+      const hist = new History();
+      hist.addDELETEDNode(title, { before: randomText(3) });
+
+      const list: HistoryNode[] = hist.list() as HistoryNode[];
+      expect(list[0].toJSON().title).toEqual(title);
+      expect(list[0].toJSON().action).toEqual(HistoryAction.DELETED);
+    });
+  });
+
+  describe("History output", function() {
+    test("Should able to custom reduce list result", function() {
+      const hist = new History();
+      hist.addNode(randomNode({ action: HistoryAction.DELETED }));
+      hist.addNode(randomNode({ action: HistoryAction.DELETED }));
+      hist.addNode(randomNode({ action: HistoryAction.DELETED }));
+
+      const jsonString = hist.list({ reduce: (p, c) => `${p} ${JSON.stringify(c.toJSON())}` });
+
+      expect(jsonString).toBeString();
+      expect(jsonString).toInclude("{");
+      expect(jsonString).toInclude("}");
+    });
+
+    test("Should able to custom map list result", function() {
+      const hist = new History();
+      hist.addNode(randomNode({ action: HistoryAction.DELETED }));
+      hist.addNode(randomNode({ action: HistoryAction.DELETED }));
+      hist.addNode(randomNode({ action: HistoryAction.DELETED }));
+
+      hist.list({
+        map: n => {
+          expect(n.toJSON().action).toEqual(HistoryAction.DELETED);
+          return "";
+        }
+      });
+    });
+  });
 });

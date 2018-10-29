@@ -28,7 +28,6 @@ import { History } from "./History";
 import { WrapTMCT } from "./LoggerWrapper";
 
 export class Novel {
-  // TODO: add required information attribute
   private _id: string;
   private _location?: string;
 
@@ -44,7 +43,11 @@ export class Novel {
     this._history = new History();
 
     this._id = id;
-    if (location) { this.setLocation(location); } else { this.setLocation(Config.Load().getNovelLocation()); }
+    if (location) {
+      this.setLocation(location);
+    } else {
+      this.setLocation(Config.Load().getNovelLocation());
+    }
 
     this._downloadAt = moment();
   }
@@ -74,22 +77,30 @@ export class Novel {
   }
 
   public addChapter(n: NovelChapter) {
-    if (this._chapters) { this._chapters.push(n); } else { this._chapters = [n]; }
+    // TODO: subscribe chapter
+    if (this._chapters) {
+      this._chapters.push(n);
+    } else {
+      this._chapters = [n];
+    }
   }
 
   public setName(n: string) {
-    if (this._name) { this.history.addMODIFIEDNode("Novel name", { before: this._name, after: n }); } else { this._history.addADDNode("Novel name", { after: n }); }
+    if (this._name) {
+      this.history.addMODIFIEDNode("Novel name", { before: this._name, after: n });
+    } else {
+      this._history.addADDNode("Novel name", { after: n });
+    }
     this._name = n;
   }
 
   public setLocation(v: string) {
-    if (this._location) { this.history.addMODIFIEDNode("Novel location", { before: this._location, after: v }); } else { this._history.addADDNode("Novel location", { after: v }); }
+    if (this._location) {
+      this.history.addMODIFIEDNode("Novel location", { before: this._location, after: v });
+    } else {
+      this._history.addADDNode("Novel location", { after: v });
+    }
     this._location = v;
-  }
-
-  public setChapter(ns: NovelChapter[], opt?: { force?: boolean }) {
-    if (opt && opt.force) { this._chapters = ns; }
-    if (this._chapters) { this._chapters.push(...ns); } else { this._chapters = ns; }
   }
 
   public mapChapter(fn: (n: NovelChapter) => any) {
@@ -97,11 +108,13 @@ export class Novel {
   }
 
   get completedChapter() {
-    return (this._chapters && this._chapters.filter((c) => c.isCompleted())) || [];
+    return (this._chapters && this._chapters.filter(c => c.isCompleted())) || [];
   }
 
   get chapterSize() {
-    if (!this._chapters || this._chapters.length < 1) { return { start: 0, end: 0 }; }
+    if (!this._chapters || this._chapters.length < 1) {
+      return { start: 0, end: 0 };
+    }
     return {
       start: this._chapters[0].number,
       end: this._chapters[this._chapters.length - 1].number,
@@ -113,7 +126,7 @@ export class Novel {
   }
 
   public load($: CheerioStatic): Bluebird<Novel> {
-    return new Bluebird((res) => {
+    return new Bluebird(res => {
       this._name = GetNovelNameApi($);
 
       if (this._location) {
@@ -123,7 +136,7 @@ export class Novel {
       // this._chapters = [NovelBuilder.createChapter(this._id, "0", { location: this._location })];
       this._chapters = [];
       this._chapters.push(
-        ...CreateChapterListApi($).map((chap) => {
+        ...CreateChapterListApi($).map(chap => {
           chap.setLocation(this._location);
           return chap;
         }),
@@ -151,7 +164,7 @@ export class Novel {
     this.printChapterNumber();
 
     if (this._chapters && option && option.withChapter) {
-      this._chapters.forEach((chapter) => {
+      this._chapters.forEach(chapter => {
         log(WrapTMCT("info", `Chapter ${chapter.number}`, chapter.toString()));
       });
     }
@@ -162,13 +175,13 @@ export class Novel {
 
   public printChapterNumber() {
     const completedChapters: string[] | undefined =
-      this._chapters && this._chapters.filter((c) => c.status === NovelStatus.COMPLETED).map((c) => c.number);
+      this._chapters && this._chapters.filter(c => c.status === NovelStatus.COMPLETED).map(c => c.number);
     const closedChapters: string[] | undefined =
-      this._chapters && this._chapters.filter((c) => c.status === NovelStatus.CLOSED).map((c) => c.number);
+      this._chapters && this._chapters.filter(c => c.status === NovelStatus.CLOSED).map(c => c.number);
     const soldChapters: string[] | undefined =
-      this._chapters && this._chapters.filter((c) => c.status === NovelStatus.SOLD).map((c) => c.number);
+      this._chapters && this._chapters.filter(c => c.status === NovelStatus.SOLD).map(c => c.number);
     const unknownChapters: string[] | undefined =
-      this._chapters && this._chapters.filter((c) => c.status === NovelStatus.UNKNOWN).map((c) => c.number);
+      this._chapters && this._chapters.filter(c => c.status === NovelStatus.UNKNOWN).map(c => c.number);
 
     if (completedChapters && completedChapters.length > 0) {
       log(WrapTMCT("info", "Completed chapters", completedChapters, { message: COLORS.ChapterList }));
@@ -192,17 +205,21 @@ export class Novel {
   }
 
   public async saveZero({ validate = false, force = false }) {
-    if (validate) { this.validateBeforeSave({ force }); }
+    if (validate) {
+      this.validateBeforeSave({ force });
+    }
 
     const zero = NovelBuilder.createZeroChapter(this);
     await zero.download(force);
   }
 
   public saveChapters({ validate = false, force = false, completeFn = (_: NovelChapter) => {} }) {
-    if (validate) { this.validateBeforeSave({ force }); }
+    if (validate) {
+      this.validateBeforeSave({ force });
+    }
 
     if (this._chapters && this._chapters.length > 0) {
-      return Bluebird.each(this._chapters, async (chap) => {
+      return Bluebird.each(this._chapters, async chap => {
         try {
           const res = await FetchApi(chap);
           const html = HtmlBuilder.template(res.chapter.id)
@@ -251,6 +268,6 @@ export class Novel {
   public async saveAll({ force = false, completeFn = (_: NovelChapter) => {} }) {
     await this.saveNovel({ force, completeFn });
     await this.saveResource();
-    return new Promise<Novel>((res) => res(this));
+    return new Promise<Novel>(res => res(this));
   }
 }
