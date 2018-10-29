@@ -4,7 +4,7 @@
  */
 
 import { CommandResourceType } from "../CommandResource";
-import { NovelResourceType } from "../NovelResource";
+import { NovelResourceType } from "./NovelResource";
 
 export interface ResourceObjectType {
   command: CommandResourceType;
