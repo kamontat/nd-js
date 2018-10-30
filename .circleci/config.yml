@@ -3,6 +3,8 @@ jobs:
   build:
     docker:
       - image: "circleci/node:9"
+    environment:
+      NODE_CONFIG_DIR: "/tmp"
     working_directory: ~/nd-js
     steps:
       - checkout
@@ -25,9 +27,11 @@ jobs:
             - cc-test-reporter
           key: 'v1-dependencies-{{ checksum "package.json" }}'
       - run:
+          name: Compile the source code
+          command: yarn compile
+      - run:
           name: Initial configuration file
           command: |
-            yarn compile
             yarn start initial --force
             yarn start setc token "$ND_TOKEN"
             yarn start setc username "$ND_USERNAME"
