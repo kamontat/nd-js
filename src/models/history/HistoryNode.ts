@@ -6,12 +6,12 @@
 import moment, { Moment } from "moment";
 import { v4 } from "uuid";
 
-import { Timestamp } from "../helpers/helper";
+import { Timestamp } from "../../helpers/helper";
 
 export enum HistoryAction {
   ADDED = "Added",
   MODIFIED = "Modified",
-  DELETED = "Deleted",
+  DELETED = "Deleted"
 }
 
 export class HistoryNode {
@@ -33,7 +33,7 @@ export class HistoryNode {
     action: HistoryAction,
     title: string,
     value: { before?: string; after?: string },
-    opt?: { description?: string; time?: Moment },
+    opt?: { description?: string; time?: Moment }
   ) {
     this._action = action;
 
@@ -60,9 +60,9 @@ export class HistoryNode {
       description: this._description,
       value: {
         before: this._before,
-        after: this._after,
+        after: this._after
       },
-      time: Timestamp(this._time) || "",
+      time: Timestamp(this._time) || ""
     };
   }
 }

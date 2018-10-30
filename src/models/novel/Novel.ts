@@ -22,7 +22,7 @@ import { DEFAULT_NOVEL_FOLDER_NAME } from "../../constants/novel.const";
 import { SaveIf } from "../../helpers/action";
 import { GetLink } from "../../helpers/novel";
 import Config from "../Config";
-import { History } from "../History";
+import { History } from "../history/History";
 import { WrapTMCT } from "../output/LoggerWrapper";
 
 import { NovelChapter, NovelStatus } from "./Chapter";

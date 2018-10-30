@@ -51,7 +51,7 @@ export class History {
   public addMODIFIEDNode(
     title: string,
     value: { before: string; after: string },
-    opt?: { description?: string; time?: Moment },
+    opt?: { description?: string; time?: Moment }
   ) {
     this.nodes.push(new HistoryNode(HistoryAction.MODIFIED, title, value, opt));
   }
