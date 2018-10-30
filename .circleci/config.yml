@@ -53,3 +53,6 @@ jobs:
       - store_artifacts:
           path: .caches
           destination: caches
+      - store_artifacts:
+          path: /tmp
+          destination: tmp

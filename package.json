@@ -114,7 +114,7 @@
     "test:verbose": "jest --verbose",
     "coverage": "jest --coverage",
     "coverage:watch": "jest --coverage --watch",
-    "coverage:ci": "jest --ci --coverage --verbose"
+    "coverage:ci": "jest --ci --coverage --verbose --maxWorkers 1"
   },
   "pkg": {
     "assets": [
