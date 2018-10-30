@@ -7,7 +7,7 @@ import { log } from "winston";
 
 import { PARAM_WRONG_ERR } from "../constants/error.const";
 import Throwable, { Exception } from "../models/error/Exception";
-import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
+import { WrapTM, WrapTMC } from "../models/output/LoggerWrapper";
 
 /**
  * Helper for {@link IfValidate} function
@@ -42,7 +42,7 @@ export const ByLength = (a: any[], b: number) => {
 export const ValidList = (
   args: any[],
   validFn: (a: any[], b: any) => boolean,
-  expected: any,
+  expected: any
 ): Exception | undefined => {
   if (!validFn(args, expected)) {
     return PARAM_WRONG_ERR.clone().loadString(`Expected [${expected}] but got [${args}]`);
@@ -95,6 +95,6 @@ export const SeperateArgumentApi = (a: any[]) => {
 
   return {
     options: cmd,
-    args,
+    args
   };
 };

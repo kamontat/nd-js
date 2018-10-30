@@ -23,7 +23,7 @@ import { SaveIf } from "../../helpers/action";
 import { GetLink } from "../../helpers/novel";
 import Config from "../Config";
 import { History } from "../History";
-import { WrapTMCT } from "../LoggerWrapper";
+import { WrapTMCT } from "../output/LoggerWrapper";
 
 import { NovelChapter, NovelStatus } from "./Chapter";
 
@@ -121,7 +121,7 @@ export class Novel {
     }
     return {
       start: parseInt(this._chapters[0].number),
-      end: parseInt(this._chapters[this._chapters.length - 1].number),
+      end: parseInt(this._chapters[this._chapters.length - 1].number)
     };
   }
 
@@ -143,7 +143,7 @@ export class Novel {
         ...CreateChapterListApi($).map(chap => {
           chap.setLocation(this._location);
           return chap;
-        }),
+        })
       );
 
       this.update($);
@@ -156,8 +156,8 @@ export class Novel {
 
     log(
       WrapTMCT("info", "Novel name", terminalLink(this._name || "no-name", `file://${this._location}`), {
-        message: COLORS.Name,
-      }),
+        message: COLORS.Name
+      })
     );
     log(WrapTMCT("info", "Novel link", terminalLink(this._id, (link && link.toString()) || "")));
 

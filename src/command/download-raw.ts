@@ -10,7 +10,7 @@ import { ByLength, SeperateArgumentApi, ThrowIf, ValidList } from "../helpers/ac
 import { ListrHelper } from "../helpers/listr";
 import { GetNID } from "../helpers/novel";
 import Config from "../models/Config";
-import { WrapTMC } from "../models/LoggerWrapper";
+import { WrapTMC } from "../models/output/LoggerWrapper";
 import { Novel } from "../models/novel/Novel";
 
 export default (a: any) => {
@@ -38,11 +38,11 @@ export default (a: any) => {
         novel.setLocation(config.getNovelLocation());
         // update chapter to novel
         const chapters = chapterString.map(chapter =>
-          NovelBuilder.createChapter(id, chapter, { location: config.getNovelLocation() }),
+          NovelBuilder.createChapter(id, chapter, { location: config.getNovelLocation() })
         );
         novel.resetChapter();
         chapters.forEach(novel.addChapter);
-      },
+      }
     })
     .runNovel({ contextKey: "novel", withChapter: options.withChapter });
 };

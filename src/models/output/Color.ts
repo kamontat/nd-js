@@ -6,7 +6,7 @@
 import { Chalk } from "chalk";
 import { log } from "winston";
 
-import { COLORS } from "../constants/color.const";
+import { COLORS } from "../../constants/color.const";
 
 import { WrapTM } from "./LoggerWrapper";
 
@@ -44,7 +44,7 @@ export class ColorType {
     color: Chalk,
     transform: (v: any) => string,
     alternativeColor?: Chalk,
-    willUseAlternative?: (v: any) => boolean,
+    willUseAlternative?: (v: any) => boolean
   ) {
     this.name = name;
     this._check = check;
@@ -54,7 +54,7 @@ export class ColorType {
     if (alternativeColor && willUseAlternative) {
       this._alternative = {
         color: alternativeColor,
-        how: willUseAlternative,
+        how: willUseAlternative
       };
     }
   }

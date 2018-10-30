@@ -5,7 +5,7 @@
 
 import { log } from "winston";
 
-import { WrapTM } from "../LoggerWrapper";
+import { WrapTM } from "../output/LoggerWrapper";
 import { Novel } from "../novel/Novel";
 
 export class HtmlToc {

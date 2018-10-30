@@ -7,7 +7,14 @@ import { Format } from "logform";
 import { format, transports } from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 
-import { HAS_COLOR, HAS_LOG_FILE, IS_QUIET, LOG_FOLDER_PATH, LOG_TYPE, LOGGER_LEVEL } from "../constants/default.const";
+import {
+  HAS_COLOR,
+  HAS_LOG_FILE,
+  IS_QUIET,
+  LOG_FOLDER_PATH,
+  LOG_TYPE,
+  LOGGER_LEVEL
+} from "../../constants/default.const";
 
 const { colorize, timestamp, printf } = format;
 const { Console } = transports;
@@ -22,7 +29,7 @@ interface LogOption {
   };
 }
 
-const customLog = printf((info) => {
+const customLog = printf(info => {
   const levelPadding = !HAS_COLOR ? 8 : 18;
   if (LOG_TYPE === "long") {
     return `${info.level.padEnd(levelPadding)} ${info.timestamp}
@@ -34,7 +41,7 @@ ${info.message}
   return `${info.message}`;
 });
 
-const customJSON = printf((info) => {
+const customJSON = printf(info => {
   return JSON.stringify(
     { level: info.level, message: info.message, timestamp: info.timestamp },
     (_, value: string) => {
@@ -46,7 +53,7 @@ const customJSON = printf((info) => {
       }
       return value;
     },
-    "  ",
+    "  "
   );
 });
 
@@ -59,15 +66,21 @@ export default (
     level: LOGGER_LEVEL,
     color: HAS_COLOR,
     quiet: IS_QUIET,
-    log: { has: HAS_LOG_FILE, folder: LOG_FOLDER_PATH },
-  },
+    log: { has: HAS_LOG_FILE, folder: LOG_FOLDER_PATH }
+  }
 ) => {
-  if (called) { return undefined; } else { called = true; }
+  if (called) {
+    return undefined;
+  } else {
+    called = true;
+  }
 
   const consoleFormat: Format[] = [];
   const fileFormat: Format[] = [];
 
-  if (option.color) { consoleFormat.push(colorize()); }
+  if (option.color) {
+    consoleFormat.push(colorize());
+  }
   consoleFormat.push(customTimestamp, customLog);
 
   fileFormat.push(customTimestamp, customJSON);
@@ -79,8 +92,8 @@ export default (
       format: format.combine(...consoleFormat),
       level: "info", // option.level,
       stderrLevels: ["error", "warn"],
-      silent: option.quiet,
-    }),
+      silent: option.quiet
+    })
   );
 
   if (option.log.has) {
@@ -94,14 +107,14 @@ export default (
         datePattern: "DD-MM-YYYY",
         zippedArchive: true,
         maxSize: "10m",
-        maxFiles: "100",
-      }),
+        maxFiles: "100"
+      })
     );
   }
 
   return {
     level: option.level,
-    transports,
+    transports
   };
 };
 

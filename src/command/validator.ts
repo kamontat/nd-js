@@ -2,7 +2,7 @@ import { log } from "winston";
 
 import { ByLength, ByMatchSome, SeperateArgumentApi, ThrowIf, ValidList } from "../helpers/action";
 import Config from "../models/Config";
-import { WrapTMC } from "../models/LoggerWrapper";
+import { WrapTMC } from "../models/output/LoggerWrapper";
 
 export const VALIDATE_LIST = ["config"];
 
@@ -14,7 +14,11 @@ export default (a: any) => {
   ThrowIf(ValidList(args, ByLength, 1));
 
   if (args.includes("config")) {
-    if (options.info) { Config.Load({ bypass: true }).showStatus({ console: true, all: false }); } else { Config.Load({ bypass: true }).showStatus({ console: false, all: true }); }
+    if (options.info) {
+      Config.Load({ bypass: true }).showStatus({ console: true, all: false });
+    } else {
+      Config.Load({ bypass: true }).showStatus({ console: false, all: true });
+    }
   }
 
   process.exit(0);

@@ -5,10 +5,8 @@
 
 import { existsSync } from "fs";
 import { writeFile } from "fs-extra";
-import { log } from "winston";
 
 import { FILE_ERR, NOVEL_WARN } from "../constants/error.const";
-import { WrapTMC } from "../models/LoggerWrapper";
 import { NovelChapter } from "../models/novel/Chapter";
 
 export const WriteFile = (html: string, location: string, force?: boolean) => {

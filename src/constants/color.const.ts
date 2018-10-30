@@ -12,10 +12,10 @@ import {
   TransferAsDate,
   TransferAsDateTime,
   TransferNothing,
-  TransferReadableList,
+  TransferReadableList
 } from "../helpers/color";
 import { CheckIsBoolean, CheckIsEmail, CheckIsExist, CheckIsNumber, CheckIsPathExist } from "../helpers/helper";
-import { ColorType } from "../models/Color";
+import { ColorType } from "../models/output/Color";
 
 export const TITLE_COLOR = chalk.blueBright;
 
@@ -53,35 +53,35 @@ export const COLORS = {
   Email: new ColorType("email", CheckIsEmail, EMAIL_COLOR, TransferNothing),
   ChapterName: new ColorType("chapter name", noValidator, CHAPTER_NAME_COLOR, TransferNothing),
   ChapterNumber: new ColorType("chapter number", noValidator, CHAPTER_NUMBER_COLOR, TransferNothing),
-  ChapterList: new ColorType("chapter list", (obj) => obj instanceof Array, CHAPTER_NUMBERS_COLOR, TransferReadableList),
+  ChapterList: new ColorType("chapter list", obj => obj instanceof Array, CHAPTER_NUMBERS_COLOR, TransferReadableList),
   Date: new ColorType(
     "date",
-    (obj) => isMoment(obj) || isDate(obj),
+    obj => isMoment(obj) || isDate(obj),
     DATE_COLOR,
     TransferAsDate,
     DATE_TODAY_COLOR,
-    (v: Moment) => v.isSame(moment(), "day"),
+    (v: Moment) => v.isSame(moment(), "day")
   ),
   DateTime: new ColorType(
     "datetime",
-    (obj) => isMoment(obj) || isDate(obj),
+    obj => isMoment(obj) || isDate(obj),
     DATE_COLOR,
     TransferAsDateTime,
     DATE_TODAY_COLOR,
-    (v: Moment) => v.isSame(moment(), "day"),
+    (v: Moment) => v.isSame(moment(), "day")
   ),
   Location: new ColorType("location", CheckIsPathExist, LOCATION_COLOR, TransferNothing),
-  Link: new ColorType("link", (obj) => obj instanceof URL, LINK_COLOR, TransferNothing),
+  Link: new ColorType("link", obj => obj instanceof URL, LINK_COLOR, TransferNothing),
   Boolean: new ColorType(
     "boolean",
-    (obj) => CheckIsBoolean(obj),
+    obj => CheckIsBoolean(obj),
     BOOLEAN_TRUE_COLOR,
     TransferNothing,
     BOOLEAN_FALSE_COLOR,
-    (v) => v === false,
+    v => v === false
   ),
   Number: new ColorType("number", CheckIsNumber, NUMBER_COLOR, TransferNothing),
   String: new ColorType("string", noValidator, STRING_COLOR, TransferNothing),
-  Undefined: new ColorType("undefined", (obj) => !CheckIsExist(obj), UNDEFINED_COLOR, TransferNothing),
-  Important: new ColorType("important", noValidator, IMPORTANT_COLOR, TransferNothing),
+  Undefined: new ColorType("undefined", obj => !CheckIsExist(obj), UNDEFINED_COLOR, TransferNothing),
+  Important: new ColorType("important", noValidator, IMPORTANT_COLOR, TransferNothing)
 };

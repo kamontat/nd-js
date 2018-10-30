@@ -8,7 +8,7 @@ import { log } from "winston";
 
 import { SeperateArgumentApi, ThrowIf } from "../helpers/action";
 import Config from "../models/Config";
-import { WrapTMC } from "../models/LoggerWrapper";
+import { WrapTMC } from "../models/output/LoggerWrapper";
 
 /**
  * This is initial command.

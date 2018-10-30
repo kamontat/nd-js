@@ -7,7 +7,7 @@ import { log } from "winston";
 
 import { BeColor } from "../constants/default.const";
 import Config from "../models/Config";
-import { WrapTMC } from "../models/LoggerWrapper";
+import { WrapTMC } from "../models/output/LoggerWrapper";
 
 export const HELPER_LOAD_CONFIG = () => {
   try {

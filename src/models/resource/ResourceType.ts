@@ -3,7 +3,7 @@
  * @module nd.resource
  */
 
-import { CommandResourceType } from "../CommandResource";
+import { CommandResourceType } from "./CommandResource";
 import { NovelResourceType } from "./NovelResource";
 
 export interface ResourceObjectType {

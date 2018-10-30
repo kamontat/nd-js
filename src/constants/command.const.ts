@@ -15,7 +15,7 @@ import Initial from "../command/Initial";
 import Update from "../command/update";
 import Validator from "../command/validator";
 import { CCommand } from "../models/Command";
-import { WrapTMC } from "../models/LoggerWrapper";
+import { WrapTMC } from "../models/output/LoggerWrapper";
 
 import { ND } from "./nd.const";
 import { LOCATION_OPT } from "./option.const";
@@ -24,14 +24,14 @@ export const VERSION_CMD: CCommand = {
   name: "version",
   alias: "V",
   desc: "Show command version",
-  fn: () => log(WrapTMC("info", `${ND.PROJECT_NAME}`, `v${ND.VERSION}`)),
+  fn: () => log(WrapTMC("info", `${ND.PROJECT_NAME}`, `v${ND.VERSION}`))
 };
 
 export const CHANGELOG_CMD: CCommand = {
   name: "changelog",
   alias: "change",
   desc: "Show command changelog",
-  fn: Changelog,
+  fn: Changelog
 };
 
 export const INIT_CMD: CCommand = {
@@ -41,18 +41,18 @@ export const INIT_CMD: CCommand = {
   options: [
     {
       name: "-F, --force",
-      desc: "Force to create config even it exist",
+      desc: "Force to create config even it exist"
     },
     {
       name: "-R, --raw <json>",
-      desc: "Pass raw json token to initial config file",
+      desc: "Pass raw json token to initial config file"
     },
     {
       name: "-E, --file <path>",
-      desc: "Pass json file to create configuration",
-    },
+      desc: "Pass json file to create configuration"
+    }
   ],
-  fn: Initial,
+  fn: Initial
 };
 
 export const CONFIG_CMD: CCommand = {
@@ -62,17 +62,17 @@ export const CONFIG_CMD: CCommand = {
   options: [
     {
       name: "-R, --raw",
-      desc: "Show only the path result",
-    },
+      desc: "Show only the path result"
+    }
   ],
-  fn: Config,
+  fn: Config
 };
 
 export const SET_CONFIG_CMD: CCommand = {
   name: "set-config",
   alias: "setc",
   desc: `Set config value [${CONFIG_SET_LIST}]`,
-  fn: ConfigSet,
+  fn: ConfigSet
 };
 
 export const RAW_DOWNLOAD_CMD: CCommand = {
@@ -88,15 +88,15 @@ export const RAW_DOWNLOAD_CMD: CCommand = {
         l.push(v);
         return l;
       },
-      default: [],
+      default: []
     },
     {
       name: "-F, --force",
       desc: "Force download even file is exist",
-      default: false,
-    },
+      default: false
+    }
   ],
-  fn: RawDownload,
+  fn: RawDownload
 };
 
 export const DOWNLOAD_CMD: CCommand = {
@@ -108,15 +108,15 @@ export const DOWNLOAD_CMD: CCommand = {
     {
       name: "-F, --force",
       desc: "Force download even folder is exist",
-      default: false,
+      default: false
     },
     {
       name: "-W, --with-chapter",
       desc: "List the result with chapter",
-      default: false,
-    },
+      default: false
+    }
   ],
-  fn: Download,
+  fn: Download
 };
 
 export const FETCH_CMD: CCommand = {
@@ -127,17 +127,17 @@ export const FETCH_CMD: CCommand = {
     {
       name: "-W, --with-chapter",
       desc: "List the result with chapter",
-      default: false,
-    },
+      default: false
+    }
   ],
-  fn: Fetch,
+  fn: Fetch
 };
 
 export const UPDATE_CMD: CCommand = {
   name: "update",
   alias: "U",
   desc: "Update individual novel in location",
-  fn: Update,
+  fn: Update
 };
 export const ADMIN_CMD: CCommand = {
   name: "admin",
@@ -146,10 +146,10 @@ export const ADMIN_CMD: CCommand = {
   options: [
     {
       name: "-J, --json",
-      desc: "Export as json format",
-    },
+      desc: "Export as json format"
+    }
   ],
-  fn: Admin,
+  fn: Admin
 };
 export const VALIDATOR_CMD: CCommand = {
   name: "validator",
@@ -158,8 +158,8 @@ export const VALIDATOR_CMD: CCommand = {
   options: [
     {
       name: "-I, --info",
-      desc: "Also receive the information",
-    },
+      desc: "Also receive the information"
+    }
   ],
-  fn: Validator,
+  fn: Validator
 };

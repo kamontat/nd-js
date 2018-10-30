@@ -16,7 +16,7 @@ import { NOVEL_ERR } from "../../constants/error.const";
 import { CheckIsNumber, Timestamp } from "../../helpers/helper";
 import { GetChapterFile, GetLinkWithChapter } from "../../helpers/novel";
 import Config from "../Config";
-import { WrapTMC } from "../LoggerWrapper";
+import { WrapTMC } from "../output/LoggerWrapper";
 
 import { Novel } from "./Novel";
 
@@ -42,7 +42,7 @@ export enum NovelStatus {
   /**
    * Sold will set if the autodetect, have detected the sold chapter
    */
-  SOLD = "sold",
+  SOLD = "sold"
 }
 
 export class NovelChapter {
@@ -151,7 +151,7 @@ export class NovelChapter {
       name: this._name,
       number: this._chapterNumber,
       date: Timestamp(this._date),
-      status: this.status,
+      status: this.status
     };
   }
 

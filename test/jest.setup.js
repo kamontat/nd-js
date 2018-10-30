@@ -7,7 +7,7 @@ process.env.SUPPRESS_NO_CONFIG_WARNING = "true";
 process.env.NODE_CONFIG_DIR = "/tmp";
 
 const winston = require("winston");
-const setting = require("../src/models/Logger").default;
+const setting = require("../src/models/output/Logger").default;
 const Config = require("../src/models/Config").default;
 
 const helper = require("./test");

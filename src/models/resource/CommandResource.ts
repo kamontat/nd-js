@@ -6,8 +6,8 @@
 import { Moment } from "moment";
 import moment = require("moment");
 
-import { ND } from "../constants/nd.const";
-import { RevertTimestamp, Timestamp } from "../helpers/helper";
+import { ND } from "../../constants/nd.const";
+import { RevertTimestamp, Timestamp } from "../../helpers/helper";
 
 export interface CommandResourceType {
   name: string;
@@ -16,11 +16,10 @@ export interface CommandResourceType {
 }
 
 export class CommandResource {
-
   constructor({
     name = ND.PROJECT_NAME,
     version = ND.VERSION,
-    lastUpdate = moment(),
+    lastUpdate = moment()
   }: {
     name: string;
     version: string;
@@ -38,7 +37,7 @@ export class CommandResource {
     return {
       name: this.name,
       version: this.version,
-      date: this.updateAt,
+      date: this.updateAt
     };
   }
 
@@ -50,7 +49,7 @@ export class CommandResource {
     return new CommandResource({
       name,
       version,
-      lastUpdate: date,
+      lastUpdate: date
     });
   }
 }

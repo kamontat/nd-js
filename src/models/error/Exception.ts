@@ -5,7 +5,7 @@
 
 import { log } from "winston";
 
-import { WrapTMC } from "../LoggerWrapper";
+import { WrapTMC } from "../output/LoggerWrapper";
 
 import { ExceptionStorage } from "./ExceptionStorage";
 

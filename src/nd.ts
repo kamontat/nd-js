@@ -22,7 +22,7 @@ import {
   SET_CONFIG_CMD,
   UPDATE_CMD,
   VALIDATOR_CMD,
-  VERSION_CMD,
+  VERSION_CMD
 } from "./constants/command.const";
 import { ADMIN_CMD } from "./constants/command.const";
 import { ND } from "./constants/nd.const";
@@ -33,10 +33,10 @@ import {
   NO_COLOR_OPT,
   NO_LOG_OPT,
   QUIET_OPT,
-  SHORT_OUT_OPT,
+  SHORT_OUT_OPT
 } from "./constants/option.const";
 import { MakeCommand, MakeOption } from "./helpers/command";
-import setting from "./models/Logger";
+import setting from "./models/output/Logger";
 
 program.name(ND.PROJECT_NAME).version(`nd version: ${ND.VERSION}`, "-v, --version");
 
@@ -76,14 +76,14 @@ program.on("--help", () => {
   console.log(`Examples:
 
 $ ${ND.PROJECT_NAME} ${ARGUMENT_COLOR("initial")} [${OPTION_COLOR("--force")}] [${OPTION_COLOR(
-    "--raw",
+    "--raw"
   )} <${ARGUMENT_COLOR("json")}>|${OPTION_COLOR("--file")} <${ARGUMENT_COLOR("path")}>]
 $ ${ND.PROJECT_NAME} ${ARGUMENT_COLOR("set-config")} [${PARAMETER_COLOR("token")}|${PARAMETER_COLOR(
-    "username",
+    "username"
   )}|${PARAMETER_COLOR("color")}|${PARAMETER_COLOR("location")}]
 $ ${ND.PROJECT_NAME} ${ARGUMENT_COLOR("fetch")} [${OPTION_COLOR("--with-chapter")}] <${PARAMETER_COLOR("id")}>
 $ ${ND.PROJECT_NAME} ${ARGUMENT_COLOR("validator")} [${PARAMETER_COLOR("config")}|${PARAMETER_COLOR(
-    "application",
+    "application"
   )}] [${OPTION_COLOR("--info")}]
 $ ${ND.PROJECT_NAME} [${OPTION_COLOR("--help")}|${OPTION_COLOR("--changelog")}|${OPTION_COLOR("--version")}]
 `);
