@@ -4,7 +4,7 @@
  */
 
 import { ByLength, ByMatchSome, SeperateArgumentApi, ThrowIf, ValidList } from "../helpers/action";
-import Config from "../models/Config";
+import Config from "../models/command/Config";
 
 export const CONFIG_SET_LIST = ["token", "username", "color", "location"];
 

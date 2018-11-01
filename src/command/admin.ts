@@ -9,14 +9,15 @@ import { Throw } from "../helpers/action";
 import { WrapTMC } from "../models/output/LoggerWrapper";
 import { UsernameValidator } from "../models/security/UsernameValidator";
 
-interface passwordType {
+interface PasswordType {
   password: string;
 }
+
 const password = {
   type: "password",
   message: "Enter a admin password",
   name: "password",
-  mask: "*"
+  mask: "*",
 };
 
 const information = [
@@ -24,12 +25,12 @@ const information = [
     type: "input",
     name: "fullname",
     message: "Enter your full name (name surname email)",
-    validate: (str: string) => new UsernameValidator(str).isValid()
+    validate: (str: string) => new UsernameValidator(str).isValid(),
   },
   {
     type: "input",
     name: "username",
-    message: "Enter username"
+    message: "Enter username",
   },
   {
     type: "list",
@@ -43,8 +44,8 @@ const information = [
       { name: "7 days", value: "7d" },
       { name: "30 days", value: "30d" },
       { name: "180 days", value: "180d" },
-      { name: "1 year", value: "1y" }
-    ]
+      { name: "1 year", value: "1y" },
+    ],
   },
   {
     type: "list",
@@ -55,9 +56,9 @@ const information = [
       { name: "1 hours", value: "1h" },
       { name: "5 hours", value: "5h" },
       { name: "10 hours", value: "10h" },
-      { name: "1 day", value: "1d" }
-    ]
-  }
+      { name: "1 day", value: "1d" },
+    ],
+  },
 ];
 
 export default (a: any) => {
@@ -66,7 +67,7 @@ export default (a: any) => {
   }
   const { options } = SeperateArgumentApi(a);
   log(WrapTMC("verbose", "start admin", ND.ENV));
-  prompt<passwordType>([password]).then(answers => {
+  prompt<PasswordType>([password]).then(answers => {
     if (answers.password !== ND.Z) {
       Throw(SECURITY_FAIL_ERR, "You not admin.");
     }
@@ -74,11 +75,12 @@ export default (a: any) => {
     prompt<TokenDataType>(information).then(answers => {
       const token = CreateToken(answers);
       if (options.json) {
+        // tslint:disable-next-line
         console.log(
           JSON.stringify({
             token,
-            username: answers.fullname
-          })
+            username: answers.fullname,
+          }),
         );
       } else {
         log(WrapTMC("info", `Token for ${ND.PROJECT_NAME} v${ND.VERSION}`, token));

@@ -7,7 +7,7 @@ import { readJSONSync } from "fs-extra";
 import { log } from "winston";
 
 import { SeperateArgumentApi, ThrowIf } from "../helpers/action";
-import Config from "../models/Config";
+import Config from "../models/command/Config";
 import { WrapTMC } from "../models/output/LoggerWrapper";
 
 /**

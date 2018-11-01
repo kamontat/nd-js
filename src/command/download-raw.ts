@@ -9,9 +9,9 @@ import { NovelBuilder } from "../builder/novel";
 import { ByLength, SeperateArgumentApi, ThrowIf, ValidList } from "../helpers/action";
 import { ListrHelper } from "../helpers/listr";
 import { GetNID } from "../helpers/novel";
-import Config from "../models/Config";
-import { WrapTMC } from "../models/output/LoggerWrapper";
+import Config from "../models/command/Config";
 import { Novel } from "../models/novel/Novel";
+import { WrapTMC } from "../models/output/LoggerWrapper";
 
 export default (a: any) => {
   log(WrapTMC("verbose", "prepare", "raw download"));
@@ -38,11 +38,11 @@ export default (a: any) => {
         novel.setLocation(config.getNovelLocation());
         // update chapter to novel
         const chapters = chapterString.map(chapter =>
-          NovelBuilder.createChapter(id, chapter, { location: config.getNovelLocation() })
+          NovelBuilder.createChapter(id, chapter, { location: config.getNovelLocation() }),
         );
         novel.resetChapter();
         chapters.forEach(novel.addChapter);
-      }
+      },
     })
     .runNovel({ contextKey: "novel", withChapter: options.withChapter });
 };

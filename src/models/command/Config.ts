@@ -10,18 +10,18 @@ import { dirname, resolve } from "path";
 import semver, { major } from "semver";
 import { log } from "winston";
 
-import { Security } from "../apis/security";
-import { DecodeToken } from "../apis/token";
-import { COLORS } from "../constants/color.const";
-import { CONFIG_FILE_PATH } from "../constants/config.const";
-import { HAS_COLOR, LOG_TYPE } from "../constants/default.const";
-import { CONFIG_CREATE_ERR, CONFIG_WARN, SECURITY_FAIL_ERR } from "../constants/error.const";
-import { CONFIG_FAIL_ERR } from "../constants/error.const";
-import { ND } from "../constants/nd.const";
-import { CheckIsExist } from "../helpers/helper";
+import { Security } from "../../apis/security";
+import { DecodeToken } from "../../apis/token";
+import { COLORS } from "../../constants/color.const";
+import { CONFIG_FILE_PATH } from "../../constants/config.const";
+import { HAS_COLOR, LOG_TYPE } from "../../constants/default.const";
+import { CONFIG_CREATE_ERR, CONFIG_WARN, SECURITY_FAIL_ERR } from "../../constants/error.const";
+import { CONFIG_FAIL_ERR } from "../../constants/error.const";
+import { ND } from "../../constants/nd.const";
+import { CheckIsExist } from "../../helpers/helper";
 
-import Exception from "./error/Exception";
-import { WrapTM, WrapTMC, WrapTMCT } from "./output/LoggerWrapper";
+import Exception from "../error/Exception";
+import { WrapTM, WrapTMC, WrapTMCT } from "../output/LoggerWrapper";
 
 /**
  * @class
@@ -68,13 +68,13 @@ export default class Config {
       if (options && options.all) {
         log(
           WrapTMCT(options && options.console ? "info" : "verbose", "Config.token", this._token, {
-            message: COLORS.Token
-          })
+            message: COLORS.Token,
+          }),
         );
         log(
           WrapTMCT(options && options.console ? "info" : "verbose", "Config.username", this._username, {
-            message: COLORS.Name
-          })
+            message: COLORS.Name,
+          }),
         );
         log(WrapTMCT(options && options.console ? "info" : "debug", "Config.version", this._version));
         log(WrapTMCT(options && options.console ? "info" : "debug", "Config.color", this._color));
@@ -181,8 +181,8 @@ export default class Config {
         const result = DecodeToken(this.getToken());
         log(
           WrapTMCT("info", "Your username", typeof result === "string" ? result : result && result.name, {
-            message: COLORS.Name
-          })
+            message: COLORS.Name,
+          }),
         );
       }
     }

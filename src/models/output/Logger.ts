@@ -7,13 +7,15 @@ import { Format } from "logform";
 import { format, transports } from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 
+import * as Transport from "winston-transport";
+
 import {
   HAS_COLOR,
   HAS_LOG_FILE,
   IS_QUIET,
   LOG_FOLDER_PATH,
   LOG_TYPE,
-  LOGGER_LEVEL
+  LOGGER_LEVEL,
 } from "../../constants/default.const";
 
 const { colorize, timestamp, printf } = format;
@@ -53,7 +55,7 @@ const customJSON = printf(info => {
       }
       return value;
     },
-    "  "
+    "  ",
   );
 });
 
@@ -66,8 +68,8 @@ export default (
     level: LOGGER_LEVEL,
     color: HAS_COLOR,
     quiet: IS_QUIET,
-    log: { has: HAS_LOG_FILE, folder: LOG_FOLDER_PATH }
-  }
+    log: { has: HAS_LOG_FILE, folder: LOG_FOLDER_PATH },
+  },
 ) => {
   if (called) {
     return undefined;
@@ -85,16 +87,14 @@ export default (
 
   fileFormat.push(customTimestamp, customJSON);
 
-  const transports = [];
-
-  transports.push(
+  const transports: Transport[] = [
     new Console({
       format: format.combine(...consoleFormat),
       level: "info", // option.level,
       stderrLevels: ["error", "warn"],
-      silent: option.quiet
-    })
-  );
+      silent: option.quiet,
+    }),
+  ];
 
   if (option.log.has) {
     transports.push(
@@ -107,14 +107,14 @@ export default (
         datePattern: "DD-MM-YYYY",
         zippedArchive: true,
         maxSize: "10m",
-        maxFiles: "100"
-      })
+        maxFiles: "100",
+      }),
     );
   }
 
   return {
     level: option.level,
-    transports
+    transports,
   };
 };
 

@@ -8,10 +8,10 @@ import { configure } from "winston";
 
 import { ADMIN_CMD, INIT_CMD, SET_CONFIG_CMD } from "../constants/command.const";
 import { LOCATION_OPT } from "../constants/option.const";
-import { CCommand } from "../models/Command";
-import Config from "../models/Config";
+import { CCommand } from "../models/command/Command";
+import Config from "../models/command/Config";
+import { COption } from "../models/command/Option";
 import setting from "../models/output/Logger";
-import { COption } from "../models/Option";
 
 import { ThrowIf } from "./action";
 

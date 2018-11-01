@@ -38,23 +38,23 @@ export class ColorType {
    * @param alternativeColor alternative color
    * @param willUseAlternative the function that see that will use alternative color or not
    */
-  constructor(
-    name: string,
-    check: (v: any) => boolean,
-    color: Chalk,
-    transform: (v: any) => string,
-    alternativeColor?: Chalk,
-    willUseAlternative?: (v: any) => boolean
-  ) {
-    this.name = name;
-    this._check = check;
-    this._color = color;
-    this._tranform = transform;
+  constructor(opt: {
+    name: string;
+    color: Chalk;
+    alterColor?: Chalk;
+    validator(v: any): boolean;
+    transform(v: any): string;
+    whenUseAlter?(v: any): boolean;
+  }) {
+    this.name = opt.name;
+    this._check = opt.validator;
+    this._color = opt.color;
+    this._tranform = opt.transform;
 
-    if (alternativeColor && willUseAlternative) {
+    if (opt.alterColor && opt.whenUseAlter) {
       this._alternative = {
-        color: alternativeColor,
-        how: willUseAlternative
+        color: opt.alterColor,
+        how: opt.whenUseAlter,
       };
     }
   }

@@ -8,14 +8,12 @@ import { render } from "mustache";
 import { join } from "path";
 import { log } from "winston";
 
-import { FetchApi } from "../../apis/download";
-import { WriteChapter } from "../../apis/file";
-import { HtmlBuilder } from "../../builder/html";
 import { COLORS } from "../../constants/color.const";
 import { NOVEL_ERR } from "../../constants/error.const";
 import { CheckIsNumber, Timestamp } from "../../helpers/helper";
 import { GetChapterFile, GetLinkWithChapter } from "../../helpers/novel";
-import Config from "../Config";
+import Config from "../command/Config";
+import { Historian } from "../history/Historian";
 import { WrapTMC } from "../output/LoggerWrapper";
 
 import { Novel } from "./Novel";
@@ -42,10 +40,10 @@ export enum NovelStatus {
   /**
    * Sold will set if the autodetect, have detected the sold chapter
    */
-  SOLD = "sold"
+  SOLD = "sold",
 }
 
-export class NovelChapter {
+export class NovelChapter extends Historian {
   get id() {
     return this._nid;
   }
@@ -57,6 +55,11 @@ export class NovelChapter {
   get number() {
     return this._chapterNumber;
   }
+
+  get date() {
+    return this._date;
+  }
+
   protected _nid: string;
   protected _name?: string;
   protected _chapterNumber: string = "0";
@@ -65,6 +68,8 @@ export class NovelChapter {
   protected _date?: Moment;
 
   constructor(id: string, chapter?: string, name?: string, location?: string, date?: Moment) {
+    super();
+
     this._nid = id;
     this._name = name;
 
@@ -124,39 +129,56 @@ export class NovelChapter {
     return render(format, this);
   }
 
-  public toString() {
-    if (this._chapterNumber === "0") {
-      return COLORS.ChapterName.color("chapter zero");
-    }
-    let result = "";
-    if (this._name) {
-      result += COLORS.ChapterName.color(this._name);
-    } else {
-      result += "no-name";
-    }
-
-    result += ` ${COLORS.Important.color(this.status.toUpperCase())} `;
-
-    if (this._date) {
-      result += ` [อัพเดตล่าสุดเมื่อ ${COLORS.Date.formatColor(this._date)}]`;
-    } else {
-      result += ` [ไม่รู้การอัพเดตล่าสุด]`;
-    }
-
-    return result;
+  public head() {
+    if (this.number === "0") return "Zero chapter";
+    else return `Chapter: ${this._chapterNumber}`;
   }
+
+  // public toString() {
+  //   if (this._chapterNumber === "0") {
+  //     return COLORS.ChapterName.color("chapter zero");
+  //   }
+  //   let result = "";
+  //   if (this._name) {
+  //     result += COLORS.ChapterName.color(this._name);
+  //   } else {
+  //     result += "no-name";
+  //   }
+
+  //   result += ` ${COLORS.Important.color(this.status.toUpperCase())} `;
+
+  //   if (this._date) {
+  //     result += ` [อัพเดตล่าสุดเมื่อ ${COLORS.Date.formatColor(this._date)}]`;
+  //   } else {
+  //     result += ` [ไม่รู้การอัพเดตล่าสุด]`;
+  //   }
+
+  //   return result;
+  // }
 
   public buildJSON() {
     return {
       name: this._name,
       number: this._chapterNumber,
       date: Timestamp(this._date),
-      status: this.status
+      status: this.status,
     };
   }
 
   public isCompleted() {
     return this.status === NovelStatus.COMPLETED;
+  }
+
+  public isSold() {
+    return this.status === NovelStatus.SOLD;
+  }
+
+  public isClosed() {
+    return this.status === NovelStatus.CLOSED;
+  }
+
+  public isUnknown() {
+    return this.status === NovelStatus.UNKNOWN;
   }
 
   public markSell() {
@@ -169,26 +191,5 @@ export class NovelChapter {
 
   public markComplete() {
     this.status = NovelStatus.COMPLETED;
-  }
-}
-
-export class NovelZeroChapter extends NovelChapter {
-  private _novel: Novel;
-
-  constructor(novel: Novel) {
-    super(novel.id, "0", undefined, novel.location);
-
-    this._novel = novel;
-  }
-
-  public download(force?: boolean) {
-    return FetchApi(this).then(res => {
-      const html = HtmlBuilder.template(this._nid)
-        .addNovel(this._novel)
-        .addContent(HtmlBuilder.buildContent(res.chapter, res.cheerio))
-        .renderDefault();
-
-      return WriteChapter(html, res.chapter, force);
-    });
   }
 }

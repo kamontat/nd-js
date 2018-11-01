@@ -10,6 +10,7 @@
     "class-name": true,
     "curly": ["as-needed", true],
     "file-name-casing": false,
+    "interface-name": [true, "never-prefix"],
     "max-line-length": {
       "options": [200]
     },
@@ -45,6 +46,7 @@
     "no-empty": ["allow-empty-catch", true],
     "no-magic-numbers": [-1, -2, 0, 1, 2, true],
     "no-return-await": true,
+    "no-shadowed-variable": false,
     "no-string-literal": true,
     "no-string-throw": true,
     "no-trailing-whitespace": ["ignore-comments", "ignore-jsdoc", true],

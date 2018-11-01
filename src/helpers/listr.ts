@@ -10,6 +10,7 @@ import { Observable } from "rxjs";
 import { ListrApi } from "../apis/listr";
 import { NovelChapter } from "../models/novel/Chapter";
 import { Novel } from "../models/novel/Novel";
+import { NPrinter } from "../models/novel/NPrinter";
 
 import { ThrowIf } from "./action";
 
@@ -68,7 +69,7 @@ export class ListrHelper {
     return this.list
       .run(ctx)
       .then(context => {
-        (context[contextKey] as Novel).print({ withChapter });
+        new NPrinter(context[contextKey] as Novel).print({ short: !withChapter });
       })
       .catch(ThrowIf);
   }

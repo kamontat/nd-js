@@ -7,7 +7,7 @@ import { NovelBuilder } from "../builder/novel";
 import { ByLength, SeperateArgumentApi, ThrowIf, ValidList } from "../helpers/action";
 import { ListrHelper } from "../helpers/listr";
 import { GetNID } from "../helpers/novel";
-import Config from "../models/Config";
+import Config from "../models/command/Config";
 
 /**
  * This is fetching novel information

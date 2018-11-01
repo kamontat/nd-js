@@ -1,7 +1,7 @@
 import { log } from "winston";
 
 import { ByLength, ByMatchSome, SeperateArgumentApi, ThrowIf, ValidList } from "../helpers/action";
-import Config from "../models/Config";
+import Config from "../models/command/Config";
 import { WrapTMC } from "../models/output/LoggerWrapper";
 
 export const VALIDATE_LIST = ["config"];

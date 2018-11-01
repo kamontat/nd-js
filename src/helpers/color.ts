@@ -11,7 +11,7 @@ import { CheckIsNumber, MakeReadableNumberArray } from "./helper";
 /*       Transfer       */
 /************************/
 
-export const TransferNothing = (v: any) => v;
+export const noTransform = (v: any) => v;
 export const TransferAsDate = (v: any) => {
   const settings = {
     sameDay: "[วันนี้]",
@@ -52,3 +52,13 @@ export const TransferReadableList = (array: any[]) => {
 /************************/
 
 export const noValidator = () => false;
+
+/************************/
+/*      Alternative     */
+/************************/
+
+export const isSameDate = (date?: Moment) => {
+  if (!date) return false;
+  if (!date.isSame) return false;
+  return date.isSame(moment(), "day");
+};

@@ -3,8 +3,8 @@
  * @module commander.option
  */
 
-import Config from "../models/Config";
-import { COption } from "../models/Option";
+import Config from "../models/command/Config";
+import { COption } from "../models/command/Option";
 
 import { BeChangeLevel, BeColor, BeLog, BeLoggerTo, BeLongOutput, BeQuiet, BeShortOutput } from "./default.const";
 

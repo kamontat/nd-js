@@ -15,8 +15,8 @@ import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 import { CheckIsExist, FormatMomentDateTime, TrimString } from "../helpers/helper";
 import { GetChapterNumber, PassLink } from "../helpers/novel";
 import { HtmlNode } from "../models/html/HtmlNode";
-import { WrapTM, WrapTMC, WrapTMCT } from "../models/output/LoggerWrapper";
 import { NovelChapter, NovelStatus } from "../models/novel/Chapter";
+import { WrapTM, WrapTMC, WrapTMCT } from "../models/output/LoggerWrapper";
 
 import { Query } from "./html";
 
@@ -142,8 +142,8 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
     result.push(
       new HtmlNode({
         tag: "p",
-        text: headText
-      })
+        text: headText,
+      }),
     );
   }
   // end
@@ -163,8 +163,8 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
           result.push(
             new HtmlNode({
               tag: "p",
-              text
-            })
+              text,
+            }),
           );
         }
       }
@@ -191,8 +191,8 @@ export const getNovelContentV2 = ($: CheerioStatic) => {
           result.push(
             new HtmlNode({
               tag: "p",
-              text
-            })
+              text,
+            }),
           );
         }
       }
