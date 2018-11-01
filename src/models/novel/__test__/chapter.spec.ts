@@ -49,7 +49,7 @@ test("Should decode chapter from link", function() {
 test("Should set chapter name", function() {
   const name = "Chapter 102: World end";
   const chapter = NovelBuilder.createChapter("123123", "102");
-  chapter.setName(name);
+  chapter.name = name;
 
   expect(chapter.name).not.toBeUndefined();
   expect(chapter.name).toEqual(name);

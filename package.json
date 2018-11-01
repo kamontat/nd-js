@@ -110,6 +110,8 @@
     "release": "./scripts/deploy.sh",
     "analytic": "webpack --json > ./.caches/report.json",
     "analytic:prod": "webpack --mode=production --json > ./.caches/report.json",
+    "lint": "tslint --project .",
+    "lint:fix": "tslint --fix --project .",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:verbose": "jest --verbose",

@@ -3,7 +3,7 @@ import { HtmlToc } from "../HtmlTOC";
 import { NovelBuilder } from "../../../builder/novel";
 
 test("Should create toc element", function() {
-  jest.setTimeout(10000);
+  jest.setTimeout(50000);
   expect.hasAssertions();
 
   const id = "1598605";

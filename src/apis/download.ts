@@ -52,8 +52,8 @@ export const FetchApi: (chapter: NovelChapter) => Bluebird<{ cheerio: CheerioSta
     return download(chapter.link())
       .then(($: CheerioStatic) => {
         if (CheckIsNovel($)) {
-          chapter.setName(GetChapterNameApi($));
-          chapter.setDate(GetChapterDateApi($));
+          chapter.name = GetChapterNameApi($);
+          chapter.date = GetChapterDateApi($);
           return res({ cheerio: $, chapter });
         } else {
           return rej(NOVEL_WARN.clone().loadString(`Novel(${chapter.id}) on chapter ${chapter.number} is not exist`));

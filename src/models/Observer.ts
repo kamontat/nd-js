@@ -4,7 +4,7 @@ import { Subject } from "rxjs";
 export class Observer<T> {
   private subject: Subject<T>;
 
-  protected addAction(next?: (value: T) => void, error?: (error: any) => void, complete?: () => void) {
+  protected addAction(next?: (value: T | undefined) => void, error?: (error: any) => void, complete?: () => void) {
     this.subject.subscribe(next, error, complete);
   }
 
@@ -12,7 +12,7 @@ export class Observer<T> {
     this.subject = new Subject();
   }
 
-  public notify(result: T) {
+  public notify(result: T | undefined) {
     this.subject.next(result);
   }
 }

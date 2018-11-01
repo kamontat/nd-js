@@ -8,7 +8,6 @@ import { existsSync } from "fs";
 import { mkdirp } from "fs-extra";
 import moment, { Moment } from "moment";
 import { join } from "path";
-import terminalLink from "terminal-link";
 import { log } from "winston";
 
 import { FetchApi } from "../../apis/download";
@@ -16,17 +15,16 @@ import { WriteChapter } from "../../apis/file";
 import { CreateChapterListApi, GetNovelDateApi, GetNovelNameApi, NormalizeNovelName } from "../../apis/novel";
 import { HtmlBuilder } from "../../builder/html";
 import { NovelBuilder } from "../../builder/novel";
-import { COLORS } from "../../constants/color.const";
 import { NOVEL_CLOSED_WARN, NOVEL_NOTFOUND_ERR, NOVEL_SOLD_WARN, NOVEL_WARN } from "../../constants/error.const";
 import { DEFAULT_NOVEL_FOLDER_NAME } from "../../constants/novel.const";
 import { SaveIf } from "../../helpers/action";
-import { GetLink } from "../../helpers/novel";
 import Config from "../command/Config";
 import { Historian } from "../history/Historian";
 import { HistoryNode } from "../history/HistoryNode";
 import { WrapTMCT } from "../output/LoggerWrapper";
 
 import { NovelChapter, NovelStatus } from "./Chapter";
+import { Timestamp } from "../../helpers/helper";
 
 export class Novel extends Historian {
   private _id: string;
@@ -41,12 +39,11 @@ export class Novel extends Historian {
   constructor(id: string, location?: string) {
     super();
 
+    this.notify(HistoryNode.CreateByChange("Novel ID", { before: undefined, after: id }));
     this._id = id;
-    if (location) {
-      this.setLocation(location);
-    } else {
-      this.setLocation(Config.Load().getNovelLocation());
-    }
+
+    if (!location) location = Config.Load().getNovelLocation();
+    this.location = location;
 
     this._downloadAt = moment();
   }
@@ -71,12 +68,14 @@ export class Novel extends Historian {
     return this._downloadAt || moment();
   }
 
-  public addChapter(n: NovelChapter) {
-    // TODO: subscribe chapter
+  public addChapter(chapter: NovelChapter) {
+    chapter.location = this.location; // link the location as well
+    chapter.linkTo(this); // link chapter history to novel history
+
     if (this._chapters) {
-      this._chapters.push(n);
+      this._chapters.push(chapter);
     } else {
-      this._chapters = [n];
+      this._chapters = [chapter];
     }
   }
 
@@ -84,12 +83,12 @@ export class Novel extends Historian {
     this._chapters = [];
   }
 
-  public setName(n: string) {
+  public set name(n: string) {
     this.notify(HistoryNode.CreateByChange("Novel name", { before: this.name, after: n }));
     this._name = n;
   }
 
-  public setLocation(v: string) {
+  public set location(v: string) {
     this.notify(HistoryNode.CreateByChange("Novel location", { before: this.location, after: v }));
     this._location = v;
   }
@@ -137,85 +136,33 @@ export class Novel extends Historian {
     return {
       start: s,
       end: e,
-      size: e - s + 1,
+      size: e - s + 1
     };
   }
 
   public update($: CheerioStatic) {
-    this._updateAt = GetNovelDateApi($);
+    const last = GetNovelDateApi($);
+
+    this.notify(
+      HistoryNode.CreateByChange("Last update", { before: Timestamp(this._updateAt), after: Timestamp(last) })
+    );
+    this._updateAt = last;
   }
 
   public load($: CheerioStatic): Bluebird<Novel> {
     return new Bluebird(res => {
-      this._name = GetNovelNameApi($);
+      this.name = GetNovelNameApi($);
 
-      if (this._location) {
-        this._location = join(this._location, DEFAULT_NOVEL_FOLDER_NAME(NormalizeNovelName(this._name)));
-      }
+      if (this._location)
+        this.location = join(this._location, DEFAULT_NOVEL_FOLDER_NAME(NormalizeNovelName(this.name)));
 
-      // this._chapters = [NovelBuilder.createChapter(this._id, "0", { location: this._location })];
-      this._chapters = [];
-      this._chapters.push(
-        ...CreateChapterListApi($).map(chap => {
-          chap.setLocation(this._location);
-          return chap;
-        }),
-      );
+      this.resetChapter();
+      CreateChapterListApi($).forEach(c => this.addChapter.call(this, c));
 
       this.update($);
       res(this);
     });
   }
-
-  // public print(option?: { withChapter?: boolean }) {
-  //   const link = GetLink(this._id);
-
-  //   log(
-  //     WrapTMCT("info", "Novel name", terminalLink(this._name || "no-name", `file://${this._location}`), {
-  //       message: COLORS.Name
-  //     })
-  //   );
-  //   log(WrapTMCT("info", "Novel link", terminalLink(this._id, (link && link.toString()) || "")));
-
-  //   // Name is clickable
-  //   // if (this._location) log(WrapTMCT("info", "Novel location", this._location));
-  //   // if (this._location) log(WrapTMCT("info", "First chapter", NovelBuilder.createZeroChapter(this).file()));
-
-  //   this.printChapterNumber();
-
-  //   if (this._chapters && option && option.withChapter) {
-  //     this._chapters.forEach(chapter => {
-  //       log(WrapTMCT("info", `Chapter ${chapter.number}`, chapter.toString()));
-  //     });
-  //   }
-
-  //   log(WrapTMCT("verbose", "Download at", this._downloadAt));
-  //   log(WrapTMCT("verbose", "Update at", this._updateAt));
-  // }
-
-  // public printChapterNumber() {
-  //   const completedChapters: string[] | undefined =
-  //     this._chapters && this._chapters.filter(c => c.status === NovelStatus.COMPLETED).map(c => c.number);
-  //   const closedChapters: string[] | undefined =
-  //     this._chapters && this._chapters.filter(c => c.status === NovelStatus.CLOSED).map(c => c.number);
-  //   const soldChapters: string[] | undefined =
-  //     this._chapters && this._chapters.filter(c => c.status === NovelStatus.SOLD).map(c => c.number);
-  //   const unknownChapters: string[] | undefined =
-  //     this._chapters && this._chapters.filter(c => c.status === NovelStatus.UNKNOWN).map(c => c.number);
-
-  //   if (completedChapters && completedChapters.length > 0) {
-  //     log(WrapTMCT("info", "Completed chapters", completedChapters, { message: COLORS.ChapterList }));
-  //   }
-  //   if (closedChapters && closedChapters.length > 0) {
-  //     log(WrapTMCT("info", "Closed chapters", closedChapters, { message: COLORS.ChapterList }));
-  //   }
-  //   if (soldChapters && soldChapters.length > 0) {
-  //     log(WrapTMCT("info", "Sold chapters", soldChapters, { message: COLORS.ChapterList }));
-  //   }
-  //   if (unknownChapters && unknownChapters.length > 0) {
-  //     log(WrapTMCT("info", "Unknown chapters", unknownChapters, { message: COLORS.ChapterList }));
-  //   }
-  // }
 
   public async validateBeforeSave({ force = false }) {
     if (this._location && existsSync(this._location) && !force) {
@@ -252,15 +199,15 @@ export class Novel extends Historian {
           completeFn(chap);
           // console.log(`Completed ${res.chapter.number}`);
 
-          chap.setStatus(NovelStatus.COMPLETED);
+          chap.status = NovelStatus.COMPLETED;
           log(WrapTMCT("verbose", chap.status, `${chap.toString()}`));
         } catch (e) {
           if (NOVEL_SOLD_WARN.equal(e)) {
             e.loadString(`id ${chap.id} chapter ${chap.number}`);
-            chap.setStatus(NovelStatus.SOLD);
+            chap.status = NovelStatus.SOLD;
           } else if (NOVEL_CLOSED_WARN.equal(e)) {
             e.loadString(`id ${chap.id} chapter ${chap.number}`);
-            chap.setStatus(NovelStatus.CLOSED);
+            chap.status = NovelStatus.CLOSED;
           }
           SaveIf(e);
         }

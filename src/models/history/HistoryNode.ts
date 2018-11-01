@@ -4,23 +4,30 @@
  */
 
 import moment, { Moment } from "moment";
-import { v4 } from "uuid";
+import { v1 } from "uuid";
 
-import { Timestamp } from "../../helpers/helper";
+import { CheckIsExist, Timestamp } from "../../helpers/helper";
 
 export enum HistoryAction {
   ADDED = "Added",
   MODIFIED = "Modified",
-  DELETED = "Deleted",
+  DELETED = "Deleted"
 }
 
-export interface HistoryCreatorChanges { before?: string; after?: string }
-export interface HistoryCreatorOption { description?: string; time?: Moment }
+export interface HistoryCreatorChanges {
+  before?: string;
+  after?: string;
+}
+export interface HistoryCreatorOption {
+  description?: string;
+  time?: Moment;
+}
 
 export class HistoryNode {
   get id() {
     return this._id;
   }
+
   public get action() {
     return this._action;
   }
@@ -40,7 +47,7 @@ export class HistoryNode {
   constructor(action: HistoryAction, title: string, value: HistoryCreatorChanges, opt?: HistoryCreatorOption) {
     this._action = action;
 
-    this._id = v4();
+    this._id = v1();
     this._title = title;
 
     this._before = value.before || "";
@@ -63,18 +70,20 @@ export class HistoryNode {
       description: this._description,
       value: {
         before: this._before,
-        after: this._after,
+        after: this._after
       },
-      time: Timestamp(this._time) || "",
+      time: Timestamp(this._time) || ""
     };
   }
+
   public static Equals(a: HistoryNode, b: HistoryNode) {
-    return a._id === b._id;
+    return a.id === b.id;
   }
 
   public static Compare(a: HistoryNode, b: HistoryNode) {
-    if (a._time < b._time) return -1;
-    else if (a._time > b._time) return 1;
+    if (!a._time || !b._time) return -1;
+    if (a._time.isAfter(b._time)) return -1;
+    else if (a._time.isBefore(b._time)) return 1;
     else return 0;
   }
 
@@ -91,12 +100,14 @@ export class HistoryNode {
   }
 
   public static CreateByChange(title: string, changes: HistoryCreatorChanges, opt?: HistoryCreatorOption) {
-    if (changes.before && changes.after) return this.CreateMOD(title, changes, opt);
-    if (changes.after) return this.CreateADD(title, changes, opt);
-    if (changes.before) return this.CreateDEL(title, changes, opt);
-    return new HistoryNode(HistoryAction.DELETED, "Error: nothing changes", changes, {
-      description: title,
-      time: opt && opt.time,
-    });
+    if (CheckIsExist(changes.before) && CheckIsExist(changes.after) && changes.before !== changes.after)
+      return this.CreateMOD(title, changes, opt);
+    if (CheckIsExist(changes.after)) return this.CreateADD(title, changes, opt);
+    if (CheckIsExist(changes.before)) return this.CreateDEL(title, changes, opt);
+    return undefined;
+    // return new HistoryNode(HistoryAction.DELETED, "Error: nothing changes", changes, {
+    //   description: title,
+    //   time: opt && opt.time,
+    // });
   }
 }

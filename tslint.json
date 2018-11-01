@@ -3,6 +3,7 @@
   "extends": ["tslint:recommended"],
   "jsRules": {},
   "rules": {
+    "adjacent-overload-signatures": false,
     "align": ["arguments", "elements", "members", "parameters", "statements", true],
     "array-type": ["array", true],
     "arrow-parens": ["ban-single-arg-parens", true],

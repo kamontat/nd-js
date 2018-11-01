@@ -1,5 +1,6 @@
 import { Moment } from "moment";
 import Random from "random-js";
+
 import { HistoryAction, HistoryNode } from "../HistoryNode";
 
 export const RandomText = (size: number) => {
@@ -14,7 +15,7 @@ export const RandomNode = (
     after?: string;
     description?: string;
     time?: Moment;
-  } = {}
+  } = {},
 ) => {
   const rand = new Random(Random.engines.mt19937().autoSeed());
 
@@ -26,6 +27,6 @@ export const RandomNode = (
     value.action,
     value.title,
     { before: value.before, after: value.after },
-    { description: value.description, time: value.time }
+    { description: value.description, time: value.time },
   );
 };

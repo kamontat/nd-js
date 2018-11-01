@@ -8,7 +8,7 @@ export class Observable<T> {
     this.observer = observer;
   }
 
-  public notify(result: T) {
+  public notify(result: T | undefined) {
     if (this.observer) this.observer.notify(result);
   }
 

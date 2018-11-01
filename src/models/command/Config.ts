@@ -19,9 +19,10 @@ import { CONFIG_CREATE_ERR, CONFIG_WARN, SECURITY_FAIL_ERR } from "../../constan
 import { CONFIG_FAIL_ERR } from "../../constants/error.const";
 import { ND } from "../../constants/nd.const";
 import { CheckIsExist } from "../../helpers/helper";
-
 import Exception from "../error/Exception";
 import { WrapTM, WrapTMC, WrapTMCT } from "../output/LoggerWrapper";
+
+import { ConfigFileType, DEFAULT_CONFIG_YAML } from "./ConfigType";
 
 /**
  * @class
@@ -68,13 +69,13 @@ export default class Config {
       if (options && options.all) {
         log(
           WrapTMCT(options && options.console ? "info" : "verbose", "Config.token", this._token, {
-            message: COLORS.Token,
-          }),
+            message: COLORS.Token
+          })
         );
         log(
           WrapTMCT(options && options.console ? "info" : "verbose", "Config.username", this._username, {
-            message: COLORS.Name,
-          }),
+            message: COLORS.Name
+          })
         );
         log(WrapTMCT(options && options.console ? "info" : "debug", "Config.version", this._version));
         log(WrapTMCT(options && options.console ? "info" : "debug", "Config.color", this._color));
@@ -162,14 +163,14 @@ export default class Config {
       }
     }
 
-    const doc = yaml.safeLoad(fs.readFileSync(this.configLocation, "utf8"));
+    const doc: ConfigFileType = yaml.safeLoad(fs.readFileSync(this.configLocation, "utf8"));
 
-    this.setVersion(doc.version || this.getVersion());
+    this.setVersion(doc.version.toString() || this.getVersion().toString());
 
     this.setToken(doc.security.token || this.getToken());
     this.setUsername(doc.security.username || this.getUsername());
 
-    this.setColor(doc.setting.color.toString() || this.getColor());
+    this.setColor(doc.setting.color.toString() || this.getColor().toString());
     this.setNovelLocation(doc.setting.location || this.getNovelLocation());
 
     this.setOutputType(doc.setting.output || this.getOutputType());
@@ -181,8 +182,8 @@ export default class Config {
         const result = DecodeToken(this.getToken());
         log(
           WrapTMCT("info", "Your username", typeof result === "string" ? result : result && result.name, {
-            message: COLORS.Name,
-          }),
+            message: COLORS.Name
+          })
         );
       }
     }
@@ -221,27 +222,21 @@ export default class Config {
    * @throws {@link CreateConfigError}
    */
   public create(force: boolean = false) {
-    // tslint:disable-next-line
-    const yaml = `version: ${this.getVersion()}
-security:
-  token: ${this.getToken()}
-  username: ${this.getUsername()}
-setting:
-  output: ${this.getOutputType()}
-  color: ${this.getColor()}
-  location: ${this.getNovelLocation()}
-`;
-
     log(WrapTMC("debug", "Config location", this.configLocation));
+
+    // throw exist
     if (fs.existsSync(this.configLocation) && !force) {
       const e = CONFIG_CREATE_ERR.clone();
       e.loadString(`${this.configLocation} is exist.`);
       throw e;
     }
 
+    // create dir
     fs.ensureDirSync(dirname(this.configLocation));
+
+    // try to save result
     try {
-      fs.writeFileSync(this.configLocation, yaml);
+      fs.writeFileSync(this.configLocation, DEFAULT_CONFIG_YAML(this));
     } catch (err) {
       const e = CONFIG_CREATE_ERR.clone();
       e.loadError(err);
@@ -257,6 +252,7 @@ setting:
   public save() {
     this.create(true);
   }
+
   public static _CONFIG: Config;
 
   /**

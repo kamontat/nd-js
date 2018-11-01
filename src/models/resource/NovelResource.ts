@@ -26,7 +26,7 @@ export class NovelResource {
       id: this.novel.id,
       name: this.novel.name,
       lastUpdate: Timestamp(this.novel.lastUpdateAt),
-      chapters: this.novel.mapChapter(chap => chap.buildJSON())
+      chapters: this.novel.mapChapter(chap => chap.buildJSON()),
     };
   }
 

@@ -8,15 +8,13 @@ import { render } from "mustache";
 import { join } from "path";
 import { log } from "winston";
 
-import { COLORS } from "../../constants/color.const";
 import { NOVEL_ERR } from "../../constants/error.const";
-import { CheckIsNumber, Timestamp } from "../../helpers/helper";
+import { CheckIsNumber, RevertTimestamp, Timestamp } from "../../helpers/helper";
 import { GetChapterFile, GetLinkWithChapter } from "../../helpers/novel";
 import Config from "../command/Config";
 import { Historian } from "../history/Historian";
+import { HistoryNode } from "../history/HistoryNode";
 import { WrapTMC } from "../output/LoggerWrapper";
-
-import { Novel } from "./Novel";
 
 /**
  * The status of novel chapter
@@ -52,13 +50,54 @@ export class NovelChapter extends Historian {
     return this._name || "";
   }
 
+  set name(n: string) {
+    this.notify(HistoryNode.CreateByChange("Chapter name", { before: this._name, after: n }));
+    this._name = n;
+  }
+
+  get location() {
+    return this._location || "";
+  }
+
+  set location(loc: string) {
+    this.notify(HistoryNode.CreateByChange("Chapter location", { before: this._location, after: loc }));
+    this._location = loc;
+  }
+
   get number() {
     return this._chapterNumber;
   }
 
   get date() {
-    return this._date;
+    return (this._date && this._date.format("d MMM YYYY")) || "";
   }
+
+  get timestamp() {
+    return Timestamp(this._date) || "";
+  }
+
+  set date(date: string | Moment) {
+    if (typeof date === "string") {
+      this.notify(HistoryNode.CreateByChange("Chapter date", { before: Timestamp(this._date), after: date }));
+      this._date = RevertTimestamp(date);
+    } else {
+      this.notify(
+        HistoryNode.CreateByChange("Chapter date", { before: Timestamp(this._date), after: Timestamp(date) }),
+      );
+      this._date = date;
+    }
+  }
+
+  get status() {
+    return this._status;
+  }
+
+  set status(status: NovelStatus) {
+    this.notify(HistoryNode.CreateByChange("Chapter status", { before: this._status, after: status }));
+    this._status = status;
+  }
+
+  private _status: NovelStatus = NovelStatus.UNKNOWN;
 
   protected _nid: string;
   protected _name?: string;
@@ -70,18 +109,19 @@ export class NovelChapter extends Historian {
   constructor(id: string, chapter?: string, name?: string, location?: string, date?: Moment) {
     super();
 
+    this.notify(HistoryNode.CreateByChange("Chapter ID", { before: undefined, after: id }));
     this._nid = id;
-    this._name = name;
+    if (name) this.name = name;
 
-    this._date = date;
-    if (location) {
-      this._location = location;
-    } else {
-      this._location = Config.Load({ quiet: true }).getNovelLocation();
-    }
+    if (date) this.date = date;
+
+    if (!location) location = Config.Load({ quiet: true }).getNovelLocation();
+    this.notify(HistoryNode.CreateByChange("Chapter location", { before: undefined, after: location }));
+    this._location = location;
 
     if (chapter) {
       if (CheckIsNumber(chapter)) {
+        this.notify(HistoryNode.CreateByChange("Chapter number", { before: undefined, after: chapter }));
         this._chapterNumber = chapter;
       } else {
         log(WrapTMC("warn", "Novel creator", `Chapter is not number (${chapter})`));
@@ -89,32 +129,8 @@ export class NovelChapter extends Historian {
     }
   }
 
-  public status: NovelStatus = NovelStatus.UNKNOWN;
-
-  public setStatus(status: NovelStatus) {
-    this.status = status;
-  }
-
-  public setName(name: string) {
-    this._name = name;
-  }
-
-  public setDate(date: Moment) {
-    this._date = date;
-  }
-
-  public getDate() {
-    return (this._date && this._date.format("d MMM YYYY")) || "";
-  }
-
-  public setLocation(location: string | undefined) {
-    if (location) {
-      this._location = location;
-    }
-  }
-
   public link() {
-    const link = GetLinkWithChapter(this._nid, this._chapterNumber);
+    const link = GetLinkWithChapter(this.id, this.number);
     if (link) {
       return link;
     }
@@ -122,7 +138,7 @@ export class NovelChapter extends Historian {
   }
 
   public file() {
-    return join(this._location, GetChapterFile(this._chapterNumber));
+    return join(this._location, GetChapterFile(this.number));
   }
 
   public format(format: string) {
@@ -131,54 +147,32 @@ export class NovelChapter extends Historian {
 
   public head() {
     if (this.number === "0") return "Zero chapter";
-    else return `Chapter: ${this._chapterNumber}`;
+    else return `Chapter: ${this.number}`;
   }
-
-  // public toString() {
-  //   if (this._chapterNumber === "0") {
-  //     return COLORS.ChapterName.color("chapter zero");
-  //   }
-  //   let result = "";
-  //   if (this._name) {
-  //     result += COLORS.ChapterName.color(this._name);
-  //   } else {
-  //     result += "no-name";
-  //   }
-
-  //   result += ` ${COLORS.Important.color(this.status.toUpperCase())} `;
-
-  //   if (this._date) {
-  //     result += ` [อัพเดตล่าสุดเมื่อ ${COLORS.Date.formatColor(this._date)}]`;
-  //   } else {
-  //     result += ` [ไม่รู้การอัพเดตล่าสุด]`;
-  //   }
-
-  //   return result;
-  // }
 
   public buildJSON() {
     return {
-      name: this._name,
-      number: this._chapterNumber,
-      date: Timestamp(this._date),
+      name: this.name,
+      number: this.number,
+      date: this.timestamp,
       status: this.status,
     };
   }
 
   public isCompleted() {
-    return this.status === NovelStatus.COMPLETED;
+    return this._status === NovelStatus.COMPLETED;
   }
 
   public isSold() {
-    return this.status === NovelStatus.SOLD;
+    return this._status === NovelStatus.SOLD;
   }
 
   public isClosed() {
-    return this.status === NovelStatus.CLOSED;
+    return this._status === NovelStatus.CLOSED;
   }
 
   public isUnknown() {
-    return this.status === NovelStatus.UNKNOWN;
+    return this._status === NovelStatus.UNKNOWN;
   }
 
   public markSell() {

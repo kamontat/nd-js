@@ -8,7 +8,7 @@ process.env.NODE_CONFIG_DIR = "/tmp";
 
 const winston = require("winston");
 const setting = require("../src/models/output/Logger").default;
-const Config = require("../src/models/Config").default;
+const Config = require("../src/models/command/Config").default;
 
 const helper = require("./test");
 

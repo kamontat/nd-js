@@ -7,7 +7,7 @@ import SortedArrayMap from "collections/sorted-array-map";
 
 import { Observer } from "../Observer";
 
-import { HistoryAction, HistoryNode } from "./HistoryNode";
+import { HistoryNode } from "./HistoryNode";
 
 export class History extends Observer<HistoryNode> {
   private nodes: SortedArrayMap<HistoryNode>;
@@ -17,12 +17,12 @@ export class History extends Observer<HistoryNode> {
 
     this.nodes = new SortedArrayMap(undefined, HistoryNode.Equals, HistoryNode.Compare);
     this.addAction(v => {
-      this.addNode(v);
+      if (v) this.addNode(v);
     });
   }
 
   public addNode(node: HistoryNode) {
-    this.nodes.add(node, node.id);
+    this.nodes.set(node.id, node);
     return this;
   }
 
@@ -31,11 +31,11 @@ export class History extends Observer<HistoryNode> {
     return this;
   }
 
-  public size() {
+  public size(): number {
     return this.nodes.length;
   }
 
   public list() {
-    return this.nodes.toArray();
+    return this.nodes.toArray() as HistoryNode[];
   }
 }

@@ -1,22 +1,21 @@
 import "jest-extended";
 import Config from "../Config";
 import { major } from "semver";
-import { ND } from "../../constants/nd.const";
+import { ND } from "../../../constants/nd.const";
 import { homedir } from "os";
 
-import { TEST_NAME, TEST_TOKEN } from "../../../test/test";
+import { TEST_NAME, TEST_TOKEN } from "../../../../test/test";
 
 test("Should have default value in config", function() {
-  const config = new Config("/tmp", { quiet: true });
+  const config = new Config("/tmp/path/to/not-exist", { quiet: true });
 
   let token = config.getToken();
   expect(token).toBeEmpty();
 
   let username = config.getUsername();
+
   expect(username).toBeEmpty();
-
   expect(config.getVersion()).toEqual(major(ND.VERSION));
-
   expect(config.getNovelLocation()).toEqual(homedir());
 });
 
@@ -27,6 +26,7 @@ test("Should initial config file", function() {
     expect(e.message).toInclude("exist");
   }
 });
+
 test("Should load the config from file", function() {
   const config = Config.Initial(true);
 
@@ -60,7 +60,6 @@ test("Should able to update config by command options", function() {
   const config = Config.Load();
 
   config.updateByOption({ location: "/tmp/newlocation" });
-
   expect(config.getNovelLocation()).toEqual("/tmp/newlocation");
 });
 

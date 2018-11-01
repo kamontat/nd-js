@@ -14,15 +14,8 @@ export class TokenValidator implements Validator {
   public token: string;
 
   public isValid() {
-    const min = 200;
-    const max = 250;
-    // between 205 <-> 210
-    if (this.token.length <= min) {
-      throw SECURITY_FAIL_ERR.loadString(`Token must have more than ${min} charactor`);
-    }
-    if (this.token.length > max) {
-      throw SECURITY_FAIL_ERR.loadString(`Token cannot have more than ${max} charactor`);
-    }
+    const tokenArray = this.token.split(".");
+    if (tokenArray.length !== 3) throw SECURITY_FAIL_ERR.loadString(`Token must be xx.yy.zz format`);
     return true;
   }
 }
