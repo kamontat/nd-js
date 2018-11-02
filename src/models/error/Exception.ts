@@ -55,12 +55,31 @@ export default interface Throwable extends Error {
   equal(e: any | undefined): boolean;
 }
 
+/**
+ * The Exception will throw if nd error occurred.
+ *
+ * @author Kamontat Chantrachirathumrong
+ * @version 1.0.0
+ * @since Obtober 22, 2018
+ */
 export class Exception extends Error implements Throwable {
+  /**
+   * code is the error code if exception is not warning
+   */
+  code: number = 1;
+  /**
+   * description why error occurred
+   */
+  description: string = "";
+
+  /**
+   * This is flag, will be true if the exception occurred
+   */
   get call() {
-    return this.called;
+    return this._called;
   }
 
-  protected called: boolean = false;
+  protected _called: boolean = false;
   protected _warn: boolean = false;
 
   constructor(title: string, code?: number, shift?: number) {
@@ -78,22 +97,32 @@ export class Exception extends Error implements Throwable {
 
     ExceptionStorage.CONST.add(this);
   }
-  public code: number = 1;
-  public description: string = "";
 
-  public warn = () => {
+  /**
+   * This is flag is exception is warning
+   */
+  warn = () => {
     return this._warn;
   };
 
-  public save = () => {
-    this.called = true;
+  /**
+   * Call this when exception be throw. This will automatic call if you print the result out
+   */
+  save = () => {
+    this._called = true;
   };
 
-  public reset = () => {
-    this.called = false;
+  /**
+   * reset the exception to no call again
+   */
+  reset = () => {
+    this._called = false;
   };
 
-  public printAndExit = () => {
+  /**
+   * Helper method, for print and exit if not warning
+   */
+  printAndExit = () => {
     this.save();
 
     if (this.warn()) {
@@ -104,30 +133,43 @@ export class Exception extends Error implements Throwable {
     this.exit();
   };
 
-  public exit = () => {
+  /**
+   * Exit the process if not warning exception
+   */
+  exit = () => {
     if (!this.warn()) {
       process.exit(this.code);
     }
   };
 
-  public loadError = (e: Error) => {
+  /**
+   * @inheritdoc
+   */
+  loadError = (e: Error) => {
     this.message = `${this.description} cause by "${e.message}"`;
     return this;
   };
 
-  public loadString = (message: string) => {
+  /**
+   * @inheritdoc
+   */
+  loadString = (message: string) => {
     this.message = `${this.description} cause by "${message}"`;
     return this;
   };
 
-  public clone = (): Exception => {
+  /**
+   * @inheritdoc
+   */
+  clone = (): Exception => {
     return this;
   };
 
-  public equal = (e: any | undefined): boolean => {
-    if (!e) {
-      return false;
-    }
+  /**
+   * @inheritdoc
+   */
+  equal = (e: any | undefined): boolean => {
+    if (!e) return false;
     return e.code === this.code;
   };
 }

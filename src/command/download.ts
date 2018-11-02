@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
 import Bluebird from "bluebird";
 
 import { NovelBuilder } from "../builder/novel";
@@ -17,7 +22,7 @@ export default (a: any) => {
       .addFnByHelper(`Building novel ${id}`, ctx => NovelBuilder.build(id, ctx.result.cheerio), "novel")
       .addLoadChapterList("Download chapters", {
         force: options.force,
-        contextKey: "novel",
+        contextKey: "novel"
       })
       .runNovel({ withChapter: options.withChapter });
   }).then(() => {

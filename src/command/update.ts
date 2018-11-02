@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
 import { NovelBuilder } from "../builder/novel";
 import { SeperateArgumentApi } from "../helpers/action";
 

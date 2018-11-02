@@ -163,7 +163,8 @@ export default class Config {
       }
     }
 
-    const doc: ConfigFileType = yaml.safeLoad(fs.readFileSync(this.configLocation, "utf8"));
+    const doc: ConfigFileType | undefined = yaml.safeLoad(fs.readFileSync(this.configLocation, "utf8"));
+    if (doc === undefined) throw CONFIG_FAIL_ERR.loadString(`Config is not exist at ${this.configLocation}`);
 
     this.setVersion(doc.version.toString() || this.getVersion().toString());
 
