@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  preload:
     docker:
       - image: "circleci/node:9"
     environment:
@@ -26,15 +26,31 @@ jobs:
             - node_modules
             - cc-test-reporter
           key: 'v1-dependencies-{{ checksum "package.json" }}'
+  compile:
+    docker:
+      - image: "circleci/node:9"
+    environment:
+      NODE_CONFIG_DIR: "/tmp"
+    working_directory: ~/nd-js
+    steps:
+      - checkout
       - run:
-          name: Compile the source code
-          command: yarn compile
+          name: Compile the code
+          command: yarn compile --verbose
       - run:
           name: Initial configuration file
           command: |
             yarn start initial --force
             yarn start setc token "$ND_TOKEN"
             yarn start setc username "$ND_USERNAME"
+  test:
+    docker:
+      - image: "circleci/node:9"
+    environment:
+      NODE_CONFIG_DIR: "/tmp"
+    working_directory: ~/nd-js
+    steps:
+      - checkout
       - run:
           name: Testing
           command: |
@@ -56,3 +72,32 @@ jobs:
       - store_artifacts:
           path: /tmp
           destination: tmp
+  build:
+    docker:
+      - image: "circleci/node:9"
+    environment:
+      NODE_CONFIG_DIR: "/tmp"
+    working_directory: ~/nd-js
+    steps:
+      - checkout
+      - run:
+          name: "Build resource and command via PKG"
+          command: yarn build:production
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - preload
+      - compile:
+          requires:
+            - preload
+      - test:
+          requires:
+            - compile
+      - build:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - test
