@@ -3,15 +3,15 @@
  * @module nd.config
  */
 
-import Config from "../models/Config";
-import { BeColor } from "../constants/default.const";
-
 import { log } from "winston";
-import { WrapTMC } from "../models/LoggerWrapper";
+
+import { BeColor } from "../constants/default.const";
+import Config from "../models/command/Config";
+import { WrapTMC } from "../models/output/LoggerWrapper";
 
 export const HELPER_LOAD_CONFIG = () => {
   try {
-    let config = Config.Load({ quiet: true, bypass: true });
+    const config = Config.Load({ quiet: true, bypass: true });
     BeColor(config.getColor());
   } catch (e) {
     log(WrapTMC("error", "Loading config", e));

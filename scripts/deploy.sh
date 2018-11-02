@@ -111,7 +111,7 @@ if $yes || lib "promptYN" "create release of version $version"; then
 	git commit -m "[release] Version: $expected"
 
 	# create bin file
-	yarn deploy
+	yarn build
 
 	# create git tag
 	git tag "$expected"

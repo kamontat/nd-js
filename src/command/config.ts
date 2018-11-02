@@ -4,9 +4,10 @@
  */
 
 import { log } from "winston";
-import { ThrowIf, SeperateArgumentApi } from "../helpers/action";
-import Config from "../models/Config";
-import { WrapTM, WrapTMC } from "../models/LoggerWrapper";
+
+import { SeperateArgumentApi, ThrowIf } from "../helpers/action";
+import Config from "../models/command/Config";
+import { WrapTM, WrapTMC } from "../models/output/LoggerWrapper";
 
 /**
  * This is configuration command, This command able to show the config path
@@ -22,6 +23,7 @@ export default (a: any) => {
     const config = Config.Load();
 
     if (options.raw) {
+      // tslint:disable-next-line
       console.log(config.configLocation);
     } else {
       log(WrapTMC("info", "configuration", config.configLocation));

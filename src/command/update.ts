@@ -3,8 +3,8 @@
  * @module commander.command
  */
 
-import { SeperateArgumentApi } from "../helpers/action";
 import { NovelBuilder } from "../builder/novel";
+import { SeperateArgumentApi } from "../helpers/action";
 
 export default (a: any) => {
   const { args } = SeperateArgumentApi(a);

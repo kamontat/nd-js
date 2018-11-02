@@ -3,11 +3,12 @@
  * @module commander.command
  */
 
-import { log } from "winston";
-import Config from "../models/Config";
-import { SeperateArgumentApi, ThrowIf } from "../helpers/action";
-import { WrapTMC } from "../models/LoggerWrapper";
 import { readJSONSync } from "fs-extra";
+import { log } from "winston";
+
+import { SeperateArgumentApi, ThrowIf } from "../helpers/action";
+import Config from "../models/command/Config";
+import { WrapTMC } from "../models/output/LoggerWrapper";
 
 /**
  * This is initial command.
@@ -22,7 +23,7 @@ export default (a: any) => {
   const { options } = SeperateArgumentApi(a);
 
   try {
-    let config = Config.Initial(options.force);
+    const config = Config.Initial(options.force);
     if (options.raw) {
       const json: { token?: string; username?: string } = JSON.parse(options.raw);
       config.setToken(json.token);

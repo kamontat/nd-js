@@ -3,7 +3,7 @@
  * @module nd.html
  */
 
-import { CssTemplate } from "../models/HtmlCss";
+import { CssTemplate } from "../models/html/HtmlCss";
 
 export const HTML_FILE: string = require("../templates/index.mustache");
 

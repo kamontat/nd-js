@@ -3,8 +3,8 @@
  * @module commander.command
  */
 
-import { SeperateArgumentApi, ThrowIf, ValidList, ByLength, ByMatchSome } from "../helpers/action";
-import Config from "../models/Config";
+import { ByLength, ByMatchSome, SeperateArgumentApi, ThrowIf, ValidList } from "../helpers/action";
+import Config from "../models/command/Config";
 
 export const CONFIG_SET_LIST = ["token", "username", "color", "location"];
 
@@ -20,7 +20,7 @@ export const CONFIG_SET_LIST = ["token", "username", "color", "location"];
 export default (a: any) => {
   const { args } = SeperateArgumentApi(a);
   try {
-    let config = Config.Load({ bypass: true });
+    const config = Config.Load({ bypass: true });
 
     ThrowIf(ValidList(args, ByMatchSome, CONFIG_SET_LIST));
     ThrowIf(ValidList(args, ByLength, 2));

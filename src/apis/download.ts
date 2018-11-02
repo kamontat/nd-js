@@ -3,29 +3,31 @@
  * @module nd.apis
  */
 
-import request from "request-promise";
-import { load } from "cheerio";
-import { Response } from "request";
-import { decode } from "iconv-lite";
-
-import { NovelChapter } from "../models/Chapter";
-import { NOVEL_WARN } from "../constants/error.const";
-import { CheckIsNovel, GetChapterNameApi, GetChapterDateApi, GetNovelNameApi } from "./novel";
-import { HtmlBuilder } from "../builder/html";
-import { WriteChapter } from "./file";
 import Bluebird, { Promise } from "bluebird";
+import { load } from "cheerio";
+import { decode } from "iconv-lite";
+import { Response } from "request";
+import request from "request-promise";
+import { RequestError } from "request-promise/errors";
+
+import { HtmlBuilder } from "../builder/html";
+import { DOWNLOAD_ERR, NOVEL_WARN } from "../constants/error.const";
+import { NovelChapter } from "../models/novel/Chapter";
+
+import { WriteChapter } from "./file";
+import { CheckIsNovel, GetChapterDateApi, GetChapterNameApi, GetNovelNameApi } from "./novel";
 
 function download(url: URL) {
   return request({
     url: url.toString(),
     method: "GET",
     headers: {
-      accept: "*/*",
-      "user-agent": "*"
+      "accept": "*/*",
+      "user-agent": "*",
     },
     encoding: null,
-    transform: function(body, response: Response) {
-      let contentType: string = response.headers["content-type"] || "";
+    transform(body, response: Response) {
+      const contentType: string = response.headers["content-type"] || "";
 
       let result: string = body;
       if (contentType.includes("charset=UTF-8")) {
@@ -37,27 +39,32 @@ function download(url: URL) {
       return load(result, {
         normalizeWhitespace: true,
         xmlMode: false,
-        decodeEntities: false
+        decodeEntities: false,
       });
-    }
+    },
   });
 }
 
 export const FetchApi: (chapter: NovelChapter) => Bluebird<{ cheerio: CheerioStatic; chapter: NovelChapter }> = (
-  chapter: NovelChapter
+  chapter: NovelChapter,
 ) => {
   return new Promise((res, rej) => {
     return download(chapter.link())
       .then(($: CheerioStatic) => {
         if (CheckIsNovel($)) {
-          chapter.setName(GetChapterNameApi($));
-          chapter.setDate(GetChapterDateApi($));
-          return res({ cheerio: $, chapter: chapter });
+          chapter.name = GetChapterNameApi($);
+          chapter.date = GetChapterDateApi($);
+          return res({ cheerio: $, chapter });
         } else {
           return rej(NOVEL_WARN.clone().loadString(`Novel(${chapter.id}) on chapter ${chapter.number} is not exist`));
         }
       })
-      .catch(rej);
+      .catch(e => {
+        if (e instanceof RequestError) {
+          return rej(DOWNLOAD_ERR.clone().loadString("No internet connection"));
+        }
+        return rej(e);
+      });
   });
 };
 
@@ -74,7 +81,7 @@ export const DownloadChapter = (chapter: NovelChapter, force?: boolean) => {
 };
 
 export const DownloadChapters = (force: boolean | undefined, chapters: NovelChapter[]) => {
-  return Promise.each(chapters, function(item) {
+  return Promise.each(chapters, item => {
     return DownloadChapter(item, force);
   });
 };

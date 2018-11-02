@@ -14,3 +14,5 @@ export const DEFAULT_NOVEL_FOLDER_NAME = (name: string) => {
 };
 
 export const DEFAULT_RESOURCE_NAME = ".nd.resource.json";
+
+export const DEFAULT_MAXIMUM_HISTORY = 100;

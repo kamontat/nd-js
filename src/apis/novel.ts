@@ -3,25 +3,22 @@
  * @module nd.apis
  */
 
-import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
-
-import { log } from "winston";
-import { WrapTM, WrapTMC, WrapTMCT } from "../models/LoggerWrapper";
-
-import { NovelBuilder } from "../builder/novel";
-import { NovelChapter, NovelStatus } from "../models/Chapter";
-import { PassLink, GetChapterNumber } from "../helpers/novel";
-
-import { Query } from "./html";
-
-import { HTML_BLACKLIST_TEXT } from "../constants/html.const";
-
-import "moment/locale/th";
 import { locale } from "moment";
 import moment = require("moment");
-import { TrimString, CheckIsExist, FormatMomentDateTime } from "../helpers/helper";
-import { NOVEL_WARN, NOVEL_SOLD_WARN, NOVEL_CLOSED_WARN } from "../constants/error.const";
-import { HtmlNode } from "../models/HtmlNode";
+import "moment/locale/th";
+import { log } from "winston";
+
+import { NovelBuilder } from "../builder/novel";
+import { NOVEL_CLOSED_WARN, NOVEL_SOLD_WARN, NOVEL_WARN } from "../constants/error.const";
+import { HTML_BLACKLIST_TEXT } from "../constants/html.const";
+import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
+import { CheckIsExist, FormatMomentDateTime, TrimString } from "../helpers/helper";
+import { GetChapterNumber, PassLink } from "../helpers/novel";
+import { HtmlNode } from "../models/html/HtmlNode";
+import { NovelChapter, NovelStatus } from "../models/novel/Chapter";
+import { WrapTM, WrapTMC, WrapTMCT } from "../models/output/LoggerWrapper";
+
+import { Query } from "./html";
 
 export const GetNovelNameApi = ($: CheerioStatic) => {
   // //p[@id="big_text"]/text()
@@ -39,7 +36,7 @@ export const GetChapterDateListApi = ($: CheerioStatic): Cheerio => {
 };
 
 export const GetChapterDateApi = ($: CheerioStatic): moment.Moment => {
-  let dateString = $($(".timeupdate").get(0)).text();
+  const dateString = $($(".timeupdate").get(0)).text();
   return FormatMomentDateTime(dateString, "D MMM YY");
 };
 
@@ -60,22 +57,26 @@ export const GetNovelDateApi = ($: CheerioStatic): moment.Moment => {
 export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
   const chapters: { [key: string]: NovelChapter } = {};
 
-  let query = Query($, c => c.length > 0, "a.chapter-item-name[target=_blank]", "a[target=_blank]");
-  if (!query) throw NOVEL_WARN.clone().loadString("cannot get chapter list");
+  const query = Query($, c => c.length > 0, "a.chapter-item-name[target=_blank]", "a[target=_blank]");
+  if (!query) {
+    throw NOVEL_WARN.clone().loadString("cannot get chapter list");
+  }
 
-  let dateQuery = GetChapterDateListApi($);
+  const dateQuery = GetChapterDateListApi($);
 
-  query.each(function(i, e) {
-    let link = `${DEFAULT_NOVEL_LINK}/${$(e).attr("href")}`;
+  query.each((i, e) => {
+    const link = `${DEFAULT_NOVEL_LINK}/${$(e).attr("href")}`;
     let title = TrimString($(e).attr("title"));
-    let sold = $(e)
+    const sold = $(e)
       .parentsUntil(".chapter-item")
       .hasClass("chapter-sell");
 
-    let closed = $(e)
+    const closed = $(e)
       .parentsUntil(".chapter-item")
       .hasClass("chapter-state-hidden");
-    if (!CheckIsExist(title)) title = TrimString($(e).text());
+    if (!CheckIsExist(title)) {
+      title = TrimString($(e).text());
+    }
 
     if (link.includes("viewlongc.php")) {
       locale("th");
@@ -83,7 +84,7 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
       const date = FormatMomentDateTime($(dateQuery.get(i)).text(), "D MMM YY");
       const chapterNumber = GetChapterNumber(link);
 
-      const builtChapter = NovelBuilder.createChapterByLink(PassLink(link), { name: title, date: date });
+      const builtChapter = NovelBuilder.createChapterByLink(PassLink(link), { name: title, date });
       if (sold) builtChapter.markSell();
       else if (closed) builtChapter.markClose();
       else builtChapter.markComplete();
@@ -108,22 +109,26 @@ export const GetChapterNameApi = ($: CheerioStatic) => {
   let name = $(".chaptername")
     .first()
     .text();
-  if (name && name !== "") return name;
+  if (name && name !== "") {
+    return name;
+  }
 
   // FIXME: cannot find any usecase to test
   // div[@class="big_next"]/p[@class="font_nu01"]/text()
   // name = $("td.head1").text();
   // if (name && name !== "") return name;
 
-  let element = $("h2[style=margin\\:0px\\;font-size\\:17px\\;color\\:\\#ffffff]");
+  const element = $("h2[style=margin\\:0px\\;font-size\\:17px\\;color\\:\\#ffffff]");
   name = element.text();
-  if (name && name !== "") return name;
+  if (name && name !== "") {
+    return name;
+  }
 
   return "";
 };
 
 export const getNovelContentV1 = ($: CheerioStatic) => {
-  let result: HtmlNode[] = [];
+  const result: HtmlNode[] = [];
 
   // เรื่องย่อ
   const header = $("span.desc_head")
@@ -133,13 +138,14 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
     .text()
     .replace("แนะนำเรื่องแบบย่อๆ", "");
 
-  if (headText !== null && headText !== "")
+  if (headText !== null && headText !== "") {
     result.push(
       new HtmlNode({
         tag: "p",
-        text: headText
-      })
+        text: headText,
+      }),
     );
+  }
   // end
 
   $("table#story_body")
@@ -147,8 +153,8 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
     .children()
     .children()
     .contents()
-    .each(function(_, e) {
-      let query = $(e);
+    .each((_, e) => {
+      const query = $(e);
 
       if (query.html() === "" || query.html() === null) {
         const text = query.text().trim();
@@ -157,8 +163,8 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
           result.push(
             new HtmlNode({
               tag: "p",
-              text: text
-            })
+              text,
+            }),
           );
         }
       }
@@ -168,12 +174,12 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
 };
 
 export const getNovelContentV2 = ($: CheerioStatic) => {
-  let result: HtmlNode[] = [];
+  const result: HtmlNode[] = [];
 
   $("div#story-content")
     .contents()
-    .each(function(_, e) {
-      let query = $(e);
+    .each((_, e) => {
+      const query = $(e);
 
       const text = query.text().trim();
       if (text !== "" && text !== "\n") {
@@ -185,8 +191,8 @@ export const getNovelContentV2 = ($: CheerioStatic) => {
           result.push(
             new HtmlNode({
               tag: "p",
-              text: text
-            })
+              text,
+            }),
           );
         }
       }

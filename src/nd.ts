@@ -5,40 +5,38 @@
  *
  */
 
+process.env.SUPPRESS_NO_CONFIG_WARNING = "true";
+
 import program from "commander";
 import winston from "winston";
 
-import setting from "./models/Logger";
-
-import { ND } from "./constants/nd.const";
-import { MakeCommand, MakeOption } from "./helpers/command";
-
-import {
-  DEBUG_OPT,
-  QUIET_OPT,
-  NO_COLOR_OPT,
-  NO_LOG_OPT,
-  LOG_PATH_OPT,
-  SHORT_OUT_OPT,
-  LONG_OUT_OPT
-} from "./constants/option.const";
-
+import "./_setup";
+import { ARGUMENT_COLOR, OPTION_COLOR, PARAMETER_COLOR, PRIMARY_ARGUMENT_COLOR } from "./constants/color.const";
 import {
   CHANGELOG_CMD,
-  INIT_CMD,
   CONFIG_CMD,
-  SET_CONFIG_CMD,
-  RAW_DOWNLOAD_CMD,
-  FETCH_CMD,
   DOWNLOAD_CMD,
+  FETCH_CMD,
+  INIT_CMD,
+  RAW_DOWNLOAD_CMD,
+  SET_CONFIG_CMD,
   UPDATE_CMD,
+  VALIDATOR_CMD,
   VERSION_CMD,
-  VALIDATOR_CMD
 } from "./constants/command.const";
-
 import { ADMIN_CMD } from "./constants/command.const";
-
-import { OPTION_COLOR, ARGUMENT_COLOR, PARAMETER_COLOR } from "./constants/color.const";
+import { ND } from "./constants/nd.const";
+import {
+  DEBUG_OPT,
+  LOG_PATH_OPT,
+  LONG_OUT_OPT,
+  NO_COLOR_OPT,
+  NO_LOG_OPT,
+  QUIET_OPT,
+  SHORT_OUT_OPT,
+} from "./constants/option.const";
+import { MakeCommand, MakeOption } from "./helpers/command";
+import setting from "./models/output/Logger";
 
 program.name(ND.PROJECT_NAME).version(`nd version: ${ND.VERSION}`, "-v, --version");
 
@@ -73,18 +71,22 @@ program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
   process.exit(1);
 });
 
-program.on("--help", function() {
+program.on("--help", () => {
+  // tslint:disable-next-line
   console.log("");
+  // tslint:disable-next-line
   console.log(`Examples:
-
-$ ${
-    ND.PROJECT_NAME
-  } ${ARGUMENT_COLOR("initial")} [${OPTION_COLOR("--force")}] [${OPTION_COLOR("--raw")} <${ARGUMENT_COLOR("json")}>|${OPTION_COLOR("--file")} <${ARGUMENT_COLOR("path")}>]
-$ ${
-    ND.PROJECT_NAME
-  } ${ARGUMENT_COLOR("set-config")} [${PARAMETER_COLOR("token")}|${PARAMETER_COLOR("username")}|${PARAMETER_COLOR("color")}|${PARAMETER_COLOR("location")}]
-$ ${ND.PROJECT_NAME} ${ARGUMENT_COLOR("validator")} [${PARAMETER_COLOR("config")}] [${OPTION_COLOR("--info")}]
-$ ${ND.PROJECT_NAME} [${OPTION_COLOR("--help")}|${OPTION_COLOR("--changelog")}|${OPTION_COLOR("--version")}]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("initial")} [${OPTION_COLOR("--force")}] [${OPTION_COLOR(
+    "--raw",
+  )} <${PARAMETER_COLOR("json")}>|${OPTION_COLOR("--file")} <${PARAMETER_COLOR("path")}>]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("set-config")} [${ARGUMENT_COLOR("token")}|${ARGUMENT_COLOR(
+    "username",
+  )}|${ARGUMENT_COLOR("color")}|${ARGUMENT_COLOR("location")}]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("fetch")} <${ARGUMENT_COLOR("id")}> [${OPTION_COLOR("--with-chapter")}]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("validator")} [${ARGUMENT_COLOR("config")}|${ARGUMENT_COLOR(
+    "application",
+  )}] [${OPTION_COLOR("--info")}]
+  $ ${ND.PROJECT_NAME} [${OPTION_COLOR("--help")}|${OPTION_COLOR("--changelog")}|${OPTION_COLOR("--version")}]
 `);
 });
 

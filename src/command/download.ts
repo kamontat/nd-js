@@ -3,12 +3,13 @@
  * @module commander.command
  */
 
-import { SeperateArgumentApi } from "../helpers/action";
-import { NovelBuilder } from "../builder/novel";
-import { GetNID } from "../helpers/novel";
-import { ListrApis } from "../helpers/listr";
 import Bluebird from "bluebird";
-import { ExceptionStorage } from "../models/ExceptionStorage";
+
+import { NovelBuilder } from "../builder/novel";
+import { SeperateArgumentApi } from "../helpers/action";
+import { ListrHelper } from "../helpers/listr";
+import { GetNID } from "../helpers/novel";
+import { ExceptionStorage } from "../models/error/ExceptionStorage";
 
 export default (a: any) => {
   const { options, args } = SeperateArgumentApi(a);
@@ -16,12 +17,12 @@ export default (a: any) => {
   const ids = args.map(arg => GetNID(arg));
 
   return Bluebird.each(ids, id => {
-    return new ListrApis()
+    return new ListrHelper()
       .addByHelper(`Fetching novel ${id}`, NovelBuilder.fetch(id))
       .addFnByHelper(`Building novel ${id}`, ctx => NovelBuilder.build(id, ctx.result.cheerio), "novel")
       .addLoadChapterList("Download chapters", {
         force: options.force,
-        contextKey: "novel"
+        contextKey: "novel",
       })
       .runNovel({ withChapter: options.withChapter });
   }).then(() => {

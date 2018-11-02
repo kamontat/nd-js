@@ -3,14 +3,29 @@
  * @module nd.security
  */
 
-import { sign, verify, decode } from "jsonwebtoken";
-import { UsernameValidator, TokenValidator } from "../models/Security";
-import { ND } from "../constants/nd.const";
+import { decode, sign, verify } from "jsonwebtoken";
+
 import { SECURITY_FAIL_ERR } from "../constants/error.const";
+import { ND } from "../constants/nd.const";
+import { TokenValidator } from "../models/security/TokenValidator";
+import { UsernameValidator } from "../models/security/UsernameValidator";
 
-type ResultToken = { name: string; iat: string; nbf: string; exp: string; iss: string; sub: string; jti: string };
+interface ResultToken {
+  name: string;
+  iat: string;
+  nbf: string;
+  exp: string;
+  iss: string;
+  sub: string;
+  jti: string;
+}
 
-export type TokenDataType = { issuedate: string; expiredate: string; fullname: string; username: string };
+export interface TokenDataType {
+  issuedate: string;
+  expiredate: string;
+  fullname: string;
+  username: string;
+}
 export const CreateToken = (data: TokenDataType) => {
   return sign({ name: data.username }, new UsernameValidator(data.fullname).key, {
     expiresIn: data.expiredate,
@@ -18,7 +33,7 @@ export const CreateToken = (data: TokenDataType) => {
     notBefore: data.issuedate,
     algorithm: ND.ALGO,
     jwtid: ND.ID,
-    subject: "ND-JS"
+    subject: "ND-JS",
   });
 };
 
@@ -33,7 +48,7 @@ export const VerifyToken = (token: TokenValidator, username: UsernameValidator) 
 export const DecodeToken: (token: string) => ResultToken = (token: string) => {
   const result = decode(token, {
     json: true,
-    complete: false
+    complete: false,
   });
 
   if (result === null || typeof result === "string") {

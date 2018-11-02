@@ -3,7 +3,11 @@
  * @module nd.exception
  */
 
-import Throwable, { NFError, EError, FError, Warning, Exception } from "../models/Exception";
+import { EError } from "../models/error/ErrorError";
+import Throwable, { Exception } from "../models/error/Exception";
+import { FError } from "../models/error/FailError";
+import { NFError } from "../models/error/NotFoundError";
+import { Warning } from "../models/error/Warning";
 
 export const CONFIG_WARN: Throwable = new Warning("Config have warning message", 0);
 export const PARAM_WARN: Throwable = new Warning("Parameter have warning message", 1);

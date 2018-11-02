@@ -3,12 +3,11 @@
  * @module nd.apis
  */
 
-import { log } from "winston";
-import { NovelChapter } from "../models/Chapter";
 import { existsSync } from "fs";
 import { writeFile } from "fs-extra";
-import { NOVEL_WARN, FILE_ERR } from "../constants/error.const";
-import { WrapTMC } from "../models/LoggerWrapper";
+
+import { FILE_ERR, NOVEL_WARN } from "../constants/error.const";
+import { NovelChapter } from "../models/novel/Chapter";
 
 export const WriteFile = (html: string, location: string, force?: boolean) => {
   return new Promise<string>((res, rej) => {
