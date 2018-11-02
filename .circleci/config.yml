@@ -73,6 +73,9 @@ jobs:
       - run:
           name: "Build resource and command via PKG"
           command: yarn build:debug
+      - store_artifacts:
+          path: .caches
+          destination: caches
 workflows:
   version: 2
   test_and_build:
