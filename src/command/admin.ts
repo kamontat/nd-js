@@ -22,7 +22,7 @@ const password = {
   type: "password",
   message: "Enter a admin password",
   name: "password",
-  mask: "*"
+  mask: "*",
 };
 
 const information = [
@@ -30,12 +30,12 @@ const information = [
     type: "input",
     name: "fullname",
     message: "Enter your full name (name surname email)",
-    validate: (str: string) => new UsernameValidator(str).isValid()
+    validate: (str: string) => new UsernameValidator(str).isValid(),
   },
   {
     type: "input",
     name: "username",
-    message: "Enter username"
+    message: "Enter username",
   },
   {
     type: "list",
@@ -49,8 +49,8 @@ const information = [
       { name: "7 days", value: "7d" },
       { name: "30 days", value: "30d" },
       { name: "180 days", value: "180d" },
-      { name: "1 year", value: "1y" }
-    ]
+      { name: "1 year", value: "1y" },
+    ],
   },
   {
     type: "list",
@@ -61,9 +61,9 @@ const information = [
       { name: "1 hours", value: "1h" },
       { name: "5 hours", value: "5h" },
       { name: "10 hours", value: "10h" },
-      { name: "1 day", value: "1d" }
-    ]
-  }
+      { name: "1 day", value: "1d" },
+    ],
+  },
 ];
 
 export default (a: any) => {
@@ -84,8 +84,8 @@ export default (a: any) => {
         console.log(
           JSON.stringify({
             token,
-            username: answers.fullname
-          })
+            username: answers.fullname,
+          }),
         );
       } else {
         log(WrapTMC("info", `Token for ${ND.PROJECT_NAME} v${ND.VERSION}`, token));

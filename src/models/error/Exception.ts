@@ -63,14 +63,6 @@ export default interface Throwable extends Error {
  * @since Obtober 22, 2018
  */
 export class Exception extends Error implements Throwable {
-  /**
-   * code is the error code if exception is not warning
-   */
-  code: number = 1;
-  /**
-   * description why error occurred
-   */
-  description: string = "";
 
   /**
    * This is flag, will be true if the exception occurred
@@ -97,32 +89,40 @@ export class Exception extends Error implements Throwable {
 
     ExceptionStorage.CONST.add(this);
   }
+  /**
+   * code is the error code if exception is not warning
+   */
+  public code: number = 1;
+  /**
+   * description why error occurred
+   */
+  public description: string = "";
 
   /**
    * This is flag is exception is warning
    */
-  warn = () => {
+  public warn = () => {
     return this._warn;
   };
 
   /**
    * Call this when exception be throw. This will automatic call if you print the result out
    */
-  save = () => {
+  public save = () => {
     this._called = true;
   };
 
   /**
    * reset the exception to no call again
    */
-  reset = () => {
+  public reset = () => {
     this._called = false;
   };
 
   /**
    * Helper method, for print and exit if not warning
    */
-  printAndExit = () => {
+  public printAndExit = () => {
     this.save();
 
     if (this.warn()) {
@@ -136,7 +136,7 @@ export class Exception extends Error implements Throwable {
   /**
    * Exit the process if not warning exception
    */
-  exit = () => {
+  public exit = () => {
     if (!this.warn()) {
       process.exit(this.code);
     }
@@ -145,7 +145,7 @@ export class Exception extends Error implements Throwable {
   /**
    * @inheritdoc
    */
-  loadError = (e: Error) => {
+  public loadError = (e: Error) => {
     this.message = `${this.description} cause by "${e.message}"`;
     return this;
   };
@@ -153,7 +153,7 @@ export class Exception extends Error implements Throwable {
   /**
    * @inheritdoc
    */
-  loadString = (message: string) => {
+  public loadString = (message: string) => {
     this.message = `${this.description} cause by "${message}"`;
     return this;
   };
@@ -161,14 +161,14 @@ export class Exception extends Error implements Throwable {
   /**
    * @inheritdoc
    */
-  clone = (): Exception => {
+  public clone = (): Exception => {
     return this;
   };
 
   /**
    * @inheritdoc
    */
-  equal = (e: any | undefined): boolean => {
+  public equal = (e: any | undefined): boolean => {
     if (!e) return false;
     return e.code === this.code;
   };

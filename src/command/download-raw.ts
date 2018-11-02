@@ -38,11 +38,11 @@ export default (a: any) => {
         novel.location = config.getNovelLocation();
         // update chapter to novel
         const chapters = chapterString.map(chapter =>
-          NovelBuilder.createChapter(id, chapter, { location: config.getNovelLocation() })
+          NovelBuilder.createChapter(id, chapter, { location: config.getNovelLocation() }),
         );
         novel.resetChapter();
         chapters.forEach(novel.addChapter);
-      }
+      },
     })
     .runNovel({ contextKey: "novel", withChapter: options.withChapter });
 };

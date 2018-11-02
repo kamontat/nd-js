@@ -4,6 +4,8 @@ const nodeExternals = require("webpack-node-externals");
 const TerserPlugin = require("terser-webpack-plugin");
 const DashboardPlugin = require("webpack-dashboard/plugin");
 
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+
 module.exports = {
   mode: "development", // production
   entry: "./src/nd.ts",
@@ -88,7 +90,16 @@ module.exports = {
   resolve: {
     extensions: [".html", ".ts", ".js"]
   },
-  plugins: [new DashboardPlugin()],
+  plugins: [
+    new DashboardPlugin(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: "static",
+      reportFilename: "webpack/report.html",
+      generateStatsFile: true,
+      statsFilename: "webpack/stat.json",
+      openAnalyzer: false
+    })
+  ],
   output: {
     filename: "nd.min.js",
     path: path.resolve(__dirname, ".caches")

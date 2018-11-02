@@ -2,6 +2,7 @@ import { homedir } from "os";
 import { major } from "semver";
 
 import { ND } from "../../constants/nd.const";
+
 import Config from "./Config";
 
 export interface ConfigFileType {

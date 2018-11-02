@@ -50,7 +50,7 @@ export class ListrHelper {
             force,
             completeFn: (chap: NovelChapter) => {
               observer.next(`Chapter ${chap.number}`);
-            }
+            },
           })
           .then(res => {
             ctx.novel = res;

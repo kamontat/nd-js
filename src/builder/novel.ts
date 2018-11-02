@@ -47,7 +47,7 @@ export class NovelBuilder {
       url.searchParams.get("chapter") || undefined,
       option && option.name,
       option && option.location,
-      option && option.date
+      option && option.date,
     );
   }
 }

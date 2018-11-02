@@ -18,13 +18,13 @@ import { NovelBuilder } from "../../builder/novel";
 import { NOVEL_CLOSED_WARN, NOVEL_NOTFOUND_ERR, NOVEL_SOLD_WARN, NOVEL_WARN } from "../../constants/error.const";
 import { DEFAULT_NOVEL_FOLDER_NAME } from "../../constants/novel.const";
 import { SaveIf } from "../../helpers/action";
+import { Timestamp } from "../../helpers/helper";
 import Config from "../command/Config";
 import { Historian } from "../history/Historian";
 import { HistoryNode } from "../history/HistoryNode";
 import { WrapTMCT } from "../output/LoggerWrapper";
 
 import { NovelChapter, NovelStatus } from "./Chapter";
-import { Timestamp } from "../../helpers/helper";
 
 export class Novel extends Historian {
   private _id: string;
@@ -136,7 +136,7 @@ export class Novel extends Historian {
     return {
       start: s,
       end: e,
-      size: e - s + 1
+      size: e - s + 1,
     };
   }
 
@@ -144,7 +144,7 @@ export class Novel extends Historian {
     const last = GetNovelDateApi($);
 
     this.notify(
-      HistoryNode.CreateByChange("Last update", { before: Timestamp(this._updateAt), after: Timestamp(last) })
+      HistoryNode.CreateByChange("Last update", { before: Timestamp(this._updateAt), after: Timestamp(last) }),
     );
     this._updateAt = last;
   }

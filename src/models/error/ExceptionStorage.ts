@@ -3,9 +3,11 @@
  * @module nd.exception
  */
 
-import { Exception } from "./Exception";
 import { log } from "winston";
+
 import { WrapTMC } from "../output/LoggerWrapper";
+
+import { Exception } from "./Exception";
 
 /**
  * Exception storage, will keep all created exception from the begin process until the end of process.
@@ -18,10 +20,6 @@ import { WrapTMC } from "../output/LoggerWrapper";
  * @since Obtober 23, 2018
  */
 export class ExceptionStorage {
-  /**
-   * Singleton object of this storage
-   */
-  static CONST = new ExceptionStorage();
 
   constructor() {}
 
@@ -53,4 +51,8 @@ export class ExceptionStorage {
   public reset() {
     this.exceptions.forEach(exp => exp.reset());
   }
+  /**
+   * Singleton object of this storage
+   */
+  public static CONST = new ExceptionStorage();
 }

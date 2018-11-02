@@ -11,7 +11,7 @@ import { CheckIsExist, Timestamp } from "../../helpers/helper";
 export enum HistoryAction {
   ADDED = "Added",
   MODIFIED = "Modified",
-  DELETED = "Deleted"
+  DELETED = "Deleted",
 }
 
 export interface HistoryCreatorChanges {
@@ -70,9 +70,9 @@ export class HistoryNode {
       description: this._description,
       value: {
         before: this._before,
-        after: this._after
+        after: this._after,
       },
-      time: Timestamp(this._time) || ""
+      time: Timestamp(this._time) || "",
     };
   }
 
