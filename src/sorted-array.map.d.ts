@@ -1,13 +1,3 @@
-declare function terminalLink(
-  text: string,
-  url: string,
-  options?: { fallback: (text: string, url: string) => string }
-): string;
-
-declare module "terminal-link" {
-  export = terminalLink;
-}
-
 declare module "collections/sorted-array-map" {
   type Key = string | number;
 

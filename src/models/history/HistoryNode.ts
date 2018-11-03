@@ -11,7 +11,7 @@ import { CheckIsExist, Timestamp } from "../../helpers/helper";
 export enum HistoryAction {
   ADDED = "Added",
   MODIFIED = "Modified",
-  DELETED = "Deleted",
+  DELETED = "Deleted"
 }
 
 export interface HistoryCreatorChanges {
@@ -22,6 +22,17 @@ export interface HistoryCreatorOption {
   description?: string;
   time?: Moment;
 }
+
+export type HistoryNodeType = {
+  action: string;
+  title: string;
+  description: string;
+  value: {
+    before: string;
+    after: string;
+  };
+  time: string;
+};
 
 export class HistoryNode {
   get id() {
@@ -63,16 +74,16 @@ export class HistoryNode {
     }' at ${this._time.toString()}`;
   }
 
-  public toJSON() {
+  public toJSON(): HistoryNodeType {
     return {
       action: this.action,
       title: this._title,
       description: this._description,
       value: {
         before: this._before,
-        after: this._after,
+        after: this._after
       },
-      time: Timestamp(this._time) || "",
+      time: Timestamp(this._time) || ""
     };
   }
 

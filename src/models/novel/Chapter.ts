@@ -38,7 +38,7 @@ export enum NovelStatus {
   /**
    * Sold will set if the autodetect, have detected the sold chapter
    */
-  SOLD = "sold",
+  SOLD = "sold"
 }
 
 export class NovelChapter extends Historian {
@@ -82,7 +82,7 @@ export class NovelChapter extends Historian {
       this._date = RevertTimestamp(date);
     } else {
       this.notify(
-        HistoryNode.CreateByChange("Chapter date", { before: Timestamp(this._date), after: Timestamp(date) }),
+        HistoryNode.CreateByChange("Chapter date", { before: Timestamp(this._date), after: Timestamp(date) })
       );
       this._date = date;
     }
@@ -150,12 +150,12 @@ export class NovelChapter extends Historian {
     else return `Chapter: ${this.number}`;
   }
 
-  public buildJSON() {
+  public toJSON() {
     return {
       name: this.name,
       number: this.number,
       date: this.timestamp,
-      status: this.status,
+      status: this.status
     };
   }
 

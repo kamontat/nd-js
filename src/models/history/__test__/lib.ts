@@ -15,7 +15,7 @@ export const RandomNode = (
     after?: string;
     description?: string;
     time?: Moment;
-  } = {},
+  } = {}
 ) => {
   const rand = new Random(Random.engines.mt19937().autoSeed());
 
@@ -23,10 +23,15 @@ export const RandomNode = (
   if (!value.action) value.action = rand.pick(listAction);
   if (!value.title) value.title = RandomText(25);
 
+  if (value.action === HistoryAction.ADDED && !value.after) value.after = RandomText(8);
+  if (value.action === HistoryAction.DELETED && !value.before) value.before = RandomText(8);
+  if (value.action === HistoryAction.MODIFIED && !value.before) value.before = RandomText(8);
+  if (value.action === HistoryAction.MODIFIED && !value.after) value.after = RandomText(8);
+
   return new HistoryNode(
     value.action,
     value.title,
     { before: value.before, after: value.after },
-    { description: value.description, time: value.time },
+    { description: value.description, time: value.time }
   );
 };

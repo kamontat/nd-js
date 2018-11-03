@@ -3,53 +3,31 @@
  * @module nd.resource
  */
 
-import { Moment } from "moment";
-import moment = require("moment");
-
 import { ND } from "../../constants/nd.const";
-import { RevertTimestamp, Timestamp } from "../../helpers/helper";
+import { Timestamp } from "../../helpers/helper";
 
 export interface CommandResourceType {
   name: string;
   version: string;
-  date: string | undefined;
+  date: string | undefined; // timestamp
 }
 
 export class CommandResource {
-  constructor({
-    name = ND.PROJECT_NAME,
-    version = ND.VERSION,
-    lastUpdate = moment(),
-  }: {
-    name: string;
-    version: string;
-    lastUpdate: Moment;
-  }) {
-    this.name = name;
-    this.version = version;
-    this.updateAt = Timestamp(lastUpdate);
+  private name: string;
+  private version: string;
+  private updateAt?: string;
+
+  constructor() {
+    this.name = ND.PROJECT_NAME;
+    this.version = ND.VERSION;
+    this.updateAt = Timestamp(ND.TIME);
   }
-  public name: string;
-  public version: string;
-  public updateAt?: string;
 
   public build(): CommandResourceType {
     return {
       name: this.name,
       version: this.version,
-      date: this.updateAt,
+      date: this.updateAt
     };
-  }
-
-  public static Load(result: CommandResourceType) {
-    const name = result.name;
-    const version = result.version;
-    const date = RevertTimestamp(result.date);
-
-    return new CommandResource({
-      name,
-      version,
-      lastUpdate: date,
-    });
   }
 }

@@ -9,6 +9,8 @@ import p from "pjson";
 export class ND {
   public static VERSION = p.version;
   public static PROJECT_NAME = p.name;
+  public static TIME = moment();
+
   public static A = "salt-nd-js";
   public static Z = `master-password-${moment().get("dayOfYear")}`;
   public static ID = `KC-SKE`;

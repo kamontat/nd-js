@@ -18,15 +18,15 @@ export class CPrinter implements Printer {
   }
 
   public print(opt?: PrintOption) {
-    const json = this.chapter.buildJSON();
+    const json = this.chapter.toJSON();
 
     if (opt && opt.short)
       log(
         WrapTMCT(
           "info",
           this.chapter.head(),
-          `${COLORS.Name.color(json.name)} [${COLORS.DateTime.color(this.chapter.date)}]`,
-        ),
+          `${COLORS.Name.color(json.name)} [${COLORS.DateTime.color(this.chapter.date)}]`
+        )
       );
     else
       log(
@@ -34,9 +34,9 @@ export class CPrinter implements Printer {
           "info",
           this.chapter.head(),
           `[${COLORS.Important.color(json.status)}] ${COLORS.Name.color(json.name)} [${COLORS.DateTime.color(
-            this.chapter.date,
-          )}]`,
-        ),
+            this.chapter.date
+          )}]`
+        )
       );
   }
 }

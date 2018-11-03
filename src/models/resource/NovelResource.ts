@@ -15,19 +15,24 @@ export interface NovelResourceType {
 }
 
 export class NovelResource {
-  private novel: Novel;
+  private novel?: Novel;
 
-  constructor(novel: Novel) {
+  constructor() {}
+
+  public load(novel: Novel) {
     this.novel = novel;
   }
 
-  public build() {
-    return {
-      id: this.novel.id,
-      name: this.novel.name,
-      lastUpdate: Timestamp(this.novel.lastUpdateAt),
-      chapters: this.novel.mapChapter(chap => chap.buildJSON()),
-    };
+  public build(): NovelResourceType {
+    if (!this.novel)
+      return {
+        id: "-1",
+        name: undefined,
+        lastUpdate: undefined,
+        chapters: []
+      };
+
+    return this.novel.toJSON();
   }
 
   // static Load(result: NovelResourceType) {

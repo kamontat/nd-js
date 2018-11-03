@@ -136,7 +136,7 @@ export class Novel extends Historian {
     return {
       start: s,
       end: e,
-      size: e - s + 1,
+      size: e - s + 1
     };
   }
 
@@ -144,7 +144,7 @@ export class Novel extends Historian {
     const last = GetNovelDateApi($);
 
     this.notify(
-      HistoryNode.CreateByChange("Last update", { before: Timestamp(this._updateAt), after: Timestamp(last) }),
+      HistoryNode.CreateByChange("Last update", { before: Timestamp(this._updateAt), after: Timestamp(last) })
     );
     this._updateAt = last;
   }
@@ -236,5 +236,14 @@ export class Novel extends Historian {
     await this.saveNovel({ force, completeFn });
     await this.saveResource();
     return new Promise<Novel>(res => res(this));
+  }
+
+  public toJSON() {
+    return {
+      id: this.id,
+      name: this.name,
+      lastUpdate: Timestamp(this.lastUpdateAt),
+      chapters: this.mapChapter(chap => chap.toJSON())
+    };
   }
 }

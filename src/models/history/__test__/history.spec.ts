@@ -3,6 +3,7 @@ import { History } from "../History";
 import { HistoryAction, HistoryNode } from "../HistoryNode";
 
 import { RandomNode, RandomText } from "./lib";
+import { DEFAULT_MAXIMUM_HISTORY } from "../../../constants/novel.const";
 
 describe("History, node, and action", function() {
   describe("Node creation", function() {
@@ -103,5 +104,18 @@ describe("History, node, and action", function() {
         });
       });
     });
+  });
+});
+
+const HIST_SIZE = DEFAULT_MAXIMUM_HISTORY + 20;
+
+describe("Setup history object", function() {
+  const hist = new History();
+  for (let i = 0; i < HIST_SIZE; i++) {
+    hist.addNode(RandomNode());
+  }
+
+  test("Should have limit of history node inside history", function() {
+    expect(hist.size()).toBeLessThanOrEqual(DEFAULT_MAXIMUM_HISTORY);
   });
 });
