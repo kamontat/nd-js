@@ -44,9 +44,9 @@ title="$*"
 ################################
 ## Summary result             ##
 ################################
-echo "Expected version: $semver"
-echo "Is always yes: $yes"
-echo "What is the title"
+echo "Expected version:  $semver"
+echo "Is always yes:     $yes"
+echo "What is the title: $title"
 
 ################################
 ## Helper method              ##
