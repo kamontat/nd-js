@@ -25,8 +25,8 @@ export class CPrinter implements Printer {
         WrapTMCT(
           "info",
           this.chapter.head(),
-          `${COLORS.Name.color(json.name)} [${COLORS.DateTime.color(this.chapter.date)}]`
-        )
+          `${COLORS.Name.color(json.name)} [${COLORS.DateTime.color(this.chapter.date)}]`,
+        ),
       );
     else
       log(
@@ -34,9 +34,9 @@ export class CPrinter implements Printer {
           "info",
           this.chapter.head(),
           `[${COLORS.Important.color(json.status)}] ${COLORS.Name.color(json.name)} [${COLORS.DateTime.color(
-            this.chapter.date
-          )}]`
-        )
+            this.chapter.date,
+          )}]`,
+        ),
       );
   }
 }

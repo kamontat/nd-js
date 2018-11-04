@@ -38,7 +38,7 @@ export enum NovelStatus {
   /**
    * Sold will set if the autodetect, have detected the sold chapter
    */
-  SOLD = "sold"
+  SOLD = "sold",
 }
 
 export class NovelChapter extends Historian {
@@ -50,8 +50,14 @@ export class NovelChapter extends Historian {
     return this._name || "";
   }
 
+  get description() {
+    return `Chapter ${this.number} of ${this.id}`;
+  }
+
   set name(n: string) {
-    this.notify(HistoryNode.CreateByChange("Chapter name", { before: this._name, after: n }));
+    this.notify(
+      HistoryNode.CreateByChange("Chapter name", { before: this._name, after: n }, { description: this.description }),
+    );
     this._name = n;
   }
 
@@ -60,7 +66,13 @@ export class NovelChapter extends Historian {
   }
 
   set location(loc: string) {
-    this.notify(HistoryNode.CreateByChange("Chapter location", { before: this._location, after: loc }));
+    this.notify(
+      HistoryNode.CreateByChange(
+        "Chapter location",
+        { before: this._location, after: loc },
+        { description: this.description },
+      ),
+    );
     this._location = loc;
   }
 
@@ -78,11 +90,21 @@ export class NovelChapter extends Historian {
 
   set date(date: string | Moment) {
     if (typeof date === "string") {
-      this.notify(HistoryNode.CreateByChange("Chapter date", { before: Timestamp(this._date), after: date }));
+      this.notify(
+        HistoryNode.CreateByChange(
+          "Chapter date",
+          { before: Timestamp(this._date), after: date },
+          { description: this.description },
+        ),
+      );
       this._date = RevertTimestamp(date);
     } else {
       this.notify(
-        HistoryNode.CreateByChange("Chapter date", { before: Timestamp(this._date), after: Timestamp(date) })
+        HistoryNode.CreateByChange(
+          "Chapter date",
+          { before: Timestamp(this._date), after: Timestamp(date) },
+          { description: this.description },
+        ),
       );
       this._date = date;
     }
@@ -93,7 +115,13 @@ export class NovelChapter extends Historian {
   }
 
   set status(status: NovelStatus) {
-    this.notify(HistoryNode.CreateByChange("Chapter status", { before: this._status, after: status }));
+    this.notify(
+      HistoryNode.CreateByChange(
+        "Chapter status",
+        { before: this._status, after: status },
+        { description: this.description },
+      ),
+    );
     this._status = status;
   }
 
@@ -152,10 +180,11 @@ export class NovelChapter extends Historian {
 
   public toJSON() {
     return {
+      id: this.id,
       name: this.name,
       number: this.number,
       date: this.timestamp,
-      status: this.status
+      status: this.status,
     };
   }
 

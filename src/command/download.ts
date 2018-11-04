@@ -24,6 +24,7 @@ export default (a: any) => {
         force: options.force,
         contextKey: "novel",
       })
+      .addCreateResourceFile(`Building resource file`, { force: options.force })
       .runNovel({ withChapter: options.withChapter });
   }).then(() => {
     ExceptionStorage.CONST.print();

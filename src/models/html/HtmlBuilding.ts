@@ -34,7 +34,7 @@ export class HtmlBuild extends HtmlTemplate {
   public addChap(chapter: NovelChapter) {
     return this.addChapName(chapter.name)
       .addChapNum(chapter.number)
-      .addLastUpdate(chapter.timestamp);
+      .addLastUpdate(chapter.date.toString());
   }
 
   public addChapNum(chapterNumber: string) {

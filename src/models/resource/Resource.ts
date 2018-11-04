@@ -3,39 +3,40 @@
  * @module nd.resource
  */
 
+import { History } from "../history/History";
 import { Novel } from "../novel/Novel";
-import { NovelResource, NovelResourceType } from "./NovelResource";
+
 import { CommandResource, CommandResourceType } from "./CommandResource";
 import { HistoryResource, HistoryResourceType } from "./HistoryResource";
-import { History } from "../history/History";
+import { NovelResource, NovelResourceType } from "./NovelResource";
 
-export type ResourceType = {
+export interface ResourceType {
   command: CommandResourceType;
   novel: NovelResourceType;
   history: HistoryResourceType;
-};
+}
 
 export class Resource {
-  // TODO: implement build resource object from path
-  // public static Build(location: string) {
-  //   return new Novel();
-  // }
-
-  nresource: NovelResource;
-  cresource: CommandResource;
-  hresource: HistoryResource;
 
   constructor() {
     this.cresource = new CommandResource();
     this.nresource = new NovelResource();
     this.hresource = new HistoryResource();
   }
+  // TODO: implement build resource object from path
+  // public static Build(location: string) {
+  //   return new Novel();
+  // }
 
-  loadNovel(novel: Novel) {
+  public nresource: NovelResource;
+  public cresource: CommandResource;
+  public hresource: HistoryResource;
+
+  public loadNovel(novel: Novel) {
     this.nresource.load(novel);
   }
 
-  loadHistory(history: History) {
+  public loadHistory(history: History) {
     this.hresource.load(history);
   }
 
@@ -43,7 +44,7 @@ export class Resource {
     return {
       command: this.cresource.build(),
       novel: this.nresource.build(),
-      history: this.hresource.build()
+      history: this.hresource.build(),
     };
   }
 }

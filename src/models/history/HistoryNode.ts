@@ -11,7 +11,7 @@ import { CheckIsExist, Timestamp } from "../../helpers/helper";
 export enum HistoryAction {
   ADDED = "Added",
   MODIFIED = "Modified",
-  DELETED = "Deleted"
+  DELETED = "Deleted",
 }
 
 export interface HistoryCreatorChanges {
@@ -23,7 +23,7 @@ export interface HistoryCreatorOption {
   time?: Moment;
 }
 
-export type HistoryNodeType = {
+export interface HistoryNodeType {
   action: string;
   title: string;
   description: string;
@@ -32,7 +32,7 @@ export type HistoryNodeType = {
     after: string;
   };
   time: string;
-};
+}
 
 export class HistoryNode {
   get id() {
@@ -81,9 +81,9 @@ export class HistoryNode {
       description: this._description,
       value: {
         before: this._before,
-        after: this._after
+        after: this._after,
       },
-      time: Timestamp(this._time) || ""
+      time: Timestamp(this._time) || "",
     };
   }
 
@@ -92,9 +92,9 @@ export class HistoryNode {
   }
 
   public static Compare(a: HistoryNode, b: HistoryNode) {
-    if (!a._time || !b._time) return -1;
-    if (a._time.isAfter(b._time)) return -1;
-    else if (a._time.isBefore(b._time)) return 1;
+    if (!a._time || !b._time) return 1;
+    if (a._time.isAfter(b._time)) return 1;
+    else if (a._time.isBefore(b._time)) return -1;
     else return 0;
   }
 

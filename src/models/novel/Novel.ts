@@ -11,18 +11,20 @@ import { join } from "path";
 import { log } from "winston";
 
 import { FetchApi } from "../../apis/download";
-import { WriteChapter } from "../../apis/file";
+import { WriteChapter, WriteFile } from "../../apis/file";
 import { CreateChapterListApi, GetNovelDateApi, GetNovelNameApi, NormalizeNovelName } from "../../apis/novel";
 import { HtmlBuilder } from "../../builder/html";
 import { NovelBuilder } from "../../builder/novel";
+import { ResourceBuilder } from "../../builder/resource";
 import { NOVEL_CLOSED_WARN, NOVEL_NOTFOUND_ERR, NOVEL_SOLD_WARN, NOVEL_WARN } from "../../constants/error.const";
-import { DEFAULT_NOVEL_FOLDER_NAME } from "../../constants/novel.const";
+import { DEFAULT_NOVEL_FOLDER_NAME, DEFAULT_RESOURCE_NAME } from "../../constants/novel.const";
 import { SaveIf } from "../../helpers/action";
 import { Timestamp } from "../../helpers/helper";
 import Config from "../command/Config";
 import { Historian } from "../history/Historian";
 import { HistoryNode } from "../history/HistoryNode";
 import { WrapTMCT } from "../output/LoggerWrapper";
+import { Resource } from "../resource/Resource";
 
 import { NovelChapter, NovelStatus } from "./Chapter";
 
@@ -60,6 +62,10 @@ export class Novel extends Historian {
     return this._name || "";
   }
 
+  public get description() {
+    return `Novel ID ${this.id} (${this.name})`;
+  }
+
   public get lastUpdateAt() {
     return this._updateAt || moment();
   }
@@ -69,6 +75,13 @@ export class Novel extends Historian {
   }
 
   public addChapter(chapter: NovelChapter) {
+    this.notify(
+      HistoryNode.CreateByChange(
+        "Novel chapters",
+        { before: JSON.stringify(this.chapterSize), after: JSON.stringify(chapter.toJSON()) },
+        { description: this.description },
+      ),
+    );
     chapter.location = this.location; // link the location as well
     chapter.linkTo(this); // link chapter history to novel history
 
@@ -84,7 +97,9 @@ export class Novel extends Historian {
   }
 
   public set name(n: string) {
-    this.notify(HistoryNode.CreateByChange("Novel name", { before: this.name, after: n }));
+    this.notify(
+      HistoryNode.CreateByChange("Novel name", { before: this.name, after: n }, { description: this.description }),
+    );
     this._name = n;
   }
 
@@ -136,7 +151,7 @@ export class Novel extends Historian {
     return {
       start: s,
       end: e,
-      size: e - s + 1
+      size: e - s + 1,
     };
   }
 
@@ -144,7 +159,7 @@ export class Novel extends Historian {
     const last = GetNovelDateApi($);
 
     this.notify(
-      HistoryNode.CreateByChange("Last update", { before: Timestamp(this._updateAt), after: Timestamp(last) })
+      HistoryNode.CreateByChange("Last update", { before: Timestamp(this._updateAt), after: Timestamp(last) }),
     );
     this._updateAt = last;
   }
@@ -180,7 +195,12 @@ export class Novel extends Historian {
     await zero.download(force);
   }
 
-  public saveChapters({ validate = false, force = false, completeFn = (_: NovelChapter) => {} }) {
+  public saveChapters({
+    validate = false,
+    force = false,
+    completeFn = (_: NovelChapter) => {},
+    failFn = (_: NovelChapter) => {},
+  }) {
     if (validate) {
       this.validateBeforeSave({ force });
     }
@@ -209,6 +229,7 @@ export class Novel extends Historian {
             e.loadString(`id ${chap.id} chapter ${chap.number}`);
             chap.status = NovelStatus.CLOSED;
           }
+          failFn(chap);
           SaveIf(e);
         }
       });
@@ -216,25 +237,22 @@ export class Novel extends Historian {
     return Bluebird.reject(NOVEL_NOTFOUND_ERR.loadString("don't have any chapters"));
   }
 
-  public async saveResource() {
-    // TODO: implement save resource file
-    if (!this._location) {
-      // const resource = ResourceBuilder.build(this._location || "", this);
-      // await resource.save(force);
-    }
-    return Bluebird.resolve(this);
+  public saveResource({ force = false }) {
+    const res = ResourceBuilder.Create(this);
+    const path = join(this.location, DEFAULT_RESOURCE_NAME);
+    return WriteFile(JSON.stringify(res.toJSON(), undefined, "  "), path, force).then(() => Bluebird.resolve(this));
   }
 
-  public async saveNovel({ force = false, completeFn = (_: NovelChapter) => {} }) {
+  public async saveNovel({ force = false, completeFn = (_: NovelChapter) => {}, failFn = (_: NovelChapter) => {} }) {
     await this.validateBeforeSave({ force });
-    await this.saveChapters({ force, completeFn });
+    await this.saveChapters({ force, completeFn, failFn });
     await this.saveZero({ force });
     return Bluebird.resolve(this);
   }
 
   public async saveAll({ force = false, completeFn = (_: NovelChapter) => {} }) {
     await this.saveNovel({ force, completeFn });
-    await this.saveResource();
+    await this.saveResource({ force });
     return new Promise<Novel>(res => res(this));
   }
 
@@ -243,7 +261,7 @@ export class Novel extends Historian {
       id: this.id,
       name: this.name,
       lastUpdate: Timestamp(this.lastUpdateAt),
-      chapters: this.mapChapter(chap => chap.toJSON())
+      chapters: this.mapChapter(chap => chap.toJSON()),
     };
   }
 }

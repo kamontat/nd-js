@@ -46,12 +46,30 @@ export class ListrHelper {
       overrideNovel(novel);
       return new Observable(observer => {
         novel
-          .saveAll({
+          .saveNovel({
             force,
             completeFn: (chap: NovelChapter) => {
               observer.next(`Chapter ${chap.number}`);
             },
+            failFn: (chap: NovelChapter) => {
+              observer.next(`Chapter ${chap.number} ${chap.status}`);
+            },
           })
+          .then(res => {
+            ctx.novel = res;
+            observer.complete();
+          })
+          .catch(e => observer.error(e));
+      });
+    });
+  }
+
+  public addCreateResourceFile(title: string, { force = false, contextKey = "novel" }) {
+    return this.addFnByHelper(title, ctx => {
+      const novel: Novel = ctx[contextKey];
+      return new Observable(observer => {
+        novel
+          .saveResource({ force })
           .then(res => {
             ctx.novel = res;
             observer.complete();

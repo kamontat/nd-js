@@ -29,7 +29,7 @@ export class NovelResource {
         id: "-1",
         name: undefined,
         lastUpdate: undefined,
-        chapters: []
+        chapters: [],
       };
 
     return this.novel.toJSON();

@@ -27,7 +27,7 @@ export class CommandResource {
     return {
       name: this.name,
       version: this.version,
-      date: this.updateAt
+      date: this.updateAt,
     };
   }
 }

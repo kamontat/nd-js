@@ -4,11 +4,13 @@
  */
 
 import SortedArraySet from "collections/sorted-array-set";
+import { log } from "winston";
 
+import { DEFAULT_MAXIMUM_HISTORY } from "../../constants/novel.const";
 import { Observer } from "../Observer";
+import { WrapTM } from "../output/LoggerWrapper";
 
 import { HistoryNode } from "./HistoryNode";
-import { DEFAULT_MAXIMUM_HISTORY } from "../../constants/novel.const";
 
 export class History extends Observer<HistoryNode> {
   private nodes: SortedArraySet<HistoryNode>;
@@ -24,7 +26,8 @@ export class History extends Observer<HistoryNode> {
 
   public addNode(node: HistoryNode) {
     if (this.nodes.length >= DEFAULT_MAXIMUM_HISTORY) {
-      this.nodes.shift();
+      const removed = this.nodes.shift();
+      log(WrapTM("debug", "History removed", removed.toJSON()));
     }
     this.nodes.add(node);
     return this;
