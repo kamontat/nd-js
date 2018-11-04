@@ -92,9 +92,9 @@ export class HistoryNode {
   }
 
   public static Compare(a: HistoryNode, b: HistoryNode) {
-    if (!a._time || !b._time) return 1;
-    if (a._time.isAfter(b._time)) return 1;
-    else if (a._time.isBefore(b._time)) return -1;
+    if (!a._time || !b._time) return 0;
+    if (a._time.isAfter(b._time)) return -1;
+    else if (a._time.isBefore(b._time)) return 1;
     else return 0;
   }
 

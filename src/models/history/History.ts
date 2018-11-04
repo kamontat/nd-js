@@ -26,7 +26,7 @@ export class History extends Observer<HistoryNode> {
 
   public addNode(node: HistoryNode) {
     if (this.nodes.length >= DEFAULT_MAXIMUM_HISTORY) {
-      const removed = this.nodes.shift();
+      const removed = this.nodes.pop();
       log(WrapTM("debug", "History removed", removed.toJSON()));
     }
     this.nodes.add(node);
