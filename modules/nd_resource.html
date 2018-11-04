@@ -74,16 +74,23 @@
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/nd_resource.commandresource.html" class="tsd-kind-icon">Command<wbr>Resource</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/nd_resource.historyresource.html" class="tsd-kind-icon">History<wbr>Resource</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/nd_resource.novelresource.html" class="tsd-kind-icon">Novel<wbr>Resource</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/nd_resource.resource.html" class="tsd-kind-icon">Resource</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/nd_resource.commandresourcetype.html" class="tsd-kind-icon">Command<wbr>Resource<wbr>Type</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/nd_resource.novelresourcetype.html" class="tsd-kind-icon">Novel<wbr>Resource<wbr>Type</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/nd_resource.resourcetype.html" class="tsd-kind-icon">Resource<wbr>Type</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="nd_resource.html#commandresourcetype" class="tsd-kind-icon">Command<wbr>Resource<wbr>Type</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="nd_resource.html#novelresourcetype" class="tsd-kind-icon">Novel<wbr>Resource<wbr>Type</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="nd_resource.html#resourceobjecttype" class="tsd-kind-icon">Resource<wbr>Object<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="nd_resource.html#historyresourcetype" class="tsd-kind-icon">History<wbr>Resource<wbr>Type</a></li>
 							</ul>
 						</section>
 					</div>
@@ -92,76 +99,14 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
-					<a name="commandresourcetype" class="tsd-anchor"></a>
-					<h3>Command<wbr>Resource<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">Command<wbr>Resource<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<a name="historyresourcetype" class="tsd-anchor"></a>
+					<h3>History<wbr>Resource<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">History<wbr>Resource<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../interfaces/nd_history.historynodetype.html" class="tsd-signature-type">HistoryNodeType</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/0bfbaf7/src/models/CommandResource.ts#L11">models/CommandResource.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/cfe4e75/src/models/resource/HistoryResource.ts#L9">models/resource/HistoryResource.ts:9</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>date<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>version<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
-					<a name="novelresourcetype" class="tsd-anchor"></a>
-					<h3>Novel<wbr>Resource<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">Novel<wbr>Resource<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/0bfbaf7/src/models/NovelResource.ts#L9">models/NovelResource.ts:9</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>chapters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">[]</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>last<wbr>Update<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
-					<a name="resourceobjecttype" class="tsd-anchor"></a>
-					<h3>Resource<wbr>Object<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">Resource<wbr>Object<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/0bfbaf7/src/models/ResourceType.ts#L9">models/ResourceType.ts:9</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>command<span class="tsd-signature-symbol">: </span><a href="nd_resource.html#commandresourcetype" class="tsd-signature-type">CommandResourceType</a></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>novel<span class="tsd-signature-symbol">: </span><a href="nd_resource.html#novelresourcetype" class="tsd-signature-type">NovelResourceType</a></h5>
-							</li>
-						</ul>
-					</div>
 				</section>
 			</section>
 		</div>
@@ -182,19 +127,25 @@
 						<a href="../classes/nd_resource.commandresource.html" class="tsd-kind-icon">Command<wbr>Resource</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/nd_resource.historyresource.html" class="tsd-kind-icon">History<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/nd_resource.novelresource.html" class="tsd-kind-icon">Novel<wbr>Resource</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/nd_resource.resource.html" class="tsd-kind-icon">Resource</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="nd_resource.html#commandresourcetype" class="tsd-kind-icon">Command<wbr>Resource<wbr>Type</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/nd_resource.commandresourcetype.html" class="tsd-kind-icon">Command<wbr>Resource<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/nd_resource.novelresourcetype.html" class="tsd-kind-icon">Novel<wbr>Resource<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/nd_resource.resourcetype.html" class="tsd-kind-icon">Resource<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="nd_resource.html#novelresourcetype" class="tsd-kind-icon">Novel<wbr>Resource<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="nd_resource.html#resourceobjecttype" class="tsd-kind-icon">Resource<wbr>Object<wbr>Type</a>
+						<a href="nd_resource.html#historyresourcetype" class="tsd-kind-icon">History<wbr>Resource<wbr>Type</a>
 					</li>
 				</ul>
 			</nav>
