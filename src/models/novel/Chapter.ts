@@ -16,30 +16,7 @@ import { Historian } from "../history/Historian";
 import { HistoryNode } from "../history/HistoryNode";
 import { WrapTMC } from "../output/LoggerWrapper";
 
-/**
- * The status of novel chapter
- */
-export enum NovelStatus {
-  /**
-   * Unknown will be the default status of novel chapter
-   */
-  UNKNOWN = "unknown",
-
-  /**
-   * Completed will set when the network downloaded the chapter and save completely
-   */
-  COMPLETED = "completed",
-
-  /**
-   * Closed will set if the auto detect, have detected the close chapter
-   */
-  CLOSED = "closed",
-
-  /**
-   * Sold will set if the autodetect, have detected the sold chapter
-   */
-  SOLD = "sold",
-}
+import { NovelStatus } from "./NovelStatus";
 
 export class NovelChapter extends Historian {
   get id() {
@@ -88,24 +65,17 @@ export class NovelChapter extends Historian {
     return Timestamp(this._date) || "";
   }
 
-  set date(date: string | Moment) {
-    if (typeof date === "string") {
-      this.notify(
-        HistoryNode.CreateByChange(
-          "Chapter date",
-          { before: Timestamp(this._date), after: date },
-          { description: this.description },
-        ),
-      );
-      this._date = RevertTimestamp(date);
+  set date(d: string | Moment) {
+    const date = typeof d === "string" ? RevertTimestamp(d) : d;
+
+    if (this._date) {
+      const isSame =
+        this._date.isSame(date, "year") && this._date.isSame(date, "month") && this._date.isSame(date, "day");
+      if (!isSame) {
+        this._date = date;
+      }
     } else {
-      this.notify(
-        HistoryNode.CreateByChange(
-          "Chapter date",
-          { before: Timestamp(this._date), after: Timestamp(date) },
-          { description: this.description },
-        ),
-      );
+      this.notifyDateChange(date);
       this._date = date;
     }
   }
@@ -127,6 +97,16 @@ export class NovelChapter extends Historian {
 
   private _status: NovelStatus = NovelStatus.UNKNOWN;
 
+  private notifyDateChange(date: Moment) {
+    this.notify(
+      HistoryNode.CreateByChange(
+        "Chapter date",
+        { before: Timestamp(this._date), after: Timestamp(date) },
+        { description: this.description },
+      ),
+    );
+  }
+
   protected _nid: string;
   protected _name?: string;
   protected _chapterNumber: string = "0";
@@ -141,7 +121,7 @@ export class NovelChapter extends Historian {
     this._nid = id;
     if (name) this.name = name;
 
-    if (date) this.date = date;
+    if (date && date.isValid()) this.date = date;
 
     if (!location) location = Config.Load({ quiet: true }).getNovelLocation();
     this.notify(HistoryNode.CreateByChange("Chapter location", { before: undefined, after: location }));
