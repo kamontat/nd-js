@@ -14,7 +14,7 @@ import { GetChapterFile, GetLinkWithChapter } from "../../helpers/novel";
 import Config from "../command/Config";
 import { Historian } from "../history/Historian";
 import { HistoryNode } from "../history/HistoryNode";
-import { WrapTMC } from "../output/LoggerWrapper";
+import { WrapTMC, WrapTMCT } from "../output/LoggerWrapper";
 
 import { NovelStatus } from "./NovelStatus";
 
@@ -62,7 +62,8 @@ export class NovelChapter extends Historian {
   }
 
   get date() {
-    return (this._date && this._date.format("d MMM YYYY")) || "";
+    if (!this._date) return "";
+    return this._date.format("Do MMM YYYY");
   }
 
   get timestamp() {
@@ -71,6 +72,7 @@ export class NovelChapter extends Historian {
 
   set date(d: string | Moment) {
     const date = typeof d === "string" ? RevertTimestamp(d) : d;
+    if (!date.isValid()) return;
 
     if (this._date) {
       const isSame =
