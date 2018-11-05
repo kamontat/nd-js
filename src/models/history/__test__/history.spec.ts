@@ -1,9 +1,9 @@
 import "jest-extended";
 import { History } from "../History";
-import { HistoryAction, HistoryNode } from "../HistoryNode";
 
 import { RandomNode, RandomText } from "./lib";
 import { DEFAULT_MAXIMUM_HISTORY } from "../../../constants/novel.const";
+import { HistoryAction } from "../HistoryAction";
 
 describe("History, node, and action", function() {
   describe("Node creation", function() {

@@ -19,14 +19,16 @@ import { ResourceBuilder } from "../../builder/resource";
 import { NOVEL_CLOSED_WARN, NOVEL_NOTFOUND_ERR, NOVEL_SOLD_WARN, NOVEL_WARN } from "../../constants/error.const";
 import { DEFAULT_NOVEL_FOLDER_NAME, DEFAULT_RESOURCE_NAME } from "../../constants/novel.const";
 import { SaveIf } from "../../helpers/action";
-import { Timestamp } from "../../helpers/helper";
+import { RevertTimestamp, Timestamp } from "../../helpers/helper";
 import Config from "../command/Config";
 import { Historian } from "../history/Historian";
-import { HistoryNode } from "../history/HistoryNode";
+import { HistoryAction, HistoryActionUtils } from "../history/HistoryAction";
+import { HistoryNode, HistoryNodeType } from "../history/HistoryNode";
 import { WrapTMCT } from "../output/LoggerWrapper";
-import { Resource } from "../resource/Resource";
+import { NovelChapterResourceType } from "../resource/NovelResource";
 
-import { NovelChapter, NovelStatus } from "./Chapter";
+import { NovelChapter } from "./Chapter";
+import { NovelStatus } from "./NovelStatus";
 
 export class Novel extends Historian {
   private _id: string;
@@ -50,27 +52,27 @@ export class Novel extends Historian {
     this._downloadAt = moment();
   }
 
-  public get location(): string {
+  get location(): string {
     return this._location || Config.Load({ quiet: true }).getNovelLocation();
   }
 
-  public get id() {
+  get id() {
     return this._id;
   }
 
-  public get name() {
+  get name() {
     return this._name || "";
   }
 
-  public get description() {
+  get description() {
     return `Novel ID ${this.id} (${this.name})`;
   }
 
-  public get lastUpdateAt() {
+  get lastUpdateAt() {
     return this._updateAt || moment();
   }
 
-  public get startDownloadAt() {
+  get startDownloadAt() {
     return this._downloadAt || moment();
   }
 
@@ -96,16 +98,61 @@ export class Novel extends Historian {
     this._chapters = [];
   }
 
-  public set name(n: string) {
+  set name(n: string) {
     this.notify(
       HistoryNode.CreateByChange("Novel name", { before: this.name, after: n }, { description: this.description }),
     );
     this._name = n;
   }
 
-  public set location(v: string) {
+  set location(v: string) {
     this.notify(HistoryNode.CreateByChange("Novel location", { before: this.location, after: v }));
     this._location = v;
+  }
+
+  set lastUpdate($: CheerioStatic) {
+    const last = GetNovelDateApi($);
+    this.notify(
+      HistoryNode.CreateByChange("Last update", { before: Timestamp(this._updateAt), after: Timestamp(last) }),
+    );
+
+    this._updateAt = last;
+  }
+
+  public setAll(setting: {
+    id?: string;
+    name?: string;
+    lastUpdate?: string;
+    downloadAt?: string;
+    chapters?: NovelChapterResourceType[];
+  }) {
+    this.pauseObserve();
+
+    if (setting.id) this._id = setting.id;
+    if (setting.name) this._name = setting.name;
+    if (setting.lastUpdate) this._updateAt = RevertTimestamp(setting.lastUpdate);
+    if (setting.downloadAt) this._downloadAt = RevertTimestamp(setting.downloadAt);
+    if (setting.chapters && setting.chapters.length > 0)
+      this._chapters = setting.chapters.map(c => NovelBuilder.buildChapterLocal(this, c));
+
+    this.startObserve();
+  }
+
+  public setHistory(nodes: HistoryNodeType[]) {
+    this.pauseObserve();
+
+    nodes
+      .map(
+        node =>
+          new HistoryNode(
+            HistoryActionUtils.ToAction(node.action),
+            node.title,
+            { before: node.value.before, after: node.value.after },
+            { description: node.description, time: RevertTimestamp(node.time) },
+          ),
+      )
+      .forEach(node => this.history().addNode(node));
+    this.startObserve();
   }
 
   public chapter({ copy = false }) {
@@ -155,15 +202,6 @@ export class Novel extends Historian {
     };
   }
 
-  public update($: CheerioStatic) {
-    const last = GetNovelDateApi($);
-
-    this.notify(
-      HistoryNode.CreateByChange("Last update", { before: Timestamp(this._updateAt), after: Timestamp(last) }),
-    );
-    this._updateAt = last;
-  }
-
   public load($: CheerioStatic): Bluebird<Novel> {
     return new Bluebird(res => {
       this.name = GetNovelNameApi($);
@@ -174,7 +212,7 @@ export class Novel extends Historian {
       this.resetChapter();
       CreateChapterListApi($).forEach(c => this.addChapter.call(this, c));
 
-      this.update($);
+      this.lastUpdate = $;
       res(this);
     });
   }
@@ -234,12 +272,13 @@ export class Novel extends Historian {
         }
       });
     }
-    return Bluebird.reject(NOVEL_NOTFOUND_ERR.loadString("don't have any chapters"));
+
+    return Bluebird.reject(NOVEL_NOTFOUND_ERR.loadString("don't have any chapters or this might be short novel"));
   }
 
   public saveResource({ force = false }) {
     const res = ResourceBuilder.Create(this);
-    const path = join(this.location, DEFAULT_RESOURCE_NAME);
+    const path = res.buildPath(this.location);
     return WriteFile(JSON.stringify(res.toJSON(), undefined, "  "), path, force).then(() => Bluebird.resolve(this));
   }
 

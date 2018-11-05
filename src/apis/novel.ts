@@ -9,14 +9,15 @@ import "moment/locale/th";
 import { log } from "winston";
 
 import { NovelBuilder } from "../builder/novel";
+import { COLORS } from "../constants/color.const";
 import { NOVEL_CLOSED_WARN, NOVEL_SOLD_WARN, NOVEL_WARN } from "../constants/error.const";
 import { HTML_BLACKLIST_TEXT } from "../constants/html.const";
 import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 import { CheckIsExist, FormatMomentDateTime, TrimString } from "../helpers/helper";
 import { GetChapterNumber, PassLink } from "../helpers/novel";
 import { HtmlNode } from "../models/html/HtmlNode";
-import { NovelChapter, NovelStatus } from "../models/novel/Chapter";
-import { WrapTM, WrapTMC, WrapTMCT } from "../models/output/LoggerWrapper";
+import { NovelChapter } from "../models/novel/Chapter";
+import { WrapTM, WrapTMCT } from "../models/output/LoggerWrapper";
 
 import { Query } from "./html";
 
@@ -30,26 +31,50 @@ export const GetNovelNameApi = ($: CheerioStatic) => {
   return name.trim();
 };
 
-// support v2 only
-export const GetChapterDateListApi = ($: CheerioStatic): Cheerio => {
-  return $(".update-txt");
+// Support only version 2
+export const GetChapterDateListApiV2 = ($: CheerioStatic): Cheerio => {
+  const result = $(".update-txt");
+  log(WrapTMCT("debug", `Chapter date length`, result.length));
+  return result;
 };
 
+// Support version 1 and version 2
 export const GetChapterDateApi = ($: CheerioStatic): moment.Moment => {
-  const dateString = $($(".timeupdate").get(0)).text();
+  let dateString = $($(".timeupdate").get(0)).text();
+  if (!CheckIsExist(dateString))
+    dateString = $("td[bgcolor=#A3A3A3]")
+      .first()
+      .children("font")
+      .text()
+      .replace("อัพเดท ", "")
+      .trim();
+  log(WrapTMCT("debug", "INDV Chapter date", dateString));
   return FormatMomentDateTime(dateString, "D MMM YY");
 };
 
-// support v2 only
-// TODO: make support v1 novel
+// Support version 1 and version 2
 export const GetNovelDateApi = ($: CheerioStatic): moment.Moment => {
-  const dateString = $(".writer-section-head")
+  let dateString = $(".writer-section-head")
     .find("span")
     .text()
-    .replace("อัพเดท ", "");
+    .replace("อัพเดท ", "")
+    .trim();
+
+  // second try
+  if (!CheckIsExist(dateString)) {
+    dateString = $(".head2")
+      .children("font[color=#896700]")
+      .first()
+      .text()
+      .replace("-  อัพเดท", "")
+      .trim();
+  }
+
+  log(WrapTMCT("debug", "Novel date string", dateString));
+
   // 29 ก.ย. 61 / 19:00
   const date = FormatMomentDateTime(dateString, "D MMM YY [/] HH:mm");
-  // log(WrapTMC("debug", "novel date", date));
+  log(WrapTMCT("debug", "novel date", date, { message: COLORS.DateTime }));
 
   return date;
 };
@@ -62,7 +87,7 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
     throw NOVEL_WARN.clone().loadString("cannot get chapter list");
   }
 
-  const dateQuery = GetChapterDateListApi($);
+  const dateQuery = GetChapterDateListApiV2($);
 
   query.each((i, e) => {
     const link = `${DEFAULT_NOVEL_LINK}/${$(e).attr("href")}`;
@@ -80,8 +105,23 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
 
     if (link.includes("viewlongc.php")) {
       locale("th");
+      let dateString = $(dateQuery.get(i)).text();
+      if (!CheckIsExist(dateString)) {
+        dateString =
+          $(e)
+            .parent()
+            .parent()
+            .contents()
+            .last()
+            .html() || "";
+
+        log(WrapTMCT("debug", "Chapter date (string)", dateString));
+      }
+
       // 28 ก.ย. 61
-      const date = FormatMomentDateTime($(dateQuery.get(i)).text(), "D MMM YY");
+      const date = FormatMomentDateTime(dateString, "D MMM YY");
+      log(WrapTMCT("debug", "Chapter date", date));
+
       const chapterNumber = GetChapterNumber(link);
 
       const builtChapter = NovelBuilder.createChapterByLink(PassLink(link), { name: title, date });

@@ -27,6 +27,10 @@ export class Historian extends Observable<HistoryNode> {
     return this.observe() as History;
   }
 
+  public resetHistory() {
+    this.history().resetNode();
+  }
+
   public linkTo(historian: Historian) {
     this.updateHistory(historian.history());
   }

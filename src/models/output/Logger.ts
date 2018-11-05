@@ -117,5 +117,3 @@ export default (
     transports,
   };
 };
-
-// TODO: Add colors using chalk https://github.com/chalk/chalk

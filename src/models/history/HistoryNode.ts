@@ -8,11 +8,7 @@ import { v1 } from "uuid";
 
 import { CheckIsExist, Timestamp } from "../../helpers/helper";
 
-export enum HistoryAction {
-  ADDED = "Added",
-  MODIFIED = "Modified",
-  DELETED = "Deleted",
-}
+import { HistoryAction } from "./HistoryAction";
 
 export interface HistoryCreatorChanges {
   before?: string;

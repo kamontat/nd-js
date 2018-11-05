@@ -1,7 +1,8 @@
 import { Moment } from "moment";
 import Random from "random-js";
 
-import { HistoryAction, HistoryNode } from "../HistoryNode";
+import { HistoryNode } from "../HistoryNode";
+import { HistoryAction } from "../HistoryAction";
 
 export const RandomText = (size: number) => {
   return new Random(Random.engines.mt19937().autoSeed()).string(size);

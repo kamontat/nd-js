@@ -13,4 +13,9 @@ export class ResourceBuilder {
     res.loadHistory(novel.history());
     return res;
   }
+
+  public static Load(location: string) {
+    const resource = new Resource();
+    return resource.loadLocation(location);
+  }
 }

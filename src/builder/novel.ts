@@ -7,11 +7,17 @@
 import { Moment } from "moment";
 
 import { FetchApi } from "../apis/download";
+import { RevertTimestamp, Timestamp } from "../helpers/helper";
 import { GetNID } from "../helpers/novel";
 import Config from "../models/command/Config";
 import { NovelChapter } from "../models/novel/Chapter";
 import { Novel } from "../models/novel/Novel";
+import { NovelStatusUtils } from "../models/novel/NovelStatus";
 import { NovelZeroChapter } from "../models/novel/ZeroChapter";
+import { NovelChapterResourceType } from "../models/resource/NovelResource";
+import { Resource } from "../models/resource/Resource";
+
+import { ResourceBuilder } from "./resource";
 
 interface NovelChapterBuilderOption {
   name?: string;
@@ -29,8 +35,24 @@ export class NovelBuilder {
     return novel.load($);
   }
 
-  public static buildLocal(_: string) {
-    // TODO: implement is resource loading by location path
+  public static buildLocal(location: string) {
+    const json = ResourceBuilder.Load(location);
+    const novel = new Novel(json.novel.id, location);
+    novel.resetHistory();
+    novel.setAll(json.novel);
+
+    novel.setHistory(json.history);
+
+    return novel;
+  }
+
+  public static buildChapterLocal(novel: Novel, c: NovelChapterResourceType) {
+    const chap = new NovelChapter(novel.id, c.number, c.name, novel.location, RevertTimestamp(c.date));
+    chap.resetHistory();
+    chap.pauseObserve();
+    chap.status = NovelStatusUtils.ToStatus(c.status);
+    chap.startObserve();
+    return chap;
   }
 
   public static createChapter(id: string, chapter?: string, option?: NovelChapterBuilderOption) {

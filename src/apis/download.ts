@@ -87,5 +87,3 @@ export const DownloadChapters = (force: boolean | undefined, chapters: NovelChap
 };
 
 // TODO: Add multiple thread downloader https://github.com/tusharmath/Multi-threaded-downloader
-
-// TODO: Add progressbar https://github.com/visionmedia/node-progress

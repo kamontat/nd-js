@@ -3,6 +3,10 @@
  * @module nd.resource
  */
 
+import { readFile, readJSONSync } from "fs-extra";
+import { join } from "path";
+
+import { DEFAULT_RESOURCE_NAME } from "../../constants/novel.const";
 import { History } from "../history/History";
 import { Novel } from "../novel/Novel";
 
@@ -17,16 +21,11 @@ export interface ResourceType {
 }
 
 export class Resource {
-
   constructor() {
     this.cresource = new CommandResource();
     this.nresource = new NovelResource();
     this.hresource = new HistoryResource();
   }
-  // TODO: implement build resource object from path
-  // public static Build(location: string) {
-  //   return new Novel();
-  // }
 
   public nresource: NovelResource;
   public cresource: CommandResource;
@@ -38,6 +37,15 @@ export class Resource {
 
   public loadHistory(history: History) {
     this.hresource.load(history);
+  }
+
+  public loadLocation(location: string): ResourceType {
+    const path = this.buildPath(location);
+    return readJSONSync(path);
+  }
+
+  public buildPath(location: string) {
+    return join(location, DEFAULT_RESOURCE_NAME);
   }
 
   public toJSON(): ResourceType {
