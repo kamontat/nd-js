@@ -5,6 +5,7 @@
 
 import { log } from "winston";
 
+import { ND } from "../../constants/nd.const";
 import { WrapTMC } from "../output/LoggerWrapper";
 
 import { ExceptionStorage } from "./ExceptionStorage";
@@ -63,7 +64,6 @@ export default interface Throwable extends Error {
  * @since Obtober 22, 2018
  */
 export class Exception extends Error implements Throwable {
-
   /**
    * This is flag, will be true if the exception occurred
    */
@@ -125,10 +125,11 @@ export class Exception extends Error implements Throwable {
   public printAndExit = () => {
     this.save();
 
+    const output = ND.isProd() ? this.message : this.stack ? this.stack : this.message;
     if (this.warn()) {
-      log(WrapTMC("warn", "Warning", this.stack ? this.stack : this.message));
+      log(WrapTMC("warn", "Warning", output));
     } else {
-      log(WrapTMC("error", "Error", this.stack ? this.stack : this.message));
+      log(WrapTMC("error", "Error", output));
     }
     this.exit();
   };
