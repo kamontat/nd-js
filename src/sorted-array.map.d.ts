@@ -5,7 +5,7 @@ declare module "collections/sorted-array-map" {
     length: number;
 
     constructor(
-      values?: { [key in Key]: V },
+      values?: { [key in Key]: V }[],
       equals?: (a: V, b: V) => boolean,
       compare?: (a: V, b: V) => 0 | -1 | 1,
       getDefault?: (key: string) => V
@@ -25,7 +25,7 @@ declare module "collections/sorted-array-map" {
     iterate(): Iterator<V>;
     iterator(): Iterator<V>;
     forEach(callbackfn: (value: { [key in Key]: V }, index?: number) => void, thisArg?: any): void;
-    map<U>(callbackfn: (value: { [key in Key]: V }, index: number) => U, thisArg?: any): U[];
+    map<U>(callbackfn: (value: { [key in Key]: V }, index: Key) => U, thisArg?: any): U[];
     filter(callbackfn: (value: { [key in Key]: V }, index: number) => boolean, thisArg?: any): { [key in Key]: V }[];
     reduce<T>(
       callbackfn: (previousValue: T, currentValue: { [key in Key]: V }, currentIndex: number) => T,

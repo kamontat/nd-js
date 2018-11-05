@@ -5,6 +5,7 @@
 
 import chalk from "chalk";
 import { URL } from "url";
+import { inspect } from "util";
 
 import {
   isSameDate,
@@ -23,6 +24,8 @@ import {
   CheckIsPathExist,
 } from "../helpers/helper";
 import { ColorType } from "../models/output/Color";
+
+import { HAS_COLOR } from "./default.const";
 
 export const TITLE_COLOR = chalk.blueBright;
 
@@ -138,6 +141,12 @@ export const COLORS = {
     color: NUMBER_COLOR,
     validator: CheckIsNumber,
     transform: noTransform,
+  }),
+  Object: new ColorType({
+    name: "Object",
+    color: STRING_COLOR,
+    transform: v => inspect(v, false, 1, HAS_COLOR),
+    validator: v => v instanceof Object,
   }),
   String: new ColorType({
     name: "String",

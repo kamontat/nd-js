@@ -57,6 +57,10 @@ export class NovelChapter extends Historian {
     return this._chapterNumber;
   }
 
+  get key() {
+    return parseInt(this.number);
+  }
+
   get date() {
     return (this._date && this._date.format("d MMM YYYY")) || "";
   }
@@ -194,5 +198,9 @@ export class NovelChapter extends Historian {
 
   public markComplete() {
     this.status = NovelStatus.COMPLETED;
+  }
+
+  public markUnknown() {
+    this.status = NovelStatus.UNKNOWN;
   }
 }
