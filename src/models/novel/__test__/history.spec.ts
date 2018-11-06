@@ -1,8 +1,10 @@
 import "jest-extended";
 
 import { Novel } from "../Novel";
-import { HistoryAction, HistoryNode } from "../../history/HistoryNode";
-import { NovelChapter, NovelStatus } from "../Chapter";
+import { HistoryNode } from "../../history/HistoryNode";
+import { NovelChapter } from "../Chapter";
+import { HistoryAction } from "../../history/HistoryAction";
+import { NovelStatus } from "../NovelStatus";
 
 function checkExist(history: HistoryNode[], action: HistoryAction, includeString: string) {
   return history.findIndex(v => {

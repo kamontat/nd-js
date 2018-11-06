@@ -36,7 +36,7 @@ describe("History, node, and action", function() {
 
     test("Should print information out", function() {
       const node = RandomNode({ action: HistoryAction.DELETED });
-      expect(node.toString()).toInclude(HistoryAction.DELETED);
+      expect(node.toString().toLowerCase()).toInclude(HistoryAction.DELETED.toLowerCase());
     });
   });
 
