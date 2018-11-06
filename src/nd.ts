@@ -78,13 +78,25 @@ program.on("--help", () => {
   console.log("");
   // tslint:disable-next-line
   console.log(`Examples:
-  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("initial")} [${OPTION_COLOR("--force")}] [${OPTION_COLOR(
-    "--raw",
-  )} <${PARAMETER_COLOR("json")}>|${OPTION_COLOR("--file")} <${PARAMETER_COLOR("path")}>]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("initial")} [${OPTION_COLOR("--raw")} <${PARAMETER_COLOR(
+    "json",
+  )}>|${OPTION_COLOR("--file")} <${PARAMETER_COLOR("path")}>] [${OPTION_COLOR("--force")}]
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("set-config")} [${ARGUMENT_COLOR("token")}|${ARGUMENT_COLOR(
     "username",
   )}|${ARGUMENT_COLOR("color")}|${ARGUMENT_COLOR("location")}]
-  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("fetch")} <${ARGUMENT_COLOR("id")}> [${OPTION_COLOR("--with-chapter")}]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("raw-download")} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR(
+    "link",
+  )}> [${OPTION_COLOR("--location")} <${ARGUMENT_COLOR("location")}>] [${OPTION_COLOR("--chapter")} <${ARGUMENT_COLOR(
+    "number",
+  )}>] [${OPTION_COLOR("--force")}]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("download")} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR(
+    "link",
+  )}...> [${OPTION_COLOR("--location")} <${ARGUMENT_COLOR("location")}>] [${OPTION_COLOR(
+    "--with-chapter",
+  )}] [${OPTION_COLOR("--force")}]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("fetch")} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR(
+    "link",
+  )}|${ARGUMENT_COLOR("location")}...> [${OPTION_COLOR("--with-chapter")}] [${OPTION_COLOR("--with-history")}]
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("validator")} [${ARGUMENT_COLOR("config")}|${ARGUMENT_COLOR(
     "application",
   )}] [${OPTION_COLOR("--info")}]
