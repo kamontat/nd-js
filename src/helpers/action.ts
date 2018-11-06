@@ -55,13 +55,19 @@ export const ValidList = (
  *
  * @param e exception to be throw if exist
  */
-export const ThrowIf = (e?: Throwable) => {
+export const ThrowIf = (e?: Throwable, option?: { noExit?: boolean }) => {
+  if (!option || (option && option.noExit === undefined)) option = { noExit: false };
+
   if (e) {
-    if (e.printAndExit) {
-      e.printAndExit();
+    if (option.noExit) {
+      if (e.print) e.print();
+      else log(WrapTM("error", "Error", e.stack ? e.stack : e.message));
     } else {
-      log(WrapTM("error", "Error", e.stack ? e.stack : e.message));
-      process.exit(1);
+      if (e.printAndExit) e.printAndExit();
+      else {
+        log(WrapTM("error", "Error", e.stack ? e.stack : e.message));
+        process.exit(1);
+      }
     }
   }
 };

@@ -19,6 +19,11 @@ import { ExceptionStorage } from "./ExceptionStorage";
  */
 export default interface Throwable extends Error {
   /**
+   * Print the result via winston logger
+   */
+  print(): void;
+
+  /**
    * Print the result and call {@link exit} method
    */
   printAndExit(): void;
@@ -119,18 +124,22 @@ export class Exception extends Error implements Throwable {
     this._called = false;
   };
 
-  /**
-   * Helper method, for print and exit if not warning
-   */
-  public printAndExit = () => {
-    this.save();
-
+  public print = () => {
     const output = ND.isProd() ? this.message : this.stack ? this.stack : this.message;
     if (this.warn()) {
       log(WrapTMC("warn", "Warning", output));
     } else {
       log(WrapTMC("error", "Error", output));
     }
+  };
+
+  /**
+   * Helper method, for print and exit if not warning
+   */
+  public printAndExit = () => {
+    this.save();
+
+    this.print();
     this.exit();
   };
 
