@@ -10,12 +10,12 @@ import { FetchApi } from "../apis/download";
 import { RevertTimestamp, Timestamp } from "../helpers/helper";
 import { GetNID } from "../helpers/novel";
 import Config from "../models/command/Config";
+import { History } from "../models/history/History";
 import { NovelChapter } from "../models/novel/Chapter";
 import { Novel } from "../models/novel/Novel";
 import { NovelStatusUtils } from "../models/novel/NovelStatus";
 import { NovelZeroChapter } from "../models/novel/ZeroChapter";
 import { NovelChapterResourceType } from "../models/resource/NovelResource";
-import { Resource } from "../models/resource/Resource";
 
 import { ResourceBuilder } from "./resource";
 
@@ -35,13 +35,18 @@ export class NovelBuilder {
     return novel.load($);
   }
 
-  public static buildLocal(location: string) {
+  public static buildLocal(
+    location: string,
+    progress?: { completeNovelFn?(n: Novel): void; completeHistoryFn?(h: History): void },
+  ) {
     const json = ResourceBuilder.Load(location);
     const novel = new Novel(json.novel.id, location);
     novel.resetHistory();
     novel.setAll(json.novel);
+    if (progress && progress.completeNovelFn) progress.completeNovelFn(novel);
 
     novel.setHistory(json.history);
+    if (progress && progress.completeHistoryFn) progress.completeHistoryFn(novel.history());
 
     return novel;
   }

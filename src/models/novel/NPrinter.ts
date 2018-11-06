@@ -57,7 +57,8 @@ Update At:     ${this.novel.lastUpdateAt.toString()}
     if (unkn.length > 0) log(WrapTMCT("error", "Unknown chapter", unkn));
 
     if (this.novel.chapterSize.size > 0 && opt && !opt.short) {
-      this.novel.mapChapter(c => new CPrinter(c).print(opt));
+      const printer = new CPrinter();
+      this.novel.mapChapter(c => printer.setChapter(c).print());
     }
 
     log(WrapTMCT("verbose", "Download at", this.novel.startDownloadAt));

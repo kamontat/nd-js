@@ -5,9 +5,15 @@
 
 import { NovelBuilder } from "../builder/novel";
 import { ByLength, SeperateArgumentApi, ThrowIf, ValidList } from "../helpers/action";
+import { CheckIsPathExist } from "../helpers/helper";
 import { ListrHelper } from "../helpers/listr";
 import { GetNID } from "../helpers/novel";
 import Config from "../models/command/Config";
+import { Novel } from "../models/novel/Novel";
+import { NPrinter } from "../models/novel/NPrinter";
+
+import FetchLocation from "./fetch-location";
+import FetchServer from "./fetch-server";
 
 /**
  * This is fetching novel information
@@ -22,15 +28,17 @@ import Config from "../models/command/Config";
  */
 export default (a: any) => {
   const { options, args } = SeperateArgumentApi(a);
-
   ThrowIf(ValidList(args, ByLength, 1));
 
-  const id = GetNID(args[0]);
-  const config = Config.Load();
-  config.updateByOption(options);
+  let progress: ListrHelper;
 
-  new ListrHelper()
-    .addByHelper("Fetching Novel", NovelBuilder.fetch(id))
-    .addFnByHelper("Building Novel", ctx => NovelBuilder.build(id, ctx.result.cheerio), "novel")
-    .runNovel({ withChapter: options.withChapter });
+  if (CheckIsPathExist(args[0])) {
+    const location = args[0];
+    progress = FetchLocation(location, options);
+  } else {
+    const id = GetNID(args[0]);
+    progress = FetchServer(id, options);
+  }
+
+  progress.runNovel({ withChapter: options.withChapter });
 };

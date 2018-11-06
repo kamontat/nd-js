@@ -8,6 +8,7 @@ import Listr, { ListrOptions, ListrTask } from "listr";
 import { Observable } from "rxjs";
 
 import { ListrApi } from "../apis/listr";
+import { NovelBuilder } from "../builder/novel";
 import { NovelChapter } from "../models/novel/Chapter";
 import { Novel } from "../models/novel/Novel";
 import { NPrinter } from "../models/novel/NPrinter";
@@ -38,6 +39,20 @@ export class ListrHelper {
   public addFnByHelper(title: string, fn: (ctx: any) => Bluebird<any> | Observable<any>, contextKey = "result") {
     this.list.add(ListrApi.createFn(title, fn, contextKey));
     return this;
+  }
+
+  public addLoadLocalPath(title: string, location: string, { contextKey = "novel" }) {
+    return this.addFnByHelper(title, ctx => {
+      return new Observable(observer => {
+        const novel = NovelBuilder.buildLocal(location, {
+          completeNovelFn: () => observer.next("Completed novel"),
+          completeHistoryFn: () => observer.next("Completed history"),
+        });
+
+        ctx[contextKey] = novel;
+        observer.complete();
+      });
+    });
   }
 
   public addLoadChapterList(title: string, { force = false, contextKey = "result", overrideNovel = (_: Novel) => {} }) {
