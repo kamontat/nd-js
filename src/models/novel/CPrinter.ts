@@ -7,10 +7,15 @@ import { Printer, PrintOption } from "../Printer";
 import { NovelChapter } from "./Chapter";
 
 export class CPrinter implements Printer {
-  private chapter: NovelChapter;
+  private chapter?: NovelChapter;
 
-  constructor(c: NovelChapter) {
+  constructor(c?: NovelChapter) {
     this.chapter = c;
+  }
+
+  public setChapter(c: NovelChapter) {
+    this.chapter = c;
+    return this;
   }
 
   public format(opt?: PrintOption) {
@@ -18,6 +23,8 @@ export class CPrinter implements Printer {
   }
 
   public print(opt?: PrintOption) {
+    if (!this.chapter) return;
+
     const json = this.chapter.toJSON();
 
     if (opt && opt.short)

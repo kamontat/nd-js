@@ -146,15 +146,11 @@ export class Novel extends Historian {
     if (setting.name) this._name = setting.name;
     if (setting.lastUpdate) this._updateAt = RevertTimestamp(setting.lastUpdate);
     if (setting.downloadAt) this._downloadAt = RevertTimestamp(setting.downloadAt);
-    if (setting.chapters && setting.chapters.length > 0)
-      this._chapters = new SortedArrayMap(
-        setting.chapters.map(c => {
-          const chap = NovelBuilder.buildChapterLocal(this, c);
-          const json: { [key: number]: NovelChapter } = {};
-          json[chap.key] = chap;
-          return json;
-        }),
-      );
+
+    if (setting.chapters && setting.chapters.length > 0) {
+      this.resetChapter();
+      setting.chapters.map(c => NovelBuilder.buildChapterLocal(this, c)).forEach(c => this.addChapter(c));
+    }
 
     this.startObserve();
   }
@@ -178,7 +174,7 @@ export class Novel extends Historian {
 
   public chapter({ copy = false }) {
     if (!this._chapters) return [];
-    const array = this._chapters.toArray();
+    const array = this._chapters.toArray() as NovelChapter[];
 
     if (copy) return array.copyWithin(0, 0);
     else return array;
