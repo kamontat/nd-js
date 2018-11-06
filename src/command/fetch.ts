@@ -40,5 +40,5 @@ export default (a: any) => {
     progress = FetchServer(id, options);
   }
 
-  progress.runNovel({ withChapter: options.withChapter });
+  progress.runNovel({ withChapter: options.withChapter, withHistory: options.withHistory });
 };

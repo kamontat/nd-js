@@ -39,7 +39,7 @@ export class NovelBuilder {
   public static buildLocal(
     location: string,
     progress?: { completeNovelFn?(n: Novel): void; completeHistoryFn?(h: History): void },
-  ) {
+  ): Bluebird<Novel> {
     return new Bluebird((res, rej) => {
       try {
         const json = ResourceBuilder.Load(location);

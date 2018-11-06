@@ -129,6 +129,11 @@ export const FETCH_CMD: CCommand = {
       desc: "List the result with chapter",
       default: false,
     },
+    {
+      name: "-H, --with-history",
+      desc: "List the result with history",
+      default: false,
+    },
   ],
   fn: Fetch,
 };

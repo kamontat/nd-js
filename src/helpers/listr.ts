@@ -51,13 +51,15 @@ export class ListrHelper {
   public addLoadLocalPath(title: string, location: string, { contextKey = "novel" }) {
     return this.addFnByHelper(title, ctx => {
       return new Observable(observer => {
-        const novel = NovelBuilder.buildLocal(location, {
+        NovelBuilder.buildLocal(location, {
           completeNovelFn: () => observer.next("Completed novel"),
           completeHistoryFn: () => observer.next("Completed history"),
-        });
-
-        ctx[contextKey] = novel;
-        observer.complete();
+        })
+          .then(novel => {
+            ctx[contextKey] = novel;
+            observer.complete();
+          })
+          .catch(e => observer.error(e));
       });
     });
   }
@@ -110,11 +112,20 @@ export class ListrHelper {
     return this.list.run(ctx);
   }
 
-  public runNovel({ withChapter = false, withChanges = false, ctx = {}, contextKey = "novel" }) {
+  public runNovel({ withChapter = false, withHistory = false, withChanges = false, ctx = {}, contextKey = "novel" }) {
     return this.list
       .run(ctx)
       .then(context => {
-        new NPrinter(context[contextKey] as Novel).print({ short: !withChapter });
+        const novel = context[contextKey] as Novel;
+
+        new NPrinter(novel).print({ short: !withChapter });
+
+        if (withHistory) {
+          novel
+            .history()
+            .list()
+            .forEach((node, index) => log(WrapTMCT("info", `History ${index}`, node.toString())));
+        }
 
         if (withChanges) {
           this.history.list().forEach((node, index) => log(WrapTMCT("info", `History ${index}`, node.toString())));
