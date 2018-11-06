@@ -31,7 +31,7 @@ export const FILE_ERR: Throwable = new EError("Cannot save file", 5);
 export const CONFIG_FAIL_ERR: Throwable = new FError("Cannot pass config file", 0);
 export const PARAM_FAIL_ERR: Throwable = new FError("Fail to update by parameter", 1);
 export const OPTION_FAIL_ERR: Throwable = new FError("Fail to update by option", 2);
-export const NOVEL_ERR: Throwable = new FError("Cannot create the novel", 3);
+export const NOVEL_ERR: Throwable = new FError("Cannot create a novel", 3);
 export const SECURITY_FAIL_ERR: Throwable = new FError("You key is not pass security condition", 10);
 
 export const WIP_ERR: Throwable = new Exception("This feature will coming soon", 255);

@@ -127,7 +127,7 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
       const builtChapter = NovelBuilder.createChapterByLink(PassLink(link), { name: title, date });
       if (sold) builtChapter.markSell();
       else if (closed) builtChapter.markClose();
-      else builtChapter.markComplete();
+      // else builtChapter.markComplete();
 
       // For debugging
       const savedChapter = chapters[chapterNumber];

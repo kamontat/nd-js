@@ -6,19 +6,24 @@
 import { NovelBuilder } from "../builder/novel";
 import { PARAM_WRONG_ERR } from "../constants/error.const";
 import { SeperateArgumentApi } from "../helpers/action";
-import { CheckIsPathExist } from "../helpers/helper";
-import { CPrinter } from "../models/novel/CPrinter";
-import { NPrinter } from "../models/novel/NPrinter";
+import { CheckIsNovelPath } from "../helpers/helper";
+import { ListrHelper } from "../helpers/listr";
+import { Novel } from "../models/novel/Novel";
 
 export default (a: any) => {
-  const { args } = SeperateArgumentApi(a);
+  const { options, args } = SeperateArgumentApi(a);
   const location = args[0];
 
-  if (!CheckIsPathExist(location)) PARAM_WRONG_ERR.loadString("Input should be valid location path").printAndExit();
+  if (!CheckIsNovelPath(location)) PARAM_WRONG_ERR.loadString("Input is NOT novel path").printAndExit();
 
-  const novel = NovelBuilder.buildLocal(location);
-  console.log(novel.toJSON());
-  console.log(novel.history().toJSON());
-
-  new NPrinter(novel).print({ short: false });
+  // TODO: Make changes output more readable that this.
+  return new ListrHelper()
+    .addByHelper(`Load local novel`, NovelBuilder.buildLocal(location), "novel")
+    .addFnByHelper(`Update local novel`, ctx => (ctx.novel as Novel).update(), "novel")
+    .addLoadChapterList("Download chapters", {
+      force: true,
+      contextKey: "novel",
+    })
+    .addCreateResourceFile(`Building resource file`, { force: true })
+    .runNovel({ withChapter: options.withChapter, withChanges: options.changes });
 };

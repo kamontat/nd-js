@@ -19,7 +19,8 @@ export class CPrinter implements Printer {
   }
 
   public format(opt?: PrintOption) {
-    return (opt && opt.short && "short") || "long";
+    if (!this.chapter) return "";
+    return this.chapter.toString();
   }
 
   public print(opt?: PrintOption) {

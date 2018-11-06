@@ -65,9 +65,12 @@ export class HistoryNode {
   }
 
   public toString() {
-    return `${this._id}: ${this._title} was ${this.action} from '${this._before}' to '${
-      this._after
-    }' at ${this._time.toString()}`;
+    if (this.action === HistoryAction.ADDED) return `[${this._title}] ADDED ${this._after} at ${this._time.toString()}`;
+    else if (this.action === HistoryAction.MODIFIED)
+      return `[${this._title}] MODIFIED from ${this._before} to ${this._after} at ${this._time.toString()}`;
+    else if (this.action === HistoryAction.DELETED)
+      return `[${this._title}] DELETED ${this._before} at ${this._time.toString()}`;
+    return "";
   }
 
   public toJSON(): HistoryNodeType {

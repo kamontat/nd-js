@@ -5,8 +5,10 @@
 
 import { existsSync } from "fs";
 import moment, { isDate, isMoment } from "moment";
-
 import "moment/locale/th";
+import { join } from "path";
+
+import { DEFAULT_RESOURCE_NAME } from "../constants/novel.const";
 
 /**
  * @public
@@ -68,6 +70,12 @@ export const CheckIsPathExist = (pathname: any) => {
   }
   const exist = existsSync(pathname.toString());
   return exist;
+};
+
+export const CheckIsNovelPath = (pathname: any) => {
+  if (!CheckIsPathExist(pathname)) return false;
+  const path = join(pathname, DEFAULT_RESOURCE_NAME);
+  return existsSync(path);
 };
 
 /**

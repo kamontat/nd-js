@@ -4,6 +4,7 @@
  * @description Novel object builder and chapter builder
  */
 
+import Bluebird from "bluebird";
 import { Moment } from "moment";
 
 import { FetchApi } from "../apis/download";
@@ -39,16 +40,21 @@ export class NovelBuilder {
     location: string,
     progress?: { completeNovelFn?(n: Novel): void; completeHistoryFn?(h: History): void },
   ) {
-    const json = ResourceBuilder.Load(location);
-    const novel = new Novel(json.novel.id, location);
-    novel.resetHistory();
-    novel.setAll(json.novel);
-    if (progress && progress.completeNovelFn) progress.completeNovelFn(novel);
+    return new Bluebird((res, rej) => {
+      try {
+        const json = ResourceBuilder.Load(location);
+        const novel = new Novel(json.novel.id, location);
+        novel.resetHistory();
+        novel.setAll(json.novel);
+        if (progress && progress.completeNovelFn) progress.completeNovelFn(novel);
 
-    novel.setHistory(json.history);
-    if (progress && progress.completeHistoryFn) progress.completeHistoryFn(novel.history());
-
-    return novel;
+        novel.setHistory(json.history);
+        if (progress && progress.completeHistoryFn) progress.completeHistoryFn(novel.history());
+        return res(novel);
+      } catch (e) {
+        return rej(e);
+      }
+    });
   }
 
   public static buildChapterLocal(novel: Novel, c: NovelChapterResourceType) {

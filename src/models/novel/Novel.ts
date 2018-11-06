@@ -4,13 +4,12 @@
  */
 
 import Bluebird from "bluebird";
+import SortedArrayMap from "collections/sorted-array-map";
 import { existsSync } from "fs";
 import { mkdirp } from "fs-extra";
 import moment, { Moment } from "moment";
 import { join } from "path";
 import { log } from "winston";
-
-import SortedArrayMap from "collections/sorted-array-map";
 
 import { FetchApi } from "../../apis/download";
 import { WriteChapter, WriteFile } from "../../apis/file";
@@ -19,12 +18,13 @@ import { HtmlBuilder } from "../../builder/html";
 import { NovelBuilder } from "../../builder/novel";
 import { ResourceBuilder } from "../../builder/resource";
 import { NOVEL_CLOSED_WARN, NOVEL_NOTFOUND_ERR, NOVEL_SOLD_WARN, NOVEL_WARN } from "../../constants/error.const";
-import { DEFAULT_NOVEL_FOLDER_NAME, DEFAULT_RESOURCE_NAME } from "../../constants/novel.const";
+import { DEFAULT_NOVEL_FOLDER_NAME } from "../../constants/novel.const";
 import { SaveIf } from "../../helpers/action";
-import { RevertTimestamp, Timestamp } from "../../helpers/helper";
+import { CheckIsNovelPath, RevertTimestamp, Timestamp } from "../../helpers/helper";
+import { Debugger } from "../../helpers/log";
 import Config from "../command/Config";
 import { Historian } from "../history/Historian";
-import { HistoryAction, HistoryActionUtils } from "../history/HistoryAction";
+import { HistoryActionUtils } from "../history/HistoryAction";
 import { HistoryNode, HistoryNodeType } from "../history/HistoryNode";
 import { WrapTMCT } from "../output/LoggerWrapper";
 import { NovelChapterResourceType } from "../resource/NovelResource";
@@ -97,9 +97,15 @@ export class Novel extends Historian {
 
   public replaceChapter(chap: NovelChapter) {
     if (this._chapters.has(chap.key)) {
-      if (!this._chapters.get(chap.key).isCompleted()) {
-        this._chapters.get(chap.key).markUnknown();
-        return true;
+      const current = this._chapters.get(chap.key);
+      // reset to unknown if chapter is incompleted
+      if (!current.isCompleted()) {
+        current.markUnknown();
+      } else {
+        // if writer update something and the chapter isn't sold or closed
+        if (current.moment.isBefore(chap.moment) && chap.isUnknown()) {
+          current.markUnknown();
+        }
       }
       return true;
     } else {
@@ -230,8 +236,7 @@ export class Novel extends Historian {
 
   public update(): Bluebird<Novel> {
     return FetchApi(NovelBuilder.createZeroChapter(this)).then(value => {
-      const chapterList = CreateChapterListApi(value.cheerio);
-      return Bluebird.resolve(this);
+      return this.load(value.cheerio);
     });
   }
 
@@ -239,10 +244,10 @@ export class Novel extends Historian {
     return new Bluebird(res => {
       this.name = GetNovelNameApi($);
 
-      if (this._location)
+      if (this._location && !CheckIsNovelPath(this._location))
         this.location = join(this._location, DEFAULT_NOVEL_FOLDER_NAME(NormalizeNovelName(this.name)));
 
-      this.resetChapter();
+      // this.resetChapter();
       CreateChapterListApi($).forEach(c => this.addChapter.call(this, c));
 
       this.lastUpdate = $;
@@ -270,6 +275,7 @@ export class Novel extends Historian {
     validate = false,
     force = false,
     completeFn = (_: NovelChapter) => {},
+    completedFn = (_: NovelChapter) => {},
     failFn = (_: NovelChapter) => {},
   }) {
     if (validate) {
@@ -279,6 +285,15 @@ export class Novel extends Historian {
     if (this._chapters.length > 0) {
       return Bluebird.each(this.chapter({ copy: true }), async chap => {
         try {
+          if (chap.isClosed()) {
+            throw NOVEL_CLOSED_WARN;
+          } else if (chap.isSold()) {
+            throw NOVEL_SOLD_WARN;
+          } else if (chap.isCompleted()) {
+            completedFn(chap);
+            return;
+          }
+
           const res = await FetchApi(chap);
           const html = HtmlBuilder.template(res.chapter.id)
             .addChap(res.chapter)
@@ -287,10 +302,9 @@ export class Novel extends Historian {
             .renderDefault();
 
           await WriteChapter(html, res.chapter, force);
-          completeFn(chap);
-          // console.log(`Completed ${res.chapter.number}`);
-
           chap.status = NovelStatus.COMPLETED;
+
+          completeFn(chap);
           log(WrapTMCT("verbose", chap.status, `${chap.toString()}`));
         } catch (e) {
           if (NOVEL_SOLD_WARN.equal(e)) {
@@ -315,9 +329,14 @@ export class Novel extends Historian {
     return WriteFile(JSON.stringify(res.toJSON(), undefined, "  "), path, force).then(() => Bluebird.resolve(this));
   }
 
-  public async saveNovel({ force = false, completeFn = (_: NovelChapter) => {}, failFn = (_: NovelChapter) => {} }) {
+  public async saveNovel({
+    force = false,
+    completeFn = (_: NovelChapter) => {},
+    completedFn = (_: NovelChapter) => {},
+    failFn = (_: NovelChapter) => {},
+  }) {
     await this.validateBeforeSave({ force });
-    await this.saveChapters({ force, completeFn, failFn });
+    await this.saveChapters({ force, completeFn, completedFn, failFn });
     await this.saveZero({ force });
     return Bluebird.resolve(this);
   }

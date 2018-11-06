@@ -3,7 +3,7 @@
  * @module nd.novel
  */
 
-import { Moment } from "moment";
+import moment, { Moment } from "moment";
 import { render } from "mustache";
 import { join } from "path";
 import { log } from "winston";
@@ -16,6 +16,7 @@ import { Historian } from "../history/Historian";
 import { HistoryNode } from "../history/HistoryNode";
 import { WrapTMC, WrapTMCT } from "../output/LoggerWrapper";
 
+import { CPrinter } from "./CPrinter";
 import { NovelStatus } from "./NovelStatus";
 
 export class NovelChapter extends Historian {
@@ -64,6 +65,10 @@ export class NovelChapter extends Historian {
   get date() {
     if (!this._date) return "";
     return this._date.format("Do MMM YYYY");
+  }
+
+  get moment() {
+    return this._date ? this._date : moment();
   }
 
   get timestamp() {
@@ -204,5 +209,9 @@ export class NovelChapter extends Historian {
 
   public markUnknown() {
     this.status = NovelStatus.UNKNOWN;
+  }
+
+  public toString() {
+    return `Chapter ${this.number} "${this.name}" was downloaded ${this.status} at ${this.date}`;
   }
 }

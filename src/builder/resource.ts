@@ -3,6 +3,8 @@
  * @module nd.resource.builder
  */
 
+import { NOVEL_ERR } from "../constants/error.const";
+import { CheckIsNovelPath } from "../helpers/helper";
 import { Novel } from "../models/novel/Novel";
 import { Resource } from "../models/resource/Resource";
 

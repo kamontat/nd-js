@@ -28,6 +28,5 @@ export default (a: any) => {
       .runNovel({ withChapter: options.withChapter });
   }).then(() => {
     ExceptionStorage.CONST.print();
-    // ExceptionStorage.CONST.reset(); // reset the called result
   });
 };

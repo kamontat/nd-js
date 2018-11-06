@@ -137,8 +137,20 @@ export const UPDATE_CMD: CCommand = {
   name: "update",
   alias: "U",
   desc: "Update individual novel in location",
+  options: [
+    {
+      name: "-W, --with-chapter",
+      desc: "List the result with chapter",
+      default: false,
+    },
+    {
+      name: "-C, --changes",
+      desc: "Add all changes that occurred in this update",
+    },
+  ],
   fn: Update,
 };
+
 export const ADMIN_CMD: CCommand = {
   name: "admin",
   alias: "A",
