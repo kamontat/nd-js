@@ -14,18 +14,18 @@ cmdname="$(echo "$commandname" | tr '[:lower:]' '[:upper:]')_CMD"
 
 echo "creating... ${commandname}"
 
-command_template='import { SeperateArgumentApi } from "../helpers/action";
-import { log } from "winston";
-import { WrapTMC } from "../models/LoggerWrapper";
+command_template="import { SeperateArgumentApi } from \"../helpers/action\";
+import { log } from \"winston\";
+import { WrapTMC } from \"../models/output/LoggerWrapper\";
 
 export default (a: any) => {
   const { options, args } = SeperateArgumentApi(a);
-  log(WrapTMC("verbose", "title", "execution"));
+  log(WrapTMC(\"verbose\", \"Execute ${commandname}\", \"execution\"));
 };
-'
+"
 
 cmd_const="export const ${cmdname}: CCommand = {
-  name: \"${commandname}\",
+  name: \"${filename}\",
   alias: \"\",
   desc: \"\",
   fn: ${commandname}
@@ -34,10 +34,12 @@ cmd_const="export const ${cmdname}: CCommand = {
 
 echo "$command_template" >"src/command/${filename}.ts"
 
-echo "regising... ${cmdname}"
+echo "creating... ${cmdname}"
 
 echo "$cmd_const" >>"src/constants/command.const.ts"
 
-echo "Add import ${commandname} from \"../command/${filename}\"; => src/constants/command.const.ts"
+echo "Add => src/constants/command.const.ts
+import ${commandname} from \"../command/${filename}\";"
 
-echo "Add MakeCommand(program, ${cmdname}); => src/nd.ts"
+echo "Add => src/nd.ts
+MakeCommand(program, ${cmdname});"
