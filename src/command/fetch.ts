@@ -3,14 +3,10 @@
  * @module commander.command
  */
 
-import { NovelBuilder } from "../builder/novel";
-import { ByLength, SeperateArgumentApi, ThrowIf, ValidList } from "../helpers/action";
+import { SeperateArgumentApi, ThrowIf } from "../helpers/action";
 import { CheckIsPathExist } from "../helpers/helper";
 import { ListrHelper } from "../helpers/listr";
 import { GetNID } from "../helpers/novel";
-import Config from "../models/command/Config";
-import { Novel } from "../models/novel/Novel";
-import { NPrinter } from "../models/novel/NPrinter";
 
 import FetchLocation from "./fetch-location";
 import FetchServer from "./fetch-server";
@@ -28,17 +24,20 @@ import FetchServer from "./fetch-server";
  */
 export default (a: any) => {
   const { options, args } = SeperateArgumentApi(a);
-  ThrowIf(ValidList(args, ByLength, 1));
 
   let progress: ListrHelper;
-
-  if (CheckIsPathExist(args[0])) {
-    const location = args[0];
-    progress = FetchLocation(location, options);
-  } else {
-    const id = GetNID(args[0]);
-    progress = FetchServer(id, options);
-  }
-
-  progress.runNovel({ withChapter: options.withChapter, withHistory: options.withHistory });
+  args.forEach(each => {
+    try {
+      if (CheckIsPathExist(each)) {
+        const location = each;
+        progress = FetchLocation(location, options);
+      } else {
+        const id = GetNID(each);
+        progress = FetchServer(id, options);
+      }
+      progress.runNovel({ withChapter: options.withChapter, withHistory: options.withHistory });
+    } catch (e) {
+      ThrowIf(e, { noExit: true });
+    }
+  });
 };
