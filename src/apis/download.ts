@@ -68,22 +68,4 @@ export const FetchApi: (chapter: NovelChapter) => Bluebird<{ cheerio: CheerioSta
   });
 };
 
-export const DownloadChapter = (chapter: NovelChapter, force?: boolean) => {
-  return FetchApi(chapter).then(res => {
-    const html = HtmlBuilder.template(res.chapter.id)
-      .addName(GetNovelNameApi(res.cheerio))
-      .addChap(res.chapter)
-      .addContent(HtmlBuilder.buildContent(res.chapter, res.cheerio))
-      .renderDefault();
-
-    return WriteChapter(html, res.chapter, force);
-  });
-};
-
-export const DownloadChapters = (force: boolean | undefined, chapters: NovelChapter[]) => {
-  return Promise.each(chapters, item => {
-    return DownloadChapter(item, force);
-  });
-};
-
 // TODO: Add multiple thread downloader https://github.com/tusharmath/Multi-threaded-downloader
