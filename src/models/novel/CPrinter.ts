@@ -20,7 +20,12 @@ export class CPrinter implements Printer {
 
   public format(opt?: PrintOption) {
     if (!this.chapter) return "";
-    return this.chapter.toString();
+
+    if (opt && opt.short === false) {
+      return this.chapter.toString();
+    } else {
+      return JSON.stringify(this.chapter.toJSON());
+    }
   }
 
   public print(opt?: PrintOption) {
