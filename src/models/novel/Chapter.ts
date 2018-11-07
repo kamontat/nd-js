@@ -34,7 +34,7 @@ export class NovelChapter extends Historian {
 
   set name(n: string) {
     this.notify(
-      HistoryNode.CreateByChange("Chapter name", { before: this._name, after: n }, { description: this.description }),
+      HistoryNode.CreateByChange("Chapter name", { before: this._name, after: n }, { description: this.description })
     );
     this._name = n;
   }
@@ -48,8 +48,8 @@ export class NovelChapter extends Historian {
       HistoryNode.CreateByChange(
         "Chapter location",
         { before: this._location, after: loc },
-        { description: this.description },
-      ),
+        { description: this.description }
+      )
     );
     this._location = loc;
   }
@@ -100,8 +100,8 @@ export class NovelChapter extends Historian {
       HistoryNode.CreateByChange(
         "Chapter status",
         { before: this._status, after: status },
-        { description: this.description },
-      ),
+        { description: this.description }
+      )
     );
     this._status = status;
   }
@@ -113,8 +113,8 @@ export class NovelChapter extends Historian {
       HistoryNode.CreateByChange(
         "Chapter date",
         { before: Timestamp(this._date), after: Timestamp(date) },
-        { description: this.description },
-      ),
+        { description: this.description }
+      )
     );
   }
 
@@ -165,8 +165,8 @@ export class NovelChapter extends Historian {
   }
 
   public head() {
-    if (this.number === "0") return "Zero chapter";
-    else return `Chapter: ${this.number}`;
+    if (this.number === "0") return "C Zero";
+    else return `C ${this.number}`;
   }
 
   public toJSON() {
@@ -175,7 +175,7 @@ export class NovelChapter extends Historian {
       name: this.name,
       number: this.number,
       date: this.timestamp,
-      status: this.status,
+      status: this.status
     };
   }
 
