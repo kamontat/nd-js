@@ -22,7 +22,7 @@ import {
   SET_CONFIG_CMD,
   UPDATE_CMD,
   VALIDATOR_CMD,
-  VERSION_CMD,
+  VERSION_CMD
 } from "./constants/command.const";
 
 import { ADMIN_CMD } from "./constants/command.const";
@@ -35,13 +35,13 @@ import {
   NO_COLOR_OPT,
   NO_LOG_OPT,
   QUIET_OPT,
-  SHORT_OUT_OPT,
+  SHORT_OUT_OPT
 } from "./constants/option.const";
-import { S } from "./constants/security.const";
+import { BBB } from "./constants/security.const";
 import { MakeCommand, MakeOption } from "./helpers/command";
 import setting from "./models/output/Logger";
 
-program.name(ND.PROJECT_NAME).version(`nd version: ${ND.VERSION} (ID=${S})`, "-v, --version");
+program.name(ND.PROJECT_NAME).version(`nd version: ${ND.VERSION} (ID=${BBB})`, "-v, --version");
 
 // MakeOption(program, VERBOSE_OPT);
 MakeOption(program, DEBUG_OPT);
@@ -80,26 +80,26 @@ program.on("--help", () => {
   // tslint:disable-next-line
   console.log(`Examples:
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("initial")} [${OPTION_COLOR("--raw")} <${PARAMETER_COLOR(
-    "json",
+    "json"
   )}>|${OPTION_COLOR("--file")} <${PARAMETER_COLOR("path")}>] [${OPTION_COLOR("--force")}]
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("set-config")} [${ARGUMENT_COLOR("token")}|${ARGUMENT_COLOR(
-    "username",
+    "username"
   )}|${ARGUMENT_COLOR("color")}|${ARGUMENT_COLOR("location")}]
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("raw-download")} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR(
-    "link",
+    "link"
   )}> [${OPTION_COLOR("--location")} <${ARGUMENT_COLOR("location")}>] [${OPTION_COLOR("--chapter")} <${ARGUMENT_COLOR(
-    "number",
+    "number"
   )}>] [${OPTION_COLOR("--force")}]
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("download")} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR(
-    "link",
+    "link"
   )}...> [${OPTION_COLOR("--location")} <${ARGUMENT_COLOR("location")}>] [${OPTION_COLOR(
-    "--with-chapter",
+    "--with-chapter"
   )}] [${OPTION_COLOR("--force")}]
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("fetch")} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR(
-    "link",
+    "link"
   )}|${ARGUMENT_COLOR("location")}...> [${OPTION_COLOR("--with-chapter")}] [${OPTION_COLOR("--with-history")}]
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("validator")} [${ARGUMENT_COLOR("config")}|${ARGUMENT_COLOR(
-    "application",
+    "application"
   )}] [${OPTION_COLOR("--info")}]
   $ ${ND.PROJECT_NAME} [${OPTION_COLOR("--help")}|${OPTION_COLOR("--changelog")}|${OPTION_COLOR("--version")}]
 `);

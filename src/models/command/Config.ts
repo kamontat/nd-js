@@ -179,8 +179,8 @@ export default class Config {
         const result = DecodeToken(this.getToken());
         log(
           WrapTMCT("info", "Your username", typeof result === "string" ? result : result && result.name, {
-            message: COLORS.Name
-          })
+            message: COLORS.Name,
+          }),
         );
       }
     }

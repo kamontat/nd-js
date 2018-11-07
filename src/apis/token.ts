@@ -42,8 +42,8 @@ export const CreateToken = (data: TokenDataType) => {
       notBefore: data.issuedate,
       algorithm: ND.ALGO,
       jwtid: ND.ID(),
-      subject: "ND-JS"
-    }
+      subject: "ND-JS",
+    },
   );
 };
 
@@ -52,7 +52,7 @@ export const VerifyToken = (token: TokenValidator, username: UsernameValidator) 
     const result = verify(token.token, username.key, {
       algorithms: [ND.ALGO],
       jwtid: ND.ID(),
-      subject: "ND-JS"
+      subject: "ND-JS",
     }) as ResultToken;
 
     const range = IS_S(result.token);
@@ -70,7 +70,7 @@ export const VerifyToken = (token: TokenValidator, username: UsernameValidator) 
 export const DecodeToken: (token: string) => ResultToken = (token: string) => {
   const result = decode(token, {
     json: true,
-    complete: false
+    complete: false,
   });
 
   if (result === null || typeof result === "string") {
