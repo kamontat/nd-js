@@ -136,7 +136,7 @@ if $yes || lib "promptYN" "create release of version $version"; then
 
 		final="$(printf '%s\n%s' "$title" "$message")"
 
-		hub release create "$prerelease" --message="$final" "$expected" -a "./bin/nd-linux" -a "./bin/nd-macos" -a "./bin/nd-win.exe"
+		hub release create "$prerelease" -m "$final" -a "./bin/nd-linux" -a "./bin/nd-macos" -a "./bin/nd-win.exe" "$expected"
 	fi
 else
 	echo "exit"

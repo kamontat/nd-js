@@ -42,8 +42,8 @@ export const CreateToken = (data: TokenDataType) => {
       notBefore: data.issuedate,
       algorithm: ND.ALGO,
       jwtid: ND.ID(),
-      subject: "ND-JS",
-    },
+      subject: "ND-JS"
+    }
   );
 };
 
@@ -52,12 +52,13 @@ export const VerifyToken = (token: TokenValidator, username: UsernameValidator) 
     const result = verify(token.token, username.key, {
       algorithms: [ND.ALGO],
       jwtid: ND.ID(),
-      subject: "ND-JS",
+      subject: "ND-JS"
     }) as ResultToken;
 
     const range = IS_S(result.token);
-    if (semver.satisfies(semver.coerce(ND.VERSION) || "", range)) {
-      throw SECURITY_FAIL_ERR.loadString(`Your token cannot use to current version ${ND.VERSION} !== ${range}`);
+    const version = semver.coerce(ND.VERSION) || "";
+    if (!semver.satisfies(version, range)) {
+      throw SECURITY_FAIL_ERR.loadString(`Your token cannot use to current version ${version} !== ${range}`);
     }
 
     return result;
@@ -69,7 +70,7 @@ export const VerifyToken = (token: TokenValidator, username: UsernameValidator) 
 export const DecodeToken: (token: string) => ResultToken = (token: string) => {
   const result = decode(token, {
     json: true,
-    complete: false,
+    complete: false
   });
 
   if (result === null || typeof result === "string") {

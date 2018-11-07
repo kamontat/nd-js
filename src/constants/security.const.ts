@@ -19,7 +19,7 @@ const IV_LENGTH = 12;
 function encrypt(text: string) {
   const iv = crypto.randomBytes(IV_LENGTH);
   const cipher = crypto.createCipheriv("aes-192-gcm", new Buffer(K), iv, {
-    authTagLength: 16
+    authTagLength: 16,
   });
 
   let encrypted = cipher.update(text);
@@ -40,7 +40,7 @@ function decrypt(text: string) {
   const tag = new Buffer(tagString, "hex");
 
   const decipher = crypto.createDecipheriv("aes-192-gcm", new Buffer(K), iv, {
-    authTagLength: 16
+    authTagLength: 16,
   });
   decipher.setAuthTag(tag);
 
