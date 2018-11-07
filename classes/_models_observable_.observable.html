@@ -97,6 +97,7 @@
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_models_observable_.observable.html#collected" class="tsd-kind-icon">collected</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_models_observable_.observable.html#observer" class="tsd-kind-icon">observer</a></li>
 							</ul>
 						</section>
@@ -106,6 +107,8 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_models_observable_.observable.html#loadobserver" class="tsd-kind-icon">load<wbr>Observer</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_models_observable_.observable.html#notify" class="tsd-kind-icon">notify</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_models_observable_.observable.html#observe" class="tsd-kind-icon">observe</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_models_observable_.observable.html#pauseobserve" class="tsd-kind-icon">pause<wbr>Observe</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_models_observable_.observable.html#startobserve" class="tsd-kind-icon">start<wbr>Observe</a></li>
 							</ul>
 						</section>
 					</div>
@@ -114,12 +117,22 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="collected" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> collected</h3>
+					<div class="tsd-signature tsd-kind-icon">collected<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/Observable.ts#L7">models/Observable.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="observer" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagOptional">Optional</span> observer</h3>
 					<div class="tsd-signature tsd-kind-icon">observer<span class="tsd-signature-symbol">:</span> <a href="_models_observer_.observer.html" class="tsd-signature-type">Observer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/e3c6f87/src/models/Observable.ts#L5">models/Observable.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/Observable.ts#L5">models/Observable.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -136,7 +149,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/e3c6f87/src/models/Observable.ts#L7">models/Observable.ts:7</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/Observable.ts#L9">models/Observable.ts:9</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -159,7 +172,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/e3c6f87/src/models/Observable.ts#L11">models/Observable.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/Observable.ts#L13">models/Observable.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -182,13 +195,47 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/e3c6f87/src/models/Observable.ts#L15">models/Observable.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/Observable.ts#L17">models/Observable.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<a href="_models_observer_.observer.html" class="tsd-signature-type">Observer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>
 							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="pauseobserve" class="tsd-anchor"></a>
+					<h3>pause<wbr>Observe</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">pause<wbr>Observe<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/Observable.ts#L21">models/Observable.ts:21</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="startobserve" class="tsd-anchor"></a>
+					<h3>start<wbr>Observe</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">start<wbr>Observe<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/Observable.ts#L25">models/Observable.ts:25</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -213,6 +260,9 @@
 						<a href="_models_observable_.observable.html" class="tsd-kind-icon">Observable</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_models_observable_.observable.html#collected" class="tsd-kind-icon">collected</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_models_observable_.observable.html#observer" class="tsd-kind-icon">observer</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -223,6 +273,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_models_observable_.observable.html#observe" class="tsd-kind-icon">observe</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_models_observable_.observable.html#pauseobserve" class="tsd-kind-icon">pause<wbr>Observe</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_models_observable_.observable.html#startobserve" class="tsd-kind-icon">start<wbr>Observe</a>
 							</li>
 						</ul>
 					</li>

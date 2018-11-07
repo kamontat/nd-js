@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Printer | ND JS</title>
+	<title>HistoryActionUtils | ND JS</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_models_printer_.html">&quot;models/Printer&quot;</a>
+					<a href="../modules/nd_history.html">nd.history</a>
 				</li>
 				<li>
-					<a href="_models_printer_.printer.html">Printer</a>
+					<a href="nd_history.historyactionutils.html">HistoryActionUtils</a>
 				</li>
 			</ul>
-			<h1>Interface Printer</h1>
+			<h1>Class HistoryActionUtils</h1>
 		</div>
 	</div>
 </header>
@@ -73,15 +73,8 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Printer</span>
+						<span class="target">HistoryActionUtils</span>
 					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel">
-				<h3>Implemented by</h3>
-				<ul class="tsd-hierarchy">
-					<li><a href="../classes/_models_novel_cprinter_.cprinter.html" class="tsd-signature-type">CPrinter</a></li>
-					<li><a href="../classes/_models_novel_nprinter_.nprinter.html" class="tsd-signature-type">NPrinter</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -91,8 +84,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_models_printer_.printer.html#format" class="tsd-kind-icon">format</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_models_printer_.printer.html#print" class="tsd-kind-icon">print</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="nd_history.historyactionutils.html#toaction" class="tsd-kind-icon">To<wbr>Action</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,49 +92,31 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="format" class="tsd-anchor"></a>
-					<h3>format</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">format<span class="tsd-signature-symbol">(</span>opt<span class="tsd-signature-symbol">?: </span><a href="_models_printer_.printoption.html" class="tsd-signature-type">PrintOption</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="toaction" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> To<wbr>Action</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">To<wbr>Action<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/nd_history.historyaction.html#added" class="tsd-signature-type">ADDED</a><span class="tsd-signature-symbol"> | </span><a href="../enums/nd_history.historyaction.html#modified" class="tsd-signature-type">MODIFIED</a><span class="tsd-signature-symbol"> | </span><a href="../enums/nd_history.historyaction.html#deleted" class="tsd-signature-type">DELETED</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/Printer.ts#L4">models/Printer.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/history/HistoryAction.ts#L13">models/history/HistoryAction.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> opt: <a href="_models_printer_.printoption.html" class="tsd-signature-type">PrintOption</a></h5>
+									<h5>str: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="print" class="tsd-anchor"></a>
-					<h3>print</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">print<span class="tsd-signature-symbol">(</span>opt<span class="tsd-signature-symbol">?: </span><a href="_models_printer_.printoption.html" class="tsd-signature-type">PrintOption</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/Printer.ts#L5">models/Printer.ts:5</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> opt: <a href="_models_printer_.printoption.html" class="tsd-signature-type">PrintOption</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../enums/nd_history.historyaction.html#added" class="tsd-signature-type">ADDED</a>
+								<span class="tsd-signature-symbol"> | </span>
+								<a href="../enums/nd_history.historyaction.html#modified" class="tsd-signature-type">MODIFIED</a>
+								<span class="tsd-signature-symbol"> | </span>
+								<a href="../enums/nd_history.historyaction.html#deleted" class="tsd-signature-type">DELETED</a>
+							</h4>
 						</li>
 					</ul>
 				</section>
@@ -155,30 +129,42 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_models_printer_.html">"models/<wbr>Printer"</a>
+						<a href="../modules/nd_history.html">nd.history</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_models_printer_.printoption.html" class="tsd-kind-icon">Print<wbr>Option</a>
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
+						<a href="../enums/nd_history.historyaction.html" class="tsd-kind-icon">History<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="nd_history.history.html" class="tsd-kind-icon">History</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_models_printer_.printer.html" class="tsd-kind-icon">Printer</a>
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="nd_history.historyactionutils.html" class="tsd-kind-icon">History<wbr>Action<wbr>Utils</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_models_printer_.printer.html#format" class="tsd-kind-icon">format</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_models_printer_.printer.html#print" class="tsd-kind-icon">print</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="nd_history.historyactionutils.html#toaction" class="tsd-kind-icon">To<wbr>Action</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="nd_history.historynode.html" class="tsd-kind-icon">History<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/nd_history.historycreatorchanges.html" class="tsd-kind-icon">History<wbr>Creator<wbr>Changes</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/nd_history.historycreatoroption.html" class="tsd-kind-icon">History<wbr>Creator<wbr>Option</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/nd_history.historynodetype.html" class="tsd-kind-icon">History<wbr>Node<wbr>Type</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

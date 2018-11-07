@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Printer | ND JS</title>
+	<title>NovelChapterResourceType | ND JS</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_models_printer_.html">&quot;models/Printer&quot;</a>
+					<a href="../modules/nd_resource.html">nd.resource</a>
 				</li>
 				<li>
-					<a href="_models_printer_.printer.html">Printer</a>
+					<a href="nd_resource.novelchapterresourcetype.html">NovelChapterResourceType</a>
 				</li>
 			</ul>
-			<h1>Interface Printer</h1>
+			<h1>Interface NovelChapterResourceType</h1>
 		</div>
 	</div>
 </header>
@@ -73,15 +73,8 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Printer</span>
+						<span class="target">NovelChapterResourceType</span>
 					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel">
-				<h3>Implemented by</h3>
-				<ul class="tsd-hierarchy">
-					<li><a href="../classes/_models_novel_cprinter_.cprinter.html" class="tsd-signature-type">CPrinter</a></li>
-					<li><a href="../classes/_models_novel_nprinter_.nprinter.html" class="tsd-signature-type">NPrinter</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -89,62 +82,58 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Methods</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_models_printer_.printer.html#format" class="tsd-kind-icon">format</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_models_printer_.printer.html#print" class="tsd-kind-icon">print</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="nd_resource.novelchapterresourcetype.html#date" class="tsd-kind-icon">date</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="nd_resource.novelchapterresourcetype.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="nd_resource.novelchapterresourcetype.html#number" class="tsd-kind-icon">number</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="nd_resource.novelchapterresourcetype.html#status" class="tsd-kind-icon">status</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="format" class="tsd-anchor"></a>
-					<h3>format</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">format<span class="tsd-signature-symbol">(</span>opt<span class="tsd-signature-symbol">?: </span><a href="_models_printer_.printoption.html" class="tsd-signature-type">PrintOption</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/Printer.ts#L4">models/Printer.ts:4</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> opt: <a href="_models_printer_.printoption.html" class="tsd-signature-type">PrintOption</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="date" class="tsd-anchor"></a>
+					<h3>date</h3>
+					<div class="tsd-signature tsd-kind-icon">date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/resource/NovelResource.ts#L11">models/resource/NovelResource.ts:11</a></li>
+						</ul>
+					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="print" class="tsd-anchor"></a>
-					<h3>print</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">print<span class="tsd-signature-symbol">(</span>opt<span class="tsd-signature-symbol">?: </span><a href="_models_printer_.printoption.html" class="tsd-signature-type">PrintOption</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/Printer.ts#L5">models/Printer.ts:5</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> opt: <a href="_models_printer_.printoption.html" class="tsd-signature-type">PrintOption</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/resource/NovelResource.ts#L9">models/resource/NovelResource.ts:9</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="number" class="tsd-anchor"></a>
+					<h3>number</h3>
+					<div class="tsd-signature tsd-kind-icon">number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/resource/NovelResource.ts#L10">models/resource/NovelResource.ts:10</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="status" class="tsd-anchor"></a>
+					<h3>status</h3>
+					<div class="tsd-signature tsd-kind-icon">status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/aa0a468/src/models/resource/NovelResource.ts#L12">models/resource/NovelResource.ts:12</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -155,30 +144,57 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_models_printer_.html">"models/<wbr>Printer"</a>
+						<a href="../modules/nd_resource.html">nd.resource</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/nd_resource.commandresource.html" class="tsd-kind-icon">Command<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/nd_resource.historyresource.html" class="tsd-kind-icon">History<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/nd_resource.novelresource.html" class="tsd-kind-icon">Novel<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/nd_resource.resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_models_printer_.printoption.html" class="tsd-kind-icon">Print<wbr>Option</a>
+						<a href="nd_resource.commandresourcetype.html" class="tsd-kind-icon">Command<wbr>Resource<wbr>Type</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_models_printer_.printer.html" class="tsd-kind-icon">Printer</a>
+						<a href="nd_resource.novelchapterresourcetype.html" class="tsd-kind-icon">Novel<wbr>Chapter<wbr>Resource<wbr>Type</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_models_printer_.printer.html#format" class="tsd-kind-icon">format</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="nd_resource.novelchapterresourcetype.html#date" class="tsd-kind-icon">date</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_models_printer_.printer.html#print" class="tsd-kind-icon">print</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="nd_resource.novelchapterresourcetype.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="nd_resource.novelchapterresourcetype.html#number" class="tsd-kind-icon">number</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="nd_resource.novelchapterresourcetype.html#status" class="tsd-kind-icon">status</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="nd_resource.novelresourcetype.html" class="tsd-kind-icon">Novel<wbr>Resource<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="nd_resource.resourcetype.html" class="tsd-kind-icon">Resource<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/nd_resource.html#historyresourcetype" class="tsd-kind-icon">History<wbr>Resource<wbr>Type</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
