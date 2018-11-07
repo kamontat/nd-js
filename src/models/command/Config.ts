@@ -65,17 +65,18 @@ export default class Config {
   }
 
   public showStatus(options?: { console?: boolean; all?: boolean }) {
-    if (!options) options = { console: true, all: false };
-    if (options.console === undefined) options.console = true;
+    if (!options) options = { console: false, all: false };
+    if (options.console === undefined) options.console = false;
     if (options.all === undefined) options.all = false;
 
     if (!this._isQuite()) {
       let out: "error" | "warn" | "info" | "verbose" | "debug" | "silly" = "verbose";
       if (options.console === true) out = "info";
 
+      log(WrapTMCT("info", "Config.username", this._username, { message: COLORS.Name }));
+
       if (options.all === true) {
         log(WrapTMCT(out, "Config.token", this._token, { message: COLORS.Token }));
-        log(WrapTMCT(out, "Config.username", this._username, { message: COLORS.Name }));
         log(WrapTMCT(out, "Config.version", this._version));
         log(WrapTMCT(out, "Config.color", this._color));
         log(WrapTMCT(out, "Config.type", this._outputType));
