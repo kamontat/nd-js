@@ -14,10 +14,11 @@ import { NOVEL_CLOSED_WARN, NOVEL_SOLD_WARN, NOVEL_WARN } from "../constants/err
 import { HTML_BLACKLIST_TEXT } from "../constants/html.const";
 import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 import { CheckIsExist, FormatMomentDateTime, TrimString } from "../helpers/helper";
+import { Debugger } from "../helpers/log";
 import { GetChapterNumber, PassLink } from "../helpers/novel";
 import { HtmlNode } from "../models/html/HtmlNode";
 import { NovelChapter } from "../models/novel/Chapter";
-import { WrapTM, WrapTMCT } from "../models/output/LoggerWrapper";
+import { WrapTM, WrapTMC, WrapTMCT } from "../models/output/LoggerWrapper";
 
 import { Query } from "./html";
 
@@ -195,11 +196,14 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
     .contents()
     .each((_, e) => {
       const query = $(e);
+      // Debugger("Text", query.text());
+      // Debugger("html", query.html());
 
-      if (query.html() === "" || query.html() === null) {
-        const text = query.text().trim();
-        if (text !== "" && text !== "\n") {
-          // log(WrapTMC("debug", "Content", text));
+      const text = query.text().trim();
+      if (text !== "" && text !== "\n") {
+        if (HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
+          log(WrapTMC("debug", "<p>TAG</p>", text));
+
           result.push(
             new HtmlNode({
               tag: "p",
