@@ -261,7 +261,7 @@ export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
   }
 
   if (result.length < 1) {
-    log(WrapTM("debug", "The raw result", $.html()));
+    // log(WrapTM("debug", "The raw result", $.html()));
     NOVEL_WARN.clone()
       .loadString(`Cannot get ${chapter.id} chapter ${chapter.number} content`)
       .printAndExit();

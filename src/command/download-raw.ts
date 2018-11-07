@@ -41,7 +41,7 @@ export default (a: any) => {
           NovelBuilder.createChapter(id, chapter, { location: config.getNovelLocation() }),
         );
         novel.resetChapter();
-        chapters.forEach(novel.addChapter);
+        chapters.forEach(c => novel.addChapter.call(novel, c));
       },
     })
     .runNovel({ contextKey: "novel", withChapter: options.withChapter });

@@ -67,8 +67,8 @@ export class ListrHelper {
   public addLoadChapterList(title: string, { force = false, contextKey = "result", overrideNovel = (_: Novel) => {} }) {
     return this.addFnByHelper(title, ctx => {
       const novel: Novel = ctx[contextKey];
-      overrideNovel(novel);
       return new Observable(observer => {
+        overrideNovel(novel);
         novel
           .saveNovel({
             force,
