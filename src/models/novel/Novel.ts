@@ -286,9 +286,9 @@ export class Novel extends Historian {
       return Bluebird.each(this.chapter({ copy: true }), async chap => {
         try {
           if (chap.isClosed()) {
-            throw NOVEL_CLOSED_WARN;
+            throw NOVEL_CLOSED_WARN.clone();
           } else if (chap.isSold()) {
-            throw NOVEL_SOLD_WARN;
+            throw NOVEL_SOLD_WARN.clone();
           } else if (chap.isCompleted()) {
             completedFn(chap);
             return;

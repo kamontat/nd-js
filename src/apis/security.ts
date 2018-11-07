@@ -29,6 +29,8 @@ export class Security {
     log(WrapTMCT("info", "Email", validator.username.email));
 
     const decode = DecodeToken(token);
+    log(WrapTMCT("info", "Worked version", decode.version, { message: COLORS.Important }));
+    // log(WrapTMCT("info", "Token", decode.token));
     log(WrapTMCT("info", "Username", decode.name, { message: COLORS.Name }));
     log(WrapTMCT("info", "Issue at", RevertTimestamp(decode.iat), { message: COLORS.DateTime }));
     log(WrapTMCT("info", "Not before", RevertTimestamp(decode.nbf), { message: COLORS.DateTime }));

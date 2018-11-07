@@ -22,7 +22,7 @@ export const MakeOption = (program: Command | CommanderStatic, o: COption) => {
 
 const makeCommand = (program: Command | CommanderStatic, c: CCommand) => {
   const p = program
-    .command(c.name)
+    .command(c.name, undefined, { noHelp: c.noHelp })
     .description(c.desc)
     .alias(c.alias);
 

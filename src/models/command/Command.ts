@@ -16,4 +16,6 @@ export interface CCommand {
   desc: string;
   options?: COption[];
   fn(...args: any[]): void;
+
+  noHelp?: boolean;
 }

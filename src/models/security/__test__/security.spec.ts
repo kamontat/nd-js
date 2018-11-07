@@ -62,7 +62,7 @@ describe("Security", function() {
       expect(unn.email).toEqual("email@g.com");
 
       expect(unn.key).not.toBeEmpty();
-      expect(unn.key).toInclude(ND.A);
+      expect(unn.key).toInclude(ND.A());
     });
 
     test.each([

@@ -70,10 +70,11 @@ export default (a: any) => {
   if (ND.isProd()) {
     throw SECURITY_FAIL_ERR.loadString("Admin not work in production.");
   }
+
   const { options } = SeperateArgumentApi(a);
   log(WrapTMC("verbose", "start admin", ND.ENV));
   prompt<PasswordType>([password]).then(answers => {
-    if (answers.password !== ND.Z) {
+    if (answers.password !== ND.Z()) {
       Throw(SECURITY_FAIL_ERR, "You not admin.");
     }
 

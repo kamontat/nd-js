@@ -14,6 +14,7 @@ import Fetch from "../command/fetch";
 import Initial from "../command/Initial";
 import Update from "../command/update";
 import Validator from "../command/validator";
+
 import { CCommand } from "../models/command/Command";
 import { WrapTMC } from "../models/output/LoggerWrapper";
 
@@ -157,9 +158,9 @@ export const UPDATE_CMD: CCommand = {
 };
 
 export const ADMIN_CMD: CCommand = {
-  name: "admin",
-  alias: "A",
-  desc: "Create token for current application",
+  name: `admin-${ND.VERSION}`,
+  alias: `a-${ND.VERSION}`,
+  desc: "",
   options: [
     {
       name: "-J, --json",
@@ -167,7 +168,10 @@ export const ADMIN_CMD: CCommand = {
     },
   ],
   fn: Admin,
+
+  noHelp: true,
 };
+
 export const VALIDATOR_CMD: CCommand = {
   name: "validator",
   alias: "valid",

@@ -35,7 +35,7 @@ export class UsernameValidator implements Validator {
     if (this.username.length !== 3) {
       return "";
     }
-    return this.username.join(" ").concat(" ", ND.A);
+    return this.username.join(" ").concat(" ", ND.A());
   }
 
   constructor(username: string) {
