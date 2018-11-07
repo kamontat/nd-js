@@ -4,6 +4,7 @@
  */
 
 import { prompt } from "inquirer";
+import semver from "semver";
 import { log } from "winston";
 
 import { CreateToken, TokenDataType } from "../apis/token";
@@ -64,6 +65,21 @@ const information = [
       { name: "1 day", value: "1d" },
     ],
   },
+  {
+    type: "list",
+    name: "versionrange",
+    message: "Range of version can be use",
+    choices: [
+      { name: "Every version", value: "*" },
+      {
+        name: "Patch is updatable, Allow backward",
+        value: `${semver.major(ND.VERSION)}.${semver.minor(ND.VERSION)}.x`,
+      },
+      { name: "Patch is updatable, NOT allow backward", value: `~${ND.VERSION}` },
+      { name: "Minor and Patch is updatable, allow backward", value: `${semver.major(ND.VERSION)}.x.x` },
+      { name: "Minor and Patch is updatable, NOT allow backward", value: `^${ND.VERSION}` },
+    ],
+  },
 ];
 
 export default (a: any) => {
@@ -73,6 +89,7 @@ export default (a: any) => {
 
   const { options } = SeperateArgumentApi(a);
   log(WrapTMC("verbose", "start admin", ND.ENV));
+
   prompt<PasswordType>([password]).then(answers => {
     if (answers.password !== ND.Z()) {
       Throw(SECURITY_FAIL_ERR, "You not admin.");

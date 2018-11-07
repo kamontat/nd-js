@@ -6,6 +6,7 @@
 import { log } from "winston";
 
 import { COLORS } from "../constants/color.const";
+import { IS_S } from "../constants/security.const";
 import { RevertTimestamp } from "../helpers/helper";
 import { WrapTMCT } from "../models/output/LoggerWrapper";
 import { TokenValidator } from "../models/security/TokenValidator";
@@ -29,7 +30,7 @@ export class Security {
     log(WrapTMCT("info", "Email", validator.username.email));
 
     const decode = DecodeToken(token);
-    log(WrapTMCT("info", "Worked version", decode.version, { message: COLORS.Important }));
+    log(WrapTMCT("info", "Worked version", IS_S(decode.token), { message: COLORS.Important }));
     // log(WrapTMCT("info", "Token", decode.token));
     log(WrapTMCT("info", "Username", decode.name, { message: COLORS.Name }));
     log(WrapTMCT("info", "Issue at", RevertTimestamp(decode.iat), { message: COLORS.DateTime }));

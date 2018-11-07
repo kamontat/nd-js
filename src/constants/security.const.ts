@@ -8,16 +8,18 @@ import pjson from "pjson";
 
 import { SECURITY_FAIL_ERR } from "./error.const";
 
-const K = `NDJSEKFISIDLIVOXLVDASDER`; // TOKEN KEY
-const A = `EGICOAOSLRLRLEOEOFLSLALF`; // PASSWORD SALT
-const B = `${pjson.version}`; // JWTID
+const config = pjson.config as { key: string; sal: string; jid: string };
+
+const K = config.key;
+const A = config.sal;
+const B = config.jid;
 
 const IV_LENGTH = 12;
 
 function encrypt(text: string) {
   const iv = crypto.randomBytes(IV_LENGTH);
   const cipher = crypto.createCipheriv("aes-192-gcm", new Buffer(K), iv, {
-    authTagLength: 16,
+    authTagLength: 16
   });
 
   let encrypted = cipher.update(text);
@@ -38,7 +40,7 @@ function decrypt(text: string) {
   const tag = new Buffer(tagString, "hex");
 
   const decipher = crypto.createDecipheriv("aes-192-gcm", new Buffer(K), iv, {
-    authTagLength: 16,
+    authTagLength: 16
   });
   decipher.setAuthTag(tag);
 
@@ -53,7 +55,9 @@ function decrypt(text: string) {
   }
 }
 
-export const S = encrypt(pjson.version);
+export const S = (versionRange: string) => {
+  return encrypt(versionRange);
+};
 export const IS_S = (hash: string) => {
   return decrypt(hash);
 };

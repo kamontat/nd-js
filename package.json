@@ -85,7 +85,7 @@
     "typescript": "3.0.3",
     "uglify-js": "3.4.9",
     "webpack": "4.19.1",
-    "webpack-bundle-analyzer": "^3.0.3",
+    "webpack-bundle-analyzer": "3.0.3",
     "webpack-cli": "3.1.2",
     "webpack-dashboard": "2.0.0",
     "webpack-node-externals": "1.7.2"
@@ -154,5 +154,10 @@
         }
       ]
     ]
+  },
+  "config": {
+    "key": "1PikJ0wVYsfQ3k4FYXOs0200",
+    "sal": "n44TBAwEzZF9487fTKMF9ArU",
+    "jid": "BA3ZeJWd7EPGB5nv0pEwH0Jm"
   }
 }

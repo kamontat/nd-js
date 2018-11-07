@@ -4,6 +4,7 @@
  */
 
 import { decode, sign, verify } from "jsonwebtoken";
+import semver from "semver";
 
 import { SECURITY_FAIL_ERR } from "../constants/error.const";
 import { ND } from "../constants/nd.const";
@@ -28,16 +29,22 @@ export interface TokenDataType {
   expiredate: string;
   fullname: string;
   username: string;
+  versionrange: string;
 }
+
 export const CreateToken = (data: TokenDataType) => {
-  return sign({ version: ND.VERSION, token: S, name: data.username }, new UsernameValidator(data.fullname).key, {
-    expiresIn: data.expiredate,
-    issuer: "ND-JS master",
-    notBefore: data.issuedate,
-    algorithm: ND.ALGO,
-    jwtid: ND.ID(),
-    subject: "ND-JS",
-  });
+  return sign(
+    { version: ND.VERSION, token: S(data.versionrange), name: data.username },
+    new UsernameValidator(data.fullname).key,
+    {
+      expiresIn: data.expiredate,
+      issuer: "ND-JS master",
+      notBefore: data.issuedate,
+      algorithm: ND.ALGO,
+      jwtid: ND.ID(),
+      subject: "ND-JS",
+    },
+  );
 };
 
 export const VerifyToken = (token: TokenValidator, username: UsernameValidator) => {
@@ -48,10 +55,9 @@ export const VerifyToken = (token: TokenValidator, username: UsernameValidator) 
       subject: "ND-JS",
     }) as ResultToken;
 
-    if (result.version !== ND.VERSION || IS_S(result.token) !== ND.VERSION) {
-      throw SECURITY_FAIL_ERR.loadString(
-        `Your token cannot use to current version ${result.version} !== ${ND.VERSION}`,
-      );
+    const range = IS_S(result.token);
+    if (semver.satisfies(semver.coerce(ND.VERSION) || "", range)) {
+      throw SECURITY_FAIL_ERR.loadString(`Your token cannot use to current version ${ND.VERSION} !== ${range}`);
     }
 
     return result;
