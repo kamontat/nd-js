@@ -59,6 +59,7 @@ lib() {
 update_version() {
 	local ver="$1"
 	[[ $ver == "alpha" ]] && yarn --silent version:alpha "$version" && return
+	[[ $ver == "rc" ]] && yarn --silent version:rc "$version" && return
 	[[ $ver == "beta" ]] && yarn --silent version:beta "$version" && return
 	[[ $ver == "patch" ]] && yarn --silent version:patch "$version" && return
 	[[ $ver == "minor" ]] && yarn --silent version:minor "$version" && return

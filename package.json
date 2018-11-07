@@ -100,6 +100,7 @@
     "build:debug": "yarn clean && yarn build --debug",
     "version:alpha": "semver --preid alpha --increment prerelease",
     "version:beta": "semver --preid beta --increment prerelease",
+    "version:rc": "semver --preid rc --increment prerelease",
     "version:patch": "semver --increment patch",
     "version:minor": "semver --increment minor",
     "version:major": "semver --increment major",
