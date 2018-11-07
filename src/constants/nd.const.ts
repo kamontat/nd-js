@@ -36,4 +36,8 @@ export class ND {
   public static isProd() {
     return this.ENV === "production";
   }
+
+  public static isTest() {
+    return this.ENV === "test";
+  }
 }
