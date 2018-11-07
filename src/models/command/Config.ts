@@ -64,27 +64,25 @@ export default class Config {
     this._option = option;
   }
 
-  public showStatus(options?: { console?: boolean; all: boolean }) {
+  public showStatus(options?: { console?: boolean; all?: boolean }) {
+    if (!options) options = { console: true, all: false };
+    if (options.console === undefined) options.console = true;
+    if (options.all === undefined) options.all = false;
+
     if (!this._isQuite()) {
-      if (options && options.all) {
-        log(
-          WrapTMCT(options && options.console ? "info" : "verbose", "Config.token", this._token, {
-            message: COLORS.Token,
-          }),
-        );
-        log(
-          WrapTMCT(options && options.console ? "info" : "verbose", "Config.username", this._username, {
-            message: COLORS.Name,
-          }),
-        );
-        log(WrapTMCT(options && options.console ? "info" : "debug", "Config.version", this._version));
-        log(WrapTMCT(options && options.console ? "info" : "debug", "Config.color", this._color));
-        log(WrapTMCT(options && options.console ? "info" : "debug", "Config.type", this._outputType));
-        log(WrapTMCT(options && options.console ? "info" : "debug", "Config.location", this._novelLocation));
+      let out: "error" | "warn" | "info" | "verbose" | "debug" | "silly" = "verbose";
+      if (options.console === true) out = "info";
+
+      if (options.all === true) {
+        log(WrapTMCT(out, "Config.token", this._token, { message: COLORS.Token }));
+        log(WrapTMCT(out, "Config.username", this._username, { message: COLORS.Name }));
+        log(WrapTMCT(out, "Config.version", this._version));
+        log(WrapTMCT(out, "Config.color", this._color));
+        log(WrapTMCT(out, "Config.type", this._outputType));
+        log(WrapTMCT(out, "Config.location", this._novelLocation));
       }
-      if (options && options.console) {
-        Security.Printer(this.getToken(), this.getUsername());
-      }
+
+      if (options.console) Security.Printer(this.getToken(), this.getUsername());
     }
   }
 
@@ -158,9 +156,7 @@ export default class Config {
   public load(bypass = false) {
     if (!bypass) {
       const err = this.valid();
-      if (err) {
-        throw err;
-      }
+      if (err) throw err;
     }
 
     const doc: ConfigFileType | undefined = yaml.safeLoad(fs.readFileSync(this.configLocation, "utf8"));
@@ -183,8 +179,8 @@ export default class Config {
         const result = DecodeToken(this.getToken());
         log(
           WrapTMCT("info", "Your username", typeof result === "string" ? result : result && result.name, {
-            message: COLORS.Name,
-          }),
+            message: COLORS.Name
+          })
         );
       }
     }
@@ -205,13 +201,13 @@ export default class Config {
       return CONFIG_FAIL_ERR.clone().loadString("version is missing or not matches.");
     }
 
-    if (!config.has("security.token") && !CheckIsExist(config.get("security.token"))) {
-      return CONFIG_FAIL_ERR.clone().loadString("token is required.");
+    const checklist = ["token", "username"];
+    for (const v of checklist) {
+      if (!config.has(`security.${v}`) && !CheckIsExist(config.get(`security.${v}`))) {
+        return CONFIG_FAIL_ERR.clone().loadString(`${v} is required.`);
+      }
     }
 
-    if (!config.has("security.username") && !CheckIsExist(config.get("security.username"))) {
-      return CONFIG_FAIL_ERR.clone().loadString("username is required.");
-    }
     return undefined;
   }
 
