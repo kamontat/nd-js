@@ -1,6 +1,6 @@
 {
   "name": "nd",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-rc.0",
   "description": "Novel Downloader JS edition",
   "main": "nd.js",
   "author": "Kamontat Chantrachirathumrong <kamontat_c@hotmail.com>",
@@ -122,14 +122,20 @@
     "coverage:ci": "jest --ci --coverage --verbose --maxWorkers 1"
   },
   "pkg": {
-    "assets": ["package.json", "node_modules/config/**/*.*"]
+    "assets": [
+      "package.json",
+      "node_modules/config/**/*.*"
+    ]
   },
   "bin": ".caches/nd.min.js",
   "jest": {
     "setupTestFrameworkScriptFile": "./test/jest.setup.js",
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "testMatch": ["**/src/**/__tests__/**/*.ts?(x)", "**/src/**/?(*.)+(spec|test).ts?(x)"],
+    "testMatch": [
+      "**/src/**/__tests__/**/*.ts?(x)",
+      "**/src/**/?(*.)+(spec|test).ts?(x)"
+    ],
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/**/_*.ts",
@@ -139,8 +145,17 @@
       "!src/constants/option.const.ts",
       "!**/node_modules/**"
     ],
-    "coverageReporters": ["json", "lcov", "text-summary"],
-    "moduleFileExtensions": ["js", "ts", "html", "mustache"],
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text-summary"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "html",
+      "mustache"
+    ],
     "transform": {
       "^.+\\.js$": "babel-jest",
       "^.+\\.mustache$": "<rootDir>/test/htmlLoader.js",

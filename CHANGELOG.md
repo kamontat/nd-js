@@ -2,6 +2,37 @@
 ## [Unreleased]
 
 
+<a name="1.0.0-rc.0"></a>
+## [1.0.0-rc.0] - 2018-11-07
+### 1) Features
+- The update will update when 1. chapter reopen or not sold 2. has changes
+- novel is updatable
+- Add fetching from location and server
+- Add date to the chapter too
+- Add date in old novel (version 1)
+- Able to load information from resource file
+
+### 2) Improving User Experience
+- Add RC release to deployment
+- Add improvement of version in token
+- Improve new security of nd command
+- Add log error without exit
+- Now you can fetch multiple id/location
+- Update chapter output
+- Avoid too many create object for printer
+- Change the way to save chapter in novel
+- Update the way to save chapter date
+- Update error result in production
+- History should sort by date (present => past)
+
+### 3) Fixes Bug
+- Fix fetching location error
+- Fix wrong param to display Date
+
+### 4) Documentation
+- Add new help command
+
+
 <a name="1.0.0-beta.3"></a>
 ## [1.0.0-beta.3] - 2018-11-04
 ### 1) Features
@@ -159,7 +190,8 @@
 - Add TODO document
 
 
-[Unreleased]: https://github.com/kamontat/nd-js/compare/1.0.0-beta.3...HEAD
+[Unreleased]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.0...HEAD
+[1.0.0-rc.0]: https://github.com/kamontat/nd-js/compare/1.0.0-beta.3...1.0.0-rc.0
 [1.0.0-beta.3]: https://github.com/kamontat/nd-js/compare/1.0.0-beta.2...1.0.0-beta.3
 [1.0.0-beta.2]: https://github.com/kamontat/nd-js/compare/v1.0.0-beta.1...1.0.0-beta.2
 [v1.0.0-beta.1]: https://github.com/kamontat/nd-js/compare/v1.0.0-beta.0...v1.0.0-beta.1
