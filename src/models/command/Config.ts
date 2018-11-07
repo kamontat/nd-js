@@ -73,10 +73,9 @@ export default class Config {
       let out: "error" | "warn" | "info" | "verbose" | "debug" | "silly" = "verbose";
       if (options.console === true) out = "info";
 
-      log(WrapTMCT("info", "Config.username", this._username, { message: COLORS.Name }));
-
       if (options.all === true) {
         log(WrapTMCT(out, "Config.token", this._token, { message: COLORS.Token }));
+        // log(WrapTMCT("info", "Config.username", this._username, { message: COLORS.Name }));
         log(WrapTMCT(out, "Config.version", this._version));
         log(WrapTMCT(out, "Config.color", this._color));
         log(WrapTMCT(out, "Config.type", this._outputType));

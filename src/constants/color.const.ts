@@ -27,7 +27,7 @@ import { ColorType } from "../models/output/Color";
 
 import { HAS_COLOR } from "./default.const";
 
-export const TITLE_COLOR = chalk.blueBright;
+export const TITLE_COLOR = chalk.cyanBright;
 
 export const TOKEN_COLOR = chalk.blue.underline;
 export const NAME_COLOR = chalk.greenBright;
