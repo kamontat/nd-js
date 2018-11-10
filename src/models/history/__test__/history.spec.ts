@@ -1,7 +1,7 @@
 import "jest-extended";
 import { History } from "../History";
 
-import { RandomNode, RandomText } from "./lib";
+import { RandomNode, RandomText } from "./_lib";
 import { DEFAULT_MAXIMUM_HISTORY } from "../../../constants/novel.const";
 import { HistoryAction } from "../HistoryAction";
 

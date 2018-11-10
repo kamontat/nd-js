@@ -3,7 +3,7 @@ import "jest-extended";
 import { History } from "../../history/History";
 import { HistoryResource } from "../HistoryResource";
 
-import { RandomNode } from "../../history/__test__/lib";
+import { RandomNode } from "../../history/__test__/_lib";
 
 describe("Create history object", function() {
   const history = new History();

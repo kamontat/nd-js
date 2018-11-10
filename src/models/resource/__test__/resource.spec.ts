@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { RandomNode } from "../../history/__test__/lib";
+import { RandomNode } from "../../history/__test__/_lib";
 import { Resource } from "../Resource";
 import { History } from "../../history/History";
 import { Novel } from "../../novel/Novel";
