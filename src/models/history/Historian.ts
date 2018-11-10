@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.history
+ */
+
 import { Observable } from "../Observable";
 
 import { History } from "./History";

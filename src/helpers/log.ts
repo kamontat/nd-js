@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module output
+ */
+
 import { log } from "winston";
 
 import { WrapTMCT } from "../models/output/LoggerWrapper";

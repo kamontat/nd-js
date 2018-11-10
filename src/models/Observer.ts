@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module raw.object
+ */
+
 import { Subject } from "rxjs";
 
 // ผู้สังเกตการณ์

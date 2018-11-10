@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.output
+ */
+
 import { log } from "winston";
 
 import { COLORS } from "../../constants/color.const";

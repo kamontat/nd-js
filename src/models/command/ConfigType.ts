@@ -1,7 +1,7 @@
-import { homedir } from "os";
-import { major } from "semver";
-
-import { ND } from "../../constants/nd.const";
+/**
+ * @internal
+ * @module nd.config
+ */
 
 import Config from "./Config";
 

@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module raw.object
+ */
+
 import { Observer } from "./Observer";
 
 // ผู้ถูกสังเกตการณ์

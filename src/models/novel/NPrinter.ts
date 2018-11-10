@@ -1,3 +1,8 @@
+/**
+ * @internal
+ * @module nd.output
+ */
+
 import terminalLink from "terminal-link";
 import { log } from "winston";
 
