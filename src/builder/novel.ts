@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.builder
+ * @module nd.novel.builder
  * @description Novel object builder and chapter builder
  */
 
@@ -8,7 +8,7 @@ import Bluebird from "bluebird";
 import { Moment } from "moment";
 
 import { FetchApi } from "../apis/download";
-import { RevertTimestamp, Timestamp } from "../helpers/helper";
+import { RevertTimestamp } from "../helpers/helper";
 import { GetNID } from "../helpers/novel";
 import Config from "../models/command/Config";
 import { History } from "../models/history/History";
