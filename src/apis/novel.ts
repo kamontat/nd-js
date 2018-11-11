@@ -154,11 +154,6 @@ export const GetChapterNameApi = ($: CheerioStatic) => {
     return name;
   }
 
-  // FIXME: cannot find any usecase to test
-  // div[@class="big_next"]/p[@class="font_nu01"]/text()
-  // name = $("td.head1").text();
-  // if (name && name !== "") return name;
-
   const element = $("h2[style=margin\\:0px\\;font-size\\:17px\\;color\\:\\#ffffff]");
   name = element.text();
   if (name && name !== "") {
