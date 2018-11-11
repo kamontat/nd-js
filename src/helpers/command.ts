@@ -6,7 +6,7 @@
 import { Command, CommanderStatic } from "commander";
 import { configure } from "winston";
 
-import setting from "../apis/logger";
+import { Logger } from "../apis/logger";
 import { ADMIN_CMD, INIT_CMD, SET_CONFIG_CMD } from "../constants/command.const";
 import { LOCATION_OPT } from "../constants/option.const";
 import { CCommand } from "../models/command/Command";
@@ -35,7 +35,7 @@ const makeCommand = (program: Command | CommanderStatic, c: CCommand) => {
 const getAction = (fn: (...args: any[]) => void, c?: CCommand) => {
   return (...args: any[]) => {
     try {
-      const setup = setting();
+      const setup = Logger.setting();
       if (setup) configure(setup);
       // setup logger configuration
 

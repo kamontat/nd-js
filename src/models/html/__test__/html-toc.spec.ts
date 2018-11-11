@@ -5,7 +5,6 @@ import { Novel } from "../../novel/Novel";
 import { NovelStatus } from "../../novel/NovelStatus";
 
 test("Should create toc element", function() {
-  jest.setTimeout(50000);
   expect.hasAssertions();
 
   const id = "1598605";

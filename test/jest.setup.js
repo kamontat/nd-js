@@ -7,12 +7,12 @@ process.env.SUPPRESS_NO_CONFIG_WARNING = "true";
 process.env.NODE_CONFIG_DIR = "/tmp";
 
 const winston = require("winston");
-const setting = require("../src/apis/logger").default;
+const Logger = require("../src/apis/logger").Logger;
 const Config = require("../src/models/command/Config").default;
 
 const helper = require("./test");
 
-winston.configure(setting({ quiet: true, log: { has: false, folder: "" } }));
+winston.configure(Logger.setting({ quiet: true, log: { has: false, folder: "" } }));
 
 beforeAll(() => {
   const config = Config.Initial(true);

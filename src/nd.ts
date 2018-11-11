@@ -20,7 +20,7 @@ import {
 
 import { ADMIN_CMD } from "./constants/command.const";
 
-import setting from "./apis/logger";
+import { Logger } from "./apis/logger";
 import { ND } from "./constants/nd.const";
 import {
   DEBUG_OPT,
@@ -60,7 +60,7 @@ MakeCommand(program, UPDATE_CMD);
 if (ND.isDev()) MakeCommand(program, ADMIN_CMD);
 
 program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
-  const setup = setting();
+  const setup = Logger.setting();
   if (setup) winston.configure(setup);
   winston.error(`${args} is not valid.`);
   program.outputHelp();

@@ -4,10 +4,9 @@
  */
 
 import Bluebird from "bluebird";
-import { existsSync } from "fs";
 import { pathExists, writeFile } from "fs-extra";
 
-import { FILE_ERR, NOVEL_WARN } from "../constants/error.const";
+import { FILE_ERR } from "../constants/error.const";
 import { NovelChapter } from "../models/novel/Chapter";
 
 export namespace Writer {
@@ -29,12 +28,12 @@ export namespace Writer {
         .catch(e => Bluebird.reject(e));
 
     return pathExists(path).then(isExist => {
-      if (isExist) {
+      if (!isExist) {
         return writeFile(path, html)
           .then(_ => Bluebird.resolve(path))
           .catch(e => Bluebird.reject(e));
       } else {
-        return Bluebird.reject(FILE_ERR.clone().loadString(`${location} file is already exist`));
+        return Bluebird.reject(FILE_ERR.clone().loadString(`${path} file is already exist`));
       }
     });
   };
