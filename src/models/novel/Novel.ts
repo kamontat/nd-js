@@ -12,7 +12,7 @@ import { join } from "path";
 import { log } from "winston";
 
 import { FetchApi } from "../../apis/download";
-import { WriteChapter, WriteFile } from "../../apis/file";
+import { Writer } from "../../apis/file";
 import { WrapTMCT } from "../../apis/loggerWrapper";
 import { CreateChapterListApi, GetNovelDateApi, GetNovelNameApi, NormalizeNovelName } from "../../apis/novel";
 import { HtmlBuilder } from "../../builder/html";
@@ -301,7 +301,7 @@ export class Novel extends Historian {
             .addContent(HtmlBuilder.buildContent(res.chapter, res.cheerio))
             .renderDefault();
 
-          await WriteChapter(html, res.chapter, force);
+          await Writer.ByChapter(html, res.chapter, force);
           chap.status = NovelStatus.COMPLETED;
 
           completeFn(chap);
@@ -326,7 +326,7 @@ export class Novel extends Historian {
   public saveResource({ force = false }) {
     const res = ResourceBuilder.Create(this);
     const path = res.buildPath(this.location);
-    return WriteFile(JSON.stringify(res.toJSON(), undefined, "  "), path, force).then(() => Bluebird.resolve(this));
+    return Writer.ByPath(JSON.stringify(res.toJSON(), undefined, "  "), path, force).then(() => Bluebird.resolve(this));
   }
 
   public async saveNovel({

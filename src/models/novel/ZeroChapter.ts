@@ -4,7 +4,7 @@
  */
 
 import { FetchApi } from "../../apis/download";
-import { WriteChapter } from "../../apis/file";
+import { Writer } from "../../apis/file";
 import { HtmlBuilder } from "../../builder/html";
 
 import { NovelChapter } from "./Chapter";
@@ -26,7 +26,7 @@ export class NovelZeroChapter extends NovelChapter {
         .addContent(HtmlBuilder.buildContent(res.chapter, res.cheerio))
         .renderDefault();
 
-      return WriteChapter(html, res.chapter, force);
+      return Writer.ByChapter(html, res.chapter, force);
     });
   }
 }

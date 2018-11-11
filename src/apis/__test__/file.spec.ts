@@ -1,5 +1,5 @@
 import "jest-extended";
-import { WriteChapter, WriteFile } from "../file";
+import { Writer } from "../file";
 import { NovelBuilder } from "../../builder/novel";
 import { existsSync } from "fs";
 
@@ -15,10 +15,10 @@ describe("Write to the file", function() {
   describe("Mock the content", function() {
     const content = "Some content in the world";
 
-    test("Should write the content by WriteChapter ", function() {
+    test("Should write the content by chapter ", function() {
       expect.hasAssertions();
 
-      return WriteChapter(content, NovelBuilder.createChapter(id, "4", { location: tempFolder.name }), false).then(
+      return Writer.ByChapter(content, NovelBuilder.createChapter(id, "4", { location: tempFolder.name }), false).then(
         c => {
           expect(c.id).toEqual("1837353");
           expect(existsSync(c.file())).toBeTrue();
@@ -26,10 +26,9 @@ describe("Write to the file", function() {
       );
     });
 
-    test("Should write the content by WriteFile", function() {
+    test("Should write the content by file path", function() {
       expect.hasAssertions();
-
-      return WriteFile(content, join(tempFolder.name, "temp.file"), false)
+      return Writer.ByPath(content, join(tempFolder.name, "temp.file"), false)
         .then(v => {
           expect(v).not.toBeEmpty();
         })
@@ -41,14 +40,14 @@ describe("Write to the file", function() {
     test("Shouldn't write the content to no permission", function() {
       expect.hasAssertions();
 
-      return expect(WriteFile(content, "/usr/some.file", false)).toReject();
+      return expect(Writer.ByPath(content, "/usr/some.file", false)).toReject();
     });
 
     test("Shouldn't write if file exist", function() {
       expect.hasAssertions();
 
       const file = tmp.fileSync({ template: "/tmp/nd-testing-tempB-XXXXXXX.f" });
-      return expect(WriteFile(content, file.name, false)).toReject();
+      return expect(Writer.ByPath(content, file.name, false)).toReject();
     });
   });
 });
