@@ -81,12 +81,13 @@ export class Novel extends Historian {
   }
 
   public addChapter(chapter: NovelChapter) {
+    const size = JSON.stringify(this.chapterSize);
     const isReplace = this.replaceChapter(chapter);
     if (!isReplace) {
       this.notify(
         HistoryNode.CreateByChange(
           "Novel chapters",
-          { before: JSON.stringify(this.chapterSize), after: JSON.stringify(chapter.toJSON()) },
+          { before: size, after: JSON.stringify(chapter.toJSON()) },
           { description: this.description },
         ),
       );
