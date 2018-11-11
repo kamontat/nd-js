@@ -14,7 +14,6 @@ import { NOVEL_CLOSED_WARN, NOVEL_SOLD_WARN, NOVEL_WARN } from "../constants/err
 import { HTML_BLACKLIST_TEXT } from "../constants/html.const";
 import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 import { CheckIsExist, FormatMomentDateTime, TrimString } from "../helpers/helper";
-import { Debugger } from "../helpers/log";
 import { GetChapterNumber, PassLink } from "../helpers/novel";
 import { HtmlNode } from "../models/html/HtmlNode";
 import { NovelChapter } from "../models/novel/Chapter";
