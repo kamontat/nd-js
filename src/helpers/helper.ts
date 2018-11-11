@@ -48,6 +48,8 @@ export const CheckIsEmail = (value: string) => {
   if (!value) {
     return false;
   }
+  if (!value.toString) return false;
+
   const str = value.toString();
   return (
     str.match(

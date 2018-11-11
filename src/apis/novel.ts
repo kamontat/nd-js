@@ -11,9 +11,10 @@ import { log } from "winston";
 import { NovelBuilder } from "../builder/novel";
 import { COLORS } from "../constants/color.const";
 import { NOVEL_CLOSED_WARN, NOVEL_SOLD_WARN, NOVEL_WARN } from "../constants/error.const";
-import { HTML_BLACKLIST_TEXT } from "../constants/html.const";
+import { CSS_CLASS_BLACKLIST_TEXT, HTML_BLACKLIST_TEXT } from "../constants/html.const";
 import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 import { CheckIsExist, FormatMomentDateTime, TrimString } from "../helpers/helper";
+import { Debugger } from "../helpers/log";
 import { GetChapterNumber, PassLink } from "../helpers/novel";
 import { HtmlNode } from "../models/html/HtmlNode";
 import { NovelChapter } from "../models/novel/Chapter";
@@ -219,27 +220,47 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
 export const getNovelContentV2 = ($: CheerioStatic) => {
   const result: HtmlNode[] = [];
 
-  $("div#story-content")
-    .contents()
-    .each((_, e) => {
-      const query = $(e);
+  // เรื่องย่อ
+  const headText = $(".desc_sub").text();
+  if (headText !== null && headText !== "") {
+    result.push(
+      new HtmlNode({
+        tag: "p",
+        text: headText,
+      }),
+    );
+  }
+  // end
 
-      const text = query.text().trim();
-      if (text !== "" && text !== "\n") {
-        // filter text that contain in BlackList
-        if (HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
-          // log(WrapTMC("debug", "Html paragraph node", text.substr(0, 20))); // limit 20 first chap
+  let child = $("div#story-content").children();
+  if (child.is("div")) child = child.children();
 
-          // FIXME: sometime cause all text go to 1 node (1851491 chap=5)
-          result.push(
-            new HtmlNode({
-              tag: "p",
-              text,
-            }),
-          );
+  child.contents().each((_, e) => {
+    const query = $(e);
+    if (e.attribs) {
+      const cssClass = e.attribs.class;
+      if (cssClass) {
+        // filter css class that contain in BlackList
+        if (CSS_CLASS_BLACKLIST_TEXT.filter(v => cssClass.includes(v)).length > 0) {
+          return;
         }
       }
-    });
+    }
+
+    const text = query.text().trim();
+    if (text !== "" && text !== "\n") {
+      // filter text that contain in BlackList
+      if (HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
+        result.push(
+          new HtmlNode({
+            tag: "p",
+            text,
+          }),
+        );
+      }
+    }
+  });
+
   return result;
 };
 
