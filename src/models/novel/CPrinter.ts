@@ -1,12 +1,12 @@
 /**
  * @internal
- * @module nd.output
+ * @module output.logger.model
  */
 
 import { log } from "winston";
 
+import { WrapTMCT } from "../../apis/loggerWrapper";
 import { COLORS } from "../../constants/color.const";
-import { WrapTMCT } from "../output/LoggerWrapper";
 import { Printer, PrintOption } from "../Printer";
 
 import { NovelChapter } from "./Chapter";

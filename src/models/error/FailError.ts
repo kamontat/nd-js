@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.exception
+ * @module nd.error.model
  */
 
 import { Exception } from "./Exception";

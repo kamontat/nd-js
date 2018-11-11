@@ -1,11 +1,11 @@
 /**
  * @external
- * @module output
+ * @module output.debugger.api
  */
 
 import { log } from "winston";
 
-import { WrapTMCT } from "../models/output/LoggerWrapper";
+import { WrapTMCT } from "../apis/loggerWrapper";
 
 const DEBUGGER_NAME = "DEBUGGER";
 

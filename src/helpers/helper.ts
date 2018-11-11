@@ -1,6 +1,6 @@
 /**
  * @external
- * @module helper
+ * @module public.api
  */
 
 import { existsSync } from "fs";

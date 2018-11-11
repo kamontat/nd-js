@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.apis
+ * @module nd.novel.api
  */
 
 import Bluebird, { Promise } from "bluebird";
@@ -10,12 +10,10 @@ import { Response } from "request";
 import request from "request-promise";
 import { RequestError } from "request-promise/errors";
 
-import { HtmlBuilder } from "../builder/html";
 import { DOWNLOAD_ERR, NOVEL_WARN } from "../constants/error.const";
 import { NovelChapter } from "../models/novel/Chapter";
 
-import { WriteChapter } from "./file";
-import { CheckIsNovel, GetChapterDateApi, GetChapterNameApi, GetNovelNameApi } from "./novel";
+import { CheckIsNovel, GetChapterDateApi, GetChapterNameApi } from "./novel";
 
 function download(url: URL) {
   return request({

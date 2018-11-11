@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.config
+ * @module nd.config.model
  */
 
 import config from "config";
@@ -10,17 +10,17 @@ import { dirname, resolve } from "path";
 import semver, { major } from "semver";
 import { log } from "winston";
 
+import { WrapTM, WrapTMC, WrapTMCT } from "../../apis/loggerWrapper";
 import { Security } from "../../apis/security";
 import { DecodeToken } from "../../apis/token";
 import { COLORS } from "../../constants/color.const";
 import { CONFIG_FILE_PATH } from "../../constants/config.const";
 import { HAS_COLOR, LOG_TYPE } from "../../constants/default.const";
-import { CONFIG_CREATE_ERR, CONFIG_WARN, SECURITY_FAIL_ERR } from "../../constants/error.const";
 import { CONFIG_FAIL_ERR } from "../../constants/error.const";
+import { CONFIG_CREATE_ERR, CONFIG_WARN, SECURITY_FAIL_ERR } from "../../constants/error.const";
 import { ND } from "../../constants/nd.const";
 import { CheckIsExist } from "../../helpers/helper";
 import Exception from "../error/Exception";
-import { WrapTM, WrapTMC, WrapTMCT } from "../output/LoggerWrapper";
 
 import { ConfigFileType, DEFAULT_CONFIG_YAML } from "./ConfigType";
 

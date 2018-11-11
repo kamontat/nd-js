@@ -1,12 +1,12 @@
 /**
  * @internal
- * @module nd.exception
+ * @module nd.error.model
  */
 
 import { log } from "winston";
 
+import { WrapTMC } from "../../apis/loggerWrapper";
 import { ND } from "../../constants/nd.const";
-import { WrapTMC } from "../output/LoggerWrapper";
 
 import { ExceptionStorage } from "./ExceptionStorage";
 

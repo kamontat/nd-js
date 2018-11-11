@@ -5,13 +5,13 @@
 
 import { log } from "winston";
 
+import { WrapTMC } from "../apis/loggerWrapper";
 import { NovelBuilder } from "../builder/novel";
-import { ByLength, SeperateArgumentApi, ThrowIf, ValidList } from "../helpers/action";
-import { ListrHelper } from "../helpers/listr";
+import { ByLength, SeperateArgumentApi, ThrowIf, ValidList } from "../helpers/commander";
+import { ListrController } from "../helpers/listr";
 import { GetNID } from "../helpers/novel";
 import Config from "../models/command/Config";
 import { Novel } from "../models/novel/Novel";
-import { WrapTMC } from "../models/output/LoggerWrapper";
 
 export default (a: any) => {
   log(WrapTMC("verbose", "prepare", "raw download"));
@@ -28,7 +28,7 @@ export default (a: any) => {
   const chapterString: string[] = options.chapter;
   const config = Config.Load();
 
-  new ListrHelper()
+  new ListrController()
     .addByHelper("Fetching Novel", NovelBuilder.fetch(id))
     .addFnByHelper("Building novel", ctx => NovelBuilder.build(id, ctx.result.cheerio), "novel")
     .addLoadChapterList("Download chapters", {

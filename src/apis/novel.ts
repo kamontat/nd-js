@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.apis
+ * @module nd.novel.api
  */
 
 import { locale } from "moment";
@@ -18,9 +18,9 @@ import { Debugger } from "../helpers/log";
 import { GetChapterNumber, PassLink } from "../helpers/novel";
 import { HtmlNode } from "../models/html/HtmlNode";
 import { NovelChapter } from "../models/novel/Chapter";
-import { WrapTM, WrapTMC, WrapTMCT } from "../models/output/LoggerWrapper";
 
 import { Query } from "./html";
+import { WrapTM, WrapTMC, WrapTMCT } from "./loggerWrapper";
 
 export const GetNovelNameApi = ($: CheerioStatic) => {
   // //p[@id="big_text"]/text()

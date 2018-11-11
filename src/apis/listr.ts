@@ -1,6 +1,6 @@
 /**
  * @external
- * @module listr.apis
+ * @module listr.api
  */
 
 import Bluebird from "bluebird";

@@ -1,10 +1,9 @@
 /**
  * @internal
- * @module nd.html
+ * @module nd.html.model
  */
 
 export class CssTemplate {
-
   constructor(name: string, cssObject: any) {
     this.name = name;
 

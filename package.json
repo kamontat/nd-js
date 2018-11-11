@@ -105,7 +105,7 @@
     "version:patch": "semver --increment patch",
     "version:minor": "semver --increment minor",
     "version:major": "semver --increment major",
-    "docs": "typedoc --out ./docs --target ES5 --module commonjs --name \"ND JS\" --mode modules --exclude \"**/*+(_|.spec|.e2e)*.ts\"",
+    "docs": "typedoc --out ./docs --target ES5 --module commonjs --name \"ND JS\" --mode modules --exclude \"**/*+(_|.spec|.e2e|nd)*.ts\"",
     "loc": "./scripts/loc.sh",
     "gh-pages": "gh-pages -d docs",
     "clean": "rimraf .caches bin coverage docs",

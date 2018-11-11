@@ -1,7 +1,8 @@
 /**
  * @external
- * @module commander.command
+ * @module commander.constant
  */
+
 import { log } from "winston";
 
 import Admin from "../command/admin";
@@ -15,8 +16,8 @@ import Initial from "../command/Initial";
 import Update from "../command/update";
 import Validator from "../command/validator";
 
+import { WrapTMC } from "../apis/loggerWrapper";
 import { CCommand } from "../models/command/Command";
-import { WrapTMC } from "../models/output/LoggerWrapper";
 
 import { ND } from "./nd.const";
 import { LOCATION_OPT } from "./option.const";

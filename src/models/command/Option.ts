@@ -1,6 +1,6 @@
 /**
  * @external
- * @module commander.option
+ * @module commander.model
  */
 
 /**

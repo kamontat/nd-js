@@ -1,6 +1,6 @@
 /**
  * @external
- * @module commander.const
+ * @module output.logger.constant
  */
 
 export let LOGGER_LEVEL = "verbose";

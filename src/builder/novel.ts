@@ -1,7 +1,9 @@
 /**
  * @internal
- * @module nd.novel.builder
- * @description Novel object builder and chapter builder
+ * @module nd.novel.model.builder
+ * @preferred
+ *
+ * Novel object builder and chapter builder
  */
 
 import Bluebird from "bluebird";

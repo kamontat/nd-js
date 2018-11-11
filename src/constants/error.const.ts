@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.exception
+ * @module nd.error.constant
  */
 
 import { EError } from "../models/error/ErrorError";

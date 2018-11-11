@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.apis
+ * @module nd.novel.api
  */
 
 import { URL } from "url";
@@ -12,9 +12,13 @@ import { DEFAULT_CHAPTER_FILE_TEMPLATE, DEFAULT_NOVEL_LINK } from "../constants/
 export const GetNID = (str: string) => {
   try {
     const link = PassLink(str);
-    if (link.searchParams.has("id")) { return link.searchParams.get("id") || ""; }
+    if (link.searchParams.has("id")) {
+      return link.searchParams.get("id") || "";
+    }
   } catch (e) {
-    if (IsID(str)) { return str; }
+    if (IsID(str)) {
+      return str;
+    }
   }
   throw PARAM_WRONG_ERR.clone().loadString("input is not either link or id");
 };
@@ -24,7 +28,9 @@ export const GetChapterNumber = (link: string) => {
     const url = PassLink(link);
     return url.searchParams.get("chapter") || "0";
   } catch (e) {
-    if (IsID(link)) { return link; }
+    if (IsID(link)) {
+      return link;
+    }
   }
   throw PARAM_WRONG_ERR.clone().loadString("input is not either link or id");
 };

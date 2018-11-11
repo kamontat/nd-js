@@ -3,9 +3,9 @@
  * @module commander.command
  */
 
-import { SeperateArgumentApi, ThrowIf } from "../helpers/action";
+import { SeperateArgumentApi, ThrowIf } from "../helpers/commander";
 import { CheckIsPathExist } from "../helpers/helper";
-import { ListrHelper } from "../helpers/listr";
+import { ListrController } from "../helpers/listr";
 import { GetNID } from "../helpers/novel";
 
 import FetchLocation from "./fetch-location";
@@ -25,7 +25,7 @@ import FetchServer from "./fetch-server";
 export default (a: any) => {
   const { options, args } = SeperateArgumentApi(a);
 
-  let progress: ListrHelper;
+  let progress: ListrController;
   args.forEach(each => {
     try {
       if (CheckIsPathExist(each)) {

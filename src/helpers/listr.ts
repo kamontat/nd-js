@@ -1,6 +1,6 @@
 /**
  * @external
- * @module listr.helper
+ * @module listr.controller
  */
 
 import Bluebird from "bluebird";
@@ -9,17 +9,17 @@ import { Observable } from "rxjs";
 import { log } from "winston";
 
 import { ListrApi } from "../apis/listr";
+import { WrapTMCT } from "../apis/loggerWrapper";
 import { NovelBuilder } from "../builder/novel";
 import { History } from "../models/history/History";
 import { HistoryNode } from "../models/history/HistoryNode";
 import { NovelChapter } from "../models/novel/Chapter";
 import { Novel } from "../models/novel/Novel";
 import { NPrinter } from "../models/novel/NPrinter";
-import { WrapTMCT } from "../models/output/LoggerWrapper";
 
-import { ThrowIf } from "./action";
+import { ThrowIf } from "./commander";
 
-export class ListrHelper {
+export class ListrController {
   private list: Listr;
   private history: History;
 

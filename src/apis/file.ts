@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.apis
+ * @module nd.novel.api
  */
 
 import Bluebird from "bluebird";

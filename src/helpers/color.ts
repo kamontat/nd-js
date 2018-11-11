@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.color
+ * @module nd.logger.api
  */
 
 import moment, { isDate, isMoment, Moment } from "moment";

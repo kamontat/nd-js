@@ -1,6 +1,6 @@
 /**
  * @external
- * @module commander.option
+ * @module commander.constant
  */
 
 import Config from "../models/command/Config";

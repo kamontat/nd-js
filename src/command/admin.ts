@@ -7,12 +7,12 @@ import { prompt } from "inquirer";
 import semver from "semver";
 import { log } from "winston";
 
+import { WrapTMC } from "../apis/loggerWrapper";
 import { CreateToken, TokenDataType } from "../apis/token";
 import { SECURITY_FAIL_ERR } from "../constants/error.const";
 import { ND } from "../constants/nd.const";
-import { SeperateArgumentApi } from "../helpers/action";
-import { Throw } from "../helpers/action";
-import { WrapTMC } from "../models/output/LoggerWrapper";
+import { SeperateArgumentApi } from "../helpers/commander";
+import { Throw } from "../helpers/commander";
 import { UsernameValidator } from "../models/security/UsernameValidator";
 
 interface PasswordType {

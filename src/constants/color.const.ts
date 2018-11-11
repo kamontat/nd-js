@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.color
+ * @module output.logger.constant
  */
 
 import chalk from "chalk";

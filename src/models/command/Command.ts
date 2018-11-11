@@ -1,5 +1,6 @@
 /**
- * @module commander.command
+ * @external
+ * @module commander.model
  */
 
 import { COption } from "./Option";

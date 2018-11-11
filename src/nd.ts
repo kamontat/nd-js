@@ -1,10 +1,3 @@
-/**
- * @internal
- * @module nd
- * @description This is root file for run the program in node
- *
- */
-
 process.env.SUPPRESS_NO_CONFIG_WARNING = "true";
 
 import program from "commander";
@@ -27,6 +20,7 @@ import {
 
 import { ADMIN_CMD } from "./constants/command.const";
 
+import setting from "./apis/logger";
 import { ND } from "./constants/nd.const";
 import {
   DEBUG_OPT,
@@ -39,7 +33,6 @@ import {
 } from "./constants/option.const";
 import { BBB } from "./constants/security.const";
 import { MakeCommand, MakeOption } from "./helpers/command";
-import setting from "./models/output/Logger";
 
 program.name(ND.PROJECT_NAME).version(`nd version: ${ND.VERSION} (ID=${BBB})`, "-v, --version");
 

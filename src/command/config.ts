@@ -5,9 +5,9 @@
 
 import { log } from "winston";
 
-import { SeperateArgumentApi, ThrowIf } from "../helpers/action";
+import { WrapTMC } from "../apis/loggerWrapper";
+import { SeperateArgumentApi, ThrowIf } from "../helpers/commander";
 import Config from "../models/command/Config";
-import { WrapTMC } from "../models/output/LoggerWrapper";
 
 /**
  * This is configuration command, This command able to show the config path

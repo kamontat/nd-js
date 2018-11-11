@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.security
+ * @module nd.security.model
  */
 
 import { VerifyToken } from "../../apis/token";

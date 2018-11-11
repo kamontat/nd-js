@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module raw.object
+ * @module public.object
  */
 
 import { Observer } from "./Observer";

@@ -1,9 +1,9 @@
 /**
  * @internal
- * @module nd.resource
+ * @module nd.resource.model
  */
 
-import { readFile, readJSONSync } from "fs-extra";
+import { readJSONSync } from "fs-extra";
 import { join } from "path";
 
 import { DEFAULT_RESOURCE_NAME } from "../../constants/novel.const";

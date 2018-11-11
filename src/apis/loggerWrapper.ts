@@ -1,15 +1,15 @@
 /**
  * @external
- * @module logger
+ * @module output.logger.api
  */
 
 import { inspect } from "util";
 
-import { COLORS } from "../../constants/color.const";
-import { HAS_COLOR } from "../../constants/default.const";
-import { LOG_HEAD_SIZE } from "../../constants/output.const";
+import { COLORS } from "../constants/color.const";
+import { HAS_COLOR } from "../constants/default.const";
+import { LOG_HEAD_SIZE } from "../constants/output.const";
 
-import { ColorType } from "./Color";
+import { ColorType } from "../models/output/Color";
 
 type level = "error" | "warn" | "info" | "verbose" | "debug" | "silly";
 

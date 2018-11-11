@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.core
+ * @module nd.security.constant
  */
 
 import moment = require("moment");

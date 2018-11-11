@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.history
+ * @module nd.history.model
  */
 
 import { Observable } from "../Observable";

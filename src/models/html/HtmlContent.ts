@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.html
+ * @module nd.html.model
  */
 
 import { load } from "cheerio";

@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.security
+ * @module nd.security.model
  */
 
 import { SECURITY_FAIL_ERR } from "../../constants/error.const";

@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.resource
+ * @module nd.resource.model
  */
 
 import { ND } from "../../constants/nd.const";

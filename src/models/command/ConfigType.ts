@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.config
+ * @module nd.config.model
  */
 
 import Config from "./Config";

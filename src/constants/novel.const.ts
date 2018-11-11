@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.novel
+ * @module nd.novel.constant
  */
 
 /**

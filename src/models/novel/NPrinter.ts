@@ -1,14 +1,14 @@
 /**
  * @internal
- * @module nd.output
+ * @module output.logger.model
  */
 
 import terminalLink from "terminal-link";
 import { log } from "winston";
 
+import { WrapTMCT } from "../../apis/loggerWrapper";
 import { COLORS } from "../../constants/color.const";
 import { GetLink } from "../../helpers/novel";
-import { WrapTMCT } from "../output/LoggerWrapper";
 import { Printer, PrintOption } from "../Printer";
 
 import { CPrinter } from "./CPrinter";

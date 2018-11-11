@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.html.builder
+ * @module nd.html.model.builder
  */
 
 import { GetNovelContent } from "../apis/novel";

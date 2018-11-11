@@ -1,14 +1,14 @@
 /**
  * @internal
- * @module nd.history
+ * @module nd.history.model
  */
 
 import SortedArraySet from "collections/sorted-array-set";
 import { log } from "winston";
 
+import { WrapTM } from "../../apis/loggerWrapper";
 import { DEFAULT_MAXIMUM_HISTORY } from "../../constants/novel.const";
 import { Observer } from "../Observer";
-import { WrapTM } from "../output/LoggerWrapper";
 
 import { HistoryNode } from "./HistoryNode";
 

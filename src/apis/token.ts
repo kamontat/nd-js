@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.security
+ * @module nd.security.api
  */
 
 import { decode, sign, verify } from "jsonwebtoken";

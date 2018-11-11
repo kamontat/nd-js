@@ -5,9 +5,9 @@
 
 import { log } from "winston";
 
-import { ByLength, ByMatchSome, SeperateArgumentApi, ThrowIf, ValidList } from "../helpers/action";
+import { WrapTMC } from "../apis/loggerWrapper";
+import { ByLength, ByMatchSome, SeperateArgumentApi, ThrowIf, ValidList } from "../helpers/commander";
 import Config from "../models/command/Config";
-import { WrapTMC } from "../models/output/LoggerWrapper";
 
 export const VALIDATE_LIST = ["config"];
 

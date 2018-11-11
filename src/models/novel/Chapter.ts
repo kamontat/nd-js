@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.novel
+ * @module nd.novel.model
  */
 
 import moment, { Moment } from "moment";
@@ -8,15 +8,14 @@ import { render } from "mustache";
 import { join } from "path";
 import { log } from "winston";
 
+import { WrapTMC } from "../../apis/loggerWrapper";
 import { NOVEL_ERR } from "../../constants/error.const";
 import { CheckIsNumber, RevertTimestamp, Timestamp } from "../../helpers/helper";
 import { GetChapterFile, GetLinkWithChapter } from "../../helpers/novel";
 import Config from "../command/Config";
 import { Historian } from "../history/Historian";
 import { HistoryNode } from "../history/HistoryNode";
-import { WrapTMC, WrapTMCT } from "../output/LoggerWrapper";
 
-import { CPrinter } from "./CPrinter";
 import { NovelStatus } from "./NovelStatus";
 
 export class NovelChapter extends Historian {

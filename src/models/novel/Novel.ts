@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.novel
+ * @module nd.novel.model
  */
 
 import Bluebird from "bluebird";
@@ -13,20 +13,20 @@ import { log } from "winston";
 
 import { FetchApi } from "../../apis/download";
 import { WriteChapter, WriteFile } from "../../apis/file";
+import { WrapTMCT } from "../../apis/loggerWrapper";
 import { CreateChapterListApi, GetNovelDateApi, GetNovelNameApi, NormalizeNovelName } from "../../apis/novel";
 import { HtmlBuilder } from "../../builder/html";
 import { NovelBuilder } from "../../builder/novel";
 import { ResourceBuilder } from "../../builder/resource";
 import { NOVEL_CLOSED_WARN, NOVEL_NOTFOUND_ERR, NOVEL_SOLD_WARN, NOVEL_WARN } from "../../constants/error.const";
 import { DEFAULT_NOVEL_FOLDER_NAME } from "../../constants/novel.const";
-import { SaveIf } from "../../helpers/action";
+import { SaveIf } from "../../helpers/commander";
 import { CheckIsNovelPath, RevertTimestamp, Timestamp } from "../../helpers/helper";
 import { Debugger } from "../../helpers/log";
 import Config from "../command/Config";
 import { Historian } from "../history/Historian";
 import { HistoryActionUtils } from "../history/HistoryAction";
 import { HistoryNode, HistoryNodeType } from "../history/HistoryNode";
-import { WrapTMCT } from "../output/LoggerWrapper";
 import { NovelChapterResourceType } from "../resource/NovelResource";
 
 import { NovelChapter } from "./Chapter";

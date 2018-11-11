@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.history
+ * @module nd.history.model
  */
 
 import moment, { Moment } from "moment";
@@ -14,6 +14,7 @@ export interface HistoryCreatorChanges {
   before?: string;
   after?: string;
 }
+
 export interface HistoryCreatorOption {
   description?: string;
   time?: Moment;

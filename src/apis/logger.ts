@@ -1,6 +1,6 @@
 /**
  * @external
- * @module logger
+ * @module output.logger.api
  */
 
 import { Format } from "logform";
@@ -9,14 +9,7 @@ import DailyRotateFile from "winston-daily-rotate-file";
 
 import * as Transport from "winston-transport";
 
-import {
-  HAS_COLOR,
-  HAS_LOG_FILE,
-  IS_QUIET,
-  LOG_FOLDER_PATH,
-  LOG_TYPE,
-  LOGGER_LEVEL,
-} from "../../constants/default.const";
+import { HAS_COLOR, HAS_LOG_FILE, IS_QUIET, LOG_FOLDER_PATH, LOG_TYPE, LOGGER_LEVEL } from "../constants/default.const";
 
 const { colorize, timestamp, printf } = format;
 const { Console } = transports;

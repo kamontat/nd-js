@@ -1,10 +1,9 @@
 /**
  * @internal
- * @module nd.html
+ * @module nd.html.model
  */
 
 export class HtmlNode {
-
   constructor(build: { tag: string; style?: string; text: string }) {
     this.tag = build.tag;
     this.style = build.style;

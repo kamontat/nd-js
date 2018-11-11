@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.security
+ * @module nd.security.constant
  */
 
 import crypto from "crypto";

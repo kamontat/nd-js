@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.html
+ * @module nd.html.constant
  */
 
 import { CssTemplate } from "../models/html/HtmlCss";

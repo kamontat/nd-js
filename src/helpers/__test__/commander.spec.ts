@@ -1,7 +1,7 @@
 import "jest-extended";
 import { setProperty } from "../../../test/test";
 
-import { SeperateArgumentApi, ThrowIf, ValidList, ByLength, ByMatchSome } from "../action";
+import { SeperateArgumentApi, ThrowIf, ValidList, ByLength, ByMatchSome } from "../commander";
 import { EError } from "../../models/error/ErrorError";
 
 test("Should able to seperate option and parameters correctly", function() {

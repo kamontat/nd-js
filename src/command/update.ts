@@ -5,9 +5,9 @@
 
 import { NovelBuilder } from "../builder/novel";
 import { PARAM_WRONG_ERR } from "../constants/error.const";
-import { SeperateArgumentApi } from "../helpers/action";
+import { SeperateArgumentApi } from "../helpers/commander";
 import { CheckIsNovelPath } from "../helpers/helper";
-import { ListrHelper } from "../helpers/listr";
+import { ListrController } from "../helpers/listr";
 import { Novel } from "../models/novel/Novel";
 
 export default (a: any) => {
@@ -17,7 +17,7 @@ export default (a: any) => {
   if (!CheckIsNovelPath(location)) PARAM_WRONG_ERR.loadString("Input is NOT novel path").printAndExit();
 
   // TODO: Make changes output more readable that this.
-  return new ListrHelper()
+  return new ListrController()
     .addByHelper(`Load local novel`, NovelBuilder.buildLocal(location), "novel")
     .addFnByHelper(`Update local novel`, ctx => (ctx.novel as Novel).update(), "novel")
     .addLoadChapterList("Download chapters", {

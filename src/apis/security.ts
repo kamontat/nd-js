@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.security
+ * @module nd.security.api
  */
 
 import { log } from "winston";
@@ -8,11 +8,11 @@ import { log } from "winston";
 import { COLORS } from "../constants/color.const";
 import { IS_S } from "../constants/security.const";
 import { RevertTimestamp } from "../helpers/helper";
-import { WrapTMCT } from "../models/output/LoggerWrapper";
 import { TokenValidator } from "../models/security/TokenValidator";
 import { UsernameValidator } from "../models/security/UsernameValidator";
 import { NDValidator } from "../models/security/Validator";
 
+import { WrapTMCT } from "./loggerWrapper";
 import { DecodeToken } from "./token";
 
 export class Security {

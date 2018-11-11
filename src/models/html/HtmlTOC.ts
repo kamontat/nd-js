@@ -1,12 +1,9 @@
 /**
  * @internal
- * @module nd.html
+ * @module nd.html.model
  */
 
-import { log } from "winston";
-
 import { Novel } from "../novel/Novel";
-import { WrapTM } from "../output/LoggerWrapper";
 
 export class HtmlToc {
   constructor(novel: Novel) {

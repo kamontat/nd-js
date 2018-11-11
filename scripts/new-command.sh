@@ -16,7 +16,7 @@ echo "creating... ${commandname}"
 
 command_template="import { SeperateArgumentApi } from \"../helpers/action\";
 import { log } from \"winston\";
-import { WrapTMC } from \"../models/output/LoggerWrapper\";
+import { WrapTMC } from \"../apis/loggerWrapper\";
 
 export default (a: any) => {
   const { options, args } = SeperateArgumentApi(a);

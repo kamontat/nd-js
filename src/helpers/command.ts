@@ -1,19 +1,19 @@
 /**
  * @external
- * @module commander.command
+ * @module commander.api
  */
 
 import { Command, CommanderStatic } from "commander";
 import { configure } from "winston";
 
+import setting from "../apis/logger";
 import { ADMIN_CMD, INIT_CMD, SET_CONFIG_CMD } from "../constants/command.const";
 import { LOCATION_OPT } from "../constants/option.const";
 import { CCommand } from "../models/command/Command";
 import Config from "../models/command/Config";
 import { COption } from "../models/command/Option";
-import setting from "../models/output/Logger";
 
-import { ThrowIf } from "./action";
+import { ThrowIf } from "./commander";
 
 export const MakeOption = (program: Command | CommanderStatic, o: COption) => {
   if (o === LOCATION_OPT) program.option(o.name, o.desc, o.fn && getAction(o.fn), o.default);

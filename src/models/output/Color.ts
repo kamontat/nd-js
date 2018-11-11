@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.color
+ * @module output.logger.model
  */
 
 import { Chalk } from "chalk";
@@ -8,7 +8,7 @@ import { log } from "winston";
 
 import { COLORS } from "../../constants/color.const";
 
-import { WrapTM } from "./LoggerWrapper";
+import { WrapTM } from "../../apis/loggerWrapper";
 
 /**
  * The type of message will effect the color of it.

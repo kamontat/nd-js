@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.apis
+ * @module nd.html.api
  */
 
 export const Query = ($: CheerioStatic, check: (c: Cheerio) => boolean, ...querys: string[]): Cheerio | undefined => {

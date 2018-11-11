@@ -1,11 +1,11 @@
 /**
  * @internal
- * @module nd.exception
+ * @module nd.error.controller
  */
 
 import { log } from "winston";
 
-import { WrapTMC } from "../output/LoggerWrapper";
+import { WrapTMC } from "../../apis/loggerWrapper";
 
 import { Exception } from "./Exception";
 
@@ -20,7 +20,6 @@ import { Exception } from "./Exception";
  * @since Obtober 23, 2018
  */
 export class ExceptionStorage {
-
   constructor() {}
 
   public exceptions: Exception[] = [];
