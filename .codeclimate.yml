@@ -1,4 +1,4 @@
-version: "2"         # required to adjust maintainability checks
+version: "2" # required to adjust maintainability checks
 checks:
   argument-count:
     config:
@@ -28,9 +28,10 @@ plugins:
     enabled: true
     config:
       languages:
-      - javascript
-      - typescript
+        - javascript
+        - typescript
   fixme:
     enabled: true
 exclude_patterns:
   - "**/*.spec.ts"
+  - "**/__test__/**"
