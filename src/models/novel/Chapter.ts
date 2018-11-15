@@ -213,4 +213,8 @@ export class NovelChapter extends Historian {
   public toString() {
     return `Chapter ${this.number} "${this.name}" was downloaded ${this.status} at ${this.date}`;
   }
+
+  public equals(c: NovelChapter) {
+    return this.id === c.id && this.number === c.id;
+  }
 }

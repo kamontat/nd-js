@@ -36,11 +36,14 @@ export default (a: any) => {
       contextKey: "novel",
       overrideNovel: (novel: Novel) => {
         novel.location = config.getNovelLocation();
-        // update chapter to novel
-        const chapters = chapterString.map(chapter =>
-          NovelBuilder.createChapter(id, chapter, { location: config.getNovelLocation() }),
-        );
+        // get the chapter from the novel chapters list
+        const chapters = chapterString.map(chapter => {
+          const c = NovelBuilder.createChapter(id, chapter, { location: config.getNovelLocation() });
+          return novel.getChapter(c);
+        });
+        // reset all the list
         novel.resetChapter();
+        // add only request chapter
         chapters.forEach(c => novel.addChapter.call(novel, c));
       },
     })

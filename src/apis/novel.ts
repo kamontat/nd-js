@@ -33,7 +33,7 @@ export const GetNovelNameApi = ($: CheerioStatic) => {
 };
 
 // Support only version 2
-export const GetChapterDateListApiV2 = ($: CheerioStatic): Cheerio => {
+const GetChapterDateListApiV2 = ($: CheerioStatic): Cheerio => {
   const result = $(".update-txt");
   log(WrapTMCT("debug", `Chapter date length`, result.length));
   return result;
@@ -275,6 +275,9 @@ export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
     log(WrapTMCT("debug", `${chapter.id} => ${chapter.number} status`, "Sell!! "));
     throw NOVEL_SOLD_WARN.clone();
   } else if (result.some(node => node.text.includes("ผู้แต่งปิดการเข้าถึง"))) {
+    log(WrapTMCT("debug", `${chapter.id} => ${chapter.number} status`, "Close!! "));
+    throw NOVEL_CLOSED_WARN.clone();
+  } else if (result.some(node => node.text.includes("เนื้อหานิยายตอนนี้ถูกซ่อน"))) {
     log(WrapTMCT("debug", `${chapter.id} => ${chapter.number} status`, "Close!! "));
     throw NOVEL_CLOSED_WARN.clone();
   }

@@ -80,6 +80,13 @@ export class Novel extends Historian {
     return this._downloadAt || moment();
   }
 
+  public getChapter(key: number | NovelChapter) {
+    if (typeof key === "number") {
+      return this._chapters.get(key);
+    }
+    return this._chapters.get(key.key);
+  }
+
   public addChapter(chapter: NovelChapter) {
     const size = JSON.stringify(this.chapterSize);
     const isReplace = this.replaceChapter(chapter);
