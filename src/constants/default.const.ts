@@ -23,7 +23,7 @@ export const BeLog = (has: boolean) => (HAS_LOG_FILE = has);
 
 export let LOG_FOLDER_PATH = resolve(tmpdir(), "nd"); // Default is a $TMPDIR variable
 export const BeLoggerTo = (folder: string) => {
-  log(WrapTM("debug", "Change default log location", `Update ${LOG_FOLDER_PATH} => ${folder}`));
+  // log(WrapTM("debug", "Change default log location", `Update ${LOG_FOLDER_PATH} => ${folder}`));
   LOG_FOLDER_PATH = folder;
 };
 
