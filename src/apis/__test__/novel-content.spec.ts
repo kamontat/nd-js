@@ -1,10 +1,11 @@
 import "jest-extended";
 import cheerio from "cheerio";
 
-import { NOVEL_SOLD_WARN, NOVEL_CLOSED_WARN } from "../../constants/error.const";
+import { NOVEL_SOLD_WARN, NOVEL_CLOSED_WARN, NOVEL_WARN } from "../../constants/error.const";
 import { GetNovelContent } from "../novel";
 import { NovelBuilder } from "../../builder/novel";
 import { TEST_NID } from "../../../test/test";
+import { Warning } from "../../models/error/Warning";
 
 type TestCase = {
   case: { version: number; id: string; number: number };
@@ -71,7 +72,18 @@ cases.forEach(c => {
       test(`Should have the error ${c.expected.status.name}`, function() {
         expect(function() {
           GetNovelContent(NovelBuilder.createChapter(c.case.id, c.case.number.toString()), $);
-        }).toThrow(c.expected.status);
+        }).toThrowError(c.expected.status);
       });
+  });
+});
+
+describe("Start the unknown html", function() {
+  test("Should throw cannot get any content error", function() {
+    const html = require(`./assets/unknown.js`);
+    const $ = cheerio.load(html.content);
+
+    expect(function() {
+      GetNovelContent(NovelBuilder.createChapter("1", "1"), $);
+    }).toThrowError(Warning);
   });
 });

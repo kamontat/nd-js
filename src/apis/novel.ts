@@ -178,8 +178,8 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
     result.push(
       new HtmlNode({
         tag: "p",
-        text: headText,
-      }),
+        text: headText
+      })
     );
   }
   // end
@@ -202,8 +202,8 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
           result.push(
             new HtmlNode({
               tag: "p",
-              text,
-            }),
+              text
+            })
           );
         }
       }
@@ -221,14 +221,14 @@ export const getNovelContentV2 = ($: CheerioStatic) => {
     result.push(
       new HtmlNode({
         tag: "p",
-        text: headText,
-      }),
+        text: headText
+      })
     );
   }
   // end
 
   let child = $("div#story-content").children();
-  if (child.is("div")) child = child.children();
+  if (child.is("div") && !child.is(".red-status")) child = child.children();
 
   child.contents().each((_, e) => {
     const query = $(e);
@@ -249,8 +249,8 @@ export const getNovelContentV2 = ($: CheerioStatic) => {
         result.push(
           new HtmlNode({
             tag: "p",
-            text,
-          }),
+            text
+          })
         );
       }
     }
