@@ -25,6 +25,18 @@ describe("Downloading ", function() {
       });
     });
 
+    describe("Getting none exist novel id", function() {
+      const id = "2";
+      const chapter = "1";
+
+      test("Should reject the promise", async function() {
+        jest.setTimeout(10000);
+        expect.hasAssertions();
+
+        await expect(FetchApi(NovelBuilder.createChapter(id, chapter))).toReject();
+      });
+    });
+
     describe("Getting new novel", function() {
       test("Should get chapter name", function() {
         jest.setTimeout(10000);

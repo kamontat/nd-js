@@ -1,0 +1,77 @@
+import "jest-extended";
+import cheerio from "cheerio";
+
+import { NOVEL_SOLD_WARN, NOVEL_CLOSED_WARN } from "../../constants/error.const";
+import { GetNovelContent } from "../novel";
+import { NovelBuilder } from "../../builder/novel";
+import { TEST_NID } from "../../../test/test";
+
+type TestCase = {
+  case: { version: number; id: string; number: number };
+  expected: {
+    status?: Error;
+  };
+};
+
+// find any closed and sold chapter in novel version 1
+const cases: TestCase[] = [
+  {
+    case: {
+      version: 1,
+      id: "164129",
+      number: 2
+    },
+    expected: {}
+  },
+  {
+    case: {
+      version: 2,
+      id: "1819377",
+      number: 58
+    },
+    expected: {}
+  },
+  {
+    case: {
+      version: 2,
+      id: "1819377",
+      number: 70
+    },
+    expected: {
+      status: NOVEL_SOLD_WARN
+    }
+  },
+  {
+    case: {
+      version: 2,
+      id: TEST_NID,
+      number: 7
+    },
+    expected: {
+      status: NOVEL_CLOSED_WARN
+    }
+  }
+];
+
+cases.forEach(c => {
+  describe(`Start with novel id ${c.case.id}, chapter ${c.case.number} (v${c.case.version})`, function() {
+    const f = `nid-${c.case.id}-${c.case.number}.js`;
+    const html = require(`./assets/${f}`);
+    const $ = cheerio.load(html.content);
+
+    if (!c.expected.status) {
+      test("Should have the content", function() {
+        const content = GetNovelContent(NovelBuilder.createChapter(c.case.id, c.case.number.toString()), $);
+
+        expect(content).not.toBeUndefined();
+        expect(content).not.toBeEmpty();
+        expect(content).not.toBeNull();
+      });
+    } else
+      test(`Should have the error ${c.expected.status.name}`, function() {
+        expect(function() {
+          GetNovelContent(NovelBuilder.createChapter(c.case.id, c.case.number.toString()), $);
+        }).toThrow(c.expected.status);
+      });
+  });
+});

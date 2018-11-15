@@ -37,7 +37,13 @@ describe("Write to the file", function() {
         });
     });
 
-    test("Shouldn't write the content to no permission", function() {
+    test("Shouldn't write the content (no permission)", function() {
+      expect.hasAssertions();
+
+      return expect(Writer.ByPath(content, "/usr/some.file", false)).toReject();
+    });
+
+    test("Shouldn't write the content (no permission) even set forcing", function() {
       expect.hasAssertions();
 
       return expect(Writer.ByPath(content, "/usr/some.file", false)).toReject();
@@ -48,6 +54,13 @@ describe("Write to the file", function() {
 
       const file = tmp.fileSync({ template: "/tmp/nd-testing-tempB-XXXXXXX.f" });
       return expect(Writer.ByPath(content, file.name, false)).toReject();
+    });
+
+    test("Shouldn't write if file exist", function() {
+      expect.hasAssertions();
+
+      const file = tmp.fileSync({ template: "/tmp/nd-testing-tempB-XXXXXXX.f" });
+      return expect(Writer.ByPath(content, file.name, true)).toResolve();
     });
   });
 });

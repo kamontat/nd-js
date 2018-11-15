@@ -30,8 +30,10 @@ const names: Case[] = [
   }
 ];
 
-names.forEach(name => {
-  test(`Should normalize ${name.actual} to ${name.expected}`, function() {
-    expect(NormalizeNovelName(name.actual)).toEqual(name.expected);
+describe("Normalization", function() {
+  names.forEach(name => {
+    test(`Should change the name from ${name.actual} to ${name.expected}`, function() {
+      expect(NormalizeNovelName(name.actual)).toEqual(name.expected);
+    });
   });
 });
