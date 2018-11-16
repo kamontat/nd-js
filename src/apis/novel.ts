@@ -80,6 +80,14 @@ export const GetNovelDateApi = ($: CheerioStatic): moment.Moment => {
   return date;
 };
 
+export const isSoldElement = (cheerio: Cheerio): boolean => {
+  return cheerio.parentsUntil(".chapter-item").hasClass("chapter-sell");
+};
+
+export const isClosedElement = (cheerio: Cheerio): boolean => {
+  return cheerio.parentsUntil(".chapter-item").hasClass("chapter-state-hidden");
+};
+
 export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
   const chapters: { [key: string]: NovelChapter } = {};
 
@@ -91,17 +99,14 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
   const dateQuery = GetChapterDateListApiV2($);
 
   query.each((i, e) => {
-    const link = `${DEFAULT_NOVEL_LINK}/${$(e).attr("href")}`;
-    let title = TrimString($(e).attr("title"));
-    const sold = $(e)
-      .parentsUntil(".chapter-item")
-      .hasClass("chapter-sell");
+    const element = $(e);
 
-    const closed = $(e)
-      .parentsUntil(".chapter-item")
-      .hasClass("chapter-state-hidden");
+    const link = `${DEFAULT_NOVEL_LINK}/${element.attr("href")}`;
+    let title = TrimString(element.attr("title"));
+
+    // For version 1
     if (!CheckIsExist(title)) {
-      title = TrimString($(e).text());
+      title = TrimString(element.text());
     }
 
     if (link.includes("viewlongc.php")) {
@@ -121,14 +126,12 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
 
       // 28 ก.ย. 61
       const date = FormatMomentDateTime(dateString, "D MMM YY");
-      log(WrapTMCT("debug", "Chapter date", date));
 
       const chapterNumber = GetChapterNumber(link);
 
       const builtChapter = NovelBuilder.createChapterByLink(PassLink(link), { name: title, date });
-      if (sold) builtChapter.markSell();
-      else if (closed) builtChapter.markClose();
-      // else builtChapter.markComplete();
+      if (isSoldElement(element)) builtChapter.markSell();
+      else if (isClosedElement(element)) builtChapter.markClose();
 
       // For debugging
       const savedChapter = chapters[chapterNumber];
@@ -163,10 +166,7 @@ export const GetChapterNameApi = ($: CheerioStatic) => {
   return "";
 };
 
-export const getNovelContentV1 = ($: CheerioStatic) => {
-  const result: HtmlNode[] = [];
-
-  // เรื่องย่อ
+export const getShortContentV1 = ($: CheerioStatic) => {
   const header = $("span.desc_head")
     .parent()
     .get(0);
@@ -175,14 +175,18 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
     .replace("แนะนำเรื่องแบบย่อๆ", "");
 
   if (headText !== null && headText !== "") {
-    result.push(
-      new HtmlNode({
-        tag: "p",
-        text: headText
-      })
-    );
+    return new HtmlNode({
+      tag: "p",
+      text: headText
+    });
   }
-  // end
+  return;
+};
+
+export const getNovelContentV1 = ($: CheerioStatic) => {
+  const result: HtmlNode[] = [];
+  const short = getShortContentV1($);
+  if (short) result.push(short);
 
   $("table#story_body")
     .children()
@@ -191,9 +195,6 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
     .contents()
     .each((_, e) => {
       const query = $(e);
-      // Debugger("Text", query.text());
-      // Debugger("html", query.html());
-
       const text = query.text().trim();
       if (text !== "" && text !== "\n") {
         if (HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
@@ -212,20 +213,22 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
   return result;
 };
 
-export const getNovelContentV2 = ($: CheerioStatic) => {
-  const result: HtmlNode[] = [];
-
+export const getShortContentV2 = ($: CheerioStatic) => {
   // เรื่องย่อ
   const headText = $(".desc_sub").text();
   if (headText !== null && headText !== "") {
-    result.push(
-      new HtmlNode({
-        tag: "p",
-        text: headText
-      })
-    );
+    return new HtmlNode({
+      tag: "p",
+      text: headText
+    });
   }
-  // end
+  return;
+};
+
+export const getNovelContentV2 = ($: CheerioStatic) => {
+  const result: HtmlNode[] = [];
+  const short = getShortContentV2($);
+  if (short) result.push(short);
 
   let child = $("div#story-content").children();
   if (child.is("div") && !child.is(".red-status")) child = child.children();

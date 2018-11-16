@@ -5,10 +5,10 @@ checks:
       threshold: 5
   complex-logic:
     config:
-      threshold: 4
+      threshold: 5
   file-lines:
     config:
-      threshold: 200
+      threshold: 300
   method-complexity:
     config:
       threshold: 10
@@ -21,12 +21,19 @@ checks:
   return-statements:
     config:
       threshold: 10
+  identical-code:
+    config:
+      threshold: 50
+  similar-code:
+    config:
+      threshold: 75
 plugins:
   nodesecurity:
     enabled: true
   duplication:
     enabled: true
     config:
+      count_threshold: 3
       languages:
         - javascript
         - typescript

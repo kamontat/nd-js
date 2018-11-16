@@ -42,7 +42,7 @@ export const ByLength = (a: any[], b: number) => {
 export const ValidList = (
   args: any[],
   validFn: (a: any[], b: any) => boolean,
-  expected: any,
+  expected: any
 ): Exception | undefined => {
   if (!validFn(args, expected)) {
     return PARAM_WRONG_ERR.clone().loadString(`Expected [${expected}] but got [${args}]`);
@@ -59,15 +59,13 @@ export const ThrowIf = (e?: Throwable, option?: { noExit?: boolean }) => {
   if (!option || (option && option.noExit === undefined)) option = { noExit: false };
 
   if (e) {
-    if (option.noExit) {
-      if (e.print) e.print();
-      else log(WrapTM("error", "Error", e.stack ? e.stack : e.message));
-    } else {
-      if (e.printAndExit) e.printAndExit();
-      else {
-        log(WrapTM("error", "Error", e.stack ? e.stack : e.message));
-        process.exit(1);
-      }
+    // print the result
+    if (e.print) e.print();
+    else log(WrapTM("error", "Error", e.stack ? e.stack : e.message));
+    // exit if have to
+    if (!option.noExit) {
+      if (e.exit) e.exit();
+      else process.exit(1);
     }
   }
 };
@@ -101,6 +99,6 @@ export const SeperateArgumentApi = (a: any[]) => {
 
   return {
     options: cmd,
-    args,
+    args
   };
 };
