@@ -80,11 +80,30 @@ export const GetNovelDateApi = ($: CheerioStatic): moment.Moment => {
   return date;
 };
 
-export const isSoldElement = (cheerio: Cheerio): boolean => {
+const getTitleElement = (element: Cheerio): string => {
+  // For version 2
+  let title = TrimString(element.attr("title"));
+  if (CheckIsExist(title)) return title;
+  // For version 1
+  return TrimString(element.text());
+};
+
+const getDateElement = (element: Cheerio): string => {
+  return (
+    element
+      .parent()
+      .parent()
+      .contents()
+      .last()
+      .html() || ""
+  );
+};
+
+const isSoldElement = (cheerio: Cheerio): boolean => {
   return cheerio.parentsUntil(".chapter-item").hasClass("chapter-sell");
 };
 
-export const isClosedElement = (cheerio: Cheerio): boolean => {
+const isClosedElement = (cheerio: Cheerio): boolean => {
   return cheerio.parentsUntil(".chapter-item").hasClass("chapter-state-hidden");
 };
 
@@ -92,51 +111,35 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
   const chapters: { [key: string]: NovelChapter } = {};
 
   const query = Query($, c => c.length > 0, "a.chapter-item-name[target=_blank]", "a[target=_blank]");
-  if (!query) {
-    throw NOVEL_WARN.clone().loadString("cannot get chapter list");
-  }
+  if (!query) throw NOVEL_WARN.clone().loadString("cannot get chapter list");
 
   const dateQuery = GetChapterDateListApiV2($);
 
+  locale("th");
   query.each((i, e) => {
     const element = $(e);
 
     const link = `${DEFAULT_NOVEL_LINK}/${element.attr("href")}`;
-    let title = TrimString(element.attr("title"));
-
-    // For version 1
-    if (!CheckIsExist(title)) {
-      title = TrimString(element.text());
-    }
+    const title = getTitleElement(element);
 
     if (link.includes("viewlongc.php")) {
-      locale("th");
+      const chapterNumber = GetChapterNumber(link);
+
+      // version 2
       let dateString = $(dateQuery.get(i)).text();
-      if (!CheckIsExist(dateString)) {
-        dateString =
-          $(e)
-            .parent()
-            .parent()
-            .contents()
-            .last()
-            .html() || "";
+      // version 1
+      if (!CheckIsExist(dateString)) dateString = getDateElement(element);
 
-        log(WrapTMCT("debug", "Chapter date (string)", dateString));
-      }
-
+      log(WrapTMCT("debug", "Chapter date (string)", dateString));
       // 28 ก.ย. 61
       const date = FormatMomentDateTime(dateString, "D MMM YY");
-
-      const chapterNumber = GetChapterNumber(link);
 
       const builtChapter = NovelBuilder.createChapterByLink(PassLink(link), { name: title, date });
       if (isSoldElement(element)) builtChapter.markSell();
       else if (isClosedElement(element)) builtChapter.markClose();
 
-      // For debugging
-      const savedChapter = chapters[chapterNumber];
-      // to avoid deplicate chapter chapter
-      if (savedChapter === undefined) {
+      // to avoid deplicate chapter, show only first match
+      if (chapters[chapterNumber] === undefined) {
         log(WrapTM("debug", "chapter link", `${link}`));
         log(WrapTM("debug", "chapter title", title));
         log(WrapTM("debug", "date", date));
@@ -276,19 +279,18 @@ export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
 
   if (result.some(node => node.text.includes("ตอนนี้เป็นส่วนหนึ่งในแพ็กเกจนิยาย"))) {
     log(WrapTMCT("debug", `${chapter.id} => ${chapter.number} status`, "Sell!! "));
-    throw NOVEL_SOLD_WARN.clone();
-  } else if (result.some(node => node.text.includes("ผู้แต่งปิดการเข้าถึง"))) {
+    chapter.markSell();
+    return;
+  } else if (
+    result.some(node => node.text.includes("ผู้แต่งปิดการเข้าถึง") || node.text.includes("เนื้อหานิยายตอนนี้ถูกซ่อน"))
+  ) {
     log(WrapTMCT("debug", `${chapter.id} => ${chapter.number} status`, "Close!! "));
-    throw NOVEL_CLOSED_WARN.clone();
-  } else if (result.some(node => node.text.includes("เนื้อหานิยายตอนนี้ถูกซ่อน"))) {
-    log(WrapTMCT("debug", `${chapter.id} => ${chapter.number} status`, "Close!! "));
-    throw NOVEL_CLOSED_WARN.clone();
+    chapter.markClose();
+    return;
   }
 
-  if (result.length < 1) {
-    // log(WrapTM("debug", "The raw result", $.html()));
+  if (result.length < 1)
     throw NOVEL_WARN.clone().loadString(`Cannot get ${chapter.id} chapter ${chapter.number} content`);
-  }
 
   return result;
 };

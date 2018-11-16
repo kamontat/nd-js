@@ -16,9 +16,12 @@ export class HtmlBuilder {
   }
 
   public static buildContent(chapter: NovelChapter, $: CheerioStatic) {
-    const content = new HtmlContent();
-    content.adds(GetNovelContent(chapter, $));
-    return content;
+    const build = new HtmlContent();
+    const content = GetNovelContent(chapter, $);
+    if (!content) return;
+
+    build.adds(content);
+    return build;
   }
 
   public static buildToc(novel: Novel) {
