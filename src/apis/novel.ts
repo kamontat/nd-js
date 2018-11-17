@@ -10,11 +10,10 @@ import { log } from "winston";
 
 import { NovelBuilder } from "../builder/novel";
 import { COLORS } from "../constants/color.const";
-import { NOVEL_CLOSED_WARN, NOVEL_SOLD_WARN, NOVEL_WARN } from "../constants/error.const";
-import { CSS_CLASS_BLACKLIST_TEXT, HTML_BLACKLIST_TEXT } from "../constants/html.const";
+import { NOVEL_WARN } from "../constants/error.const";
+import { ATTR_BLACKLIST, HTML_BLACKLIST_TEXT } from "../constants/html.const";
 import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 import { CheckIsExist, FormatMomentDateTime, TrimString } from "../helpers/helper";
-import { Debugger } from "../helpers/log";
 import { GetChapterNumber, PassLink } from "../helpers/novel";
 import { HtmlNode } from "../models/html/HtmlNode";
 import { NovelChapter } from "../models/novel/Chapter";
@@ -82,7 +81,7 @@ export const GetNovelDateApi = ($: CheerioStatic): moment.Moment => {
 
 const getTitleElement = (element: Cheerio): string => {
   // For version 2
-  let title = TrimString(element.attr("title"));
+  const title = TrimString(element.attr("title"));
   if (CheckIsExist(title)) return title;
   // For version 1
   return TrimString(element.text());
@@ -180,7 +179,7 @@ export const getShortContentV1 = ($: CheerioStatic) => {
   if (headText !== null && headText !== "") {
     return new HtmlNode({
       tag: "p",
-      text: headText
+      text: headText,
     });
   }
   return;
@@ -206,8 +205,8 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
           result.push(
             new HtmlNode({
               tag: "p",
-              text
-            })
+              text,
+            }),
           );
         }
       }
@@ -216,15 +215,29 @@ export const getNovelContentV1 = ($: CheerioStatic) => {
   return result;
 };
 
-export const getShortContentV2 = ($: CheerioStatic) => {
+const getShortContentV2 = ($: CheerioStatic) => {
   // เรื่องย่อ
   const headText = $(".desc_sub").text();
   if (headText !== null && headText !== "") {
     return new HtmlNode({
       tag: "p",
-      text: headText
+      text: headText,
     });
   }
+  return;
+};
+
+const getFirstContentV2 = ($: CheerioStatic) => {
+  const text = $("div#story-content")
+    .contents()
+    .first()
+    .text();
+
+  if (text)
+    return new HtmlNode({
+      tag: "p",
+      text,
+    });
   return;
 };
 
@@ -233,32 +246,34 @@ export const getNovelContentV2 = ($: CheerioStatic) => {
   const short = getShortContentV2($);
   if (short) result.push(short);
 
-  let child = $("div#story-content").children();
-  if (child.is("div") && !child.is(".red-status")) child = child.children();
+  const firstContent = getFirstContentV2($);
+  if (firstContent) result.push(firstContent);
 
-  child.contents().each((_, e) => {
+  const content = $("div#story-content").find("div");
+  content.each((_, e) => {
     const query = $(e);
+
+    // filter unused element
     if (e.attribs) {
-      const cssClass = e.attribs.class;
-      if (cssClass) {
-        // filter css class that contain in BlackList
-        if (CSS_CLASS_BLACKLIST_TEXT.filter(v => cssClass.includes(v)).length > 0) {
-          return;
-        }
+      if (
+        ATTR_BLACKLIST.filter(blacklist => {
+          const attr = e.attribs[blacklist.key];
+          return attr && attr.includes(blacklist.value);
+        }).length > 0
+      ) {
+        return;
       }
     }
 
     const text = query.text().trim();
     if (text !== "" && text !== "\n") {
-      // filter text that contain in BlackList
-      if (HTML_BLACKLIST_TEXT.filter(v => text.includes(v)).length < 1) {
-        result.push(
-          new HtmlNode({
-            tag: "p",
-            text
-          })
-        );
-      }
+      log(WrapTM("debug", "The individual content", text));
+      result.push(
+        new HtmlNode({
+          tag: "p",
+          text,
+        }),
+      );
     }
   });
 

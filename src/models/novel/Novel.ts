@@ -14,7 +14,7 @@ import { log } from "winston";
 import { FetchApi } from "../../apis/download";
 import { Writer } from "../../apis/file";
 import { WrapTMCT } from "../../apis/loggerWrapper";
-import { GetNovelDateApi, GetNovelNameApi, NormalizeNovelName, CreateChapterListApi } from "../../apis/novel";
+import { CreateChapterListApi, GetNovelDateApi, GetNovelNameApi, NormalizeNovelName } from "../../apis/novel";
 import { HtmlBuilder } from "../../builder/html";
 import { NovelBuilder } from "../../builder/novel";
 import { ResourceBuilder } from "../../builder/resource";
@@ -31,29 +31,6 @@ import { NovelChapterResourceType } from "../resource/NovelResource";
 import { NovelChapter } from "./Chapter";
 
 export class Novel extends Historian {
-  private _id: string;
-  private _location?: string;
-
-  private _name?: string;
-  private _chapters: SortedArrayMap<NovelChapter>;
-
-  private _downloadAt: Moment; // manually collect
-  private _updateAt?: Moment; // this from website
-
-  constructor(id: string, location?: string) {
-    super();
-
-    this.notify(HistoryNode.CreateByChange("Novel ID", { before: undefined, after: id }));
-    this._id = id;
-
-    this._chapters = new SortedArrayMap();
-
-    if (!location) location = Config.Load().getNovelLocation();
-    this.location = location;
-
-    this._downloadAt = moment();
-  }
-
   get location(): string {
     return this._location || Config.Load({ quiet: true }).getNovelLocation();
   }
@@ -78,55 +55,9 @@ export class Novel extends Historian {
     return this._downloadAt || moment();
   }
 
-  public getChapter(key: number | NovelChapter) {
-    if (typeof key === "number") {
-      return this._chapters.get(key);
-    }
-    return this._chapters.get(key.key);
-  }
-
-  public addChapter(chapter: NovelChapter) {
-    const size = JSON.stringify(this.chapterSize);
-    const isReplace = this.replaceChapter(chapter);
-    if (!isReplace) {
-      this.notify(
-        HistoryNode.CreateByChange(
-          "Novel chapters",
-          { before: size, after: JSON.stringify(chapter.toJSON()) },
-          { description: this.description }
-        )
-      );
-      chapter.location = this.location; // link the location as well
-      chapter.linkTo(this); // link chapter history to novel history
-    }
-  }
-
-  public replaceChapter(chap: NovelChapter) {
-    if (this._chapters.has(chap.key)) {
-      const current = this._chapters.get(chap.key);
-      // reset to unknown if chapter is incompleted
-      if (!current.isCompleted()) {
-        current.markUnknown();
-      } else {
-        // if writer update something and the chapter isn't sold or closed
-        if (current.moment.isBefore(chap.moment) && chap.isUnknown()) {
-          current.markUnknown();
-        }
-      }
-      return true;
-    } else {
-      this._chapters.set(chap.key, chap);
-      return false;
-    }
-  }
-
-  public resetChapter() {
-    this._chapters = new SortedArrayMap();
-  }
-
   set name(n: string) {
     this.notify(
-      HistoryNode.CreateByChange("Novel name", { before: this.name, after: n }, { description: this.description })
+      HistoryNode.CreateByChange("Novel name", { before: this.name, after: n }, { description: this.description }),
     );
     this._name = n;
   }
@@ -139,69 +70,10 @@ export class Novel extends Historian {
   set lastUpdate($: CheerioStatic) {
     const last = GetNovelDateApi($);
     this.notify(
-      HistoryNode.CreateByChange("Last update", { before: Timestamp(this._updateAt), after: Timestamp(last) })
+      HistoryNode.CreateByChange("Last update", { before: Timestamp(this._updateAt), after: Timestamp(last) }),
     );
 
     this._updateAt = last;
-  }
-
-  public setAll(setting: {
-    id?: string;
-    name?: string;
-    lastUpdate?: string;
-    downloadAt?: string;
-    chapters?: NovelChapterResourceType[];
-  }) {
-    this.pauseObserve();
-
-    if (setting.id) this._id = setting.id;
-    if (setting.name) this._name = setting.name;
-    if (setting.lastUpdate) this._updateAt = RevertTimestamp(setting.lastUpdate);
-    if (setting.downloadAt) this._downloadAt = RevertTimestamp(setting.downloadAt);
-
-    if (setting.chapters && setting.chapters.length > 0) {
-      this.resetChapter();
-      setting.chapters.map(c => NovelBuilder.buildChapterLocal(this, c)).forEach(c => this.addChapter(c));
-    }
-
-    this.startObserve();
-  }
-
-  public setHistory(nodes: HistoryNodeType[]) {
-    this.pauseObserve();
-
-    nodes
-      .map(
-        node =>
-          new HistoryNode(
-            HistoryActionUtils.ToAction(node.action),
-            node.title,
-            { before: node.value.before, after: node.value.after },
-            { description: node.description, time: RevertTimestamp(node.time) }
-          )
-      )
-      .forEach(node => this.history().addNode(node));
-    this.startObserve();
-  }
-
-  public chapter({ copy = false }) {
-    if (!this._chapters) return [];
-    const array = this._chapters.toArray() as NovelChapter[];
-
-    if (copy) return array.copyWithin(0, 0);
-    else return array;
-  }
-
-  public mapChapter(fn: (n: NovelChapter, index?: number) => any) {
-    return this.chapter({ copy: true }).map(fn);
-  }
-
-  public filterChapter(fn: (n: NovelChapter, index?: number) => boolean) {
-    return this.chapter({ copy: true }).filter(fn);
-  }
-
-  public eachChapter(fn: (n: NovelChapter, index?: number) => void) {
-    return this.chapter({ copy: true }).forEach(fn);
   }
 
   get completedChapter() {
@@ -236,30 +108,17 @@ export class Novel extends Historian {
       start: s,
       end: e,
       size: numbers.length,
-      list: numbers
+      list: numbers,
     };
   }
+  private _id: string;
+  private _location?: string;
 
-  public update(): Bluebird<Novel> {
-    return FetchApi(NovelBuilder.createZeroChapter(this)).then(value => {
-      return this.load(value.cheerio);
-    });
-  }
+  private _name?: string;
+  private _chapters: SortedArrayMap<NovelChapter>;
 
-  public load($: CheerioStatic): Bluebird<Novel> {
-    return new Bluebird(res => {
-      this.name = GetNovelNameApi($);
-
-      if (this._location && !CheckIsNovelPath(this._location))
-        this.location = join(this._location, DEFAULT_NOVEL_FOLDER_NAME(NormalizeNovelName(this.name)));
-
-      // this.resetChapter();
-      CreateChapterListApi($).forEach(c => this.addChapter.call(this, c));
-
-      this.lastUpdate = $;
-      res(this);
-    });
-  }
+  private _downloadAt: Moment; // manually collect
+  private _updateAt?: Moment; // this from website
 
   private async validateBeforeSave({ force = false }) {
     if (this._location && existsSync(this._location) && !force) {
@@ -282,7 +141,7 @@ export class Novel extends Historian {
     force = false,
     completeFn = (_: NovelChapter) => {},
     completedFn = (_: NovelChapter) => {},
-    failFn = (_: NovelChapter) => {}
+    failFn = (_: NovelChapter) => {},
   }) {
     if (validate) this.validateBeforeSave({ force });
 
@@ -319,6 +178,147 @@ export class Novel extends Historian {
     });
   }
 
+  constructor(id: string, location?: string) {
+    super();
+
+    this.notify(HistoryNode.CreateByChange("Novel ID", { before: undefined, after: id }));
+    this._id = id;
+
+    this._chapters = new SortedArrayMap();
+
+    if (!location) location = Config.Load().getNovelLocation();
+    this.location = location;
+
+    this._downloadAt = moment();
+  }
+
+  public getChapter(key: number | NovelChapter) {
+    if (typeof key === "number") {
+      return this._chapters.get(key);
+    }
+    return this._chapters.get(key.key);
+  }
+
+  public addChapter(chapter: NovelChapter) {
+    const size = JSON.stringify(this.chapterSize);
+    const isReplace = this.replaceChapter(chapter);
+    if (!isReplace) {
+      this.notify(
+        HistoryNode.CreateByChange(
+          "Novel chapters",
+          { before: size, after: JSON.stringify(chapter.toJSON()) },
+          { description: this.description },
+        ),
+      );
+      chapter.location = this.location; // link the location as well
+      chapter.linkTo(this); // link chapter history to novel history
+    }
+  }
+
+  public replaceChapter(chap: NovelChapter) {
+    if (this._chapters.has(chap.key)) {
+      const current = this._chapters.get(chap.key);
+      if (!current) return false;
+      // reset to unknown if chapter is incompleted
+      if (!current.isCompleted()) {
+        current.markUnknown();
+      } else {
+        // if writer update something and the chapter isn't sold or closed
+        if (current.moment.isBefore(chap.moment) && chap.isUnknown()) {
+          current.markUnknown();
+        }
+      }
+      return true;
+    } else {
+      this._chapters.set(chap.key, chap);
+      return false;
+    }
+  }
+
+  public resetChapter() {
+    this._chapters = new SortedArrayMap();
+  }
+
+  public setAll(setting: {
+    id?: string;
+    name?: string;
+    lastUpdate?: string;
+    downloadAt?: string;
+    chapters?: NovelChapterResourceType[];
+  }) {
+    this.pauseObserve();
+
+    if (setting.id) this._id = setting.id;
+    if (setting.name) this._name = setting.name;
+    if (setting.lastUpdate) this._updateAt = RevertTimestamp(setting.lastUpdate);
+    if (setting.downloadAt) this._downloadAt = RevertTimestamp(setting.downloadAt);
+
+    if (setting.chapters && setting.chapters.length > 0) {
+      this.resetChapter();
+      setting.chapters.map(c => NovelBuilder.buildChapterLocal(this, c)).forEach(c => this.addChapter(c));
+    }
+
+    this.startObserve();
+  }
+
+  public setHistory(nodes: HistoryNodeType[]) {
+    this.pauseObserve();
+
+    nodes
+      .map(
+        node =>
+          new HistoryNode(
+            HistoryActionUtils.ToAction(node.action),
+            node.title,
+            { before: node.value.before, after: node.value.after },
+            { description: node.description, time: RevertTimestamp(node.time) },
+          ),
+      )
+      .forEach(node => this.history().addNode(node));
+    this.startObserve();
+  }
+
+  public chapter({ copy = false }) {
+    if (!this._chapters) return [];
+    const array = this._chapters.toArray() as NovelChapter[];
+
+    if (copy) return array.copyWithin(0, 0);
+    else return array;
+  }
+
+  public mapChapter(fn: (n: NovelChapter, index?: number) => any) {
+    return this.chapter({ copy: true }).map(fn);
+  }
+
+  public filterChapter(fn: (n: NovelChapter, index?: number) => boolean) {
+    return this.chapter({ copy: true }).filter(fn);
+  }
+
+  public eachChapter(fn: (n: NovelChapter, index?: number) => void) {
+    return this.chapter({ copy: true }).forEach(fn);
+  }
+
+  public update(): Bluebird<Novel> {
+    return FetchApi(NovelBuilder.createZeroChapter(this)).then(value => {
+      return this.load(value.cheerio);
+    });
+  }
+
+  public load($: CheerioStatic): Bluebird<Novel> {
+    return new Bluebird(res => {
+      this.name = GetNovelNameApi($);
+
+      if (this._location && !CheckIsNovelPath(this._location))
+        this.location = join(this._location, DEFAULT_NOVEL_FOLDER_NAME(NormalizeNovelName(this.name)));
+
+      // this.resetChapter();
+      CreateChapterListApi($).forEach(c => this.addChapter.call(this, c));
+
+      this.lastUpdate = $;
+      res(this);
+    });
+  }
+
   public saveResource({ force = false }) {
     const res = ResourceBuilder.Create(this);
     const path = res.buildPath(this.location);
@@ -329,7 +329,7 @@ export class Novel extends Historian {
     force = false,
     completeFn = (_: NovelChapter) => {},
     completedFn = (_: NovelChapter) => {},
-    failFn = (_: NovelChapter) => {}
+    failFn = (_: NovelChapter) => {},
   }) {
     try {
       await this.validateBeforeSave({ force });
@@ -357,7 +357,7 @@ export class Novel extends Historian {
       id: this.id,
       name: this.name,
       lastUpdate: Timestamp(this.lastUpdateAt),
-      chapters: this.mapChapter(chap => chap.toJSON())
+      chapters: this.mapChapter(chap => chap.toJSON()),
     };
   }
 }

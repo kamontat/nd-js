@@ -10,7 +10,7 @@ import { Response } from "request";
 import request from "request-promise";
 import { RequestError } from "request-promise/errors";
 
-import { DOWNLOAD_ERR, NOVEL_WARN } from "../constants/error.const";
+import { CHAPTER_NOTFOUND_WARN, DOWNLOAD_ERR, NOVEL_NOTFOUND_ERR, NOVEL_WARN } from "../constants/error.const";
 import { NovelChapter } from "../models/novel/Chapter";
 
 import { CheckIsNovel, GetChapterDateApi, GetChapterNameApi } from "./novel";
@@ -54,7 +54,7 @@ export const FetchApi: (chapter: NovelChapter) => Bluebird<{ cheerio: CheerioSta
           chapter.date = GetChapterDateApi($);
           return res({ cheerio: $, chapter });
         } else {
-          return rej(NOVEL_WARN.clone().loadString(`Novel(${chapter.id}) on chapter ${chapter.number} is not exist`));
+          return rej(CHAPTER_NOTFOUND_WARN.clone().loadString(`Novel(${chapter.id}) chapter ${chapter.number}`));
         }
       })
       .catch(e => {

@@ -22,7 +22,7 @@ export const WrapTitleMessage = (level: level, title: string, message: any, colo
   return {
     level,
     message: `${title.padEnd(headerShifting)}: ${
-      message instanceof Object ? inspect(message, false, 1, HAS_COLOR) : message
+      typeof message === "object" ? inspect(message, false, 1, HAS_COLOR) : message
     }`,
   };
 };

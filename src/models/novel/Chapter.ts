@@ -9,7 +9,7 @@ import { join } from "path";
 import { log } from "winston";
 
 import { WrapTMC } from "../../apis/loggerWrapper";
-import { NOVEL_ERR, NOVEL_SOLD_WARN, NOVEL_CLOSED_WARN } from "../../constants/error.const";
+import { CHAPTER_CLOSED_WARN, CHAPTER_SOLD_WARN, NOVEL_ERR } from "../../constants/error.const";
 import { CheckIsNumber, RevertTimestamp, Timestamp } from "../../helpers/helper";
 import { GetChapterFile, GetLinkWithChapter } from "../../helpers/novel";
 import Config from "../command/Config";
@@ -33,7 +33,7 @@ export class NovelChapter extends Historian {
 
   set name(n: string) {
     this.notify(
-      HistoryNode.CreateByChange("Chapter name", { before: this._name, after: n }, { description: this.description })
+      HistoryNode.CreateByChange("Chapter name", { before: this._name, after: n }, { description: this.description }),
     );
     this._name = n;
   }
@@ -47,8 +47,8 @@ export class NovelChapter extends Historian {
       HistoryNode.CreateByChange(
         "Chapter location",
         { before: this._location, after: loc },
-        { description: this.description }
-      )
+        { description: this.description },
+      ),
     );
     this._location = loc;
   }
@@ -99,8 +99,8 @@ export class NovelChapter extends Historian {
       HistoryNode.CreateByChange(
         "Chapter status",
         { before: this._status, after: status },
-        { description: this.description }
-      )
+        { description: this.description },
+      ),
     );
     this._status = status;
   }
@@ -112,8 +112,8 @@ export class NovelChapter extends Historian {
       HistoryNode.CreateByChange(
         "Chapter date",
         { before: Timestamp(this._date), after: Timestamp(date) },
-        { description: this.description }
-      )
+        { description: this.description },
+      ),
     );
   }
 
@@ -174,7 +174,7 @@ export class NovelChapter extends Historian {
       name: this.name,
       number: this.number,
       date: this.timestamp,
-      status: this.status
+      status: this.status,
     };
   }
 
@@ -196,12 +196,12 @@ export class NovelChapter extends Historian {
 
   public markSell() {
     this.status = NovelStatus.SOLD;
-    // return NOVEL_SOLD_WARN.clone().loadString(`id ${this.id} chapter ${this.number}`);
+    // return CHAPTER_SOLD_WARN.clone().loadString(`id ${this.id} chapter ${this.number}`);
   }
 
   public markClose() {
     this.status = NovelStatus.CLOSED;
-    // return NOVEL_CLOSED_WARN.clone().loadString(`id ${this.id} chapter ${this.number}`);
+    // return CHAPTER_CLOSED_WARN.clone().loadString(`id ${this.id} chapter ${this.number}`);
   }
 
   public markComplete() {
@@ -213,8 +213,8 @@ export class NovelChapter extends Historian {
   }
 
   public throw() {
-    if (this.isClosed()) return NOVEL_CLOSED_WARN.clone().loadString(`id ${this.id} chapter ${this.number}`);
-    else if (this.isSold()) return NOVEL_SOLD_WARN.clone().loadString(`id ${this.id} chapter ${this.number}`);
+    if (this.isClosed()) return CHAPTER_CLOSED_WARN.clone().loadString(`id ${this.id} chapter ${this.number}`);
+    else if (this.isSold()) return CHAPTER_SOLD_WARN.clone().loadString(`id ${this.id} chapter ${this.number}`);
     return;
   }
 

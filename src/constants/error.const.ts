@@ -14,8 +14,9 @@ export const PARAM_WARN: Throwable = new Warning("Parameter have warning message
 export const OPTION_WARN: Throwable = new Warning("Option have warning message", 2);
 
 export const NOVEL_WARN: Throwable = new Warning("Novel warning", 3);
-export const NOVEL_SOLD_WARN: Throwable = new Warning("This chapter is selling", 3 + 1);
-export const NOVEL_CLOSED_WARN: Throwable = new Warning("This chapter is closed", 3 + 2);
+export const CHAPTER_SOLD_WARN: Throwable = new Warning("This chapter is selling", 3 + 1);
+export const CHAPTER_CLOSED_WARN: Throwable = new Warning("This chapter is closed", 3 + 2);
+export const CHAPTER_NOTFOUND_WARN: Throwable = new Warning("This chapter is not exist", 3 + 3);
 
 export const CONFIG_NOTFOUND_ERR: Throwable = new NFError("Config file not found", 0);
 export const PARAM_NOTFOUND_ERR: Throwable = new NFError("Required parameter not exist", 1);

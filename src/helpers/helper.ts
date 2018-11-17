@@ -38,18 +38,18 @@ export const CheckIsExist = (value: string | undefined | null) => {
  * @return true, if input value contains only number
  */
 export const CheckIsNumber = (value: string) => {
-  if (!value) {
+  if (!CheckIsExist(value)) {
     return false;
   }
+  if (!value.toString) return false;
   return value.toString().match(/^\d+$/) !== null;
 };
 
 export const CheckIsEmail = (value: string) => {
-  if (!value) {
+  if (!CheckIsExist(value)) {
     return false;
   }
   if (!value.toString) return false;
-
   const str = value.toString();
   return (
     str.match(
@@ -70,6 +70,7 @@ export const CheckIsPathExist = (pathname: any) => {
   if (!CheckIsExist(pathname)) {
     return false;
   }
+  if (!pathname.toString) return false;
   const exist = existsSync(pathname.toString());
   return exist;
 };

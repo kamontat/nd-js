@@ -26,6 +26,7 @@ interface LogOption {
 
 let alreadySetup = false;
 
+// tslint:disable-next-line
 export namespace Logger {
   /**
    * custom timestamp format to DD-MM-YYYY::HH.mm.ss
@@ -104,6 +105,8 @@ export namespace Logger {
 
     // setup console log
     const console = [time, customConsoleFormat];
+
+    // tslint:disable-next-line
     if (option.color) console.push(colorize());
 
     // setup file log

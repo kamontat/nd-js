@@ -73,7 +73,7 @@ cases.forEach(c => {
       test(`Should have the error ${c.expected.status.name}`, function() {
         const chapter = NovelBuilder.createChapter(c.case.id, c.case.number.toString());
         GetNovelContent(chapter, $);
-        expect(c.expected.status.equal(chapter.throw())).toBeTrue();
+        if (c.expected.status) expect(c.expected.status.equal(chapter.throw())).toBeTrue();
       });
   });
 });

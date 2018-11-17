@@ -9,7 +9,15 @@ import { pathExists, writeFile } from "fs-extra";
 import { FILE_ERR } from "../constants/error.const";
 import { NovelChapter } from "../models/novel/Chapter";
 
-export namespace Writer {
+/**
+ * Writer class is a one of utils class in this command. This class respond to writing content to file.
+ *
+ *
+ * @author Kamontat Chantrachirathumrong
+ * @version 1.0.0
+ * @since November 16, 2018
+ */
+export class Writer {
   /**
    * This will write the content to file use promise technology (Bluebird)
    *
@@ -18,25 +26,32 @@ export namespace Writer {
    * @param force force to save the file even it exist
    *
    * @author Kamontat Chantrachirathumrong
-   * @version 1.0.0
    * @since November 11, 2018
+   *
+   * @version 1.0.1
+   * @version 1.1.0 - Make the method return Bluebird instead of normal Promise
    */
-  export const ByPath = (html: string, path: string, force?: boolean) => {
+  public static ByPath(html: string, path: string, force?: boolean): Bluebird<string> {
     if (force)
-      return writeFile(path, html)
-        .then(_ => Bluebird.resolve(path))
-        .catch(e => Bluebird.reject(e));
-
-    return pathExists(path).then(isExist => {
-      if (!isExist) {
+      return new Bluebird((res, rej) => {
         return writeFile(path, html)
-          .then(_ => Bluebird.resolve(path))
-          .catch(e => Bluebird.reject(e));
-      } else {
-        return Bluebird.reject(FILE_ERR.clone().loadString(`${path} file is already exist`));
-      }
+          .then(_ => res(path))
+          .catch(e => rej(e));
+      });
+
+    return new Bluebird((res, rej) => {
+      return pathExists(path)
+        .then(isExist => {
+          if (!isExist) {
+            return writeFile(path, html);
+          } else {
+            return Bluebird.reject(FILE_ERR.clone().loadString(`${path} file is already exist`));
+          }
+        })
+        .then(_ => res(path))
+        .catch(e => rej(e));
     });
-  };
+  }
 
   /**
    * This will almost the same as {@link Writer.ByPath} except you need to pass chapter instead of file path
@@ -46,10 +61,10 @@ export namespace Writer {
    * @param force force save the result even file is exist
    *
    * @author Kamontat Chantrachirathumrong
-   * @version 1.0.0
+   * @version 1.0.1
    * @since November 11, 2018
    */
-  export const ByChapter = (html: string, chapter: NovelChapter, force?: boolean) => {
-    return ByPath(html, chapter.file(), force).then(_ => Bluebird.resolve(chapter));
-  };
+  public static ByChapter(html: string, chapter: NovelChapter, force?: boolean) {
+    return Writer.ByPath(html, chapter.file(), force).then(_ => Bluebird.resolve(chapter));
+  }
 }
