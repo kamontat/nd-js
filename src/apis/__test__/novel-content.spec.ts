@@ -1,16 +1,17 @@
 import "jest-extended";
 import cheerio from "cheerio";
 
-import { NOVEL_SOLD_WARN, NOVEL_CLOSED_WARN, NOVEL_WARN } from "../../constants/error.const";
+import { CHAPTER_SOLD_WARN, CHAPTER_CLOSED_WARN, NOVEL_WARN } from "../../constants/error.const";
 import { GetNovelContent } from "../novel";
 import { NovelBuilder } from "../../builder/novel";
 import { TEST_NID } from "../../../test/test";
 import { Warning } from "../../models/error/Warning";
+import Throwable from "../../models/error/Exception";
 
 type TestCase = {
   case: { version: number; id: string; number: number };
   expected: {
-    status?: Error;
+    status?: Throwable;
   };
 };
 
@@ -39,7 +40,7 @@ const cases: TestCase[] = [
       number: 70
     },
     expected: {
-      status: NOVEL_SOLD_WARN
+      status: CHAPTER_SOLD_WARN
     }
   },
   {
@@ -49,7 +50,7 @@ const cases: TestCase[] = [
       number: 7
     },
     expected: {
-      status: NOVEL_CLOSED_WARN
+      status: CHAPTER_CLOSED_WARN
     }
   }
 ];
@@ -70,9 +71,9 @@ cases.forEach(c => {
       });
     } else
       test(`Should have the error ${c.expected.status.name}`, function() {
-        expect(function() {
-          GetNovelContent(NovelBuilder.createChapter(c.case.id, c.case.number.toString()), $);
-        }).toThrowError(c.expected.status);
+        const chapter = NovelBuilder.createChapter(c.case.id, c.case.number.toString());
+        GetNovelContent(chapter, $);
+        expect(c.expected.status.equal(chapter.throw())).toBeTrue();
       });
   });
 });

@@ -40,7 +40,7 @@ describe("Download mock novel version 2", async function() {
 
   test("Should able to get the novel date", function() {
     const date = GetNovelDateApi($0);
-    const expected = moment("2018-11-07T00:32");
+    const expected = moment("2018-11-18T02:53"); // 18 พ.ย. 61 / 02:53
 
     expect(date.isSame(expected, "minute")).toBeTrue();
   });
