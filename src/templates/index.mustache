@@ -11,23 +11,31 @@
   <meta name="designer" content="KC">
   <meta name="publisher" content="KC">
 
-  <meta name="description" content="Novel, Thailand, ND, dek-d">
-  <meta name="keywords" content="CLI, nd command, nd, novel, github, dek-d, Thailand">
+  <meta name="description" content="This is novel html automatic generating from {{command}} command version {{version}}">
+  <meta name="keywords" content="CLI, nd command, nd, novel, github, dek-d">
   <meta name="revisit-after" content="7 days">
   <meta name="distribution" content="web">
   <meta http-equiv="refresh" content="30">
-  <meta name="robots" content="noodp">
+  {{! og: http://ogp.me/#types }}
+  <meta property="og:title" content="{{novelName}}" />
+  <meta property="og:type" content="book" />
+  <meta property="og:link" content="{{link}}" />
 
   <meta name="subject" content="Personal">
   <meta name="copyright" content="Copyright© 2018">
   <meta name="city" content="Bangkok">
   <meta name="country" content="TH">
 
-  <meta name="format-detection" content="telephone=yes" />
   <meta name="HandheldFriendly" content="true" />
 
   {{#novelName}}
-  <title>{{chapterName}} ({{chapterNumber}}) | {{novelName}}</title>
+    {{#chapterName}}
+      <title>{{chapterName}} ({{chapterNumber}}) | {{novelName}}</title>
+    {{/chapterName}}
+    {{^chapterName}}
+      <title>{{novelName}}</title>
+    {{/chapterName}}
+  
   {{/novelName}}
   {{^novelName}}
   <title>{{chapterName}} ({{chapterNumber}})</title>
@@ -127,7 +135,7 @@
 
     <div class="credit">
       <p id="detail">
-        <a href="{{link}}">{{novelID}}</a> was created <br />
+        <a target="_blank" href="{{link}}">{{novelID}}</a> was created <br />
         on {{date}} <br />
         by {{command}} command version {{version}}
       </p>

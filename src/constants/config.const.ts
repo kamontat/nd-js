@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.config
+ * @module nd.config.constant
  */
 
 import os from "os";
@@ -14,7 +14,7 @@ export const ND_FOLDER_PATH = path.join(home, ND_FOLDER_NAME);
 
 export const CONFIG_EXTENSION = "yml";
 
-export const CONFIG_FOLDER_PATH = path.join(ND_FOLDER_PATH, "config");
+export const CONFIG_FOLDER_PATH = process.env.NODE_CONFIG_DIR || path.join(ND_FOLDER_PATH, "config");
 
 export const CONFIG_FILE_PATH = path.join(CONFIG_FOLDER_PATH, `default.${CONFIG_EXTENSION}`);
 

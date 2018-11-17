@@ -1,29 +1,36 @@
 /**
  * @internal
- * @module nd.apis
+ * @module nd.novel.api
  */
 
 import { URL } from "url";
-import { DEFAULT_NOVEL_LINK, DEFAULT_CHAPTER_FILE_TEMPLATE } from "../constants/novel.const";
-import { PARAM_WRONG_ERR } from "../constants/error.const";
 import { format } from "util";
+
+import { PARAM_WRONG_ERR } from "../constants/error.const";
+import { DEFAULT_CHAPTER_FILE_TEMPLATE, DEFAULT_NOVEL_LINK } from "../constants/novel.const";
 
 export const GetNID = (str: string) => {
   try {
-    let link = PassLink(str);
-    if (link.searchParams.has("id")) return link.searchParams.get("id") || "";
+    const link = PassLink(str);
+    if (link.searchParams.has("id")) {
+      return link.searchParams.get("id") || "";
+    }
   } catch (e) {
-    if (IsID(str)) return str;
+    if (IsID(str)) {
+      return str;
+    }
   }
   throw PARAM_WRONG_ERR.clone().loadString("input is not either link or id");
 };
 
-export const GetChapter = (str: string) => {
+export const GetChapterNumber = (link: string) => {
   try {
-    let link = PassLink(str);
-    return link.searchParams.get("chapter") || "0";
+    const url = PassLink(link);
+    return url.searchParams.get("chapter") || "0";
   } catch (e) {
-    if (IsID(str)) return str;
+    if (IsID(link)) {
+      return link;
+    }
   }
   throw PARAM_WRONG_ERR.clone().loadString("input is not either link or id");
 };
@@ -34,7 +41,7 @@ export const IsID = (str: string) => {
 
 export const GetLink = (id: string) => {
   if (IsID(id)) {
-    let link = PassLink(DEFAULT_NOVEL_LINK);
+    const link = PassLink(DEFAULT_NOVEL_LINK);
     link.searchParams.set("id", id);
     return link;
   }
@@ -47,7 +54,7 @@ export const GetLinkWithChapter = (id: string, chapter: string | undefined) => {
       return GetLink(id);
     }
 
-    let link = PassLink(DEFAULT_NOVEL_LINK.replace("view", "viewlongc"));
+    const link = PassLink(DEFAULT_NOVEL_LINK.replace("view", "viewlongc"));
     link.searchParams.set("id", id);
     link.searchParams.set("chapter", chapter);
     return link;

@@ -6,6 +6,8 @@ commits:
     value: Add or Fix Testing in project
   - key: config
     value: Update configuration file or add new ones
+  - key: snapshot
+    value: Snapshot the code without show in changelog
 branches:
   - key: test
     value: Add, improve, fix the Testing case

@@ -10,24 +10,20 @@ options:
         - feature
         - improve
         - fix
-        - refactor
         - doc
-        - lib
   commit_groups:
     title_maps:
       feature: 1) Features
       improve: 2) Improving User Experience
       fix: 3) Fixes Bug
       doc: 4) Documentation
-      refactor: 5) Code Refactoring
-      lib: 6) Libraries
   header:
     pattern: "^\\[(\\w*)\\]\\s(.*)$"
     pattern_maps:
       - Type
       - Subject
-  issues: 
-    prefix: 
+  issues:
+    prefix:
       - "#"
   notes:
     keywords:

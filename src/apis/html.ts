@@ -1,12 +1,14 @@
 /**
  * @internal
- * @module nd.apis
+ * @module nd.html.api
  */
 
 export const Query = ($: CheerioStatic, check: (c: Cheerio) => boolean, ...querys: string[]): Cheerio | undefined => {
-  for (let q in querys) {
-    let query = $(querys[q]);
-    if (check(query)) return query;
+  for (const query of Object.values(querys)) {
+    const cheerio = $(query);
+    if (check(cheerio)) {
+      return cheerio;
+    }
   }
-  return undefined;
+  return;
 };

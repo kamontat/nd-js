@@ -1,74 +1,30 @@
-import { HtmlTemplate } from "../models/HtmlTemplate";
-import { HtmlContent } from "../models/HtmlContent";
-import { HtmlToc } from "../models/HtmlTOC";
-import { NovelChapter } from "../models/Chapter";
-import { Novel } from "../models/Novel";
+/**
+ * @internal
+ * @module nd.html.model.builder
+ */
+
 import { GetNovelContent } from "../apis/novel";
-
-export class HtmlBuild extends HtmlTemplate {
-  constructor(id: string) {
-    super({
-      id: id,
-      chapterNumber: "",
-      content: ""
-    });
-  }
-
-  addNovel(novel: Novel) {
-    return this.addName(novel._name)
-      .addChapNum("0")
-      .addToc(HtmlBuilder.buildToc(novel));
-  }
-
-  addName(name?: string) {
-    this.novelName = name;
-    return this;
-  }
-
-  addChap(chapter: NovelChapter) {
-    return this.addChapName(chapter._name)
-      .addChapNum(chapter._chapterNumber)
-      .addLastUpdate(chapter.getDate());
-  }
-
-  addChapNum(chapterNumber: string) {
-    this.chapterNumber = chapterNumber;
-    return this;
-  }
-
-  addChapName(name: string | undefined) {
-    this.chapterName = name;
-    return this;
-  }
-
-  addLastUpdate(date: string | undefined) {
-    this.lastUpdate = date;
-    return this;
-  }
-
-  addContent(content: HtmlContent) {
-    this.content = content.build();
-    return this;
-  }
-
-  addToc(toc: HtmlToc) {
-    this.toc = toc.build();
-    return this;
-  }
-}
+import { HtmlBuild } from "../models/html/HtmlBuilding";
+import { HtmlContent } from "../models/html/HtmlContent";
+import { HtmlToc } from "../models/html/HtmlTOC";
+import { NovelChapter } from "../models/novel/Chapter";
+import { Novel } from "../models/novel/Novel";
 
 export class HtmlBuilder {
-  static template(id: string) {
+  public static template(id: string) {
     return new HtmlBuild(id);
   }
 
-  static buildContent($: CheerioStatic) {
-    const content = new HtmlContent();
-    content.adds(GetNovelContent($));
-    return content;
+  public static buildContent(chapter: NovelChapter, $: CheerioStatic) {
+    const build = new HtmlContent();
+    const content = GetNovelContent(chapter, $);
+    if (!content) return;
+
+    build.adds(content);
+    return build;
   }
 
-  static buildToc(novel: Novel) {
+  public static buildToc(novel: Novel) {
     return new HtmlToc(novel);
   }
 }

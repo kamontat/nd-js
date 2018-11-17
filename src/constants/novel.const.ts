@@ -1,8 +1,6 @@
-import { NormalizeNovelName } from "../apis/novel";
-
 /**
  * @internal
- * @module nd.novel
+ * @module nd.novel.constant
  */
 
 /**
@@ -14,3 +12,7 @@ export const DEFAULT_CHAPTER_FILE_TEMPLATE = "chapter%s.html";
 export const DEFAULT_NOVEL_FOLDER_NAME = (name: string) => {
   return `${name}`;
 };
+
+export const DEFAULT_RESOURCE_NAME = ".nd.resource.json";
+
+export const DEFAULT_MAXIMUM_HISTORY = 300;
