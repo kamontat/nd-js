@@ -5,10 +5,10 @@
 
 import { log } from "winston";
 
-import { WrapTMCT } from "../apis/loggerWrapper";
+import { WrapTM } from "../apis/loggerWrapper";
 
 const DEBUGGER_NAME = "DEBUGGER";
 
 export const Debugger = (title: string, description: any) => {
-  log(WrapTMCT("debug", `${DEBUGGER_NAME} ${title}`, description));
+  log(WrapTM("debug", `${DEBUGGER_NAME} ${title}`, description));
 };
