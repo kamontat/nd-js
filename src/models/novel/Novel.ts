@@ -217,8 +217,7 @@ export class Novel extends Historian {
 
   public replaceChapter(chap: NovelChapter) {
     if (this._chapters.has(chap.key)) {
-      const current = this._chapters.get(chap.key);
-      if (!current) return false;
+      const current = this._chapters.get(chap.key) as NovelChapter;
       // reset to unknown if chapter is incompleted
       if (!current.isCompleted()) {
         current.markUnknown();
