@@ -12,7 +12,7 @@ declare module "collections/sorted-array-map" {
     );
 
     has(key: Key): boolean;
-    get(key: Key, defaultValue?: V): V;
+    get(key: Key, defaultValue?: V): V | undefined;
     set(key: Key, value: V): void;
     add(value: V, key: Key): void;
     delete(key: Key): boolean;
