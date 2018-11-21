@@ -18,8 +18,6 @@ import {
   VERSION_CMD,
 } from "./constants/command.const";
 
-import { ADMIN_CMD } from "./constants/command.const";
-
 import { Logger } from "./apis/logger";
 import { ND } from "./constants/nd.const";
 import {
@@ -31,10 +29,9 @@ import {
   QUIET_OPT,
   SHORT_OUT_OPT,
 } from "./constants/option.const";
-import { BBB } from "./constants/security.const";
 import { MakeCommand, MakeOption } from "./helpers/command";
 
-program.name(ND.PROJECT_NAME).version(`nd version: ${ND.VERSION} (ID=${BBB})`, "-v, --version");
+program.name(ND.PROJECT_NAME).version(`nd version: ${ND.VERSION}`, "-v, --version");
 
 // MakeOption(program, VERBOSE_OPT);
 MakeOption(program, DEBUG_OPT);
@@ -56,8 +53,6 @@ MakeCommand(program, DOWNLOAD_CMD);
 MakeCommand(program, RAW_DOWNLOAD_CMD);
 MakeCommand(program, FETCH_CMD);
 MakeCommand(program, UPDATE_CMD);
-
-if (ND.isDev()) MakeCommand(program, ADMIN_CMD);
 
 program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
   const setup = Logger.setting();

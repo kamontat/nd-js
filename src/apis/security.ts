@@ -5,15 +5,15 @@
 
 import { log } from "winston";
 
+import { ConvertToRequireTokenData, DecryptToken } from "../../security/index-prod";
 import { COLORS } from "../constants/color.const";
-import { IS_S } from "../constants/security.const";
+import { ND } from "../constants/nd.const";
 import { RevertTimestamp } from "../helpers/helper";
 import { TokenValidator } from "../models/security/TokenValidator";
 import { UsernameValidator } from "../models/security/UsernameValidator";
 import { NDValidator } from "../models/security/Validator";
 
 import { WrapTMCT } from "./loggerWrapper";
-import { DecodeToken } from "./token";
 
 export class Security {
   public static Checking(token: string, username: string) {
@@ -29,12 +29,12 @@ export class Security {
     log(WrapTMCT("info", "Surname", validator.username.surname, { message: COLORS.Name }));
     log(WrapTMCT("info", "Email", validator.username.email));
 
-    const decode = DecodeToken(token);
-    log(WrapTMCT("info", "Worked version", IS_S(decode.token), { message: COLORS.Important }));
-    // log(WrapTMCT("info", "Token", decode.token));
-    log(WrapTMCT("info", "Username", decode.name, { message: COLORS.Name }));
-    log(WrapTMCT("info", "Issue at", RevertTimestamp(decode.iat), { message: COLORS.DateTime }));
-    log(WrapTMCT("info", "Not before", RevertTimestamp(decode.nbf), { message: COLORS.DateTime }));
-    log(WrapTMCT("info", "Expire at", RevertTimestamp(decode.exp), { message: COLORS.DateTime }));
+    const _decode = DecryptToken({ fullname: username, token, version: ND.VERSION });
+    const decode = ConvertToRequireTokenData(_decode, username);
+    log(WrapTMCT("info", "Worked version", decode.versionrange, { message: COLORS.Important }));
+    log(WrapTMCT("info", "Username", decode.username, { message: COLORS.Name }));
+    log(WrapTMCT("info", "Issue at", RevertTimestamp(decode.issuedate), { message: COLORS.DateTime }));
+    log(WrapTMCT("info", "Not before", RevertTimestamp(decode.notbeforedate), { message: COLORS.DateTime }));
+    log(WrapTMCT("info", "Expire at", RevertTimestamp(decode.expiredate), { message: COLORS.DateTime }));
   }
 }

@@ -10,9 +10,10 @@ import { dirname, resolve } from "path";
 import semver, { major } from "semver";
 import { log } from "winston";
 
+import { ConvertToRequireTokenData, DecryptToken } from "../../../security/index-prod";
+
 import { WrapTM, WrapTMC, WrapTMCT } from "../../apis/loggerWrapper";
 import { Security } from "../../apis/security";
-import { DecodeToken } from "../../apis/token";
 import { COLORS } from "../../constants/color.const";
 import { CONFIG_FILE_PATH } from "../../constants/config.const";
 import { HAS_COLOR, LOG_TYPE } from "../../constants/default.const";
@@ -176,9 +177,10 @@ export default class Config {
       if (!Security.Checking(this.getToken(), this.getUsername()).isValid()) {
         throw SECURITY_FAIL_ERR.loadString("unknown error");
       } else {
-        const result = DecodeToken(this.getToken());
+        const _result = DecryptToken({ fullname: this.getUsername(), token: this.getToken(), version: ND.VERSION });
+        const result = ConvertToRequireTokenData(_result, this.getUsername());
         log(
-          WrapTMCT("info", "Your username", typeof result === "string" ? result : result && result.name, {
+          WrapTMCT("info", "Your username", typeof result === "string" ? result : result && result.username, {
             message: COLORS.Name,
           }),
         );

@@ -1,0 +1,26 @@
+{
+  "name": "nd-security",
+  "version": "1.0.0",
+  "description": "Security implementation for ND command",
+  "author": "Kamontat Chantrachirathumrong <kamontat_c@hotmail.com>",
+  "config": {
+    "token": {
+      "1.0.0": {
+        "jwtAlgo": "HS256",
+        "iv": 12,
+        "key": "6Fe2sD5W2uFyMC8nomDEfPrm",
+        "key2": "BgqSIOrLLcHXuAYYcBuM2ios",
+        "sal": "AwwdZzq9xnJfP84MK5VBON54",
+        "jid": "OHjmBHH5LIH7vX1ESBxLTDiE"
+      },
+      "1.0.0-rc.0": {
+        "jwtAlgo": "HS256",
+        "iv": 12,
+        "key": "1PikJ0wVYsfQ3k4FYXOs0200",
+        "key2": "mIb7eZA4pZCDSRBCgtSXETSl",
+        "sal": "n44TBAwEzZF9487fTKMF9ArU",
+        "jid": "BA3ZeJWd7EPGB5nv0pEwH0Jm"
+      }
+    }
+  }
+}

@@ -2,8 +2,9 @@
  * @internal
  * @module nd.security.model
  */
+import { DecryptToken } from "../../../security/index-prod";
 
-import { VerifyToken } from "../../apis/token";
+import { ND } from "../../constants/nd.const";
 import { CheckIsExist } from "../../helpers/helper";
 
 import { TokenValidator } from "./TokenValidator";
@@ -26,7 +27,7 @@ export class NDValidator implements Validator {
 
   public isValid() {
     const result = this.token.isValid() && this.username.isValid();
-    const decode = VerifyToken(this.token, this.username);
+    const decode = DecryptToken({ fullname: this.username.fullname, token: this.token.token, version: ND.VERSION });
     return result && CheckIsExist(decode && decode.toString());
   }
 }
