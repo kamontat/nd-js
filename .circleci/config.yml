@@ -30,12 +30,6 @@ jobs:
           name: Compile the code
           command: yarn compile --verbose
       - run:
-          name: Initial configuration file
-          command: |
-            yarn start initial --force
-            yarn start setc token "$ND_TOKEN"
-            yarn start setc username "$ND_USERNAME"
-      - run:
           name: Testing
           command: |
             ./cc-test-reporter before-build

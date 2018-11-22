@@ -12,7 +12,7 @@ test("Should have default value in config", function() {
   let token = config.getToken();
   expect(token).toBeEmpty();
 
-  let username = config.getUsername();
+  let username = config.getFullname();
 
   expect(username).toBeEmpty();
   expect(config.getVersion()).toEqual(major(ND.VERSION));
@@ -66,7 +66,7 @@ test("Should able to update config by command options", function() {
 test("Should set the valid token to file", function() {
   const config = Config.Load({ bypass: true, quiet: true });
   config.setToken(TEST_TOKEN);
-  config.setUsername(TEST_NAME);
+  config.setFullname(TEST_NAME);
   config.save();
 
   expect(config.getToken()).toEqual(TEST_TOKEN);

@@ -17,13 +17,13 @@ winston.configure(Logger.setting({ quiet: true, log: { has: false, folder: "" } 
 beforeAll(() => {
   const config = Config.Initial(true);
   config.setToken(helper.TEST_TOKEN);
-  config.setUsername(helper.TEST_NAME);
+  config.setFullname(helper.TEST_NAME);
   config.save();
 });
 
-afterAll(() => {
-  const config = Config.Load({ bypass: true, quiet: true });
-  config.setToken(helper.TEST_TOKEN);
-  config.setUsername(helper.TEST_NAME);
-  config.save();
-});
+// afterAll(() => {
+//   const config = Config.Load({ bypass: true, quiet: true });
+//   config.setToken(helper.TEST_TOKEN);
+//   config.setFullname(helper.TEST_NAME);
+//   config.save();
+// });

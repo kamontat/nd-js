@@ -7,7 +7,7 @@ import { Command, CommanderStatic } from "commander";
 import { configure } from "winston";
 
 import { Logger } from "../apis/logger";
-import { ADMIN_CMD, INIT_CMD, SET_CONFIG_CMD } from "../constants/command.const";
+import { INIT_CMD, SET_CONFIG_CMD } from "../constants/command.const";
 import { LOCATION_OPT } from "../constants/option.const";
 import { CCommand } from "../models/command/Command";
 import Config from "../models/command/Config";
@@ -39,7 +39,7 @@ const getAction = (fn: (...args: any[]) => void, c?: CCommand) => {
       if (setup) configure(setup);
       // setup logger configuration
 
-      const bypassCMD = [SET_CONFIG_CMD, ADMIN_CMD, INIT_CMD];
+      const bypassCMD = [SET_CONFIG_CMD, INIT_CMD];
       const bypass: boolean = c ? bypassCMD.includes(c) : false;
       Config.Load({ bypass });
 

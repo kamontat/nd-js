@@ -18,8 +18,6 @@ import {
   VERSION_CMD,
 } from "./constants/command.const";
 
-import { ADMIN_CMD } from "./constants/command.const";
-
 import { Logger } from "./apis/logger";
 import { ND } from "./constants/nd.const";
 import {
@@ -31,10 +29,9 @@ import {
   QUIET_OPT,
   SHORT_OUT_OPT,
 } from "./constants/option.const";
-import { BBB } from "./constants/security.const";
 import { MakeCommand, MakeOption } from "./helpers/command";
 
-program.name(ND.PROJECT_NAME).version(`nd version: ${ND.VERSION} (ID=${BBB})`, "-v, --version");
+program.name(ND.PROJECT_NAME).version(`nd version: ${ND.VERSION}`, "-v, --version");
 
 // MakeOption(program, VERBOSE_OPT);
 MakeOption(program, DEBUG_OPT);
@@ -57,8 +54,6 @@ MakeCommand(program, RAW_DOWNLOAD_CMD);
 MakeCommand(program, FETCH_CMD);
 MakeCommand(program, UPDATE_CMD);
 
-if (ND.isDev()) MakeCommand(program, ADMIN_CMD);
-
 program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
   const setup = Logger.setting();
   if (setup) winston.configure(setup);
@@ -76,7 +71,7 @@ program.on("--help", () => {
     "json",
   )}>|${OPTION_COLOR("--file")} <${PARAMETER_COLOR("path")}>] [${OPTION_COLOR("--force")}]
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("set-config")} [${ARGUMENT_COLOR("token")}|${ARGUMENT_COLOR(
-    "username",
+    "fullname",
   )}|${ARGUMENT_COLOR("color")}|${ARGUMENT_COLOR("location")}]
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("raw-download")} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR(
     "link",

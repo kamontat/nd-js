@@ -8,7 +8,11 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 
 module.exports = {
   mode: "development", // production
-  entry: "./src/nd.ts",
+  entry: {
+    nd: "./src/nd.ts",
+    "nd-security": "./security/index.ts",
+    "nd-admin": "./admin/index.ts"
+  },
   devtool: "inline-source-map",
   module: {
     rules: [
@@ -88,7 +92,10 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".html", ".ts", ".js"]
+    extensions: [".html", "json", ".ts", ".js"],
+    alias: {
+      "nd-security": path.resolve(__dirname, "./security")
+    }
   },
   plugins: [
     new DashboardPlugin(),
@@ -101,8 +108,8 @@ module.exports = {
     })
   ],
   output: {
-    filename: "nd.min.js",
-    path: path.resolve(__dirname, ".caches")
+    path: path.join(__dirname, ".caches"),
+    filename: "[name].min.js"
   },
   target: "node",
   externals: [nodeExternals()]

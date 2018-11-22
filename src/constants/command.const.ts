@@ -5,7 +5,6 @@
 
 import { log } from "winston";
 
-import Admin from "../command/admin";
 import Changelog from "../command/changelog";
 import Config from "../command/config";
 import ConfigSet, { CONFIG_SET_LIST } from "../command/config-set";
@@ -156,21 +155,6 @@ export const UPDATE_CMD: CCommand = {
     },
   ],
   fn: Update,
-};
-
-export const ADMIN_CMD: CCommand = {
-  name: `admin-${ND.VERSION}`,
-  alias: `a-${ND.VERSION}`,
-  desc: "",
-  options: [
-    {
-      name: "-J, --json",
-      desc: "Export as json format",
-    },
-  ],
-  fn: Admin,
-
-  noHelp: true,
 };
 
 export const VALIDATOR_CMD: CCommand = {

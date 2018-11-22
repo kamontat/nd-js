@@ -29,7 +29,7 @@
 #//               0.0.2a1 -- alpha-format
 
 # How to use
-## ./deploy.sh [alpha|beta|patch|minor|major] [--yes <title>]
+## ./deploy.sh [alpha|beta|patch|minor|major|none] [--yes <title>]
 
 ################################
 ## Input from user            ##
@@ -64,6 +64,7 @@ update_version() {
 	[[ $ver == "patch" ]] && yarn --silent version:patch "$version" && return
 	[[ $ver == "minor" ]] && yarn --silent version:minor "$version" && return
 	[[ $ver == "major" ]] && yarn --silent version:major "$version" && return
+  [[ $ver == "none" ]] && echo "$version" && return
 
 	echo "invalid version" && exit 5
 }
