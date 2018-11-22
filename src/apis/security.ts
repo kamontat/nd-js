@@ -9,28 +9,28 @@ import { ConvertToRequireTokenData, DecryptToken } from "../../security/index-pr
 import { COLORS } from "../constants/color.const";
 import { ND } from "../constants/nd.const";
 import { RevertTimestamp } from "../helpers/helper";
+import { NameValidator } from "../models/security/NameValidator";
 import { TokenValidator } from "../models/security/TokenValidator";
-import { UsernameValidator } from "../models/security/UsernameValidator";
 import { NDValidator } from "../models/security/Validator";
 
 import { WrapTMCT } from "./loggerWrapper";
 
 export class Security {
-  public static Checking(token: string, username: string) {
+  public static Checking(token: string, name: string) {
     const tv = new TokenValidator(token);
-    const uv = new UsernameValidator(username);
+    const uv = new NameValidator(name);
     return new NDValidator(tv, uv);
   }
 
-  public static Printer(token: string, username: string) {
-    const validator = Security.Checking(token, username);
+  public static Printer(token: string, name: string) {
+    const validator = Security.Checking(token, name);
 
-    log(WrapTMCT("info", "Name", validator.username.name, { message: COLORS.Name }));
-    log(WrapTMCT("info", "Surname", validator.username.surname, { message: COLORS.Name }));
-    log(WrapTMCT("info", "Email", validator.username.email));
+    log(WrapTMCT("info", "Name", validator.name.name, { message: COLORS.Name }));
+    log(WrapTMCT("info", "Surname", validator.name.surname, { message: COLORS.Name }));
+    log(WrapTMCT("info", "Email", validator.name.email));
 
-    const _decode = DecryptToken({ fullname: username, token, version: ND.VERSION });
-    const decode = ConvertToRequireTokenData(_decode, username);
+    const _decode = DecryptToken({ fullname: name, token, version: ND.VERSION });
+    const decode = ConvertToRequireTokenData(_decode, name);
     log(WrapTMCT("info", "Worked version", decode.versionrange, { message: COLORS.Important }));
     log(WrapTMCT("info", "Username", decode.username, { message: COLORS.Name }));
     log(WrapTMCT("info", "Issue at", RevertTimestamp(decode.issuedate), { message: COLORS.DateTime }));

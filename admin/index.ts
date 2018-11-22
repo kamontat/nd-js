@@ -112,9 +112,8 @@ yargs
           };
 
           const print = (token: string, fullname: string) => {
-            if (argv.json)
-              console.log(JSON.stringify({ token, username: fullname }, undefined, argv.format ? " " : undefined));
-            else console.log(`${argv.format ? `token: ${token}\nusername: ${fullname}` : `${token}`}`);
+            if (argv.json) console.log(JSON.stringify({ token, fullname }, undefined, argv.format ? " " : undefined));
+            else console.log(`${argv.format ? `token: ${token}\nfullname: ${fullname}` : `${token}`}`);
           };
 
           if (argv.yes) print(EncryptToken(defaultAnswer), defaultAnswer.fullname);
@@ -132,7 +131,7 @@ yargs
       json: {
         alias: "J",
         desc: "Mark input as json format",
-        conflicts: ["username", "token"],
+        conflicts: ["fullname", "token"],
       },
       fullname: {
         alias: "N",

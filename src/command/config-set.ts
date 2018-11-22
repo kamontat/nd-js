@@ -6,7 +6,7 @@
 import { ByLength, ByMatchSome, SeperateArgumentApi, ThrowIf, ValidList } from "../helpers/commander";
 import Config from "../models/command/Config";
 
-export const CONFIG_SET_LIST = ["token", "username", "color", "location"];
+export const CONFIG_SET_LIST = ["token", "fullname", "color", "location"];
 
 /**
  * This is configuration setting command, This command able to set the value to config file.
@@ -26,7 +26,7 @@ export default (a: any) => {
     ThrowIf(ValidList(args, ByLength, 2));
 
     if (args.includes("token")) config.setToken(args[1]);
-    else if (args.includes("username")) config.setUsername(args[1]);
+    else if (args.includes("fullname")) config.setFullname(args[1]);
     else if (args.includes("color")) config.setColor(args[1]);
     else if (args.includes("location")) config.setNovelLocation(args[1]);
 

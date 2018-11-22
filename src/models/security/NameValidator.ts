@@ -8,41 +8,41 @@ import { SECURITY_FAIL_ERR } from "../../constants/error.const";
 
 import { Validator } from "./Validator";
 
-export class UsernameValidator implements Validator {
+export class NameValidator implements Validator {
   get fullname() {
-    return this.username.join(" ");
+    return this._fullname.join(" ");
   }
 
   get name() {
-    if (this.username.length !== 3) {
+    if (this._fullname.length !== 3) {
       return "";
     }
-    return this.username[0];
+    return this._fullname[0];
   }
 
   get surname() {
-    if (this.username.length !== 3) {
+    if (this._fullname.length !== 3) {
       return "";
     }
-    return this.username[1];
+    return this._fullname[1];
   }
 
   get email() {
-    if (this.username.length !== 3) {
+    if (this._fullname.length !== 3) {
       return "";
     }
-    return this.username[2];
+    return this._fullname[2];
   }
 
-  private username: string[];
+  private _fullname: string[];
 
-  constructor(username: string) {
-    this.username = username.split(" ");
+  constructor(fullname: string) {
+    this._fullname = fullname.split(" ");
   }
 
   public isValid() {
     try {
-      return IsFullName(this.username.join(" "));
+      return IsFullName(this._fullname.join(" "));
     } catch (e) {
       throw SECURITY_FAIL_ERR.loadError(e);
     }

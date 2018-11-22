@@ -71,7 +71,7 @@ program.on("--help", () => {
     "json",
   )}>|${OPTION_COLOR("--file")} <${PARAMETER_COLOR("path")}>] [${OPTION_COLOR("--force")}]
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("set-config")} [${ARGUMENT_COLOR("token")}|${ARGUMENT_COLOR(
-    "username",
+    "fullname",
   )}|${ARGUMENT_COLOR("color")}|${ARGUMENT_COLOR("location")}]
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("raw-download")} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR(
     "link",

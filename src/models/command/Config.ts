@@ -39,7 +39,7 @@ export default class Config {
 
   // config location
   public configLocation: string;
-  public _username?: string;
+  public _fullname?: string;
   public _token?: string;
 
   public _outputType?: "short" | "long";
@@ -51,7 +51,7 @@ export default class Config {
 
   public _option?: { quiet: boolean };
 
-  public _setter(key: "_username" | "_token" | "_outputType" | "_color" | "_novelLocation", value: any | undefined) {
+  public _setter(key: "_fullname" | "_token" | "_outputType" | "_color" | "_novelLocation", value: any | undefined) {
     // log(WrapTM("debug", "setter be called", `key=${key}, value=${value}, quiet=${this._option && this._option.quiet}`));
     if (CheckIsExist(value)) {
       if (!this._isQuite()) {
@@ -76,14 +76,13 @@ export default class Config {
 
       if (options.all === true) {
         log(WrapTMCT(out, "Config.token", this._token, { message: COLORS.Token }));
-        // log(WrapTMCT("info", "Config.username", this._username, { message: COLORS.Name }));
         log(WrapTMCT(out, "Config.version", this._version));
         log(WrapTMCT(out, "Config.color", this._color));
         log(WrapTMCT(out, "Config.type", this._outputType));
         log(WrapTMCT(out, "Config.location", this._novelLocation));
       }
 
-      if (options.console) Security.Printer(this.getToken(), this.getUsername());
+      if (options.console) Security.Printer(this.getToken(), this.getFullname());
     }
   }
 
@@ -97,12 +96,12 @@ export default class Config {
     }
   }
 
-  public setUsername(id: string | undefined) {
-    this._setter("_username", id);
+  public setFullname(id: string | undefined) {
+    this._setter("_fullname", id);
   }
 
-  public getUsername(): string {
-    return this._username === undefined ? "" : this._username;
+  public getFullname(): string {
+    return this._fullname === undefined ? "" : this._fullname;
   }
 
   public setToken(token: string | undefined) {
@@ -166,7 +165,7 @@ export default class Config {
     this.setVersion(doc.version.toString() || this.getVersion().toString());
 
     this.setToken(doc.security.token || this.getToken());
-    this.setUsername(doc.security.username || this.getUsername());
+    this.setFullname(doc.security.fullname || this.getFullname());
 
     this.setColor(doc.setting.color.toString() || this.getColor().toString());
     this.setNovelLocation(doc.setting.location || this.getNovelLocation());
@@ -174,11 +173,11 @@ export default class Config {
     this.setOutputType(doc.setting.output || this.getOutputType());
 
     if (!bypass) {
-      if (!Security.Checking(this.getToken(), this.getUsername()).isValid()) {
+      if (!Security.Checking(this.getToken(), this.getFullname()).isValid()) {
         throw SECURITY_FAIL_ERR.loadString("unknown error");
       } else {
-        const _result = DecryptToken({ fullname: this.getUsername(), token: this.getToken(), version: ND.VERSION });
-        const result = ConvertToRequireTokenData(_result, this.getUsername());
+        const _result = DecryptToken({ fullname: this.getFullname(), token: this.getToken(), version: ND.VERSION });
+        const result = ConvertToRequireTokenData(_result, this.getFullname());
         log(
           WrapTMCT("info", "Your username", typeof result === "string" ? result : result && result.username, {
             message: COLORS.Name,
@@ -203,7 +202,7 @@ export default class Config {
       return CONFIG_FAIL_ERR.clone().loadString("version is missing or not matches.");
     }
 
-    const checklist = ["token", "username"];
+    const checklist = ["token", "fullname"];
     for (const v of checklist) {
       if (!config.has(`security.${v}`) && !CheckIsExist(config.get(`security.${v}`))) {
         return CONFIG_FAIL_ERR.clone().loadString(`${v} is required.`);

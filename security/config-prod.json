@@ -7,9 +7,9 @@
     "token": {
       "jwtAlgo": "HS256",
       "iv": 12,
-      "key": "6Fe2sD5W2uFyMC8nomDEfPrm",
-      "key2": "BgqSIOrLLcHXuAYYcBuM2ios",
-      "sal": "AwwdZzq9xnJfP84MK5VBON54",
+      "key": "p6RnZTsmyWh723CTjz6Hbod5",
+      "key2": "tBb4wjMdaAMfPRHeaczwctMi",
+      "sal": "SiTUxezeAQbqpHluTkEGMg9r",
       "jid": "OHjmBHH5LIH7vX1ESBxLTDiE"
     }
   }

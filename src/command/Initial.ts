@@ -25,14 +25,14 @@ export default (a: any) => {
   try {
     const config = Config.Initial(options.force);
     if (options.raw) {
-      const json: { token?: string; username?: string } = JSON.parse(options.raw);
+      const json: { token?: string; fullname?: string } = JSON.parse(options.raw);
       config.setToken(json.token);
-      config.setUsername(json.username);
+      config.setFullname(json.fullname);
       config.save();
     } else if (options.file) {
-      const json: { token?: string; username?: string } = readJSONSync(options.file);
+      const json: { token?: string; fullname?: string } = readJSONSync(options.file);
       config.setToken(json.token);
-      config.setUsername(json.username);
+      config.setFullname(json.fullname);
       config.save();
     }
     log(WrapTMC("info", "config", config.configLocation));

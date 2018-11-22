@@ -13,6 +13,14 @@
         "sal": "AwwdZzq9xnJfP84MK5VBON54",
         "jid": "OHjmBHH5LIH7vX1ESBxLTDiE"
       },
+      "1.0.0-rc.1": {
+        "jwtAlgo": "HS256",
+        "iv": 12,
+        "key": "p6RnZTsmyWh723CTjz6Hbod5",
+        "key2": "tBb4wjMdaAMfPRHeaczwctMi",
+        "sal": "SiTUxezeAQbqpHluTkEGMg9r",
+        "jid": "OHjmBHH5LIH7vX1ESBxLTDiE"
+      },
       "1.0.0-rc.0": {
         "jwtAlgo": "HS256",
         "iv": 12,
