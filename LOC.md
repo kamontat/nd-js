@@ -1,3 +1,21 @@
+## Version v1.0.0-rc.2
+
+cloc|github.com/AlDanial/cloc v 1.78  T=0.23 s (699.1 files/s, 102004.7 lines/s)
+--- | ---
+
+Language|files|blank|comment|code
+:-------|-------:|-------:|-------:|-------:
+JavaScript|14|1520|204|12153
+TypeScript|122|1231|1079|5481
+JSON|6|3|0|364
+Markdown|4|64|0|296
+YAML|5|0|0|186
+Mustache|1|20|1|124
+Bourne Shell|4|49|72|108
+CSS|2|27|40|32
+--------|--------|--------|--------|--------
+SUM:|158|2914|1396|18744
+
 ## Version v1.0.0-rc.0
 
 cloc|github.com/AlDanial/cloc v 1.74  T=0.61 s (230.1 files/s, 13451.6 lines/s)

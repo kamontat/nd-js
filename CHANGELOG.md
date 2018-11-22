@@ -2,6 +2,17 @@
 ## [Unreleased]
 
 
+<a name="1.0.0-rc.2"></a>
+## [1.0.0-rc.2] - 2018-11-22
+### 3) Fixes Bug
+- Remove unused lib
+- Fix build error in pkg v4.3.4
+
+### 4) Documentation
+- Remove Badge MIT out
+- Add license scanner
+
+
 <a name="1.0.0-rc.0"></a>
 ## [1.0.0-rc.0] - 2018-11-07
 ### 1) Features
@@ -190,7 +201,8 @@
 - Add TODO document
 
 
-[Unreleased]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.0...HEAD
+[Unreleased]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.2...HEAD
+[1.0.0-rc.2]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.0...1.0.0-rc.2
 [1.0.0-rc.0]: https://github.com/kamontat/nd-js/compare/1.0.0-beta.3...1.0.0-rc.0
 [1.0.0-beta.3]: https://github.com/kamontat/nd-js/compare/1.0.0-beta.2...1.0.0-beta.3
 [1.0.0-beta.2]: https://github.com/kamontat/nd-js/compare/v1.0.0-beta.1...1.0.0-beta.2
