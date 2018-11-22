@@ -79,6 +79,10 @@ yargs
           alias: "Y",
           desc: "Alway say yes",
         })
+        .option("password", {
+          alias: "P",
+          desc: "Passing command password by option (not recommended)",
+        })
         .positional("specifyVersion", {
           describe: "token for nd command version?",
           type: "string",
@@ -92,9 +96,11 @@ yargs
           type: "password",
           name: "password",
           message: "Enter command password",
+          when: argv.password === undefined,
           mask: "",
         })
         .then(({ password }) => {
+          password = argv.password;
           if (!checkPassword(password)) {
             console.error("Wrong command password");
             process.exit(1);
