@@ -21,9 +21,9 @@ beforeAll(() => {
   config.save();
 });
 
-afterAll(() => {
-  const config = Config.Load({ bypass: true, quiet: true });
-  config.setToken(helper.TEST_TOKEN);
-  config.setFullname(helper.TEST_NAME);
-  config.save();
-});
+// afterAll(() => {
+//   const config = Config.Load({ bypass: true, quiet: true });
+//   config.setToken(helper.TEST_TOKEN);
+//   config.setFullname(helper.TEST_NAME);
+//   config.save();
+// });
