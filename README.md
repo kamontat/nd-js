@@ -26,6 +26,3 @@ $ nd [--help|--changelog|--version] # more usage
 ## LICENSE
 
 This application is NOT open source. So be aware to download it.
-
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkamontat%2Fnd-js.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkamontat%2Fnd-js?ref=badge_large)

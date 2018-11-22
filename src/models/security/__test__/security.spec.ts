@@ -5,7 +5,7 @@ import { SECURITY_FAIL_ERR } from "../../../constants/error.const";
 import uuid = require("uuid");
 import { TEST_NAME, TEST_TOKEN } from "../../../../test/test";
 import { TokenValidator } from "../TokenValidator";
-import { UsernameValidator } from "../UsernameValidator";
+import { NameValidator } from "../NameValidator";
 import { Security } from "../../../apis/security";
 
 describe("Security", function() {
@@ -42,10 +42,9 @@ describe("Security", function() {
       const user_NO_NAME = "SURname email@g.com";
 
       // user no name
-      const unn = new UsernameValidator(user_NO_NAME);
+      const unn = new NameValidator(user_NO_NAME);
 
       expect(unn.isValid).toThrow();
-      expect(unn.key).toBeEmpty();
       expect(unn.name).toBeEmpty();
       expect(unn.surname).toBeEmpty();
       expect(unn.email).toBeEmpty();
@@ -54,15 +53,12 @@ describe("Security", function() {
     test("Should getting all name information", function() {
       const real_NAME = "name SURname email@g.com";
 
-      const unn = new UsernameValidator(real_NAME);
+      const unn = new NameValidator(real_NAME);
 
       expect(unn.isValid()).toBeTrue();
       expect(unn.name).toEqual("name");
       expect(unn.surname).toEqual("SURname");
       expect(unn.email).toEqual("email@g.com");
-
-      expect(unn.key).not.toBeEmpty();
-      expect(unn.key).toInclude(ND.A());
     });
 
     test.each([
@@ -73,7 +69,7 @@ describe("Security", function() {
       "EMAIL@google.com SURNAME",
       "NAME SURNAME invalid@mail_format"
     ])("Should valid %s as error", function(username: string) {
-      const uv = new UsernameValidator(username);
+      const uv = new NameValidator(username);
       expect(function() {
         uv.isValid();
       }).toThrowError(SECURITY_FAIL_ERR);

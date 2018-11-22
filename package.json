@@ -1,8 +1,9 @@
 {
   "name": "nd",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0-rc.1",
   "description": "Novel Downloader JS edition",
-  "main": "nd.js",
+  "main": "src/nd.ts",
+  "bin": ".caches/nd.min.js",
   "author": "Kamontat Chantrachirathumrong <kamontat_c@hotmail.com>",
   "license": "MIT",
   "private": true,
@@ -30,14 +31,14 @@
     "request-promise": "4.2.2",
     "rxjs": "6.3.3",
     "semver": "5.6.0",
-    "sqlite3": "4.0.2",
     "terminal-link": "1.1.0",
     "uglify-es": "3.3.9",
     "uuid": "3.3.2",
     "vorpal": "1.12.0",
     "winston": "3.1.0",
     "winston-daily-rotate-file": "3.4.1",
-    "write-yaml": "1.0.0"
+    "write-yaml": "1.0.0",
+    "yargs": "^12.0.5"
   },
   "devDependencies": {
     "@types/bluebird": "3.5.24",
@@ -55,10 +56,10 @@
     "@types/request": "2.47.1",
     "@types/request-promise": "4.1.42",
     "@types/semver": "5.5.0",
-    "@types/sqlite3": "3.1.3",
     "@types/tmp": "0.0.33",
     "@types/uuid": "3.4.4",
     "@types/vorpal": "1.11.0",
+    "@types/yargs": "^12.0.1",
     "babel-core": "6.26.3",
     "babel-jest": "23.6.0",
     "coveralls": "3.0.2",
@@ -97,8 +98,13 @@
     "compile:prod": "webpack --mode=production",
     "compile:watch": "yarn compile:dashboard --watch",
     "start": "node ./.caches/nd.min.js",
+    "start:admin": "node ./.caches/nd-admin.min.js",
     "build": "yarn compile:prod && pkg --out-path bin .",
+    "build:admin": "yarn compile:prod && pkg --out-path bin .caches/nd-admin.min.js",
+    "build:all": "yarn build && yarn build:admin",
     "build:debug": "yarn clean && yarn build --debug",
+    "build:admin:debug": "yarn clean && yarn build:admin --debug",
+    "build:all:debug": "yarn clean && yarn build --debug && yarn build:admin --debug",
     "version:alpha": "semver --preid alpha --increment prerelease",
     "version:beta": "semver --preid beta --increment prerelease",
     "version:rc": "semver --preid rc --increment prerelease",
@@ -123,20 +129,13 @@
     "coverage:ci": "jest --ci --coverage --verbose --maxWorkers 1"
   },
   "pkg": {
-    "assets": [
-      "package.json",
-      "node_modules/config/**/*.*"
-    ]
+    "assets": ["package.json", "node_modules/config/**/*.*"]
   },
-  "bin": ".caches/nd.min.js",
   "jest": {
     "setupTestFrameworkScriptFile": "./test/jest.setup.js",
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "testMatch": [
-      "**/src/**/__tests__/**/*.ts?(x)",
-      "**/src/**/?(*.)+(spec|test).ts?(x)"
-    ],
+    "testMatch": ["**/src/**/__tests__/**/*.ts?(x)", "**/src/**/?(*.)+(spec|test).ts?(x)"],
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/**/_*.ts",
@@ -146,17 +145,8 @@
       "!src/constants/option.const.ts",
       "!**/node_modules/**"
     ],
-    "coverageReporters": [
-      "json",
-      "lcov",
-      "text-summary"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "ts",
-      "html",
-      "mustache"
-    ],
+    "coverageReporters": ["json", "lcov", "text-summary"],
+    "moduleFileExtensions": ["js", "ts", "html", "mustache"],
     "transform": {
       "^.+\\.js$": "babel-jest",
       "^.+\\.mustache$": "<rootDir>/test/htmlLoader.js",
@@ -171,10 +161,5 @@
         }
       ]
     ]
-  },
-  "config": {
-    "key": "1PikJ0wVYsfQ3k4FYXOs0200",
-    "sal": "n44TBAwEzZF9487fTKMF9ArU",
-    "jid": "BA3ZeJWd7EPGB5nv0pEwH0Jm"
   }
 }
