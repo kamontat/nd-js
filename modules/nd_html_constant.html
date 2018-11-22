@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>nd.exception | ND JS</title>
+	<title>nd.html.constant | ND JS</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="nd_exception.html">nd.exception</a>
+					<a href="nd_html_constant.html">nd.html.constant</a>
 				</li>
 			</ul>
-			<h1>External module nd.exception</h1>
+			<h1>External module nd.html.constant</h1>
 		</div>
 	</div>
 </header>
@@ -71,12 +71,58 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Classes</h3>
+							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/nd_exception.warning.html" class="tsd-kind-icon">Warning</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="nd_html_constant.html#attr_blacklist" class="tsd-kind-icon">ATTR_<wbr>BLACKLIST</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="nd_html_constant.html#default_css_template" class="tsd-kind-icon">DEFAULT_<wbr>CSS_<wbr>TEMPLATE</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="nd_html_constant.html#html_blacklist_text" class="tsd-kind-icon">HTML_<wbr>BLACKLIST_<wbr>TEXT</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="nd_html_constant.html#html_file" class="tsd-kind-icon">HTML_<wbr>FILE</a></li>
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+					<a name="attr_blacklist" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> ATTR_<wbr>BLACKLIST</h3>
+					<div class="tsd-signature tsd-kind-icon">ATTR_<wbr>BLACKLIST<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[{ key: &quot;id&quot;, value: &quot;beacon_7169&quot; },{ key: &quot;id&quot;, value: &quot;floatboxstart&quot; },{ key: &quot;id&quot;, value: &quot;floatwriter&quot; },{ key: &quot;id&quot;, value: &quot;float_error&quot; },]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/constants/html.const.ts#L10">src/constants/html.const.ts:10</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+					<a name="default_css_template" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> DEFAULT_<wbr>CSS_<wbr>TEMPLATE</h3>
+					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>CSS_<wbr>TEMPLATE<span class="tsd-signature-symbol">:</span> <a href="../classes/nd_html_model.csstemplate.html" class="tsd-signature-type">CssTemplate</a><span class="tsd-signature-symbol"> =&nbsp;new CssTemplate(&quot;default&quot;, require(&quot;../templates/default/style.css&quot;))</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/constants/html.const.ts#L19">src/constants/html.const.ts:19</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+					<a name="html_blacklist_text" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> HTML_<wbr>BLACKLIST_<wbr>TEXT</h3>
+					<div class="tsd-signature tsd-kind-icon">HTML_<wbr>BLACKLIST_<wbr>TEXT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[&quot;ads.dek-d.com&quot;, &quot;min_t_comment&quot;, &quot;Dek-D Writer APP&quot;, &quot;BG&amp;Picture&quot;]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/constants/html.const.ts#L17">src/constants/html.const.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+					<a name="html_file" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> HTML_<wbr>FILE</h3>
+					<div class="tsd-signature tsd-kind-icon">HTML_<wbr>FILE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;require(&quot;../templates/index.mustache&quot;)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/constants/html.const.ts#L8">src/constants/html.const.ts:8</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -87,14 +133,23 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="nd_exception.html">nd.exception</a>
+						<a href="nd_html_constant.html">nd.html.constant</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/nd_exception.warning.html" class="tsd-kind-icon">Warning</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="nd_html_constant.html#attr_blacklist" class="tsd-kind-icon">ATTR_<wbr>BLACKLIST</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="nd_html_constant.html#default_css_template" class="tsd-kind-icon">DEFAULT_<wbr>CSS_<wbr>TEMPLATE</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="nd_html_constant.html#html_blacklist_text" class="tsd-kind-icon">HTML_<wbr>BLACKLIST_<wbr>TEXT</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="nd_html_constant.html#html_file" class="tsd-kind-icon">HTML_<wbr>FILE</a>
 					</li>
 				</ul>
 			</nav>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>commander.command | ND JS</title>
+	<title>nd.config.constant | ND JS</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="commander_command.html">commander.command</a>
+					<a href="nd_config_constant.html">nd.config.constant</a>
 				</li>
 			</ul>
-			<h1>External module commander.command</h1>
+			<h1>External module nd.config.constant</h1>
 		</div>
 	</div>
 </header>
@@ -73,8 +73,14 @@
 						<section class="tsd-index-section ">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="commander_command.html#config_set_list" class="tsd-kind-icon">CONFIG_<wbr>SET_<wbr>LIST</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="commander_command.html#validate_list" class="tsd-kind-icon">VALIDATE_<wbr>LIST</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="nd_config_constant.html#config_extension" class="tsd-kind-icon">CONFIG_<wbr>EXTENSION</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="nd_config_constant.html#config_file_path" class="tsd-kind-icon">CONFIG_<wbr>FILE_<wbr>PATH</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="nd_config_constant.html#config_folder_path" class="tsd-kind-icon">CONFIG_<wbr>FOLDER_<wbr>PATH</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="nd_config_constant.html#log_extension" class="tsd-kind-icon">LOG_<wbr>EXTENSION</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="nd_config_constant.html#log_folder" class="tsd-kind-icon">LOG_<wbr>FOLDER</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="nd_config_constant.html#nd_folder_name" class="tsd-kind-icon">ND_<wbr>FOLDER_<wbr>NAME</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="nd_config_constant.html#nd_folder_path" class="tsd-kind-icon">ND_<wbr>FOLDER_<wbr>PATH</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="nd_config_constant.html#home" class="tsd-kind-icon">home</a></li>
 							</ul>
 						</section>
 					</div>
@@ -83,22 +89,82 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
-					<a name="config_set_list" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> CONFIG_<wbr>SET_<wbr>LIST</h3>
-					<div class="tsd-signature tsd-kind-icon">CONFIG_<wbr>SET_<wbr>LIST<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[&quot;token&quot;, &quot;fullname&quot;, &quot;color&quot;, &quot;location&quot;]</span></div>
+					<a name="config_extension" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> CONFIG_<wbr>EXTENSION</h3>
+					<div class="tsd-signature tsd-kind-icon">CONFIG_<wbr>EXTENSION<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"yml"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;yml&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/command/config-set.ts#L9">src/command/config-set.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/constants/config.const.ts#L15">src/constants/config.const.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
-					<a name="validate_list" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> VALIDATE_<wbr>LIST</h3>
-					<div class="tsd-signature tsd-kind-icon">VALIDATE_<wbr>LIST<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[&quot;config&quot;]</span></div>
+					<a name="config_file_path" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> CONFIG_<wbr>FILE_<wbr>PATH</h3>
+					<div class="tsd-signature tsd-kind-icon">CONFIG_<wbr>FILE_<wbr>PATH<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;path.join(CONFIG_FOLDER_PATH, &#x60;default.${CONFIG_EXTENSION}&#x60;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/command/validator.ts#L12">src/command/validator.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/constants/config.const.ts#L19">src/constants/config.const.ts:19</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+					<a name="config_folder_path" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> CONFIG_<wbr>FOLDER_<wbr>PATH</h3>
+					<div class="tsd-signature tsd-kind-icon">CONFIG_<wbr>FOLDER_<wbr>PATH<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;process.env.NODE_CONFIG_DIR || path.join(ND_FOLDER_PATH, &quot;config&quot;)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/constants/config.const.ts#L17">src/constants/config.const.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+					<a name="log_extension" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> LOG_<wbr>EXTENSION</h3>
+					<div class="tsd-signature tsd-kind-icon">LOG_<wbr>EXTENSION<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"log"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;log&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/constants/config.const.ts#L21">src/constants/config.const.ts:21</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+					<a name="log_folder" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> LOG_<wbr>FOLDER</h3>
+					<div class="tsd-signature tsd-kind-icon">LOG_<wbr>FOLDER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;path.join(ND_FOLDER_PATH, &quot;log&quot;)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/constants/config.const.ts#L23">src/constants/config.const.ts:23</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+					<a name="nd_folder_name" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> ND_<wbr>FOLDER_<wbr>NAME</h3>
+					<div class="tsd-signature tsd-kind-icon">ND_<wbr>FOLDER_<wbr>NAME<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">".nd"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;.nd&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/constants/config.const.ts#L11">src/constants/config.const.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+					<a name="nd_folder_path" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> ND_<wbr>FOLDER_<wbr>PATH</h3>
+					<div class="tsd-signature tsd-kind-icon">ND_<wbr>FOLDER_<wbr>PATH<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;path.join(home, ND_FOLDER_NAME)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/constants/config.const.ts#L13">src/constants/config.const.ts:13</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="home" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> home</h3>
+					<div class="tsd-signature tsd-kind-icon">home<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;os.homedir()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/constants/config.const.ts#L9">src/constants/config.const.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -111,17 +177,35 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="commander_command.html">commander.command</a>
+						<a href="nd_config_constant.html">nd.config.constant</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
-						<a href="commander_command.html#config_set_list" class="tsd-kind-icon">CONFIG_<wbr>SET_<wbr>LIST</a>
+						<a href="nd_config_constant.html#config_extension" class="tsd-kind-icon">CONFIG_<wbr>EXTENSION</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
-						<a href="commander_command.html#validate_list" class="tsd-kind-icon">VALIDATE_<wbr>LIST</a>
+						<a href="nd_config_constant.html#config_file_path" class="tsd-kind-icon">CONFIG_<wbr>FILE_<wbr>PATH</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="nd_config_constant.html#config_folder_path" class="tsd-kind-icon">CONFIG_<wbr>FOLDER_<wbr>PATH</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="nd_config_constant.html#log_extension" class="tsd-kind-icon">LOG_<wbr>EXTENSION</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="nd_config_constant.html#log_folder" class="tsd-kind-icon">LOG_<wbr>FOLDER</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="nd_config_constant.html#nd_folder_name" class="tsd-kind-icon">ND_<wbr>FOLDER_<wbr>NAME</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="nd_config_constant.html#nd_folder_path" class="tsd-kind-icon">ND_<wbr>FOLDER_<wbr>PATH</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="nd_config_constant.html#home" class="tsd-kind-icon">home</a>
 					</li>
 				</ul>
 			</nav>

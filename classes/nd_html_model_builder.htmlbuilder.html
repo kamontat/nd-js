@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>nd.exception | ND JS</title>
+	<title>HtmlBuilder | ND JS</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,27 +56,118 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="nd_exception.html">nd.exception</a>
+					<a href="../modules/nd_html_model_builder.html">nd.html.model.builder</a>
+				</li>
+				<li>
+					<a href="nd_html_model_builder.htmlbuilder.html">HtmlBuilder</a>
 				</li>
 			</ul>
-			<h1>External module nd.exception</h1>
+			<h1>Class HtmlBuilder</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">HtmlBuilder</span>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Classes</h3>
+							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/nd_exception.warning.html" class="tsd-kind-icon">Warning</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="nd_html_model_builder.htmlbuilder.html#buildcontent" class="tsd-kind-icon">build<wbr>Content</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="nd_html_model_builder.htmlbuilder.html#buildtoc" class="tsd-kind-icon">build<wbr>Toc</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="nd_html_model_builder.htmlbuilder.html#template" class="tsd-kind-icon">template</a></li>
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="buildcontent" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> build<wbr>Content</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">build<wbr>Content<span class="tsd-signature-symbol">(</span>chapter<span class="tsd-signature-symbol">: </span><a href="nd_novel_model.novelchapter.html" class="tsd-signature-type">NovelChapter</a>, $<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CheerioStatic</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="nd_html_model.htmlcontent.html" class="tsd-signature-type">HtmlContent</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/builder/html.ts#L18">src/builder/html.ts:18</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>chapter: <a href="nd_novel_model.novelchapter.html" class="tsd-signature-type">NovelChapter</a></h5>
+								</li>
+								<li>
+									<h5>$: <span class="tsd-signature-type">CheerioStatic</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<a href="nd_html_model.htmlcontent.html" class="tsd-signature-type">HtmlContent</a>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="buildtoc" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> build<wbr>Toc</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">build<wbr>Toc<span class="tsd-signature-symbol">(</span>novel<span class="tsd-signature-symbol">: </span><a href="nd_novel_model.novel.html" class="tsd-signature-type">Novel</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="nd_html_model.htmltoc.html" class="tsd-signature-type">HtmlToc</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/builder/html.ts#L27">src/builder/html.ts:27</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>novel: <a href="nd_novel_model.novel.html" class="tsd-signature-type">Novel</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="nd_html_model.htmltoc.html" class="tsd-signature-type">HtmlToc</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="template" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> template</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">template<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="nd_html_model_builder.htmlbuild.html" class="tsd-signature-type">HtmlBuild</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/builder/html.ts#L14">src/builder/html.ts:14</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="nd_html_model_builder.htmlbuild.html" class="tsd-signature-type">HtmlBuild</a></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -87,15 +178,33 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="nd_exception.html">nd.exception</a>
+						<a href="../modules/nd_html_model_builder.html">nd.html.model.builder</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/nd_exception.warning.html" class="tsd-kind-icon">Warning</a>
+						<a href="nd_html_model_builder.htmlbuild.html" class="tsd-kind-icon">Html<wbr>Build</a>
 					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="nd_html_model_builder.htmlbuilder.html" class="tsd-kind-icon">Html<wbr>Builder</a>
+						<ul>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="nd_html_model_builder.htmlbuilder.html#buildcontent" class="tsd-kind-icon">build<wbr>Content</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="nd_html_model_builder.htmlbuilder.html#buildtoc" class="tsd-kind-icon">build<wbr>Toc</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="nd_html_model_builder.htmlbuilder.html#template" class="tsd-kind-icon">template</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
 				</ul>
 			</nav>
 		</div>

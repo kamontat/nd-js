@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>nd.exception | ND JS</title>
+	<title>ProgressOptions | ND JS</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,27 +56,84 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="nd_exception.html">nd.exception</a>
+					<a href="../modules/listr_model.html">listr.model</a>
+				</li>
+				<li>
+					<a href="listr_model.progressoptions.html">ProgressOptions</a>
 				</li>
 			</ul>
-			<h1>External module nd.exception</h1>
+			<h1>Interface ProgressOptions</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">ProgressOptions</span>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Classes</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/nd_exception.warning.html" class="tsd-kind-icon">Warning</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="listr_model.progressoptions.html#context" class="tsd-kind-icon">context</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="listr_model.progressoptions.html#enable" class="tsd-kind-icon">enable</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="listr_model.progressoptions.html#output" class="tsd-kind-icon">output</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="listr_model.progressoptions.html#skip" class="tsd-kind-icon">skip</a></li>
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="context" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> context</h3>
+					<div class="tsd-signature tsd-kind-icon">context<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/models/output/progress.ts#L23">src/models/output/progress.ts:23</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="enable" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> enable</h3>
+					<div class="tsd-signature tsd-kind-icon">enable<span class="tsd-signature-symbol">:</span> <a href="../modules/listr_model.html#enablefn" class="tsd-signature-type">EnableFn</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/models/output/progress.ts#L22">src/models/output/progress.ts:22</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="output" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> output</h3>
+					<div class="tsd-signature tsd-kind-icon">output<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/models/output/progress.ts#L20">src/models/output/progress.ts:20</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="skip" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> skip</h3>
+					<div class="tsd-signature tsd-kind-icon">skip<span class="tsd-signature-symbol">:</span> <a href="../modules/listr_model.html#skipfn" class="tsd-signature-type">SkipFn</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/kamontat/nd-js/blob/670cc6d/src/models/output/progress.ts#L21">src/models/output/progress.ts:21</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -87,14 +144,53 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="nd_exception.html">nd.exception</a>
+						<a href="../modules/listr_model.html">listr.model</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/nd_exception.warning.html" class="tsd-kind-icon">Warning</a>
+						<a href="../classes/listr_model.progress.html" class="tsd-kind-icon">Progress</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="listr_model.progressoptions.html" class="tsd-kind-icon">Progress<wbr>Options</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="listr_model.progressoptions.html#context" class="tsd-kind-icon">context</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="listr_model.progressoptions.html#enable" class="tsd-kind-icon">enable</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="listr_model.progressoptions.html#output" class="tsd-kind-icon">output</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="listr_model.progressoptions.html#skip" class="tsd-kind-icon">skip</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/listr_model.html#contextkey" class="tsd-kind-icon">Context<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/listr_model.html#enablefn" class="tsd-kind-icon">Enable<wbr>Fn</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/listr_model.html#skipfn" class="tsd-kind-icon">Skip<wbr>Fn</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/listr_model.html#taskfn" class="tsd-kind-icon">Task<wbr>Fn</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/listr_model.html#title" class="tsd-kind-icon">Title</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/listr_model.html#titlefn" class="tsd-kind-icon">Title<wbr>Fn</a>
 					</li>
 				</ul>
 			</nav>
