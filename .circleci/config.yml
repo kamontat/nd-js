@@ -66,7 +66,7 @@ jobs:
           command: yarn install
       - run:
           name: "Build resource and command via PKG"
-          command: yarn build:debug
+          command: ./scripts/deployment all --ci
       - store_artifacts:
           path: .caches
           destination: caches
