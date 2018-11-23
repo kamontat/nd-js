@@ -28,6 +28,7 @@ console.log(`Release version: ${version} (title="${command.title}")`);
 (async () => {
   // ghr [options...] TAG PATH
   const { stdout, stderr } = await execa(commandPath, [version, "./bin"]);
+
   console.log(stdout);
   console.error(stderr);
 })();
