@@ -161,6 +161,9 @@
           "output": "coverage/reporter/junit/result.xml"
         }
       ]
-    ]
+    ],
+    "globals": {
+      "COMPILED_DATE": 1543003978
+    }
   }
 }

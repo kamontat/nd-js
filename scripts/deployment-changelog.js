@@ -8,6 +8,7 @@ const execa = require("execa");
 const command = commander
   .option("-T, --create-tag", "Create git tag with current version in package.json")
   .option("-N, --next-tag <next>", "Create changelog with specify version tag")
+  .option("--stdout", "Show the next tag result in stdout, require --next-tag")
   .parse(process.argv);
 
 const version = command.nextTag || require("../package.json").version;
@@ -19,6 +20,12 @@ const commandPath = path.join(".", "scripts", "lib", commandName);
 if (!fs.existsSync(commandPath)) throw new Error(`your os(${os}) is not support by changelog generator`);
 
 (async () => {
+  if (command.stdout) {
+    const { stdout } = await execa(commandPath, ["--config", "./.gitgo/chglog/config.yml", version]);
+    console.log(stdout);
+    return;
+  }
+
   // git-chglog --config ./.gitgo/chglog/config.yml --next-tag "$expected" -o "./CHANGELOG.md"
   const { stdout } = await execa(commandPath, [
     "--config",
@@ -28,7 +35,6 @@ if (!fs.existsSync(commandPath)) throw new Error(`your os(${os}) is not support 
     "--output",
     "./CHANGELOG.md"
   ]);
-
   console.log(stdout);
 
   if (command.tag === true) await execa("git", ["tag", version]);

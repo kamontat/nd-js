@@ -11,6 +11,7 @@ import ConfigSet, { CONFIG_SET_LIST } from "../command/config-set";
 import Download from "../command/download";
 import RawDownload from "../command/download-raw";
 import Fetch from "../command/fetch";
+import Information from "../command/information";
 import Initial from "../command/Initial";
 import Update from "../command/update";
 import Validator from "../command/validator";
@@ -168,4 +169,10 @@ export const VALIDATOR_CMD: CCommand = {
     },
   ],
   fn: Validator,
+};
+export const INFORMATION_CMD: CCommand = {
+  name: "information",
+  alias: "",
+  desc: "",
+  fn: Information,
 };

@@ -26,3 +26,7 @@ $ nd [--help|--changelog|--version] # more usage
 ## LICENSE
 
 This application is NOT open source. So be aware to download it.
+
+### 3-Parties LICENSE
+
+[report.pdf](https://app.fossa.io/attribution/42d711d8-ee48-4c3c-8f73-04a8051e7ace)

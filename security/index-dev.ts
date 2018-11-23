@@ -3,6 +3,8 @@ import { RequireTokenData as RD, ResultTokenData as RTD } from "./lib/data";
 import { ConvertToRequireTokenData as Convert, DecodeToken, SignToken, Validation } from "./lib/_utils";
 import { Config, NAME as N, VERSION as V } from "./lib/Config";
 
+declare let COMPILED_DATE: number;
+
 /**
  * ND-SECURITY name
  */
@@ -12,6 +14,11 @@ export const NAME = N;
  * ND-SECURITY version
  */
 export const VERSION = V;
+
+/**
+ * Compile date get from definePlugin of webpack
+ */
+export const DATE = COMPILED_DATE;
 
 /**
  * This is a information that require to create token

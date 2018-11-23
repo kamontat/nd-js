@@ -14,7 +14,7 @@ cmdname="$(echo "$commandname" | tr '[:lower:]' '[:upper:]')_CMD"
 
 echo "creating... ${commandname}"
 
-command_template="import { SeperateArgumentApi } from \"../helpers/action\";
+command_template="import { SeperateArgumentApi } from \"../helpers/commander\";
 import { log } from \"winston\";
 import { WrapTMC } from \"../apis/loggerWrapper\";
 

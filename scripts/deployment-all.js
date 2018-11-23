@@ -32,18 +32,8 @@ Run step:
 ******************** */
 
 (async () => {
-  const exec = (...args) => {
+  const exec = async (...args) => {
     const { stdout, stderr } = await execa("./scripts/deployment.js", args);
-    if (stderr) {
-      console.error(stderr);
-      process.exit(1);
-    }
-
-    console.log(stdout);
-  };
-
-  const git = (...args) => {
-    const { stdout, stderr } = await execa("git", args);
     if (stderr) {
       console.error(stderr);
       process.exit(1);
@@ -57,40 +47,37 @@ Run step:
 
     console.log(`Update tag: type ${command.type}`);
 
-    exec("tag", command.type, "--no-tag");
+    await exec("tag", command.type, "--no-tag");
   }
 
   const version = require("../package.json").version;
 
   if (command.doc) {
     console.log(`Create document version: ${version}`);
-    exec("doc", "--push");
+    await exec("doc", "--push");
   }
 
   if (command.loc) {
     console.log(`Create loc version: ${version}`);
-    exec("loc");
+    await exec("loc");
   }
 
   if (command.changelog) {
     console.log(`Create version: ${version} changelog`);
-    exec("changelog");
+    await exec("changelog");
   }
 
   if (command.commit) {
     const message = command.commitMessage || `[release] Release version ${version} [skip ci]`;
 
     console.log(`Create commit with message: ${message}`);
-    // git config credential.helper 'cache --timeout=120'
-    // git config user.email "<email>"
-    // git config user.name "Deployment Bot"
-    if (command.ci) {
-      git("config", "credential.helper", "'cache --timeout=120'");
-      git("config", "user.email", "nd-bot@nd.com");
-      git("config", "user.name", "ND deployment [bot]");
-    }
+    await exec("commit", message, command.ci ? "--ci" : "", "--push");
+  }
 
-    git("commit", "-am", message);
-    git("push", "https://${GITHUB_TOKEN}@github.com/kamontat/nd-js.git", "master");
+  if (command.release) {
+    console.log(`Release version(${version}) to github`);
+
+    await exec("build"); // .stdout.pipe(process.stdout);
+    await exec("release"); // .stdout.pipe(process.stdout);
   }
 })();

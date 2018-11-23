@@ -64,7 +64,7 @@ test("Should able to update config by command options", function() {
 });
 
 test("Should set the valid token to file", function() {
-  const config = Config.Load({ bypass: true, quiet: true });
+  const config = Config.Load({ bypass: true, quiet: true, force: true });
   config.setToken(TEST_TOKEN);
   config.setFullname(TEST_NAME);
   config.save();

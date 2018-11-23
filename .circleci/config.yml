@@ -30,6 +30,11 @@ jobs:
           name: Compile the code
           command: yarn compile --verbose
       - run:
+          name: Program information
+          command: |
+            yarn start information
+            yarn start:admin information
+      - run:
           name: Testing
           command: |
             ./cc-test-reporter before-build
@@ -50,9 +55,6 @@ jobs:
       - store_artifacts:
           path: .caches/webpack
           destination: webpack
-      - store_artifacts:
-          path: /tmp
-          destination: tmp
   build:
     docker:
       - image: "circleci/node:9"
@@ -66,7 +68,7 @@ jobs:
           command: yarn install
       - run:
           name: "Build resource and command via PKG"
-          command: yarn build:debug
+          command: ./scripts/deployment all --ci
       - store_artifacts:
           path: .caches
           destination: caches

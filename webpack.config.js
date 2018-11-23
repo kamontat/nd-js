@@ -1,4 +1,6 @@
 const path = require("path");
+
+const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
 
 const TerserPlugin = require("terser-webpack-plugin");
@@ -98,6 +100,9 @@ module.exports = {
     }
   },
   plugins: [
+    new webpack.DefinePlugin({
+      COMPILED_DATE: JSON.stringify(+new Date())
+    }),
     new DashboardPlugin(),
     new BundleAnalyzerPlugin({
       analyzerMode: "static",
