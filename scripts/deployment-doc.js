@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const commander = require("../node_modules/commander");
-const ghpages = require("../node_modules/gh-pages");
+const commander = require("commander");
+const ghpages = require("gh-pages");
 
 const command = commander
   .option("--push", "Push changes to gh-page")
