@@ -23,8 +23,7 @@ const command = commander
     let arr = [".", "--out-path", "bin"];
     if (command.debug) arr.push("--debug");
     if (!onlyAdmin) {
-      const { stdout } = await exec(arr);
-      console.log(stdout);
+      await exec(arr);
     }
 
     arr = [".caches/nd-admin.min.js", "--out-path", "bin"];

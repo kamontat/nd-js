@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const commander = require("commander");
+const ghpages = require("gh-pages");
 
 const command = commander
   .option("--push", "Push changes to gh-page")
@@ -40,7 +41,6 @@ try {
     }
 
     if (push) {
-      const ghpages = require("gh-pages");
       await ghpages
         .publish("docs", {
           message: "[skip ci] Auto generating commit, Updates document"
