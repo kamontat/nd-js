@@ -32,7 +32,7 @@ Run step:
 ******************** */
 
 (async () => {
-  const exec = (...args) => {
+  const exec = async (...args) => {
     const { stdout, stderr } = await execa("./scripts/deployment.js", args);
     if (stderr) {
       console.error(stderr);
@@ -42,7 +42,7 @@ Run step:
     console.log(stdout);
   };
 
-  const git = (...args) => {
+  const git = async (...args) => {
     const { stdout, stderr } = await execa("git", args);
     if (stderr) {
       console.error(stderr);
