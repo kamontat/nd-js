@@ -42,17 +42,14 @@ const message = command.args[0];
 
   await git("commit", "-am", message, "--allow-empty");
 
+  if (command.push) await git("push", `https://${token}@github.com/kamontat/nd-js.git`, branch);
+
   if (command.pr) {
     console.log(`Create PR to ${branch}`);
-
-    const args = ["pull-request"];
-    if (command.push) args.push("-p");
-    args.push("-m", `'${message}'`, "-b", `'${branch}'`);
+    const args = ["pull-request", "-m", `'${message}'`, "-b", `'${branch}'`];
 
     const { stdout } = await execa("hub", args);
     console.log(stdout);
     return;
   }
-
-  if (command.push) await git("push", `https://${token}@github.com/kamontat/nd-js.git`, branch);
 })();
