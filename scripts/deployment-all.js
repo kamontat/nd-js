@@ -42,11 +42,10 @@ Run step:
     console.log(stdout);
   };
 
-  if (command.updateTag) {
+  if (command.updateTag && !command.ci) {
     if (!command.type) throw new Error("To update tag, you must have --type <type> option");
 
     console.log(`Update tag: type ${command.type}`);
-
     await exec("tag", command.type, "--no-tag");
   }
 

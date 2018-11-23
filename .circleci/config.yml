@@ -2,7 +2,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: "circleci/node:9"
+      - image: "circleci/node:10"
     environment:
       NODE_CONFIG_DIR: "/tmp"
     working_directory: ~/nd-js
@@ -57,7 +57,7 @@ jobs:
           destination: webpack
   build:
     docker:
-      - image: "circleci/node:9"
+      - image: "circleci/node:10"
     environment:
       NODE_CONFIG_DIR: "/tmp"
     working_directory: ~/nd-js
@@ -68,7 +68,7 @@ jobs:
           command: yarn install
       - run:
           name: "Build resource and command via PKG"
-          command: ./scripts/deployment all --ci
+          command: ./scripts/deployment.js all --ci
       - store_artifacts:
           path: .caches
           destination: caches
