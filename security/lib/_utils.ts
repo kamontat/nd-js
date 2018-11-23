@@ -4,42 +4,61 @@ import { sign, verify } from "jsonwebtoken";
 import { Config } from "./Config";
 import { RequireTokenData, ResultTokenData } from "./data";
 
-export const Encrypt = (_iv: number, key: string, text: string) => {
-  const iv = crypto.randomBytes(_iv);
-  const cipher = crypto.createCipheriv("aes-192-gcm", new Buffer(key), iv, {
-    authTagLength: 16,
-  });
+export const Encrypt = (_iv: number, _key: string, _text: string) => {
+  const _encode = "hex";
 
-  let encrypted = cipher.update(text);
-  encrypted = Buffer.concat([encrypted, cipher.final()]);
+  const iv = crypto.randomBytes(_iv);
+  // console.log(`iv: ${iv.toString(_encode)}`);
+
+  const key = Buffer.from(_key);
+  // console.log(`key: ${key.toString()}`);
+
+  const text = Buffer.from(_text);
+  // console.log(`text: ${text.toString()}`);
+
+  const cipher = crypto.createCipheriv("aes-192-gcm", key, iv.toString(_encode), { authTagLength: 16 });
+
+  const _encrypted = cipher.update(text);
+  const encrypted = Buffer.concat([_encrypted, cipher.final()]);
+  // console.log(`encrypted: ${encrypted.toString(_encode)}`);
 
   const tag = cipher.getAuthTag();
-  return `${iv.toString("hex")}.${tag.toString("hex")}.${encrypted.toString("hex")}`;
+  // console.log(`tag: ${tag.toString(_encode)}`);
+
+  // [iv (as hex)].[tag (as hex)].[token (as hex)]
+  return `${iv.toString(_encode)}.${tag.toString(_encode)}.${encrypted.toString(_encode)}`;
 };
 
-export const Decrypt = (key: string, hex: string) => {
-  const textParts = hex.split(".");
-  const ivString = textParts.shift();
-  if (!ivString) return "";
-  const iv = new Buffer(ivString, "hex");
+export const Decrypt = (_key: string, hex: string) => {
+  const _encode = "hex";
 
-  const tagString = textParts.shift();
-  if (!tagString) return "";
-  const tag = new Buffer(tagString, "hex");
+  const texts = hex.split(".");
+  if (texts.length !== 3) return "";
 
-  const decipher = crypto.createDecipheriv("aes-192-gcm", new Buffer(key), iv, {
-    authTagLength: 16,
-  });
+  const key = Buffer.from(_key);
+  // console.log(`key: ${_key}`);
+
+  const _iv = texts[0];
+  const iv = Buffer.from(_iv);
+  // console.log(`iv: ${iv.toString(_encode)}`);
+
+  const _tag = texts[1];
+  const tag = Buffer.from(_tag);
+  // console.log(`tag: ${tag.toString(_encode)}`);
+
+  const _token = texts[2];
+  const token = Buffer.from(_token, "hex");
+
+  const decipher = crypto.createDecipheriv("aes-192-gcm", key, iv, { authTagLength: 16 });
   decipher.setAuthTag(tag);
 
-  const encryptedText = new Buffer(textParts.join("."), "hex");
-  const decrypted = decipher.update(encryptedText);
-
   try {
-    const text = decipher.final();
-    return Buffer.concat([decrypted, text]).toString();
+    const decrypted = decipher.update(token);
+    const result = decipher.final();
+
+    return Buffer.concat([decrypted, result]).toString();
   } catch (e) {
-    throw new Error("Cannot decrypt the result");
+    throw new Error(`Cannot decrypted the result cause by ${e}`);
   }
 };
 
