@@ -9,6 +9,7 @@ const command = commander
   .option("--config-name <name>", "Custom user name")
   .option("--github-token <token>", "Custom token (default=process.env.GITHUB_TOKEN)")
   .option("--push", "Also push changes to master")
+  .option("--push-tag", "Also push tag changes to master")
   .option("--pr", "Instead of push to master, this will create github PR (require: hub cli)")
   .option("--custom-branch", "Custom pushing branch (default=master)")
   .parse(process.argv);
@@ -53,4 +54,6 @@ const message = command.args[0];
   } else if (command.push) {
     await git("push", `https://${token}@github.com/kamontat/nd-js.git`, branch);
   }
+
+  await git("push", `--tags`);
 })();
