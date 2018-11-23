@@ -55,9 +55,6 @@ jobs:
       - store_artifacts:
           path: .caches/webpack
           destination: webpack
-      - store_artifacts:
-          path: /tmp
-          destination: tmp
   build:
     docker:
       - image: "circleci/node:9"
