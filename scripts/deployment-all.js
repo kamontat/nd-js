@@ -42,16 +42,6 @@ Run step:
     console.log(stdout);
   };
 
-  const git = async (...args) => {
-    const { stdout, stderr } = await execa("git", args);
-    if (stderr) {
-      console.error(stderr);
-      process.exit(1);
-    }
-
-    console.log(stdout);
-  };
-
   if (command.updateTag) {
     if (!command.type) throw new Error("To update tag, you must have --type <type> option");
 
@@ -81,18 +71,13 @@ Run step:
     const message = command.commitMessage || `[release] Release version ${version} [skip ci]`;
 
     console.log(`Create commit with message: ${message}`);
-    // git config credential.helper 'cache --timeout=120'
-    // git config user.email "<email>"
-    // git config user.name "Deployment Bot"
-    if (command.ci) {
-      await git("config", "credential.helper", "'cache --timeout=120'");
-      await git("config", "user.email", "nd-bot@nd.com");
-      await git("config", "user.name", "ND deployment [bot]");
-    }
+    await exec("commit", message, command.ci ? "--ci" : "", "--push");
+  }
 
-    const token = process.env.GITHUB_TOKEN;
+  if (command.release) {
+    console.log(`Release version(${version}) to github`);
 
-    await git("commit", "-am", message);
-    await git("push", `https://${token}@github.com/kamontat/nd-js.git`, "master");
+    await exec("build"); // .stdout.pipe(process.stdout);
+    await exec("release"); // .stdout.pipe(process.stdout);
   }
 })();
