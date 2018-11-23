@@ -45,6 +45,8 @@ const message = command.args[0];
   if (command.push) await git("push", `https://${token}@github.com/kamontat/nd-js.git`, branch);
 
   if (command.pr) {
+    console.log(`Create PR to ${branch}`);
+
     const args = ["pull-request", "--message", message, "--base", branch];
     if (command.push) args.push("--push");
 
