@@ -57,24 +57,24 @@ Run step:
 
     console.log(`Update tag: type ${command.type}`);
 
-    exec("tag", command.type, "--no-tag");
+    await exec("tag", command.type, "--no-tag");
   }
 
   const version = require("../package.json").version;
 
   if (command.doc) {
     console.log(`Create document version: ${version}`);
-    exec("doc", "--push");
+    await exec("doc", "--push");
   }
 
   if (command.loc) {
     console.log(`Create loc version: ${version}`);
-    exec("loc");
+    await exec("loc");
   }
 
   if (command.changelog) {
     console.log(`Create version: ${version} changelog`);
-    exec("changelog");
+    await exec("changelog");
   }
 
   if (command.commit) {
@@ -85,12 +85,12 @@ Run step:
     // git config user.email "<email>"
     // git config user.name "Deployment Bot"
     if (command.ci) {
-      git("config", "credential.helper", "'cache --timeout=120'");
-      git("config", "user.email", "nd-bot@nd.com");
-      git("config", "user.name", "ND deployment [bot]");
+      await git("config", "credential.helper", "'cache --timeout=120'");
+      await git("config", "user.email", "nd-bot@nd.com");
+      await git("config", "user.name", "ND deployment [bot]");
     }
 
-    git("commit", "-am", message);
-    git("push", "https://${GITHUB_TOKEN}@github.com/kamontat/nd-js.git", "master");
+    await git("commit", "-am", message);
+    await git("push", "https://${GITHUB_TOKEN}@github.com/kamontat/nd-js.git", "master");
   }
 })();
