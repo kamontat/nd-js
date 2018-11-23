@@ -100,24 +100,20 @@
     "compile:watch": "yarn compile:dashboard --watch",
     "start": "node ./.caches/nd.min.js",
     "start:admin": "node ./.caches/nd-admin.min.js",
-    "build": "yarn compile:prod && pkg --out-path bin .",
-    "build:admin": "yarn compile:prod && pkg --out-path bin .caches/nd-admin.min.js",
-    "build:all": "yarn build && yarn build:admin",
+    "build": "yarn deployment build --only-main",
+    "build:admin": "yarn deployment build --only-admin",
+    "build:all": "yarn deployment build",
     "build:debug": "yarn clean && yarn build --debug",
     "build:admin:debug": "yarn clean && yarn build:admin --debug",
     "build:all:debug": "yarn clean && yarn build --debug && yarn build:admin --debug",
-    "version:alpha": "semver --preid alpha --increment prerelease",
-    "version:beta": "semver --preid beta --increment prerelease",
-    "version:rc": "semver --preid rc --increment prerelease",
-    "version:patch": "semver --increment patch",
-    "version:minor": "semver --increment minor",
-    "version:major": "semver --increment major",
-    "docs": "typedoc --out ./docs --target ES5 --module commonjs --name \"ND JS\" --mode modules --exclude \"**/*+(_|.spec|.e2e|nd)*.ts\"",
-    "loc": "./scripts/loc.sh",
-    "gh-pages": "gh-pages -d docs",
+    "docs": "yarn deployment doc",
+    "gh-pages": "yarn docs --only-push",
+    "loc": "yarn deployment loc",
     "clean": "rimraf .caches bin coverage docs",
     "clean:all": "yarn clean && rimraf yarn.lock node_modules",
-    "deploy": "./scripts/deploy.sh",
+    "deployment": "node ./scripts/deployment.js",
+    "deploy:all": "yarn deployment all",
+    "deploy:all:ci": "yarn deployment all --ci",
     "analytic": "webpack --json > ./.caches/report.json",
     "analytic:prod": "webpack --mode=production --json > ./.caches/report.json",
     "lint": "tslint --project .",
@@ -130,19 +126,13 @@
     "coverage:ci": "jest --ci --coverage --verbose --maxWorkers 1"
   },
   "pkg": {
-    "assets": [
-      "package.json",
-      "node_modules/config/**/*.*"
-    ]
+    "assets": ["package.json", "node_modules/config/**/*.*"]
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./test/jest.setup.js",
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "testMatch": [
-      "**/src/**/__tests__/**/*.ts?(x)",
-      "**/src/**/?(*.)+(spec|test).ts?(x)"
-    ],
+    "testMatch": ["**/src/**/__tests__/**/*.ts?(x)", "**/src/**/?(*.)+(spec|test).ts?(x)"],
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/**/_*.ts",
@@ -152,17 +142,8 @@
       "!src/constants/option.const.ts",
       "!**/node_modules/**"
     ],
-    "coverageReporters": [
-      "json",
-      "lcov",
-      "text-summary"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "ts",
-      "html",
-      "mustache"
-    ],
+    "coverageReporters": ["json", "lcov", "text-summary"],
+    "moduleFileExtensions": ["js", "ts", "html", "mustache"],
     "transform": {
       "^.+\\.js$": "babel-jest",
       "^.+\\.mustache$": "<rootDir>/test/htmlLoader.js",
