@@ -8,6 +8,7 @@ const pjson = require("../package.json");
 const command = commander
   .option("-C, --current-version <current>", "Specify current version to make changes")
   .option("-N, --next-version <next>", "Specify next version to become")
+  .option("-T, --test", "Test the result only, not change any file or tag in repository")
   .option("--no-tag", "Not auto create tag in git repository")
   .parse(process.argv);
 
@@ -34,6 +35,7 @@ if (!next) {
 }
 
 console.log(`process will change version from ${version} => ${next}`);
+if (command.test) process.exit(0);
 
 pjson.version = next;
 
