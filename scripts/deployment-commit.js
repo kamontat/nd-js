@@ -21,6 +21,7 @@ const message = command.args[0];
     const { stdout, stderr } = await execa("git", args);
     if (stderr) {
       console.error(stderr);
+      process.exit(1);
     }
 
     console.log(stdout);
@@ -41,13 +42,15 @@ const message = command.args[0];
 
   await git("commit", "-am", message, "--allow-empty");
 
-  if (command.push) await git("push", `https://${token}@github.com/kamontat/nd-js.git`, branch);
-
   if (command.pr) {
+    await git("push", `https://${token}@github.com/kamontat/nd-js.git`);
+
     console.log(`Create PR to ${branch}`);
     const args = ["pull-request", "-m", `'${message}'`, "-b", `'${branch}'`];
 
     const { stdout } = await execa("hub", args);
     console.log(stdout);
+  } else if (command.push) {
+    await git("push", `https://${token}@github.com/kamontat/nd-js.git`, branch);
   }
 })();
