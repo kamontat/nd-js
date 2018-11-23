@@ -272,9 +272,9 @@ export default class Config {
    *
    * @throws {@link ConfigFailError}, {@link SECURITY_FAIL_ERR}
    */
-  public static Load(option?: { quiet?: boolean; bypass?: boolean }): Config {
+  public static Load(option?: { quiet?: boolean; bypass?: boolean; force?: boolean }): Config {
     const quiet = option && option.quiet ? option.quiet : false;
-    if (!Config._CONFIG) {
+    if (!Config._CONFIG || (option && option.force)) {
       Config._CONFIG = new Config(CONFIG_FILE_PATH, { quiet });
       if (existsSync(CONFIG_FILE_PATH)) {
         Config._CONFIG.load(option && option.bypass);
