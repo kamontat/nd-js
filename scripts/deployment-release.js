@@ -31,6 +31,8 @@ const token = command.githubToken || process.env.GITHUB_TOKEN;
   const body = command.body || stdout;
   console.log(`Release body: 
 ${body}
+
+Full changelog: https://github.com/kamontat/nd-js/blob/master/CHANGELOG.md
 `);
 
   // ghr <version> ./bin -t token -n title -b body
