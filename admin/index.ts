@@ -1,16 +1,39 @@
 import inquirer from "inquirer";
+import moment = require("moment");
 import Random from "random-js";
 import yargs, { Arguments } from "yargs";
 
-import { ConvertToRequireTokenData, DecryptToken, EncryptToken, RequireTokenData } from "../security/index-dev";
+import {
+  ConvertToRequireTokenData,
+  DATE,
+  DecryptToken,
+  EncryptToken,
+  ListVersion,
+  RequireTokenData,
+  VERSION,
+} from "../security/index-dev";
 
 import { checkPassword, expireDateChoice, notBeforeDateChoice } from "./_data";
 import { question } from "./_utils";
+
+const version = VERSION;
 
 // tslint:disable-next-line
 yargs
   .scriptName("nd-admin")
   .usage("Usage: $0 <command> [options] args...")
+  .command("information", "Getting command information", {}, (_: Arguments) => {
+    console.log(`Novel admin panel: This command will available to authentication person only
+
+# Here is the command information
+
+1. admin version:    ${version}
+2. security version: ${VERSION}
+3. support version:  [${ListVersion().join(", ")}]
+4. compile date: ${moment(DATE, "x").toString()}
+
+`);
+  })
   .command(
     "random <numbers..>",
     "Random number",

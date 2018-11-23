@@ -98,7 +98,7 @@ export const DecodeToken = (version: string, hex: string, fullname: string): Res
   });
   if (!_result) throw new Error("Impossible exception");
   const result = _result as ResultTokenData;
-  if (version !== result.version) throw new Error(`Wrong support version ${version} !== ${result.version}`);
+  // if (version !== result.version) throw new Error(`Wrong support version ${version} !== ${result.version}`);
   return result as ResultTokenData;
 };
 

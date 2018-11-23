@@ -30,6 +30,11 @@ jobs:
           name: Compile the code
           command: yarn compile --verbose
       - run:
+          name: Program information
+          command: |
+            yarn start --version
+            yarn start:admin information
+      - run:
           name: Testing
           command: |
             ./cc-test-reporter before-build

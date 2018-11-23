@@ -10,6 +10,7 @@ import {
   CONFIG_CMD,
   DOWNLOAD_CMD,
   FETCH_CMD,
+  INFORMATION_CMD,
   INIT_CMD,
   RAW_DOWNLOAD_CMD,
   SET_CONFIG_CMD,
@@ -53,6 +54,7 @@ MakeCommand(program, DOWNLOAD_CMD);
 MakeCommand(program, RAW_DOWNLOAD_CMD);
 MakeCommand(program, FETCH_CMD);
 MakeCommand(program, UPDATE_CMD);
+MakeCommand(program, INFORMATION_CMD);
 
 program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
   const setup = Logger.setting();
