@@ -13,6 +13,30 @@
         "sal": "AwwdZzq9xnJfP84MK5VBON54",
         "jid": "OHjmBHH5LIH7vX1ESBxLTDiE"
       },
+      "1.0.0-rc.5": {
+        "jwtAlgo": "HS256",
+        "iv": 12,
+        "key": "6Fe2sD5W2uFyMC8nomDEfPrm",
+        "key2": "BgqSIOrLLcHXuAYYcBuM2ios",
+        "sal": "AwwdZzq9xnJfP84MK5VBON54",
+        "jid": "OHjmBHH5LIH7vX1ESBxLTDiE"
+      },
+      "1.0.0-rc.4": {
+        "jwtAlgo": "HS256",
+        "iv": 12,
+        "key": "6Fe2sD5W2uFyMC8nomDEfPrm",
+        "key2": "BgqSIOrLLcHXuAYYcBuM2ios",
+        "sal": "AwwdZzq9xnJfP84MK5VBON54",
+        "jid": "OHjmBHH5LIH7vX1ESBxLTDiE"
+      },
+      "1.0.0-rc.3": {
+        "jwtAlgo": "HS256",
+        "iv": 12,
+        "key": "6Fe2sD5W2uFyMC8nomDEfPrm",
+        "key2": "BgqSIOrLLcHXuAYYcBuM2ios",
+        "sal": "AwwdZzq9xnJfP84MK5VBON54",
+        "jid": "OHjmBHH5LIH7vX1ESBxLTDiE"
+      },
       "1.0.0-rc.2": {
         "jwtAlgo": "HS256",
         "iv": 12,
