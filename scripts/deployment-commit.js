@@ -45,8 +45,8 @@ const message = command.args[0];
   if (command.pr) {
     console.log(`Create PR to ${branch}`);
 
-    const args = ["pull-request", "--message", `'${message}'`, "--base", `'${branch}'`];
-    if (command.push) args.push("--push");
+    const args = ["pull-request", "-m", `'${message}'`, "-b", `'${branch}'`];
+    if (command.push) args.push("-p");
 
     const { stdout } = await execa("hub", args);
     console.log(stdout);
