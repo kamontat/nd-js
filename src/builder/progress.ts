@@ -5,7 +5,6 @@
 
 import { ListrOptions } from "listr";
 import { Observable } from "rxjs";
-import { inspect } from "util";
 import { log } from "winston";
 
 import { WrapTMCT } from "../apis/loggerWrapper";
