@@ -90,7 +90,9 @@ Run step:
       await git("config", "user.name", "ND deployment [bot]");
     }
 
+    const token = process.env.GITHUB_TOKEN;
+
     await git("commit", "-am", message);
-    await git("push", "https://${GITHUB_TOKEN}@github.com/kamontat/nd-js.git", "master");
+    await git("push", `https://${token}@github.com/kamontat/nd-js.git`, "master");
   }
 })();
