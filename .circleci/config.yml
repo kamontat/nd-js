@@ -15,7 +15,7 @@ jobs:
             - node-v1-
       - run:
           name: Install dependencies
-          command: yarn install
+          command: yarn install --verbose
       - run:
           name: Setup Code Climate test-reporter
           command: |
@@ -65,7 +65,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: yarn install
+          command: yarn install --verbose
       - run:
           name: "Build resource and command via PKG"
           command: ./scripts/deployment.js all --ci
