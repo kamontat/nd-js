@@ -21,7 +21,6 @@ const message = command.args[0];
     const { stdout, stderr } = await execa("git", args);
     if (stderr) {
       console.error(stderr);
-      process.exit(1);
     }
 
     console.log(stdout);
@@ -50,6 +49,5 @@ const message = command.args[0];
 
     const { stdout } = await execa("hub", args);
     console.log(stdout);
-    return;
   }
 })();
