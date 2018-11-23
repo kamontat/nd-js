@@ -41,14 +41,9 @@ try {
     }
 
     if (push) {
-      await ghpages
-        .publish("docs", {
-          message: "[skip ci] Auto generating commit, Updates document"
-        })
-        .then(v => {
-          console.log("Completed!");
-          return new Promise(res => res());
-        });
+      await ghpages.publish("docs", {
+        message: "[skip ci] Auto generating commit, Updates document"
+      });
     }
   })();
 } catch (e) {
