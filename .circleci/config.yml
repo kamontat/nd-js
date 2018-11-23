@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Program information
           command: |
-            yarn start --version
+            yarn start information
             yarn start:admin information
       - run:
           name: Testing
