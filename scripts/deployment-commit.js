@@ -43,7 +43,7 @@ const message = command.args[0];
   await git("commit", "-am", message, "--allow-empty");
 
   if (command.pr) {
-    await execa("git", ["push", `https://${token}@github.com/kamontat/nd-js.git`]);
+    await execa("git", ["push"]);
 
     console.log(`Create PR to ${branch}`);
     const args = ["pull-request", "-m", `'${message}'`, "-b", `'${branch}'`];
