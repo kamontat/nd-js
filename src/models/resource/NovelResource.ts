@@ -15,6 +15,7 @@ export interface NovelChapterResourceType {
 export interface NovelResourceType {
   id: string;
   name: string | undefined;
+  alias?: string[];
   lastUpdate: string | undefined;
   chapters: NovelChapterResourceType[];
 }
@@ -33,6 +34,7 @@ export class NovelResource {
       return {
         id: "-1",
         name: undefined,
+        alias: undefined,
         lastUpdate: undefined,
         chapters: [],
       };
