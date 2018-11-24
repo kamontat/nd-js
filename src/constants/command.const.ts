@@ -13,6 +13,7 @@ import RawDownload from "../command/download-raw";
 import Fetch from "../command/fetch";
 import Information from "../command/information";
 import Initial from "../command/Initial";
+import Modify from "../command/modify";
 import Update from "../command/update";
 import Validator from "../command/validator";
 
@@ -184,4 +185,10 @@ export const INFORMATION_CMD: CCommand = {
   alias: "",
   desc: "Get command information",
   fn: Information,
+};
+export const MODIFY_CMD: CCommand = {
+  name: "modify",
+  alias: "",
+  desc: "",
+  fn: Modify,
 };
