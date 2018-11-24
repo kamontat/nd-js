@@ -13,7 +13,7 @@ import RawDownload from "../command/download-raw";
 import Fetch from "../command/fetch";
 import Information from "../command/information";
 import Initial from "../command/Initial";
-import Modify from "../command/modify";
+import Novel from "../command/novel";
 import Update from "../command/update";
 import Validator from "../command/validator";
 
@@ -137,6 +137,10 @@ export const FETCH_CMD: CCommand = {
       desc: "List the result with history",
       default: false,
     },
+    {
+      name: "-L, --local",
+      desc: "Mark input as the local fetching",
+    },
   ],
   fn: Fetch,
 };
@@ -180,15 +184,17 @@ export const VALIDATOR_CMD: CCommand = {
   ],
   fn: Validator,
 };
+
 export const INFORMATION_CMD: CCommand = {
   name: "information",
   alias: "",
   desc: "Get command information",
   fn: Information,
 };
-export const MODIFY_CMD: CCommand = {
-  name: "modify",
+
+export const NOVEL_CMD: CCommand = {
+  name: "novel",
   alias: "",
   desc: "",
-  fn: Modify,
+  fn: Novel,
 };
