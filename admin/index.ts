@@ -1,3 +1,5 @@
+/* tslint:disable:no-console */
+
 import inquirer from "inquirer";
 import moment = require("moment");
 import Random from "random-js";
