@@ -3,7 +3,7 @@
  * @module public.api
  */
 
-import { existsSync } from "fs";
+import { existsSync, readdirSync, statSync } from "fs";
 import moment, { isDate, isMoment } from "moment";
 import "moment/locale/th";
 import { join } from "path";
@@ -136,6 +136,16 @@ export const MakeReadableNumberArray = (array: string[]) => {
   }
 
   return result;
+};
+
+export const WalkDirSync = (dir: string, max?: number): string[] => {
+  if (max === 0) return [];
+  return readdirSync(dir).reduce((files: string[], file: string) => {
+    if (statSync(join(dir, file)).isDirectory()) {
+      files.push(join(dir, file), ...WalkDirSync(join(dir, file), max ? max - 1 : undefined));
+    }
+    return files;
+  }, []);
 };
 
 /**
