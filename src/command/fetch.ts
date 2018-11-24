@@ -27,7 +27,7 @@ export default (a: any) => {
   let progress: NovelProgressBuilder;
   args.forEach(each => {
     try {
-      if (CheckIsPathExist(each)) {
+      if (options.local || CheckIsPathExist(each)) {
         const location = each;
         progress = FetchLocation(location, options);
       } else {

@@ -12,7 +12,7 @@ import { join } from "path";
 import { log } from "winston";
 
 import { FetchApi } from "../../apis/download";
-import { Writer } from "../../apis/file";
+import { Writer } from "../../apis/fileWriter";
 import { WrapTMCT } from "../../apis/loggerWrapper";
 import { CreateChapterListApi, GetNovelDateApi, GetNovelNameApi, NormalizeNovelName } from "../../apis/novel";
 import { HtmlBuilder } from "../../builder/html";
@@ -31,30 +31,6 @@ import { NovelChapterResourceType } from "../resource/NovelResource";
 import { NovelChapter } from "./Chapter";
 
 export class Novel extends Historian {
-  get location(): string {
-    return this._location || Config.Load({ quiet: true }).getNovelLocation();
-  }
-
-  get id() {
-    return this._id;
-  }
-
-  get name() {
-    return this._name || "";
-  }
-
-  get description() {
-    return `Novel ID ${this.id} (${this.name})`;
-  }
-
-  get lastUpdateAt() {
-    return this._updateAt || moment();
-  }
-
-  get startDownloadAt() {
-    return this._downloadAt || moment();
-  }
-
   set name(n: string) {
     this.notify(
       HistoryNode.CreateByChange("Novel name", { before: this.name, after: n }, { description: this.description }),
@@ -74,6 +50,34 @@ export class Novel extends Historian {
     );
 
     this._updateAt = last;
+  }
+
+  get location(): string {
+    return this._location || Config.Load({ quiet: true }).getNovelLocation();
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  get name() {
+    return this._name || "";
+  }
+
+  get alias() {
+    return this._alias;
+  }
+
+  get description() {
+    return `Novel ID ${this.id} (${this.name})`;
+  }
+
+  get lastUpdateAt() {
+    return this._updateAt || moment();
+  }
+
+  get startDownloadAt() {
+    return this._downloadAt || moment();
   }
 
   get completedChapter() {
@@ -113,6 +117,8 @@ export class Novel extends Historian {
   }
   private _id: string;
   private _location?: string;
+
+  private _alias: string[];
 
   private _name?: string;
   private _chapters: SortedArrayMap<NovelChapter>;
@@ -184,12 +190,18 @@ export class Novel extends Historian {
     this.notify(HistoryNode.CreateByChange("Novel ID", { before: undefined, after: id }));
     this._id = id;
 
+    this._alias = [];
+
     this._chapters = new SortedArrayMap();
 
     if (!location) location = Config.Load().getNovelLocation();
     this.location = location;
 
     this._downloadAt = moment();
+  }
+
+  public addAlias(alias: string) {
+    this._alias.push(alias);
   }
 
   public getChapter(key: number | NovelChapter) {
@@ -354,6 +366,7 @@ export class Novel extends Historian {
   public toJSON() {
     return {
       id: this.id,
+      alias: this.alias,
       name: this.name,
       lastUpdate: Timestamp(this.lastUpdateAt),
       chapters: this.mapChapter(chap => chap.toJSON()),
