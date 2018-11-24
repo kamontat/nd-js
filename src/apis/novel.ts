@@ -231,9 +231,10 @@ const getFirstContentV2 = ($: CheerioStatic) => {
   const text = $("div#story-content")
     .contents()
     .first()
-    .text();
+    .text()
+    .trim();
 
-  if (text)
+  if (text && text !== "")
     return new HtmlNode({
       tag: "p",
       text,
@@ -241,14 +242,28 @@ const getFirstContentV2 = ($: CheerioStatic) => {
   return;
 };
 
-export const getNovelContentV2 = ($: CheerioStatic) => {
+const getPContentV2 = ($: CheerioStatic) => {
   const result: HtmlNode[] = [];
-  const short = getShortContentV2($);
-  if (short) result.push(short);
+  const content = $("div#story-content").find("p");
+  content.each((_, e) => {
+    const query = $(e);
+    const text = query.text().trim();
+    if (text !== "" && text !== "\n") {
+      log(WrapTM("debug", "The individual content (get P)", text));
+      result.push(
+        new HtmlNode({
+          tag: "p",
+          text,
+        }),
+      );
+    }
+  });
 
-  const firstContent = getFirstContentV2($);
-  if (firstContent) result.push(firstContent);
+  return result;
+};
 
+const getDivContentV2 = ($: CheerioStatic) => {
+  const result: HtmlNode[] = [];
   const content = $("div#story-content").find("div");
   content.each((_, e) => {
     const query = $(e);
@@ -267,7 +282,7 @@ export const getNovelContentV2 = ($: CheerioStatic) => {
 
     const text = query.text().trim();
     if (text !== "" && text !== "\n") {
-      log(WrapTM("debug", "The individual content", text));
+      log(WrapTM("debug", "The individual content (get Div)", text));
       result.push(
         new HtmlNode({
           tag: "p",
@@ -276,6 +291,22 @@ export const getNovelContentV2 = ($: CheerioStatic) => {
       );
     }
   });
+  return result;
+};
+
+export const getNovelContentV2 = ($: CheerioStatic) => {
+  const result: HtmlNode[] = [];
+  const short = getShortContentV2($);
+  if (short) result.push(short);
+
+  const firstContent = getFirstContentV2($);
+  if (firstContent) result.push(firstContent);
+
+  const rawP = getPContentV2($);
+  if (rawP) result.push(...rawP);
+
+  const rawDiv = getDivContentV2($);
+  if (rawDiv) result.push(...rawDiv);
 
   return result;
 };
