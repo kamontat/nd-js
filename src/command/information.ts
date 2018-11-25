@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module commander.command
+ */
+
 import { log } from "winston";
 
 import { VERSION } from "../../security/index-prod";
