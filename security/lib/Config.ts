@@ -1,12 +1,6 @@
-/**
- * @external
- * @module nd.security.model.admin
- */
-
-import * as pjson from "../config.json";
-
-export const NAME = pjson.name;
-export const VERSION = pjson.version;
+export interface Json {
+  [key: string]: any;
+}
 
 export interface ConfigInformationType {
   jwtAlgo: string;
@@ -21,21 +15,26 @@ export interface ConfigType {
   [version: string]: ConfigInformationType | undefined;
 }
 
-export class Config {
-  private constructor() {
-    this.token = pjson.config.token;
+export class ConfigBuilder {
+  private json: Json;
+  constructor(json: Json) {
+    this.json = json;
   }
 
-  private token: ConfigType;
+  public name() {
+    return this.json.name;
+  }
+
+  public version() {
+    return this.json.version;
+  }
 
   public getConfig(version?: string): ConfigInformationType | undefined {
     if (!version) return;
-    return this.token[version];
+    return this.json.config.token[version];
   }
 
   public listVersion() {
-    return Object.keys(this.token);
+    return Object.keys(this.json.config.token);
   }
-
-  public static CONST = new Config();
 }

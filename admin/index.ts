@@ -13,7 +13,7 @@ import {
   ListVersion,
   RequireTokenData,
   VERSION,
-} from "../security/index-dev";
+} from "../security/index-admin";
 
 import { checkPassword, expireDateChoice, notBeforeDateChoice } from "./_data";
 import { question } from "./_utils";

@@ -4,21 +4,16 @@
  */
 
 import { RequireTokenData as RD, ResultTokenData as RTD } from "./lib/data";
-
-import { ConvertToRequireTokenData as Convert, DecodeToken, SignToken, Validation } from "./lib/_utils-prod";
-import { Config, NAME as N, VERSION as V } from "./lib/ProdConfig";
+import { Config, NAME, VERSION } from "./lib/MainConfig";
+import { ConvertToRequireTokenData as Convert, DecodeToken, SignToken } from "./lib/mainUtils";
+import { Validation } from "./lib/utils";
 
 declare let COMPILED_DATE: number;
 
 /**
- * ND-SECURITY name
+ * ND-SECURITY name, and version
  */
-export const NAME = N;
-
-/**
- * ND-SECURITY version
- */
-export const VERSION = V;
+export { NAME, VERSION };
 
 /**
  * Compile date get from definePlugin of webpack

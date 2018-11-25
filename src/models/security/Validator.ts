@@ -2,7 +2,7 @@
  * @internal
  * @module nd.security.model
  */
-import { DecryptToken } from "../../../security/index-prod";
+import { DecryptToken } from "../../../security/index-main";
 
 import { ND } from "../../constants/nd.const";
 import { CheckIsExist } from "../../helpers/helper";

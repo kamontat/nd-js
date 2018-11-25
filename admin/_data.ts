@@ -1,6 +1,6 @@
 import semver from "semver";
 
-import { ListVersion } from "../security/index-dev";
+import { ListVersion } from "../security/index-admin";
 
 export const checkPassword = (p: string) => {
   return `master-password-${ListVersion()[0]}` === p;

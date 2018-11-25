@@ -3,22 +3,17 @@
  * @module nd.security.api.admin
  */
 
+import { Config, NAME, VERSION } from "./lib/AdminConfig";
+import { ConvertToRequireTokenData as Convert, DecodeToken, SignToken } from "./lib/adminUtils";
 import { RequireTokenData as RD, ResultTokenData as RTD } from "./lib/data";
-
-import { ConvertToRequireTokenData as Convert, DecodeToken, SignToken, Validation } from "./lib/_utils";
-import { Config, NAME as N, VERSION as V } from "./lib/Config";
+import { Validation } from "./lib/utils";
 
 declare let COMPILED_DATE: number;
 
 /**
- * ND-SECURITY name
+ * ND-SECURITY name, and version
  */
-export const NAME = N;
-
-/**
- * ND-SECURITY version
- */
-export const VERSION = V;
+export { NAME, VERSION };
 
 /**
  * Compile date get from definePlugin of webpack
