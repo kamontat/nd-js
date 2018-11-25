@@ -57,7 +57,7 @@ const cases: TestCase[] = [
 
 cases.forEach(c => {
   describe(`Start with novel id ${c.case.id}, chapter ${c.case.number} (v${c.case.version})`, function() {
-    const f = `nid-${c.case.id}-${c.case.number}.js`;
+    const f = `_nid-${c.case.id}-${c.case.number}.js`;
     const html = require(`./assets/${f}`);
     const $ = cheerio.load(html.content);
 
@@ -80,7 +80,7 @@ cases.forEach(c => {
 
 describe("Start the unknown html", function() {
   test("Should throw cannot get any content error", function() {
-    const html = require(`./assets/unknown.js`);
+    const html = require(`./assets/_unknown.js`);
     const $ = cheerio.load(html.content);
 
     expect(function() {

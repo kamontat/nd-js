@@ -1,6 +1,6 @@
 /**
  * @internal
- * @module nd.logger.api
+ * @module output.logger.api
  */
 
 import moment, { isDate, isMoment, Moment } from "moment";

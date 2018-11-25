@@ -107,7 +107,7 @@ describe("Try to decode the html file for the information", function() {
 
   cases.forEach(c => {
     describe(`Html of novel id ${c.id}`, function() {
-      const f = `nid-${c.id}.js`;
+      const f = `_nid-${c.id}.js`;
       const html = require(`./assets/${f}`);
       const $ = cheerio.load(html.content);
 

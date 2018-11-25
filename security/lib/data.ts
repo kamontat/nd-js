@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module nd.security.model
+ */
+
 // information that require to generate token
 export interface RequireTokenData {
   version: string;
