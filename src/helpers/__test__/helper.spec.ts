@@ -1,68 +1,176 @@
 import "jest-extended";
 import { CheckIsExist, CheckIsNumber, CheckIsBoolean } from "../helper";
 
-test("Should able to check empty string as false", function() {
-  expect(CheckIsExist("")).toBeFalse();
+describe("Testing CheckIsExist method", function() {
+  [
+    {
+      value: "",
+      result: false
+    },
+    {
+      value: "undefined",
+      result: false
+    },
+    {
+      value: undefined,
+      result: false
+    },
+    {
+      value: "null",
+      result: false
+    },
+    {
+      value: null,
+      result: false
+    },
+    {
+      value: "exist",
+      result: true
+    },
+    {
+      value: "nothing",
+      result: true
+    }
+  ].forEach(testcase => {
+    test(`Should mark ${testcase.value} as ${testcase.result}`, function() {
+      if (testcase.result) expect(CheckIsExist(testcase.value)).toBeTrue();
+      else expect(CheckIsExist(testcase.value)).toBeFalse();
+    });
+  });
 });
 
-test("Should able to check null string as false", function() {
-  expect(CheckIsExist("undefined")).toBeFalse();
+describe("Testing CheckIsNumber method", function() {
+  [
+    {
+      value: "-11",
+      result: false
+    },
+    {
+      value: "",
+      result: false
+    },
+    {
+      value: "-",
+      result: false
+    },
+    {
+      value: "string",
+      result: false
+    },
+    {
+      value: "true",
+      result: false
+    },
+    {
+      value: "11301Z101O01",
+      result: false
+    },
+    {
+      value: "900E",
+      result: false
+    },
+    {
+      value: "A11301",
+      result: false
+    },
+    {
+      value: undefined,
+      result: false
+    },
+    {
+      value: null,
+      result: false
+    },
+    {
+      value: "1",
+      result: true
+    },
+    {
+      value: "11200",
+      result: true
+    },
+    {
+      value: "18282391938102",
+      result: true
+    },
+    {
+      value: "4919204875818756184747292838",
+      result: true
+    }
+  ].forEach(testcase => {
+    test(`Should mark ${testcase.value} as ${testcase.result}`, function() {
+      if (testcase.result) expect(CheckIsNumber(testcase.value)).toBeTrue();
+      else expect(CheckIsNumber(testcase.value)).toBeFalse();
+    });
+  });
 });
 
-test("Should able to check null string as false", function() {
-  expect(CheckIsExist(undefined)).toBeFalse();
-});
-
-test("Should able to check null string as false", function() {
-  expect(CheckIsExist(null)).toBeFalse();
-});
-
-test("Should able to check null string as false", function() {
-  expect(CheckIsExist("exist")).toBeTrue();
-});
-
-test("Should check only position number", function() {
-  expect(CheckIsNumber("-11")).toBeFalse();
-});
-test("Should check false in empty string", function() {
-  expect(CheckIsNumber("")).toBeFalse();
-});
-
-test("Should check false in exist string", function() {
-  expect(CheckIsNumber("string")).toBeFalse();
-});
-
-test("Should check is number string", function() {
-  expect(CheckIsNumber("87182347")).toBeTrue();
-});
-
-test("Should check is exceed int string", function() {
-  expect(CheckIsNumber("87182347183748970918234")).toBeTrue();
-});
-
-test("Should check is string in number is false", function() {
-  expect(CheckIsNumber("8718234E7")).toBeFalse();
-});
-
-test("Should return true if true pass to CheckIsBoolean", function() {
-  expect(CheckIsBoolean("true")).toBeTrue();
-  expect(CheckIsBoolean(true)).toBeTrue();
-});
-
-test("Should return true if false pass to CheckIsBoolean", function() {
-  expect(CheckIsBoolean("false")).toBeTrue();
-  expect(CheckIsBoolean(false)).toBeTrue();
-});
-
-test("Should return false if none boolean pass to CheckIsBoolean", function() {
-  expect(CheckIsBoolean(undefined)).toBeFalse();
-  expect(CheckIsBoolean(null)).toBeFalse();
-  expect(CheckIsBoolean("")).toBeFalse();
-  expect(CheckIsBoolean("ABC")).toBeFalse();
-  expect(CheckIsBoolean("1")).toBeFalse();
-  expect(CheckIsBoolean(1)).toBeFalse();
-  expect(CheckIsBoolean("0")).toBeFalse();
-  expect(CheckIsBoolean(0)).toBeFalse();
-  expect(CheckIsBoolean("123")).toBeFalse();
-  expect(CheckIsBoolean("!@#")).toBeFalse();
+describe("Testing CheckIdBoolean method", function() {
+  [
+    {
+      value: "true",
+      result: true
+    },
+    {
+      value: true,
+      result: true
+    },
+    {
+      value: "false",
+      result: true
+    },
+    {
+      value: false,
+      result: true
+    },
+    {
+      value: undefined,
+      result: false
+    },
+    {
+      value: null,
+      result: false
+    },
+    {
+      value: "",
+      result: false
+    },
+    {
+      value: " ",
+      result: false
+    },
+    {
+      value: "truy",
+      result: false
+    },
+    {
+      value: "falsy",
+      result: false
+    },
+    {
+      value: "ABC",
+      result: false
+    },
+    {
+      value: "1",
+      result: false
+    },
+    {
+      value: 1,
+      result: false
+    },
+    {
+      value: 20,
+      result: false
+    },
+    {
+      value: "!@#",
+      result: false
+    }
+  ].forEach(testcase => {
+    test(`Should mark ${testcase.value} as ${testcase.result}`, function() {
+      if (testcase.result) expect(CheckIsBoolean(testcase.value)).toBeTrue();
+      else expect(CheckIsBoolean(testcase.value)).toBeFalse();
+    });
+  });
 });

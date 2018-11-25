@@ -32,7 +32,7 @@ export class NPrinter implements Printer {
     return `
 Novel ID:      ${terminalLink(this.novel.id, (link && link.toString()) || "")}
 Novel name:    ${terminalLink(this.novel.name || "no-name", `file://${this.novel.location}`)}
-Novel chapter: [${this.novel.mapChapter(n => n.number)}]
+Novel chapter: [${this.novel.chapter({ copy: true }).map(n => n.number)}]
 Download:      ${this.novel.startDownloadAt.toString()}
 Update At:     ${this.novel.lastUpdateAt.toString()}
     `;
@@ -63,7 +63,7 @@ Update At:     ${this.novel.lastUpdateAt.toString()}
 
     if (this.novel.chapterSize.size > 0 && opt && !opt.short) {
       const printer = new CPrinter();
-      this.novel.mapChapter(c => printer.setChapter(c).print());
+      this.novel.chapter({ copy: true }).map(c => printer.setChapter(c).print());
     }
 
     log(WrapTMCT("verbose", "Download at", this.novel.startDownloadAt));

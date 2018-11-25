@@ -3,7 +3,7 @@
  * @module public.api
  */
 
-import { existsSync } from "fs";
+import { existsSync, readdirSync, statSync } from "fs";
 import moment, { isDate, isMoment } from "moment";
 import "moment/locale/th";
 import { join } from "path";
@@ -23,7 +23,7 @@ import { DEFAULT_RESOURCE_NAME } from "../constants/novel.const";
  *
  * @param value checking value
  */
-export const CheckIsExist = (value: string | undefined | null) => {
+export const CheckIsExist = (value: any) => {
   return value !== undefined && value !== null && value !== "" && value !== "null" && value !== "undefined";
 };
 
@@ -37,15 +37,15 @@ export const CheckIsExist = (value: string | undefined | null) => {
  *
  * @return true, if input value contains only number
  */
-export const CheckIsNumber = (value: string) => {
-  if (!CheckIsExist(value)) {
+export const CheckIsNumber = (value: any) => {
+  if (!CheckIsExist(value) || !value) {
     return false;
   }
   if (!value.toString) return false;
   return value.toString().match(/^\d+$/) !== null;
 };
 
-export const CheckIsEmail = (value: string) => {
+export const CheckIsEmail = (value: any) => {
   if (!CheckIsExist(value)) {
     return false;
   }
@@ -86,7 +86,7 @@ export const CheckIsNovelPath = (pathname: any) => {
  * @static
  * This will change array of number to length of number if possible.
  *
- * @param array input array of string(number) or number
+ * @param array input array of number, where number can be inform of string
  *
  * @return string that make array of number more readable
  *
@@ -136,6 +136,16 @@ export const MakeReadableNumberArray = (array: string[]) => {
   }
 
   return result;
+};
+
+export const WalkDirSync = (dir: string, max?: number): string[] => {
+  if (max === 0) return [];
+  return readdirSync(dir).reduce((files: string[], file: string) => {
+    if (statSync(join(dir, file)).isDirectory()) {
+      files.push(join(dir, file), ...WalkDirSync(join(dir, file), max ? max - 1 : undefined));
+    }
+    return files;
+  }, []);
 };
 
 /**

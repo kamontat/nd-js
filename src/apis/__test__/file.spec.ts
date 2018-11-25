@@ -1,5 +1,5 @@
 import "jest-extended";
-import { Writer } from "../file";
+import { Writer } from "../fileWriter";
 import { NovelBuilder } from "../../builder/novel";
 import { existsSync } from "fs";
 

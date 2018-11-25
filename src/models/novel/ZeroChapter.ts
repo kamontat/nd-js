@@ -6,7 +6,7 @@
 import Bluebird from "bluebird";
 
 import { FetchApi } from "../../apis/download";
-import { Writer } from "../../apis/file";
+import { Writer } from "../../apis/fileWriter";
 import { HtmlBuilder } from "../../builder/html";
 
 import { NovelChapter } from "./Chapter";
