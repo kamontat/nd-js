@@ -23,10 +23,12 @@ export default (a: any) => {
       .fetchNovel(`Fetching novel ${id}`, id)
       .buildNovelInformation("Building novel information")
       .downloadChapterList(
-        (novel: Novel) => `Download chapter (${MakeReadableNumberArray(novel.chapterSize.list as string[])})`,
+        (novel?: Novel) =>
+          (novel && `Download chapter (${MakeReadableNumberArray(novel.chapterSize.list as string[])})`) ||
+          "Download chapter",
         options.force,
       )
-      .saveResourceFile("Building resource file")
+      .saveResourceFile("Building resource file", options.force)
       .runNovel(undefined, { withChapter: options.withChapter });
 
     // Old progress APIs

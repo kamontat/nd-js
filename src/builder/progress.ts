@@ -3,6 +3,7 @@
  * @module listr.model.builder
  */
 
+import Bluebird from "bluebird";
 import { ListrOptions } from "listr";
 import { Observable } from "rxjs";
 import { log } from "winston";
@@ -32,7 +33,8 @@ export class NovelProgressBuilder extends Progress {
       title,
       (ctx: any) => {
         return new Observable(observer => {
-          const novel = ctx[this.getContentKey(opts)] as Novel;
+          let novel = ctx[this.getContentKey(opts)] as Novel;
+          if (novel === undefined) novel = ctx.previous as Novel;
           if (downloadOption && downloadOption.override) downloadOption.override(novel);
           novel
             .saveNovel({
@@ -172,6 +174,8 @@ export class NovelProgressBuilder extends Progress {
         if (withChanges) {
           this.changes.list().forEach((node, index) => log(WrapTMCT("info", `History ${index}`, node.toString())));
         }
+
+        return Bluebird.resolve();
       })
       .catch(e => ThrowIf(e));
   }
