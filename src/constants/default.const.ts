@@ -1,13 +1,10 @@
-import { tmpdir } from "os";
-import { resolve } from "path";
-import { log } from "winston";
-
-import { WrapTM } from "../apis/loggerWrapper";
-
 /**
  * @external
  * @module output.logger.constant
  */
+
+import { tmpdir } from "os";
+import { resolve } from "path";
 
 export let LOGGER_LEVEL = "verbose";
 export const BeChangeLevel = (level: string) => (LOGGER_LEVEL = level);
