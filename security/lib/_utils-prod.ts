@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module nd.security.api
+ */
+
 import crypto from "crypto";
 import { sign, verify } from "jsonwebtoken";
 

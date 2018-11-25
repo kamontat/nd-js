@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module nd.security.model.admin
+ */
+
 import * as pjson from "../config.json";
 
 export const NAME = pjson.name;

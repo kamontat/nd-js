@@ -1,3 +1,8 @@
+/**
+ * @external
+ * @module nd.security.api
+ */
+
 import { RequireTokenData as RD, ResultTokenData as RTD } from "./lib/data";
 
 import { ConvertToRequireTokenData as Convert, DecodeToken, SignToken, Validation } from "./lib/_utils-prod";
