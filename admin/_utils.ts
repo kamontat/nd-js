@@ -1,4 +1,4 @@
-import { IsFullName, ListVersion, RequireTokenData } from "../security/index-dev";
+import { IsFullName, ListVersion, RequireTokenData } from "../security/index-admin";
 
 import { expireDateChoice, notBeforeDateChoice, versionChoice } from "./_data";
 

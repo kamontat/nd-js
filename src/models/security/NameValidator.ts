@@ -3,7 +3,7 @@
  * @module nd.security.model
  */
 
-import { IsFullName } from "../../../security/index-prod";
+import { IsFullName } from "../../../security/index-main";
 import { SECURITY_FAIL_ERR } from "../../constants/error.const";
 
 import { Validator } from "./Validator";

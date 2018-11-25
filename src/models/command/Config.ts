@@ -10,7 +10,7 @@ import { dirname, resolve } from "path";
 import semver, { major } from "semver";
 import { log } from "winston";
 
-import { ConvertToRequireTokenData, DecryptToken } from "../../../security/index-prod";
+import { ConvertToRequireTokenData, DecryptToken } from "../../../security/index-main";
 
 import { WrapTM, WrapTMC, WrapTMCT } from "../../apis/loggerWrapper";
 import { Security } from "../../apis/security";

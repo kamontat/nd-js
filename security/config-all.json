@@ -8,10 +8,10 @@
       "1.0.0": {
         "jwtAlgo": "HS256",
         "iv": 12,
-        "key": "6Fe2sD5W2uFyMC8nomDEfPrm",
-        "key2": "BgqSIOrLLcHXuAYYcBuM2ios",
-        "sal": "AwwdZzq9xnJfP84MK5VBON54",
-        "jid": "OHjmBHH5LIH7vX1ESBxLTDiE"
+        "key": "cW3ZOHrNB9H3fYfjHT0FxolP",
+        "key2": "zGzYlJx27kK9rjWYw6l2tsYV",
+        "sal": "Z9iBrPetCTfywCAyuEvjtyXk",
+        "jid": "cGJNHTFXCD3USpF8nqzPvHBa"
       },
       "1.0.0-rc.5": {
         "jwtAlgo": "HS256",

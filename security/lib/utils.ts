@@ -1,13 +1,9 @@
 /**
  * @external
- * @module nd.security.api.admin
+ * @module nd.security.api
  */
 
 import crypto from "crypto";
-import { sign, verify } from "jsonwebtoken";
-
-import { Config } from "./Config";
-import { RequireTokenData, ResultTokenData } from "./data";
 
 export const Encrypt = (_iv: number, _key: string, _text: string) => {
   const _encode = "hex";
@@ -48,11 +44,11 @@ export const Decrypt = (_key: string, hex: string) => {
   // console.log(`iv: ${iv.toString(_encode)}`);
 
   const _tag = texts[1];
-  const tag = Buffer.from(_tag);
+  const tag = Buffer.from(_tag, _encode);
   // console.log(`tag: ${tag.toString(_encode)}`);
 
   const _token = texts[2];
-  const token = Buffer.from(_token, "hex");
+  const token = Buffer.from(_token, _encode);
 
   const decipher = crypto.createDecipheriv("aes-192-gcm", key, iv, { authTagLength: 16 });
   decipher.setAuthTag(tag);
@@ -65,65 +61,6 @@ export const Decrypt = (_key: string, hex: string) => {
   } catch (e) {
     throw new Error(`Cannot decrypted the result cause by ${e}`);
   }
-};
-
-export const SignToken = (version: string, data: RequireTokenData) => {
-  const configData = Config.CONST.getConfig(version);
-  if (!configData) throw new Error(`Config data of version ${version} is not exist`);
-  if (!Validation.IsFullname(data.fullname))
-    throw new Error("Input data is not fullname format (note: 'name surname email')");
-
-  const token = Encrypt(configData.iv, configData.key, data.versionrange);
-  const password = data.fullname.concat(" ", configData.sal);
-
-  const result = sign({ version: data.version, token, name: data.username }, password, {
-    expiresIn: data.expiredate,
-    issuer: "ND-JS admin",
-    subject: "ND-JS",
-    notBefore: data.notbeforedate,
-    algorithm: configData.jwtAlgo,
-    jwtid: "ND_ID".concat(configData.jid),
-  });
-
-  return Encrypt(configData.iv, configData.key2, result);
-};
-
-export const DecodeToken = (version: string, hex: string, fullname: string): ResultTokenData => {
-  const configData = Config.CONST.getConfig(version);
-  if (!configData) throw new Error(`Config data of version ${version} is not exist`);
-
-  const token = Decrypt(configData.key2, hex);
-  const password = fullname.concat(" ", configData.sal);
-
-  const _result = verify(token, password, {
-    issuer: "ND-JS admin",
-    subject: "ND-JS",
-    algorithms: [configData.jwtAlgo],
-    jwtid: "ND_ID".concat(configData.jid),
-  });
-  if (!_result) throw new Error("Impossible exception");
-  const result = _result as ResultTokenData;
-  // version should only tell which version it made for
-  // if (semver.major(version) !== result.version)
-  //   throw new Error(`Wrong support version ${version} !== ${result.version}`);
-  return result as ResultTokenData;
-};
-
-export const ConvertToRequireTokenData = (result: ResultTokenData, fullname: string) => {
-  const configData = Config.CONST.getConfig(result.version);
-  if (!configData) throw new Error(`Config data of version ${result.version} is not exist`);
-
-  const versionrange = Decrypt(configData.key, result.token);
-
-  return {
-    version: result.version,
-    versionrange,
-    fullname,
-    username: result.name,
-    issuedate: result.iat.toString(),
-    notbeforedate: result.nbf.toString(),
-    expiredate: result.exp.toString(),
-  };
 };
 
 export class Validation {

@@ -5,7 +5,7 @@
 
 import { log } from "winston";
 
-import { ConvertToRequireTokenData, DecryptToken } from "../../security/index-prod";
+import { ConvertToRequireTokenData, DecryptToken } from "../../security/index-main";
 import { COLORS } from "../constants/color.const";
 import { ND } from "../constants/nd.const";
 import { RevertTimestamp } from "../helpers/helper";

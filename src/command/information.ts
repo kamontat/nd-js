@@ -5,7 +5,7 @@
 
 import { log } from "winston";
 
-import { VERSION } from "../../security/index-prod";
+import { VERSION } from "../../security/index-main";
 import { WrapTMCT } from "../apis/loggerWrapper";
 import { ND } from "../constants/nd.const";
 // import { SeperateArgumentApi } from "../helpers/commander";
