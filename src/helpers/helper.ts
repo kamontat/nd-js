@@ -23,7 +23,7 @@ import { DEFAULT_RESOURCE_NAME } from "../constants/novel.const";
  *
  * @param value checking value
  */
-export const CheckIsExist = (value: string | undefined | null) => {
+export const CheckIsExist = (value: any) => {
   return value !== undefined && value !== null && value !== "" && value !== "null" && value !== "undefined";
 };
 
@@ -37,15 +37,15 @@ export const CheckIsExist = (value: string | undefined | null) => {
  *
  * @return true, if input value contains only number
  */
-export const CheckIsNumber = (value: string) => {
-  if (!CheckIsExist(value)) {
+export const CheckIsNumber = (value: any) => {
+  if (!CheckIsExist(value) || !value) {
     return false;
   }
   if (!value.toString) return false;
   return value.toString().match(/^\d+$/) !== null;
 };
 
-export const CheckIsEmail = (value: string) => {
+export const CheckIsEmail = (value: any) => {
   if (!CheckIsExist(value)) {
     return false;
   }
@@ -86,7 +86,7 @@ export const CheckIsNovelPath = (pathname: any) => {
  * @static
  * This will change array of number to length of number if possible.
  *
- * @param array input array of string(number) or number
+ * @param array input array of number, where number can be inform of string
  *
  * @return string that make array of number more readable
  *
