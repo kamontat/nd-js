@@ -81,19 +81,19 @@ export class Novel extends Historian {
   }
 
   get completedChapter() {
-    return this.filterChapter(c => c.isCompleted());
+    return this.chapter({ copy: true }).filter(c => c.isCompleted());
   }
 
   get closedChapter() {
-    return this.filterChapter(c => c.isClosed());
+    return this.chapter({ copy: true }).filter(c => c.isClosed());
   }
 
   get soldChapter() {
-    return this.filterChapter(c => c.isSold());
+    return this.chapter({ copy: true }).filter(c => c.isSold());
   }
 
   get unknownChapter() {
-    return this.filterChapter(c => c.isUnknown());
+    return this.chapter({ copy: true }).filter(c => c.isUnknown());
   }
 
   get chapterSize() {
@@ -285,24 +285,12 @@ export class Novel extends Historian {
     this.startObserve();
   }
 
-  public chapter({ copy = false }) {
+  public chapter({ copy = true }) {
     if (!this._chapters) return [];
     const array = this._chapters.toArray() as NovelChapter[];
 
     if (copy) return array.copyWithin(0, 0);
     else return array;
-  }
-
-  public mapChapter(fn: (n: NovelChapter, index?: number) => any) {
-    return this.chapter({ copy: true }).map(fn);
-  }
-
-  public filterChapter(fn: (n: NovelChapter, index?: number) => boolean) {
-    return this.chapter({ copy: true }).filter(fn);
-  }
-
-  public eachChapter(fn: (n: NovelChapter, index?: number) => void) {
-    return this.chapter({ copy: true }).forEach(fn);
   }
 
   public update(): Bluebird<Novel> {
@@ -365,7 +353,7 @@ export class Novel extends Historian {
       alias: this.alias,
       name: this.name,
       lastUpdate: Timestamp(this.lastUpdateAt),
-      chapters: this.mapChapter(chap => chap.toJSON()),
+      chapters: this.chapter({ copy: true }).map(chap => chap.toJSON()),
     };
   }
 }
