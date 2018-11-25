@@ -1,6 +1,6 @@
 {
   "name": "nd",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Novel Downloader JS edition",
   "main": "src/nd.ts",
   "bin": ".caches/nd.min.js",
@@ -13,7 +13,7 @@
     "cheerio": "1.0.0-rc.2",
     "collections": "2.0.3",
     "commander": "2.19.0",
-    "config": "2.0.1",
+    "config": "3.0.0",
     "fs-extra": "7.0.1",
     "glob": "7.1.3",
     "html5-to-pdf": "3.1.3",
