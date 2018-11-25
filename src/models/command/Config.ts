@@ -10,7 +10,7 @@ import { dirname, resolve } from "path";
 import semver, { major } from "semver";
 import { log } from "winston";
 
-import { ConvertToRequireTokenData, DecryptToken } from "../../../security/index-main";
+import { ConvertToRequireTokenData, DecryptToken, RequireTokenData } from "../../../security/index-main";
 
 import { WrapTM, WrapTMC, WrapTMCT } from "../../apis/loggerWrapper";
 import { Security } from "../../apis/security";
@@ -32,6 +32,11 @@ import { ConfigFileType, DEFAULT_CONFIG_YAML } from "./ConfigType";
  * @version 1.0
  */
 export default class Config {
+  private _result?: RequireTokenData;
+  get result() {
+    return this._result;
+  }
+
   constructor(path: string, option?: { quiet: boolean }) {
     this.configLocation = path;
     this._option = option;
@@ -177,9 +182,9 @@ export default class Config {
         throw SECURITY_FAIL_ERR.loadString("unknown error");
       } else {
         const _result = DecryptToken({ fullname: this.getFullname(), token: this.getToken(), version: ND.VERSION });
-        const result = ConvertToRequireTokenData(_result, this.getFullname());
+        this._result = ConvertToRequireTokenData(_result, this.getFullname());
         log(
-          WrapTMCT("info", "Your username", typeof result === "string" ? result : result && result.username, {
+          WrapTMCT("info", "Your username", this._result.username, {
             message: COLORS.Name,
           }),
         );
