@@ -14,9 +14,14 @@ cmdname="$(echo "$commandname" | tr '[:lower:]' '[:upper:]')_CMD"
 
 echo "creating... ${commandname}"
 
-command_template="import { SeperateArgumentApi } from \"../helpers/commander\";
+command_template="/**
+ * @external
+ * @module commander.command
+ */
 import { log } from \"winston\";
+
 import { WrapTMC } from \"../apis/loggerWrapper\";
+import { SeperateArgumentApi } from \"../helpers/commander\";
 
 export default (a: any) => {
   const { options, args } = SeperateArgumentApi(a);

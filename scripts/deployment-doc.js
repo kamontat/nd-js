@@ -31,7 +31,7 @@ try {
         "--mode",
         "modules",
         "--exclude",
-        "**/*+(_|.spec|.e2e|nd)*.(ts|js)"
+        "**/*+(_|.spec|.e2e|nd)*.*"
       ]);
 
       if (!silent) {
