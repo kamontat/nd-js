@@ -76,9 +76,9 @@ program.on("--help", () => {
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("initial")} [${OPTION_COLOR("--raw")} <${PARAMETER_COLOR(
     "json",
   )}>|${OPTION_COLOR("--file")} <${PARAMETER_COLOR("path")}>] [${OPTION_COLOR("--force")}]
-  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("set-config")} [${ARGUMENT_COLOR("token")}|${ARGUMENT_COLOR(
-    "fullname",
-  )}|${ARGUMENT_COLOR("color")}|${ARGUMENT_COLOR("location")}]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("set-config")} <${ARGUMENT_COLOR("'token'")}|${ARGUMENT_COLOR(
+    "'fullname'",
+  )}|${ARGUMENT_COLOR("'color'")}|${ARGUMENT_COLOR("'location'")}>
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("raw-download")} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR(
     "link",
   )}> [${OPTION_COLOR("--location")} <${ARGUMENT_COLOR("location")}>] [${OPTION_COLOR("--chapter")} <${ARGUMENT_COLOR(
@@ -92,9 +92,14 @@ program.on("--help", () => {
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("fetch")} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR(
     "link",
   )}|${ARGUMENT_COLOR("location")}...> [${OPTION_COLOR("--with-chapter")}] [${OPTION_COLOR("--with-history")}]
-  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("validator")} [${ARGUMENT_COLOR("config")}|${ARGUMENT_COLOR(
-    "application",
-  )}] [${OPTION_COLOR("--info")}]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("update")} <${ARGUMENT_COLOR("location")}...> [${OPTION_COLOR(
+    "--with-chapter",
+  )}] [${OPTION_COLOR("--changes")}] [${OPTION_COLOR("--recusive")} && ${OPTION_COLOR("--maximum")} <${ARGUMENT_COLOR(
+    "number",
+  )}>]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("validator")} <${ARGUMENT_COLOR("'config'")}|${ARGUMENT_COLOR(
+    "'application'",
+  )}> [${OPTION_COLOR("--info")}]
   $ ${ND.PROJECT_NAME} [${OPTION_COLOR("--help")}|${OPTION_COLOR("--changelog")}|${OPTION_COLOR("--version")}]
 `);
 });
