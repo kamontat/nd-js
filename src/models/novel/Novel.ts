@@ -104,10 +104,6 @@ export class Novel extends Historian {
     const numbers = this._chapters.keys();
     const s = parseInt(numbers[0].toString());
     const e = parseInt(numbers[numbers.length - 1].toString());
-    log(WrapTMCT("debug", "Chapter size (start)", s));
-    log(WrapTMCT("debug", "Chapter size (end)", e));
-    log(WrapTMCT("debug", "Chapter size (size)", numbers.length));
-    log(WrapTMCT("debug", "Chapter size (list)", numbers));
     return {
       start: s,
       end: e,
