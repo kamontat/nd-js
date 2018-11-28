@@ -9,7 +9,6 @@
     "automerge": false
   },
   "baseBranches": ["dev"],
-  "bumpVersion": "patch",
   "commitMessagePrefix": "[lib]",
   "labels": ["bot", "library"]
 }
