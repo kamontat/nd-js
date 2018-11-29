@@ -1,6 +1,6 @@
 {
   "name": "nd",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Novel Downloader JS edition",
   "main": "src/nd.ts",
   "bin": ".caches/nd.min.js",
@@ -53,7 +53,7 @@
     "@types/mustache": "0.8.31",
     "@types/node": "10.12.1",
     "@types/random-js": "1.0.31",
-    "@types/request": "2.47.1",
+    "@types/request": "2.48.1",
     "@types/request-promise": "4.1.42",
     "@types/semver": "5.5.0",
     "@types/tmp": "0.0.33",
