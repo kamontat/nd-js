@@ -24,7 +24,7 @@ const command = commander
       await exec(arr);
     }
 
-    arr = [".caches/nd-admin.min.js", "--out-path", "bin"];
+    arr = [".caches/nd-admin.min.js", "--target", "linux,win,macos", "--output", "./bin/nd-admin"];
     if (command.debug) arr.push("--debug");
     if (!onlyMain) {
       await exec(arr);

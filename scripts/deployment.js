@@ -12,5 +12,6 @@ commander
   .command("release", "Create release to github")
   .command("commit <message>", "Create release commit to github (WIP)")
   .command("build", "Same as run yarn build:all")
+  .command("local", "Install bin to local bin")
   .command("all", "Run all process to deployment")
   .parse(process.argv);
