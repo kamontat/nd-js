@@ -46,11 +46,15 @@ try {
     const ndAdminName = `nd-admin-${os}`;
 
     if (!command.onlyMain) {
-      const { stdout, stderr } = await execa("cp", ["-rf", path.join(bin, ndAdminName), path.join(resultBin, "nd")]);
+      const { stdout, stderr } = await execa("cp", [
+        "-rf",
+        path.join(bin, ndAdminName),
+        path.join(resultBin, "nd-admin")
+      ]);
       console.error(stderr);
       console.log(stdout);
     } else if (!command.onlyAdmin) {
-      const { stdout, stderr } = await execa("cp", ["-rf", path.join(bin, ndName), path.join(resultBin, "nd-admin")]);
+      const { stdout, stderr } = await execa("cp", ["-rf", path.join(bin, ndName), path.join(resultBin, "nd")]);
       console.error(stderr);
       console.log(stdout);
     }
