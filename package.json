@@ -1,6 +1,6 @@
 {
   "name": "nd",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Novel Downloader JS edition",
   "main": "src/nd.ts",
   "bin": ".caches/nd.min.js",
@@ -21,7 +21,7 @@
     "inquirer": "6.2.0",
     "js-yaml": "3.12.0",
     "jsonwebtoken": "8.3.0",
-    "listr": "0.14.2",
+    "listr": "0.14.3",
     "moment": "2.22.2",
     "mustache": "3.0.1",
     "pjson": "1.0.9",
