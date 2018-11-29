@@ -1,6 +1,6 @@
 {
   "name": "nd",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Novel Downloader JS edition",
   "main": "src/nd.ts",
   "bin": ".caches/nd.min.js",
@@ -120,6 +120,7 @@
     "analytic:prod": "webpack --mode=production --json > ./.caches/report.json",
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",
+    "test:token": "yarn start:admin create --fullname \"admin user admin@nd.com\" --username admin --expire 1y --not-before 1ms --version-range \"*\" --json",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:verbose": "jest --verbose",
@@ -128,19 +129,13 @@
     "coverage:ci": "jest --ci --coverage --verbose --maxWorkers 1"
   },
   "pkg": {
-    "assets": [
-      "package.json",
-      "node_modules/config/**/*.*"
-    ]
+    "assets": ["package.json", "node_modules/config/**/*.*"]
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./test/jest.setup.js",
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "testMatch": [
-      "**/src/**/__tests__/**/*.ts?(x)",
-      "**/src/**/?(*.)+(spec|test).ts?(x)"
-    ],
+    "testMatch": ["**/src/**/__tests__/**/*.ts?(x)", "**/src/**/?(*.)+(spec|test).ts?(x)"],
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/**/_*.ts",
@@ -150,17 +145,8 @@
       "!src/constants/option.const.ts",
       "!**/node_modules/**"
     ],
-    "coverageReporters": [
-      "json",
-      "lcov",
-      "text-summary"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "ts",
-      "html",
-      "mustache"
-    ],
+    "coverageReporters": ["json", "lcov", "text-summary"],
+    "moduleFileExtensions": ["js", "ts", "html", "mustache"],
     "transform": {
       "^.+\\.js$": "babel-jest",
       "^.+\\.mustache$": "<rootDir>/test/htmlLoader.js",

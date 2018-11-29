@@ -5,6 +5,14 @@
   "author": "Kamontat Chantrachirathumrong <kamontat_c@hotmail.com>",
   "config": {
     "token": {
+      "1.0.1": {
+        "jwtAlgo": "HS256",
+        "iv": 12,
+        "key": "GYaYR7Sng6xlQ1w5GiyRlsLQ",
+        "key2": "IBJZiRMHAUnAzawnJL3HG1sA",
+        "sal": "4LdJzgl3gOYkVlDBd37xVBXT",
+        "jid": "SctgRBMXyEjEaLJgwgHiCVhj"
+      },
       "1.0.0": {
         "jwtAlgo": "HS256",
         "iv": 12,
