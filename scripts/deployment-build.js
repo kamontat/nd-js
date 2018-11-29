@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-const execa = require("execa");
-
 const webpack = require("webpack");
 const { exec } = require("pkg");
 
@@ -29,8 +27,7 @@ const command = commander
     arr = [".caches/nd-admin.min.js", "--out-path", "bin"];
     if (command.debug) arr.push("--debug");
     if (!onlyMain) {
-      const { stdout } = await exec(arr);
-      console.log(stdout);
+      await exec(arr);
     }
   };
 
