@@ -72,9 +72,15 @@ export const CONFIG_CMD: CCommand = {
 };
 
 export const SET_CONFIG_CMD: CCommand = {
-  name: `set-config <${CONFIG_SET_LIST.join("|")}>`,
+  name: `set-config [${CONFIG_SET_LIST.join("|")}] [value]`,
   alias: "setc",
   desc: `Set config value [${CONFIG_SET_LIST}]`,
+  options: [
+    {
+      name: "-J, --json [json]",
+      desc: "Update configuration file with JSON format",
+    },
+  ],
   fn: ConfigSet,
 };
 

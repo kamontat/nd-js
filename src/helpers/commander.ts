@@ -45,7 +45,9 @@ export const ValidList = (
   expected: any,
 ): Exception | undefined => {
   if (!validFn(args, expected)) {
-    return PARAM_WRONG_ERR.clone().loadString(`Expected [${expected}] but got [${args}]`);
+    return PARAM_WRONG_ERR.clone().loadString(
+      `Expected [${expected}] but got [${args}]`,
+    );
   }
   return;
 };
@@ -56,7 +58,8 @@ export const ValidList = (
  * @param e exception to be throw if exist
  */
 export const ThrowIf = (e?: Throwable, option?: { noExit?: boolean }) => {
-  if (!option || (option && option.noExit === undefined)) option = { noExit: false };
+  if (!option || (option && option.noExit === undefined))
+    option = { noExit: false };
 
   if (e) {
     // print the result
@@ -90,9 +93,9 @@ export const Throw = (e: Throwable, message?: string) => {
  * @param a argument from action function
  *
  */
-export const SeperateArgumentApi = (a: any[]) => {
+export const SeperateArgumentApi = <T = string>(a: any[]) => {
   const cmd: { [key: string]: any } = a.filter(v => typeof v === "object")[0];
-  const args: string[] = a.filter(v => typeof v === "string").map(v => v.toString());
+  const args: T[] = a.filter(v => typeof v === "string").map(v => v.toString());
 
   log(WrapTMC("silly", "option", cmd));
   log(WrapTMC("debug", "argument", args));
