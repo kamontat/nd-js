@@ -22,8 +22,10 @@ console.log(
 
 try {
   (async () => {
-    const { stdout } = await execa("./scripts/deployment.js", ["build"]);
-    console.log(stdout);
+    if (build) {
+      const { stdout } = await execa("./scripts/deployment.js", ["build"]);
+      console.log(stdout);
+    }
 
     let os = "";
     switch (process.platform) {
