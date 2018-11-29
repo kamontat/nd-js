@@ -1,6 +1,6 @@
 {
   "name": "nd",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Novel Downloader JS edition",
   "main": "src/nd.ts",
   "bin": ".caches/nd.min.js",
@@ -79,7 +79,7 @@
     "terser-webpack-plugin": "1.1.0",
     "tmp": "0.0.33",
     "to-string-loader": "1.1.5",
-    "ts-jest": "23.10.4",
+    "ts-jest": "23.10.5",
     "ts-loader": "5.3.0",
     "tslint": "5.11.0",
     "tslint-loader": "3.5.4",
