@@ -1,6 +1,6 @@
 {
   "name": "nd",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Novel Downloader JS edition",
   "main": "src/nd.ts",
   "bin": ".caches/nd.min.js",
@@ -75,7 +75,7 @@
     "mock-fs": "4.7.0",
     "pkg": "4.3.4",
     "rimraf": "2.6.2",
-    "rxjs-tslint": "0.1.5",
+    "rxjs-tslint": "0.1.6",
     "terser-webpack-plugin": "1.1.0",
     "tmp": "0.0.33",
     "to-string-loader": "1.1.5",
