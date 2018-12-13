@@ -4,8 +4,6 @@
  */
 
 import Bluebird from "bluebird";
-import { readdirSync, statSync } from "fs-extra";
-import { join } from "path";
 import { log } from "winston";
 
 import { WrapTMCT } from "../apis/loggerWrapper";
@@ -13,6 +11,7 @@ import { NovelProgressBuilder } from "../builder/progress";
 import { PARAM_WRONG_ERR } from "../constants/error.const";
 import { SeperateArgumentApi, ThrowIf } from "../helpers/commander";
 import { CheckIsNovelPath, WalkDirSync } from "../helpers/helper";
+import Config from "../models/command/Config";
 import { ExceptionStorage } from "../models/error/ExceptionStorage";
 
 export default (a: any) => {
@@ -39,6 +38,16 @@ export default (a: any) => {
         withChanges: options.withChange,
       });
   };
+
+  // push default location in configuration if not exist
+  if (args.length < 1)
+    args.push(
+      Config.Load({
+        quiet: true,
+        bypass: true,
+        force: true,
+      }).getNovelLocation(),
+    );
 
   Bluebird.each(args, arg => {
     const location = arg || "."; // default is current directory
