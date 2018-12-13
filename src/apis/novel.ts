@@ -13,7 +13,11 @@ import { COLORS } from "../constants/color.const";
 import { NOVEL_WARN } from "../constants/error.const";
 import { ATTR_BLACKLIST, HTML_BLACKLIST_TEXT } from "../constants/html.const";
 import { DEFAULT_NOVEL_LINK } from "../constants/novel.const";
-import { CheckIsExist, FormatMomentDateTime, TrimString } from "../helpers/helper";
+import {
+  CheckIsExist,
+  FormatMomentDateTime,
+  TrimString,
+} from "../helpers/helper";
 import { GetChapterNumber, PassLink } from "../helpers/novel";
 import { HtmlNode } from "../models/html/HtmlNode";
 import { NovelChapter } from "../models/novel/Chapter";
@@ -109,7 +113,12 @@ const isClosedElement = (cheerio: Cheerio): boolean => {
 export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
   const chapters: { [key: string]: NovelChapter } = {};
 
-  const query = Query($, c => c.length > 0, "a.chapter-item-name[target=_blank]", "a[target=_blank]");
+  const query = Query(
+    $,
+    c => c.length > 0,
+    "a.chapter-item-name[target=_blank]",
+    "a[target=_blank]",
+  );
   if (!query) throw NOVEL_WARN.clone().loadString("cannot get chapter list");
 
   const dateQuery = GetChapterDateListApiV2($);
@@ -133,7 +142,10 @@ export const CreateChapterListApi = ($: CheerioStatic): NovelChapter[] => {
       // 28 ก.ย. 61
       const date = FormatMomentDateTime(dateString, "D MMM YY");
 
-      const builtChapter = NovelBuilder.createChapterByLink(PassLink(link), { name: title, date });
+      const builtChapter = NovelBuilder.createChapterByLink(PassLink(link), {
+        name: title,
+        date,
+      });
       if (isSoldElement(element)) builtChapter.markSell();
       else if (isClosedElement(element)) builtChapter.markClose();
 
@@ -159,7 +171,9 @@ export const GetChapterNameApi = ($: CheerioStatic) => {
     return name;
   }
 
-  const element = $("h2[style=margin\\:0px\\;font-size\\:17px\\;color\\:\\#ffffff]");
+  const element = $(
+    "h2[style=margin\\:0px\\;font-size\\:17px\\;color\\:\\#ffffff]",
+  );
   name = element.text();
   if (name && name !== "") {
     return name;
@@ -294,6 +308,7 @@ const getDivContentV2 = ($: CheerioStatic) => {
   return result;
 };
 
+// FIXME: Decoding with duplication element (e.g. nid=1863944, chapter=287)
 export const getNovelContentV2 = ($: CheerioStatic) => {
   const result: HtmlNode[] = [];
   const short = getShortContentV2($);
@@ -314,29 +329,51 @@ export const getNovelContentV2 = ($: CheerioStatic) => {
 export const GetNovelContent = (chapter: NovelChapter, $: CheerioStatic) => {
   let result: HtmlNode[] = [];
   if ($("div#story-content").text() !== "") {
-    log(WrapTM("debug", `${chapter.id}, at chap ${chapter.number}`, "version 2"));
+    log(
+      WrapTM("debug", `${chapter.id}, at chap ${chapter.number}`, "version 2"),
+    );
     result = getNovelContentV2($);
   } else {
-    log(WrapTM("debug", `${chapter.id}, at chap ${chapter.number}`, "version 1"));
+    log(
+      WrapTM("debug", `${chapter.id}, at chap ${chapter.number}`, "version 1"),
+    );
     result = getNovelContentV1($);
   }
 
-  log(WrapTM("debug", "Result of novel content", result.map(node => node.text).join("|")));
+  log(
+    WrapTM(
+      "debug",
+      "Result of novel content",
+      result.map(node => node.text).join("|"),
+    ),
+  );
 
-  if (result.some(node => node.text.includes("ตอนนี้เป็นส่วนหนึ่งในแพ็กเกจนิยาย"))) {
-    log(WrapTMCT("debug", `${chapter.id} => ${chapter.number} status`, "Sell!! "));
+  if (
+    result.some(node => node.text.includes("ตอนนี้เป็นส่วนหนึ่งในแพ็กเกจนิยาย"))
+  ) {
+    log(
+      WrapTMCT("debug", `${chapter.id} => ${chapter.number} status`, "Sell!! "),
+    );
     chapter.markSell();
     return;
   } else if (
-    result.some(node => node.text.includes("ผู้แต่งปิดการเข้าถึง") || node.text.includes("เนื้อหานิยายตอนนี้ถูกซ่อน"))
+    result.some(
+      node =>
+        node.text.includes("ผู้แต่งปิดการเข้าถึง") ||
+        node.text.includes("เนื้อหานิยายตอนนี้ถูกซ่อน"),
+    )
   ) {
-    log(WrapTMCT("debug", `${chapter.id} => ${chapter.number} status`, "Close!! "));
+    log(
+      WrapTMCT("debug", `${chapter.id} => ${chapter.number} status`, "Close!! "),
+    );
     chapter.markClose();
     return;
   }
 
   if (result.length < 1)
-    throw NOVEL_WARN.clone().loadString(`Cannot get ${chapter.id} chapter ${chapter.number} content`);
+    throw NOVEL_WARN.clone().loadString(
+      `Cannot get ${chapter.id} chapter ${chapter.number} content`,
+    );
 
   return result;
 };
@@ -346,5 +383,7 @@ export const CheckIsNovel = ($: CheerioStatic) => {
 };
 
 export const NormalizeNovelName = (name: string) => {
-  return name.replace(/([ \n\t\r\n])/g, "-").replace(/([\(\)\[\]\&\%\$\#\@\^\*])/g, "_");
+  return name
+    .replace(/([ \n\t\r\n])/g, "-")
+    .replace(/([\(\)\[\]\&\%\$\#\@\^\*])/g, "_");
 };
