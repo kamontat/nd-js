@@ -22,7 +22,9 @@ export default (a: any) => {
 
   const update = (location: string, exit: boolean) => {
     if (!CheckIsNovelPath(location)) {
-      const error = PARAM_WRONG_ERR.clone().loadString("Input is NOT novel path");
+      const error = PARAM_WRONG_ERR.clone().loadString(
+        "Input is NOT novel path",
+      );
       error.print();
       if (exit) error.exit();
     }
@@ -32,7 +34,10 @@ export default (a: any) => {
       .fetchLatestInformation("Fetching latest novel information")
       .downloadChapterList("Update chapters", true)
       .saveResourceFile("Building new resource file", true)
-      .runNovel(undefined, { withChapter: options.withChapter, withChanges: options.withChanges });
+      .runNovel(undefined, {
+        withChapter: options.withChapter,
+        withChanges: options.withChange,
+      });
   };
 
   Bluebird.each(args, arg => {

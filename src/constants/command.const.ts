@@ -162,7 +162,7 @@ export const UPDATE_CMD: CCommand = {
       default: false,
     },
     {
-      name: "-C, --changes",
+      name: "-C, --with-change",
       desc: "Add all changes that occurred in this update",
     },
     {

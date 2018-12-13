@@ -4,7 +4,12 @@ import program from "commander";
 import winston from "winston";
 
 import "./_setup";
-import { ARGUMENT_COLOR, OPTION_COLOR, PARAMETER_COLOR, PRIMARY_ARGUMENT_COLOR } from "./constants/color.const";
+import {
+  ARGUMENT_COLOR,
+  OPTION_COLOR,
+  PARAMETER_COLOR,
+  PRIMARY_ARGUMENT_COLOR,
+} from "./constants/color.const";
 import {
   CHANGELOG_CMD,
   CONFIG_CMD,
@@ -33,7 +38,9 @@ import {
 } from "./constants/option.const";
 import { MakeCommand, MakeOption } from "./helpers/command";
 
-program.name(ND.PROJECT_NAME).version(`nd version: ${ND.VERSION}`, "-v, --version");
+program
+  .name(ND.PROJECT_NAME)
+  .version(`nd version: ${ND.VERSION}`, "-v, --version");
 
 // MakeOption(program, VERBOSE_OPT);
 MakeOption(program, DEBUG_OPT);
@@ -73,34 +80,48 @@ program.on("--help", () => {
   console.log("");
   // tslint:disable-next-line
   console.log(`Examples:
-  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("initial")} [${OPTION_COLOR("--raw")} <${PARAMETER_COLOR(
-    "json",
-  )}>|${OPTION_COLOR("--file")} <${PARAMETER_COLOR("path")}>] [${OPTION_COLOR("--force")}]
-  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("set-config")} <${ARGUMENT_COLOR("'token'")}|${ARGUMENT_COLOR(
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("initial")} [${OPTION_COLOR(
+    "--raw",
+  )} <${PARAMETER_COLOR("json")}>|${OPTION_COLOR("--file")} <${PARAMETER_COLOR(
+    "path",
+  )}>] [${OPTION_COLOR("--force")}]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR(
+    "set-config",
+  )} <${ARGUMENT_COLOR("'token'")}|${ARGUMENT_COLOR(
     "'fullname'",
   )}|${ARGUMENT_COLOR("'color'")}|${ARGUMENT_COLOR("'location'")}>
-  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("raw-download")} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR(
-    "link",
-  )}> [${OPTION_COLOR("--location")} <${ARGUMENT_COLOR("location")}>] [${OPTION_COLOR("--chapter")} <${ARGUMENT_COLOR(
-    "number",
-  )}>] [${OPTION_COLOR("--force")}]
-  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("download")} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR(
-    "link",
-  )}...> [${OPTION_COLOR("--location")} <${ARGUMENT_COLOR("location")}>] [${OPTION_COLOR(
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR(
+    "raw-download",
+  )} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR("link")}> [${OPTION_COLOR(
+    "--location",
+  )} <${ARGUMENT_COLOR("location")}>] [${OPTION_COLOR(
+    "--chapter",
+  )} <${ARGUMENT_COLOR("number")}>] [${OPTION_COLOR("--force")}]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("download")} <${ARGUMENT_COLOR(
+    "id",
+  )}|${ARGUMENT_COLOR("link")}...> [${OPTION_COLOR(
+    "--location",
+  )} <${ARGUMENT_COLOR("location")}>] [${OPTION_COLOR(
     "--with-chapter",
   )}] [${OPTION_COLOR("--force")}]
-  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("fetch")} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR(
-    "link",
-  )}|${ARGUMENT_COLOR("location")}...> [${OPTION_COLOR("--with-chapter")}] [${OPTION_COLOR("--with-history")}]
-  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("update")} <${ARGUMENT_COLOR("location")}...> [${OPTION_COLOR(
-    "--with-chapter",
-  )}] [${OPTION_COLOR("--changes")}] [${OPTION_COLOR("--recusive")} && ${OPTION_COLOR("--maximum")} <${ARGUMENT_COLOR(
-    "number",
-  )}>]
-  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("validator")} <${ARGUMENT_COLOR("'config'")}|${ARGUMENT_COLOR(
-    "'application'",
-  )}> [${OPTION_COLOR("--info")}]
-  $ ${ND.PROJECT_NAME} [${OPTION_COLOR("--help")}|${OPTION_COLOR("--changelog")}|${OPTION_COLOR("--version")}]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("fetch")} <${ARGUMENT_COLOR(
+    "id",
+  )}|${ARGUMENT_COLOR("link")}|${ARGUMENT_COLOR(
+    "location",
+  )}...> [${OPTION_COLOR("--with-chapter")}] [${OPTION_COLOR("--with-history")}]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("update")} <${ARGUMENT_COLOR(
+    "location",
+  )}...> [${OPTION_COLOR("--with-chapter")}] [${OPTION_COLOR(
+    "--with-change",
+  )}] [${OPTION_COLOR("--recusive")} && ${OPTION_COLOR(
+    "--maximum",
+  )} <${ARGUMENT_COLOR("number")}>]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("validator")} <${ARGUMENT_COLOR(
+    "'config'",
+  )}|${ARGUMENT_COLOR("'application'")}> [${OPTION_COLOR("--info")}]
+  $ ${ND.PROJECT_NAME} [${OPTION_COLOR("--help")}|${OPTION_COLOR(
+    "--changelog",
+  )}|${OPTION_COLOR("--version")}]
 `);
 });
 
