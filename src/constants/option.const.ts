@@ -2,6 +2,7 @@
  * @external
  * @module commander.constant
  */
+import tabtab from "tabtab";
 
 import Config from "../models/command/Config";
 import { COption } from "../models/command/Option";
@@ -52,5 +53,19 @@ export const LOCATION_OPT: COption = {
   desc: "Custom output location",
   fn: location => {
     Config.Load({ quiet: true }).setNovelLocation(location);
+  },
+};
+
+export const COMPLETION_OPT: COption = {
+  name: "-I, --install-completion",
+  desc: "Install tabtab completion in zsh, bash or fish (this command NOT support window)",
+  fn: () => {
+    tabtab
+      .install({
+        name: "tabtab-test",
+        completer: "tabtab-test",
+      })
+      .then(() => console.log("Completion installed"))
+      .catch(err => console.error(err));
   },
 };

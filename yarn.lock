@@ -329,6 +329,11 @@
     "@types/glob" "*"
     "@types/node" "*"
 
+"@types/tabtab@^0.0.28":
+  version "0.0.28"
+  resolved "https://registry.yarnpkg.com/@types/tabtab/-/tabtab-0.0.28.tgz#c988619868003f2f69d0c5bdaf5f29d8692004d5"
+  integrity sha1-yYhhmGgAPy9p0MW9r18p2GkgBNU=
+
 "@types/through@*":
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/through/-/through-0.0.29.tgz#72943aac922e179339c651fa34a4428a4d722f93"
@@ -1941,6 +1946,13 @@ debug@^3.1.0:
   dependencies:
     ms "^2.1.1"
 
+debug@^4.0.1:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.0.tgz#373687bffa678b38b1cd91f861b63850035ddc87"
+  integrity sha512-heNPJUJIqC+xB6ayLAMHaIrmN9HKa7aQO8MGqKpvCA+uJYVcvR6l5kgdrhRuwPFHU7P5/A1w0BjByPHwpfTDKg==
+  dependencies:
+    ms "^2.1.1"
+
 debug@~3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
@@ -2329,6 +2341,11 @@ es6-promisify@^5.0.0:
   integrity sha1-UQnWLz5W6pZ8S2NQWu8IKRyKUgM=
   dependencies:
     es6-promise "^4.0.3"
+
+es6-promisify@^6.0.0:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/es6-promisify/-/es6-promisify-6.0.1.tgz#6edaa45f3bd570ffe08febce66f7116be4b1cdb6"
+  integrity sha512-J3ZkwbEnnO+fGAKrjVpeUAnZshAdfZvbhQpqfIH9kSAspReRC4nJnu8ewm55b4y9ElyeuhCTzJD0XiH8Tsbhlw==
 
 es6-templates@^0.2.3:
   version "0.2.3"
@@ -3501,7 +3518,7 @@ inquirer@0.11.0:
     strip-ansi "^3.0.0"
     through "^2.3.6"
 
-inquirer@6.2.0:
+inquirer@6.2.0, inquirer@^6.0.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-6.2.0.tgz#51adcd776f661369dc1e894859c2560a224abdd8"
   integrity sha512-QIEQG4YyQ2UYZGDC4srMZ7BjHOmNk1lR2JQj5UknBapklm6WHA+VVH7N+sUdX3A7NeCfGF8o4X1S3Ao7nAcIeg==
@@ -7062,6 +7079,18 @@ symbol-tree@^3.2.2:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
   integrity sha1-rifbOPZgp64uHDt9G8KQgZuFGeY=
 
+tabtab@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/tabtab/-/tabtab-3.0.2.tgz#a2cea0f1035f88d145d7da77eaabbd3fe03e1ec9"
+  integrity sha512-jANKmUe0sIQc/zTALTBy186PoM/k6aPrh3A7p6AaAfF6WPSbTx1JYeGIGH162btpH+mmVEXln+UxwViZHO2Jhg==
+  dependencies:
+    debug "^4.0.1"
+    es6-promisify "^6.0.0"
+    inquirer "^6.0.0"
+    minimist "^1.2.0"
+    mkdirp "^0.5.1"
+    untildify "^3.0.3"
+
 tapable@^1.0.0, tapable@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-1.1.0.tgz#0d076a172e3d9ba088fd2272b2668fb8d194b78c"
@@ -7487,6 +7516,11 @@ unset-value@^1.0.0:
   dependencies:
     has-value "^0.3.1"
     isobject "^3.0.0"
+
+untildify@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/untildify/-/untildify-3.0.3.tgz#1e7b42b140bcfd922b22e70ca1265bfe3634c7c9"
+  integrity sha512-iSk/J8efr8uPT/Z4eSUywnqyrQU7DSdMfdqK4iWEaUVVmcP5JcnpRqmVMwcwcnmI1ATFNgC5V90u09tBynNFKA==
 
 upath@^1.0.5:
   version "1.1.0"
