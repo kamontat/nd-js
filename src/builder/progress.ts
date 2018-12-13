@@ -16,7 +16,12 @@ import { HistoryNode } from "../models/history/HistoryNode";
 import { NovelChapter } from "../models/novel/Chapter";
 import { Novel } from "../models/novel/Novel";
 import { NPrinter } from "../models/novel/NPrinter";
-import { Progress, ProgressOptions, Title, TitleFn } from "../models/output/progress";
+import {
+  Progress,
+  ProgressOptions,
+  Title,
+  TitleFn,
+} from "../models/output/progress";
 
 import { NovelBuilder } from "./novel";
 
@@ -26,7 +31,10 @@ export class NovelProgressBuilder extends Progress {
 
   private _downloadChapter(
     title: Title | TitleFn,
-    downloadOption: { force?: boolean; override?(_: Novel): Novel } = { force: false, override: n => n },
+    downloadOption: { force?: boolean; override?(_: Novel): Novel } = {
+      force: false,
+      override: n => n,
+    },
     opts?: ProgressOptions,
   ) {
     this.add(
@@ -35,19 +43,28 @@ export class NovelProgressBuilder extends Progress {
         return new Observable(observer => {
           let novel = ctx[this.getContentKey(opts)] as Novel;
           if (novel === undefined) novel = ctx.previous as Novel;
-          if (downloadOption && downloadOption.override) downloadOption.override(novel);
+          if (downloadOption && downloadOption.override)
+            downloadOption.override(novel);
           novel
             .saveNovel({
               force: downloadOption.force,
               completeFn: (chap: NovelChapter) => {
-                this.changes.addNode(HistoryNode.CreateADD("The chapter", { after: chap.toString() }));
+                this.changes.addNode(
+                  HistoryNode.CreateADD("The chapter", {
+                    after: chap.toString(),
+                  }),
+                );
                 observer.next(`Chapter ${chap.number}`);
               },
               completedFn: (chap: NovelChapter) => {
                 observer.next(`Chapter ${chap.number} Exist!`);
               },
               failFn: (chap: NovelChapter) => {
-                this.changes.addNode(HistoryNode.CreateDEL("The chapter", { before: chap.toString() }));
+                this.changes.addNode(
+                  HistoryNode.CreateDEL("The chapter", {
+                    before: chap.toString(),
+                  }),
+                );
                 observer.next(`Chapter ${chap.number} ${chap.status}`);
               },
             })
@@ -65,13 +82,21 @@ export class NovelProgressBuilder extends Progress {
     return this;
   }
 
-  public fetchNovel(title: Title | TitleFn, id: string, opts?: ProgressOptions) {
+  public fetchNovel(
+    title: Title | TitleFn,
+    id: string,
+    opts?: ProgressOptions,
+  ) {
     this.id = id;
     this.add(title, NovelBuilder.fetch(id), opts);
     return this;
   }
 
-  public buildLocalNovelInformation(title: Title | TitleFn, path: string, opts?: ProgressOptions) {
+  public buildLocalNovelInformation(
+    title: Title | TitleFn,
+    path: string,
+    opts?: ProgressOptions,
+  ) {
     this.add(
       title,
       ctx => {
@@ -93,12 +118,19 @@ export class NovelProgressBuilder extends Progress {
     return this;
   }
 
-  public buildNovelInformation(title: Title | TitleFn, id: string = "", opts?: ProgressOptions) {
+  public buildNovelInformation(
+    title: Title | TitleFn,
+    id: string = "",
+    opts?: ProgressOptions,
+  ) {
     const _id = this.id || id;
     this.add(
       title,
       ctx => {
-        const context = ctx[this.getContentKey(opts)] as { cheerio: CheerioStatic; chapter: NovelChapter };
+        const context = ctx[this.getContentKey(opts)] as {
+          cheerio: CheerioStatic;
+          chapter: NovelChapter;
+        };
         return NovelBuilder.build(_id, context.cheerio);
       },
       opts,
@@ -106,7 +138,10 @@ export class NovelProgressBuilder extends Progress {
     return this;
   }
 
-  public fetchLatestInformation(title: Title | TitleFn, opts?: ProgressOptions) {
+  public fetchLatestInformation(
+    title: Title | TitleFn,
+    opts?: ProgressOptions,
+  ) {
     this.add(title, ctx => {
       const novel = ctx[this.getContentKey(opts)] as Novel;
       return novel.update();
@@ -114,11 +149,20 @@ export class NovelProgressBuilder extends Progress {
     return this;
   }
 
-  public downloadChapterList(title: Title | TitleFn, force?: boolean, opts?: ProgressOptions) {
+  public downloadChapterList(
+    title: Title | TitleFn,
+    force?: boolean,
+    opts?: ProgressOptions,
+  ) {
     return this._downloadChapter(title, { force }, opts);
   }
 
-  public downloadOnlyChapterList(title: Title | TitleFn, chapters: string[], force?: boolean, opts?: ProgressOptions) {
+  public downloadOnlyChapterList(
+    title: Title | TitleFn,
+    chapters: string[],
+    force?: boolean,
+    opts?: ProgressOptions,
+  ) {
     const config = Config.Load();
 
     return this._downloadChapter(
@@ -129,7 +173,9 @@ export class NovelProgressBuilder extends Progress {
           n.location = config.getNovelLocation();
           // get the chapter from the novel chapters list
           const _chapters = chapters.map(chapterString => {
-            const _chapter = NovelBuilder.createChapter(n.id, chapterString, { location: n.location });
+            const _chapter = NovelBuilder.createChapter(n.id, chapterString, {
+              location: n.location,
+            });
             const chapter = n.getChapter(_chapter);
             if (chapter) return chapter;
             return _chapter;
@@ -145,7 +191,11 @@ export class NovelProgressBuilder extends Progress {
     );
   }
 
-  public saveResourceFile(title: Title | TitleFn, force?: boolean, opts?: ProgressOptions) {
+  public saveResourceFile(
+    title: Title | TitleFn,
+    force?: boolean,
+    opts?: ProgressOptions,
+  ) {
     this.add(
       title,
       (ctx: any) => {
@@ -158,7 +208,11 @@ export class NovelProgressBuilder extends Progress {
     return this;
   }
 
-  public runNovel(ctx: any, { withChapter = false, withHistory = false, withChanges = false }, opts?: ProgressOptions) {
+  public runNovel(
+    ctx: any,
+    { withChapter = false, withHistory = false, withChanges = false },
+    opts?: ProgressOptions,
+  ) {
     return this.run(ctx)
       .then(context => {
         const novel = context[this.getContentKey(opts)] as Novel;
@@ -168,11 +222,18 @@ export class NovelProgressBuilder extends Progress {
           novel
             .history()
             .list()
-            .forEach((node, index) => log(WrapTMCT("info", `History ${index}`, node.toString())));
+            .forEach((node, index) =>
+              log(WrapTMCT("info", `History ${index}`, node.toString())),
+            );
         }
 
+        // TODO: update more readable change list
         if (withChanges) {
-          this.changes.list().forEach((node, index) => log(WrapTMCT("info", `History ${index}`, node.toString())));
+          this.changes
+            .list()
+            .forEach((node, index) =>
+              log(WrapTMCT("info", `History ${index}`, node.toString())),
+            );
         }
 
         return Bluebird.resolve();
