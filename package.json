@@ -1,6 +1,6 @@
 {
   "name": "nd",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Novel Downloader JS edition",
   "main": "src/nd.ts",
   "bin": ".caches/nd.min.js",
@@ -40,7 +40,7 @@
     "yargs": "12.0.5"
   },
   "devDependencies": {
-    "@types/bluebird": "3.5.24",
+    "@types/bluebird": "3.5.25",
     "@types/cheerio": "0.22.9",
     "@types/config": "0.0.34",
     "@types/fs-extra": "5.0.4",
