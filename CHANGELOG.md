@@ -38,6 +38,11 @@
 - default directory of update command is in config
 - Add --json to set-config command
 - now, can input multiple update location
+
+
+<a name="1.0.1"></a>
+## [1.0.1] - 2019-01-07
+### Improving User Experience
 - Integrate yarn script with deployment script
 - Add --push-tag to deployment
 
@@ -251,7 +256,8 @@
 
 
 [Unreleased]: https://github.com/kamontat/nd-js/compare/2.0.0-alpha.1...HEAD
-[2.0.0-alpha.1]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.3...2.0.0-alpha.1
+[2.0.0-alpha.1]: https://github.com/kamontat/nd-js/compare/1.0.1...2.0.0-alpha.1
+[1.0.1]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.3...1.0.1
 [1.0.0-rc.3]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.2...1.0.0-rc.3
 [1.0.0-rc.2]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.0...1.0.0-rc.2
 [1.0.0-rc.0]: https://github.com/kamontat/nd-js/compare/1.0.0-beta.3...1.0.0-rc.0

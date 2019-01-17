@@ -1,6 +1,6 @@
 ## Version 2.0.0-alpha.1
   
-cloc|github.com/AlDanial/cloc v 1.78  T=0.13 s (857.8 files/s, 58606.4 lines/s)
+cloc|github.com/AlDanial/cloc v 1.78  T=0.11 s (1025.3 files/s, 70047.3 lines/s)
 --- | ---
 
 Language|files|blank|comment|code
