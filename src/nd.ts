@@ -40,7 +40,10 @@ import { MakeCommand, MakeOption } from "./helpers/command";
 
 program
   .name(ND.PROJECT_NAME)
-  .version(`nd version: ${ND.VERSION}`, "-v, --version");
+  .version(
+    `nd version: ${ND.VERSION} (build: ${ND.BUILD_NUMBER})`,
+    "-v, --version",
+  );
 
 // MakeOption(program, VERBOSE_OPT);
 MakeOption(program, DEBUG_OPT);
