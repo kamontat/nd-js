@@ -6,6 +6,7 @@
 import { log } from "winston";
 
 import { WrapTMC } from "../../apis/loggerWrapper";
+import { PrintHeader } from "../output/header";
 
 import { Exception } from "./Exception";
 
@@ -40,8 +41,10 @@ export class ExceptionStorage {
   }
 
   public print() {
-    log(WrapTMC("warn", "Exception", "---------------"));
-    this.list().forEach((v, i) => log(WrapTMC(v.warn ? "warn" : "error", `Exception ${i}`, v.message)));
+    PrintHeader("Exception", { level: "warn" });
+    this.list().forEach((v, i) =>
+      log(WrapTMC(v.warn ? "warn" : "error", `Exception ${i}`, v.message)),
+    );
   }
 
   /**
