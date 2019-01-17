@@ -69,6 +69,25 @@ export const ListAllVersion = async () => {
   return result.data;
 };
 
+export const InstallSpecifyVersion = (
+  version: string,
+  opts?: InstallOption,
+) => {
+  return ListAllVersion().then(versions => {
+    const specify = versions.find(v => v.tag_name === version);
+    if (specify)
+      return InstallVersion(
+        {
+          version: specify.tag_name,
+          url: specify.html_url,
+          date: specify.published_at,
+          assets: specify.assets,
+        },
+        opts,
+      );
+  });
+};
+
 export const InstallVersion = (
   version: VersionObject,
   opts?: InstallOption,
@@ -88,14 +107,14 @@ export const InstallVersion = (
     return;
   }
 
-  const _asset = version.assets.filter(
+  const asset = version.assets.find(
     v => !v.name.includes("admin") && v.name.includes(osName || "undefined"),
   );
-  if (_asset.length < 1) {
+
+  if (!asset) {
     log(WrapTMCT("error", "Error", "Binary file not found"));
     return;
   }
-  const asset = _asset[0];
 
   const name = asset.name;
   const downloadURL = asset.browser_download_url;

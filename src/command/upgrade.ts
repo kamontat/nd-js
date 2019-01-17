@@ -7,7 +7,7 @@ import { log } from "winston";
 import { WrapTMC } from "../apis/loggerWrapper";
 import { SeperateArgumentApi } from "../helpers/commander";
 import { CheckIsLatestVersion } from "../helpers/helper";
-import { InstallLatestVersion, InstallVersion } from "../models/release";
+import { InstallLatestVersion, InstallSpecifyVersion } from "../models/release";
 
 export default (a: any) => {
   const { options } = SeperateArgumentApi(a);
@@ -21,7 +21,7 @@ export default (a: any) => {
 
     log(WrapTMC("verbose", "Execute Upgrade", "execution"));
 
-    if (options.at) InstallVersion(options.at);
+    if (options.at) InstallSpecifyVersion(options.at);
     else InstallLatestVersion();
   });
 };
