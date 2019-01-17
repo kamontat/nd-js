@@ -9,6 +9,7 @@ import { log } from "winston";
 import { COLORS } from "../../constants/color.const";
 
 import { WrapTM } from "../../apis/loggerWrapper";
+import { noTransform, noValidator } from "../../helpers/color";
 
 /**
  * The type of message will effect the color of it.
@@ -42,14 +43,14 @@ export class ColorType {
     name: string;
     color: Chalk;
     alterColor?: Chalk;
-    validator(v: any): boolean;
-    transform(v: any): string;
+    validator?(v: any): boolean;
+    transform?(v: any): string;
     whenUseAlter?(v: any): boolean;
   }) {
     this.name = opt.name;
-    this._check = opt.validator;
+    this._check = opt.validator || noValidator;
     this._color = opt.color;
-    this._tranform = opt.transform;
+    this._tranform = opt.transform || noTransform;
 
     if (opt.alterColor && opt.whenUseAlter) {
       this._alternative = {
@@ -69,7 +70,9 @@ export class ColorType {
    */
   public color(obj: any): string {
     if (this._alternative) {
-      return this._alternative.how(obj) ? this._alternative.color(obj) : this._color(obj);
+      return this._alternative.how(obj)
+        ? this._alternative.color(obj)
+        : this._color(obj);
     }
     return this._color(obj);
   }
@@ -82,7 +85,10 @@ export class ColorType {
     if (!obj) return obj;
 
     const message = this._tranform(obj);
-    if (this._alternative) return this._alternative.how(obj) ? this._alternative.color(message) : this._color(message);
+    if (this._alternative)
+      return this._alternative.how(obj)
+        ? this._alternative.color(message)
+        : this._color(message);
     return this._color(message);
   }
 
