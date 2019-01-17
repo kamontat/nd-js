@@ -4,7 +4,11 @@
  */
 
 import { Config, NAME, VERSION } from "./lib/AdminConfig";
-import { ConvertToRequireTokenData as Convert, DecodeToken, SignToken } from "./lib/adminUtils";
+import {
+  ConvertToRequireTokenData as Convert,
+  DecodeToken,
+  SignToken,
+} from "./lib/adminUtils";
 import { RequireTokenData as RD, ResultTokenData as RTD } from "./lib/data";
 import { Validation } from "./lib/utils";
 
@@ -19,6 +23,8 @@ export { NAME, VERSION };
  * Compile date get from definePlugin of webpack
  */
 export const DATE = COMPILED_DATE;
+
+export const BUILD_NUMBER = DATE;
 
 /**
  * This is a information that require to create token
@@ -115,7 +121,11 @@ export const EncryptToken = (data: RequireTokenData) => {
  * @see {@link RequireTokenData}
  * @see {@link ConvertToRequireTokenData}
  */
-export const DecryptToken = (data: { fullname: string; token: string; version: string }): ResultTokenData => {
+export const DecryptToken = (data: {
+  fullname: string;
+  token: string;
+  version: string;
+}): ResultTokenData => {
   return DecodeToken(data.version, data.token, data.fullname);
 };
 

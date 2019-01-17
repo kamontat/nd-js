@@ -1,6 +1,6 @@
 {
   "name": "nd-security",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Security implementation for ND command",
   "author": "Kamontat Chantrachirathumrong <kamontat_c@hotmail.com>",
   "config": {

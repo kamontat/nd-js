@@ -13,3 +13,5 @@ declare let COMPILED_DATE: number;
  * Compile date get from definePlugin of webpack
  */
 export const DATE = COMPILED_DATE;
+
+export const BUILD_NUMBER = DATE;
