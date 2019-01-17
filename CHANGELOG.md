@@ -27,6 +27,7 @@
 - download error because novel is undefined
 
 ### Improving User Experience
+- change version in exist in loc behave
 - new normalize name for /
 - change color of important and add new color
 - make more readable text on history and changes
