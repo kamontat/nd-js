@@ -141,9 +141,9 @@ yargs
           mask: "",
         })
         .then(({ password }) => {
-          password = argv.password;
+          password = argv.password || password;
           if (!checkPassword(password)) {
-            console.error("Wrong command password");
+            console.error(`Wrong command password (${password})`);
             process.exit(1);
           }
 

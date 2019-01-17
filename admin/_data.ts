@@ -3,7 +3,8 @@ import semver from "semver";
 import { BUILD_NUMBER } from "../security/index-admin";
 
 export const checkPassword = (p: string) => {
-  return `master-password-${BUILD_NUMBER}` === p;
+  const t = `master-password-${BUILD_NUMBER}`;
+  return t === p;
 };
 
 export const expireDateChoice = [
