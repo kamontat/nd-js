@@ -1,9 +1,10 @@
 import "jest-extended";
+
+import { DEFAULT_MAXIMUM_HISTORY } from "../../../constants/novel.const";
 import { History } from "../History";
+import { HistoryAction } from "../HistoryAction";
 
 import { RandomNode, RandomText } from "./_lib";
-import { DEFAULT_MAXIMUM_HISTORY } from "../../../constants/novel.const";
-import { HistoryAction } from "../HistoryAction";
 
 describe("History, node, and action", function() {
   describe("Node creation", function() {
@@ -15,7 +16,7 @@ describe("History, node, and action", function() {
 
     test("Should create the input title", function() {
       const title = RandomText(5);
-      const node = RandomNode({ title: title });
+      const node = RandomNode({ title });
       expect(node.toJSON().title).toEqual(title);
     });
 
@@ -35,8 +36,9 @@ describe("History, node, and action", function() {
     });
 
     test("Should print information out", function() {
-      const node = RandomNode({ action: HistoryAction.DELETED });
-      expect(node.toString().toLowerCase()).toInclude(HistoryAction.DELETED.toLowerCase());
+      const title = RandomText(200);
+      const node = RandomNode({ action: HistoryAction.DELETED, title });
+      expect(node.toString()).toInclude(title);
     });
   });
 
@@ -44,7 +46,7 @@ describe("History, node, and action", function() {
     test("Should display the input title", function() {
       const title = RandomText(15);
 
-      const node = RandomNode({ title: title });
+      const node = RandomNode({ title });
       const json = node.toJSON();
 
       expect(json.title).toEqual(title);
@@ -53,7 +55,7 @@ describe("History, node, and action", function() {
     test("Should display the input description", function() {
       const description = RandomText(15);
 
-      const node = RandomNode({ description: description });
+      const node = RandomNode({ description });
       const json = node.toJSON();
 
       expect(json.description).toEqual(description);
