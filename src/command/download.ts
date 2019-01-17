@@ -24,23 +24,14 @@ export default (a: any) => {
       .buildNovelInformation("Building novel information")
       .downloadChapterList(
         (novel?: Novel) =>
-          (novel && `Download chapter (${MakeReadableNumberArray(novel.chapterSize.list as string[])})`) ||
+          (novel &&
+            `Download chapter (${MakeReadableNumberArray(novel.chapterSize
+              .list as string[])})`) ||
           "Download chapter",
         options.force,
       )
       .saveResourceFile("Building resource file", options.force)
       .runNovel(undefined, { withChapter: options.withChapter });
-
-    // Old progress APIs
-    // return new ListrController()
-    //   .addByHelper(`Fetching novel ${id}`, NovelBuilder.fetch(id))
-    //   .addFnByHelper(`Building novel ${id}`, ctx => NovelBuilder.build(id, ctx.result.cheerio), "novel")
-    //   .addLoadChapterList("Download chapters", {
-    //     force: options.force,
-    //     contextKey: "novel",
-    //   })
-    //   .addCreateResourceFile(`Building resource file`, { force: options.force })
-    //   .runNovel({ withChapter: options.withChapter });
   }).then(() => {
     ExceptionStorage.CONST.print();
   });
