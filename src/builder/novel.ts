@@ -30,17 +30,31 @@ interface NovelChapterBuilderOption {
 
 export class NovelBuilder {
   public static fetch(id: string, option?: { location?: string }) {
-    return FetchApi(NovelBuilder.createChapter(id, undefined, { location: option && option.location }));
+    return FetchApi(
+      NovelBuilder.createChapter(id, undefined, {
+        location: option && option.location,
+      }),
+    );
   }
 
-  public static build(id: string, $: CheerioStatic, option?: { location?: string }) {
-    const novel = new Novel(id, (option && option.location) || Config.Load().getNovelLocation());
+  public static build(
+    id: string,
+    $: CheerioStatic,
+    option?: { location?: string },
+  ) {
+    const location = option && option.location;
+    Config.Load().setNovelLocation(location);
+
+    const novel = new Novel(id, Config.Load().getNovelLocation());
     return novel.load($);
   }
 
   public static buildLocal(
     location: string,
-    progress?: { completeNovelFn?(n: Novel): void; completeHistoryFn?(h: History): void },
+    progress?: {
+      completeNovelFn?(n: Novel): void;
+      completeHistoryFn?(h: History): void;
+    },
   ): Bluebird<Novel> {
     return new Bluebird((res, rej) => {
       try {
@@ -48,10 +62,12 @@ export class NovelBuilder {
         const novel = new Novel(json.novel.id, location);
         novel.resetHistory();
         novel.setAll(json.novel);
-        if (progress && progress.completeNovelFn) progress.completeNovelFn(novel);
+        if (progress && progress.completeNovelFn)
+          progress.completeNovelFn(novel);
 
         novel.setHistory(json.history);
-        if (progress && progress.completeHistoryFn) progress.completeHistoryFn(novel.history());
+        if (progress && progress.completeHistoryFn)
+          progress.completeHistoryFn(novel.history());
         return res(novel);
       } catch (e) {
         return rej(e);
@@ -60,7 +76,13 @@ export class NovelBuilder {
   }
 
   public static buildChapterLocal(novel: Novel, c: NovelChapterResourceType) {
-    const chap = new NovelChapter(novel.id, c.number, c.name, novel.location, RevertTimestamp(c.date));
+    const chap = new NovelChapter(
+      novel.id,
+      c.number,
+      c.name,
+      novel.location,
+      RevertTimestamp(c.date),
+    );
     chap.resetHistory();
     chap.pauseObserve();
     chap.status = NovelStatusUtils.ToStatus(c.status);
@@ -68,15 +90,28 @@ export class NovelBuilder {
     return chap;
   }
 
-  public static createChapter(id: string, chapter?: string, option?: NovelChapterBuilderOption) {
-    return new NovelChapter(id, chapter, option && option.name, option && option.location, option && option.date);
+  public static createChapter(
+    id: string,
+    chapter?: string,
+    option?: NovelChapterBuilderOption,
+  ) {
+    return new NovelChapter(
+      id,
+      chapter,
+      option && option.name,
+      option && option.location,
+      option && option.date,
+    );
   }
 
   public static createZeroChapter(novel: Novel) {
     return new NovelZeroChapter(novel);
   }
 
-  public static createChapterByLink(url: URL, option?: NovelChapterBuilderOption) {
+  public static createChapterByLink(
+    url: URL,
+    option?: NovelChapterBuilderOption,
+  ) {
     return new NovelChapter(
       GetNID(url.toString()),
       url.searchParams.get("chapter") || undefined,

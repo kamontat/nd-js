@@ -42,7 +42,7 @@ export class NovelChapter extends Historian {
   set name(n: string) {
     this.notify(
       HistoryNode.CreateByChange(
-        "Chapter name",
+        `Chap ${this.number} name`,
         { before: this._name, after: n },
         { description: this.description },
       ),
@@ -55,9 +55,11 @@ export class NovelChapter extends Historian {
   }
 
   set location(loc: string) {
+    if (this._location === loc) return;
+
     this.notify(
       HistoryNode.CreateByChange(
-        "Chapter location",
+        `Chap ${this.number} location`,
         { before: this._location, after: loc },
         { description: this.description },
       ),
@@ -111,7 +113,7 @@ export class NovelChapter extends Historian {
   set status(status: NovelStatus) {
     this.notify(
       HistoryNode.CreateByChange(
-        "Chapter status",
+        `Chap ${this.number} status`,
         { before: this._status, after: status },
         { description: this.description },
       ),
@@ -124,7 +126,7 @@ export class NovelChapter extends Historian {
   private notifyDateChange(date: Moment) {
     this.notify(
       HistoryNode.CreateByChange(
-        "Chapter date",
+        `Chap ${this.number} date`,
         { before: Timestamp(this._date), after: Timestamp(date) },
         { description: this.description },
       ),
@@ -147,22 +149,8 @@ export class NovelChapter extends Historian {
   ) {
     super();
 
-    this.notify(
-      HistoryNode.CreateByChange("Chapter ID", { before: undefined, after: id }),
-    );
+    this.notify(HistoryNode.CreateByChange("Chapter ID", { after: id }));
     this._nid = id;
-    if (name) this.name = name;
-
-    if (date && date.isValid()) this.date = date;
-
-    if (!location) location = Config.Load({ quiet: true }).getNovelLocation();
-    this.notify(
-      HistoryNode.CreateByChange("Chapter location", {
-        before: undefined,
-        after: location,
-      }),
-    );
-    this._location = location;
 
     if (chapter) {
       if (CheckIsNumber(chapter)) {
@@ -179,6 +167,13 @@ export class NovelChapter extends Historian {
         );
       }
     }
+
+    if (name) this.name = name;
+
+    if (date && date.isValid()) this.date = date;
+
+    if (!location) location = Config.Load({ quiet: true }).getNovelLocation();
+    this.location = location;
   }
 
   public link() {
@@ -259,9 +254,7 @@ export class NovelChapter extends Historian {
   }
 
   public toString() {
-    return `Chapter ${this.number} "${this.name}" was downloaded ${
-      this.status
-    } at ${this.date}`;
+    return this.format("{{name}} @{{number}} was {{status}} on {{date}}");
   }
 
   public equals(c: NovelChapter) {

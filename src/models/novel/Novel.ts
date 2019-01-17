@@ -14,14 +14,23 @@ import { log } from "winston";
 import { FetchApi } from "../../apis/download";
 import { Writer } from "../../apis/fileWriter";
 import { WrapTMCT } from "../../apis/loggerWrapper";
-import { CreateChapterListApi, GetNovelDateApi, GetNovelNameApi, NormalizeNovelName } from "../../apis/novel";
+import {
+  CreateChapterListApi,
+  GetNovelDateApi,
+  GetNovelNameApi,
+  NormalizeNovelName,
+} from "../../apis/novel";
 import { HtmlBuilder } from "../../builder/html";
 import { NovelBuilder } from "../../builder/novel";
 import { ResourceBuilder } from "../../builder/resource";
 import { NOVEL_NOTFOUND_ERR, NOVEL_WARN } from "../../constants/error.const";
 import { DEFAULT_NOVEL_FOLDER_NAME } from "../../constants/novel.const";
 import { SaveIf } from "../../helpers/commander";
-import { CheckIsNovelPath, RevertTimestamp, Timestamp } from "../../helpers/helper";
+import {
+  CheckIsNovelPath,
+  RevertTimestamp,
+  Timestamp,
+} from "../../helpers/helper";
 import Config from "../command/Config";
 import { Historian } from "../history/Historian";
 import { HistoryActionUtils } from "../history/HistoryAction";
@@ -29,24 +38,39 @@ import { HistoryNode, HistoryNodeType } from "../history/HistoryNode";
 import { NovelChapterResourceType } from "../resource/NovelResource";
 
 import { NovelChapter } from "./Chapter";
+import { CPrinter } from "./CPrinter";
 
 export class Novel extends Historian {
   set name(n: string) {
     this.notify(
-      HistoryNode.CreateByChange("Novel name", { before: this.name, after: n }, { description: this.description }),
+      HistoryNode.CreateByChange(
+        "Novel name",
+        { before: this.name, after: n },
+        { description: this.description },
+      ),
     );
     this._name = n;
   }
 
   set location(v: string) {
-    this.notify(HistoryNode.CreateByChange("Novel location", { before: this.location, after: v }));
+    this.notify(
+      HistoryNode.CreateByChange("Novel location", {
+        before: this.location,
+        after: v,
+      }),
+    );
+
+    Config.Load().setNovelLocation(v);
     this._location = v;
   }
 
   set lastUpdate($: CheerioStatic) {
     const last = GetNovelDateApi($);
     this.notify(
-      HistoryNode.CreateByChange("Last update", { before: Timestamp(this._updateAt), after: Timestamp(last) }),
+      HistoryNode.CreateByChange("Last update", {
+        before: Timestamp(this._updateAt),
+        after: Timestamp(last),
+      }),
     );
 
     this._updateAt = last;
@@ -148,7 +172,11 @@ export class Novel extends Historian {
     if (validate) this.validateBeforeSave({ force });
 
     if (this._chapters.length < 1)
-      return Bluebird.reject(NOVEL_NOTFOUND_ERR.loadString("don't have any chapters or this might be short novel"));
+      return Bluebird.reject(
+        NOVEL_NOTFOUND_ERR.loadString(
+          "don't have any chapters or this might be short novel",
+        ),
+      );
 
     return Bluebird.each(this.chapter({ copy: true }), async chap => {
       if (chap.isCompleted()) {
@@ -169,7 +197,8 @@ export class Novel extends Historian {
           await Writer.ByChapter(html, res.chapter, force);
 
           completeFn(chap);
-          chap.markComplete();
+          const c = this._chapters.get(chap.key);
+          if (c) c.markComplete();
         }
       }
 
@@ -183,7 +212,9 @@ export class Novel extends Historian {
   constructor(id: string, location?: string) {
     super();
 
-    this.notify(HistoryNode.CreateByChange("Novel ID", { before: undefined, after: id }));
+    this.notify(
+      HistoryNode.CreateByChange("Novel ID", { before: undefined, after: id }),
+    );
     this._id = id;
 
     this._alias = [];
@@ -208,16 +239,16 @@ export class Novel extends Historian {
   }
 
   public addChapter(chapter: NovelChapter) {
-    const size = JSON.stringify(this.chapterSize);
     const isReplace = this.replaceChapter(chapter);
     if (!isReplace) {
       this.notify(
         HistoryNode.CreateByChange(
-          "Novel chapters",
-          { before: size, after: JSON.stringify(chapter.toJSON()) },
+          "Novel chapter",
+          { after: new CPrinter(chapter).format({ short: true }) },
           { description: this.description },
         ),
       );
+
       chapter.location = this.location; // link the location as well
       chapter.linkTo(this); // link chapter history to novel history
     }
@@ -257,12 +288,16 @@ export class Novel extends Historian {
 
     if (setting.id) this._id = setting.id;
     if (setting.name) this._name = setting.name;
-    if (setting.lastUpdate) this._updateAt = RevertTimestamp(setting.lastUpdate);
-    if (setting.downloadAt) this._downloadAt = RevertTimestamp(setting.downloadAt);
+    if (setting.lastUpdate)
+      this._updateAt = RevertTimestamp(setting.lastUpdate);
+    if (setting.downloadAt)
+      this._downloadAt = RevertTimestamp(setting.downloadAt);
 
     if (setting.chapters && setting.chapters.length > 0) {
       this.resetChapter();
-      setting.chapters.map(c => NovelBuilder.buildChapterLocal(this, c)).forEach(c => this.addChapter(c));
+      setting.chapters
+        .map(c => NovelBuilder.buildChapterLocal(this, c))
+        .forEach(c => this.addChapter(c));
     }
 
     this.startObserve();
@@ -304,7 +339,10 @@ export class Novel extends Historian {
       this.name = GetNovelNameApi($);
 
       if (this._location && !CheckIsNovelPath(this._location))
-        this.location = join(this._location, DEFAULT_NOVEL_FOLDER_NAME(NormalizeNovelName(this.name)));
+        this.location = join(
+          this._location,
+          DEFAULT_NOVEL_FOLDER_NAME(NormalizeNovelName(this.name)),
+        );
 
       // this.resetChapter();
       CreateChapterListApi($).forEach(c => this.addChapter.call(this, c));
@@ -317,7 +355,11 @@ export class Novel extends Historian {
   public saveResource({ force = false }) {
     const res = ResourceBuilder.Create(this);
     const path = res.buildPath(this.location);
-    return Writer.ByPath(JSON.stringify(res.toJSON(), undefined, "  "), path, force).then(() => Bluebird.resolve(this));
+    return Writer.ByPath(
+      JSON.stringify(res.toJSON(), undefined, "  "),
+      path,
+      force,
+    ).then(() => Bluebird.resolve(this));
   }
 
   public async saveNovel({
@@ -336,7 +378,10 @@ export class Novel extends Historian {
     }
   }
 
-  public async saveAll({ force = false, completeFn = (_: NovelChapter) => {} }) {
+  public async saveAll({
+    force = false,
+    completeFn = (_: NovelChapter) => {},
+  }) {
     try {
       await this.saveNovel({ force, completeFn });
       await this.saveResource({ force });

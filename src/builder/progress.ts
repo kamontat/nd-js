@@ -6,14 +6,14 @@
 import Bluebird from "bluebird";
 import { ListrOptions } from "listr";
 import { Observable } from "rxjs";
-import { log } from "winston";
 
-import { WrapTMCT } from "../apis/loggerWrapper";
 import { ThrowIf } from "../helpers/commander";
 import Config from "../models/command/Config";
 import { History } from "../models/history/History";
 import { HistoryNode } from "../models/history/HistoryNode";
+import { HPrinter } from "../models/history/HPrinter";
 import { NovelChapter } from "../models/novel/Chapter";
+import { CPrinter } from "../models/novel/CPrinter";
 import { Novel } from "../models/novel/Novel";
 import { NPrinter } from "../models/novel/NPrinter";
 import {
@@ -22,6 +22,8 @@ import {
   Title,
   TitleFn,
 } from "../models/output/progress";
+
+import { PrintHeader } from "../models/output/header";
 
 import { NovelBuilder } from "./novel";
 
@@ -51,7 +53,7 @@ export class NovelProgressBuilder extends Progress {
               completeFn: (chap: NovelChapter) => {
                 this.changes.addNode(
                   HistoryNode.CreateADD("The chapter", {
-                    after: chap.toString(),
+                    after: new CPrinter(chap).format({ short: false }),
                   }),
                 );
                 observer.next(`Chapter ${chap.number}`);
@@ -62,7 +64,7 @@ export class NovelProgressBuilder extends Progress {
               failFn: (chap: NovelChapter) => {
                 this.changes.addNode(
                   HistoryNode.CreateDEL("The chapter", {
-                    before: chap.toString(),
+                    before: new CPrinter(chap).format({ short: false }),
                   }),
                 );
                 observer.next(`Chapter ${chap.number} ${chap.status}`);
@@ -216,25 +218,11 @@ export class NovelProgressBuilder extends Progress {
     return this.run(ctx)
       .then(context => {
         const novel = context[this.getContentKey(opts)] as Novel;
+
         new NPrinter(novel).print({ short: !withChapter });
-
-        if (withHistory) {
-          novel
-            .history()
-            .list()
-            .forEach((node, index) =>
-              log(WrapTMCT("info", `History ${index}`, node.toString())),
-            );
-        }
-
-        // TODO: update more readable change list
-        if (withChanges) {
-          this.changes
-            .list()
-            .forEach((node, index) =>
-              log(WrapTMCT("info", `History ${index}`, node.toString())),
-            );
-        }
+        PrintHeader("Details");
+        new HPrinter(novel.history()).print({ short: !withHistory });
+        new HPrinter(this.changes, "Changes").print({ short: !withChanges });
 
         return Bluebird.resolve();
       })

@@ -11,9 +11,14 @@ import { LOG_HEAD_SIZE } from "../constants/output.const";
 
 import { ColorType } from "../models/output/Color";
 
-type level = "error" | "warn" | "info" | "verbose" | "debug" | "silly";
+export type level = "error" | "warn" | "info" | "verbose" | "debug" | "silly";
 
-export const WrapTitleMessage = (level: level, title: string, message: any, color?: boolean) => {
+export const WrapTitleMessage = (
+  level: level,
+  title: string,
+  message: any,
+  color?: boolean,
+) => {
   let headerShifting = LOG_HEAD_SIZE;
   if (color) {
     headerShifting += 10;
@@ -22,7 +27,9 @@ export const WrapTitleMessage = (level: level, title: string, message: any, colo
   return {
     level,
     message: `${title.padEnd(headerShifting)}: ${
-      typeof message === "object" ? inspect(message, false, 1, HAS_COLOR) : message
+      typeof message === "object"
+        ? inspect(message, false, 1, HAS_COLOR)
+        : message
     }`,
   };
 };
@@ -38,7 +45,12 @@ export const WrapTitleMessageColor = (
   const titleTheme = theme && theme.title ? theme.title : COLORS.Title;
   const messageTheme = theme && theme.message ? theme.message : COLORS.String;
 
-  return WrapTitleMessage(level, titleTheme.formatColor(title), messageTheme.formatColor(message), true);
+  return WrapTitleMessage(
+    level,
+    titleTheme.formatColor(title),
+    messageTheme.formatColor(message),
+    true,
+  );
 };
 export const WrapTMC = WrapTitleMessageColor;
 
@@ -51,8 +63,12 @@ export const WrapTitleMessageColorType = (
   if (!theme) {
     return WrapTitleMessageColor(level, title, ColorType.colorize(message));
   }
-  const newTitle = theme.title ? theme.title.formatColor(title) : COLORS.Title.formatColor(title);
-  const newMessage = theme.message ? theme.message.formatColor(message) : ColorType.colorize(message);
+  const newTitle = theme.title
+    ? theme.title.formatColor(title)
+    : COLORS.Title.formatColor(title);
+  const newMessage = theme.message
+    ? theme.message.formatColor(message)
+    : ColorType.colorize(message);
 
   return WrapTitleMessage(level, newTitle, newMessage, true);
 };

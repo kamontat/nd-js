@@ -29,7 +29,9 @@ export class CPrinter implements Printer {
     if (opt && opt.short === false) {
       return this.chapter.toString();
     } else {
-      return JSON.stringify(this.chapter.toJSON());
+      // return `chapter #${this.chapter.number} was ${this.chapter.}`
+      return this.chapter.format("chapter {{number}} is {{status}}");
+      // return JSON.stringify(this.chapter.toJSON());
     }
   }
 
