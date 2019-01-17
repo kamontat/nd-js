@@ -13,7 +13,7 @@ const command = commander
   .option("--pr", "Instead of push to master, this will create github PR (require: hub cli)")
   .option("--custom-branch", "Custom pushing branch (default=master)")
   .option("--with-tag", "Also create tag after commit result")
-  .option("--tag-name", "custom tag name (default=package.version)")
+  .option("--tag-name <tag>", "custom tag name (default=package.version)")
   .parse(process.argv);
 
 if (command.args.length !== 1) throw new Error("require commit message");

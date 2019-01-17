@@ -2,6 +2,21 @@
 ## [Unreleased]
 
 
+<a name="2.0.0-beta.1"></a>
+## [2.0.0-beta.1] - 2019-01-17
+### Features
+- add upgrade and download progressbar
+
+### Fixes Bug
+- the temp file isn't save to temp folder
+- install with specify version error
+
+### Improving User Experience
+- improve upgrade version flow
+- add end message
+- add color to log level
+
+
 <a name="2.0.0-alpha.1"></a>
 ## [2.0.0-alpha.1] - 2019-01-17
 ### Documentation
@@ -14,6 +29,7 @@
 - add build number to version command
 
 ### Fixes Bug
+- fix version tag is not create on all
 - location variable not signed
 - cannot pass change option in update
 - Fix local not copy admin files
@@ -256,7 +272,8 @@
 - Add logger improvement
 
 
-[Unreleased]: https://github.com/kamontat/nd-js/compare/2.0.0-alpha.1...HEAD
+[Unreleased]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.1...HEAD
+[2.0.0-beta.1]: https://github.com/kamontat/nd-js/compare/2.0.0-alpha.1...2.0.0-beta.1
 [2.0.0-alpha.1]: https://github.com/kamontat/nd-js/compare/1.0.1...2.0.0-alpha.1
 [1.0.1]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.3...1.0.1
 [1.0.0-rc.3]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.2...1.0.0-rc.3
