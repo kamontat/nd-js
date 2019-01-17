@@ -17,8 +17,7 @@ module.exports = {
   },
   devtool: "inline-source-map",
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.(html|mustache)$/,
         use: {
           loader: "html-loader"
@@ -31,27 +30,23 @@ module.exports = {
       {
         test: /\.ts?$/,
         enforce: "pre",
-        use: [
-          {
-            loader: "tslint-loader",
-            options: {
-              typeCheck: false,
-              fix: true
-            }
+        use: [{
+          loader: "tslint-loader",
+          options: {
+            typeCheck: false,
+            fix: true
           }
-        ],
+        }],
         exclude: /node_modules/
       },
       {
         test: /\.ts?$/,
-        use: [
-          {
-            loader: "ts-loader",
-            options: {
-              /* Loader options go here */
-            }
+        use: [{
+          loader: "ts-loader",
+          options: {
+            /* Loader options go here */
           }
-        ],
+        }],
         exclude: /node_modules/
       }
     ]

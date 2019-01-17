@@ -1,20 +1,15 @@
 <a name="unreleased"></a>
-
 ## [Unreleased]
 
-<a name="1.0.1"></a>
 
-## [1.0.1] - 2018-12-13
+<a name="2.0.0-alpha.1"></a>
+## [2.0.0-alpha.1] - 2018-12-13
+### Documentation
+- update changelog and loc files
+- Update example help, add update
+- Make document to class interface ([#25](https://github.com/kamontat/nd-js/issues/25))
 
-### 2) Improving User Experience
-
-- Add --json to set-config command
-- now, can input multiple update location
-- Integrate yarn script with deployment script
-- Add --push-tag to deployment
-
-### 3) Fixes Bug
-
+### Fixes Bug
 - cannot pass change option in update
 - Fix local not copy admin files
 - Fix with-build error in local (Dev)
@@ -26,43 +21,40 @@
 - Fix version update increase
 - download error because novel is undefined
 
-### 4) Documentation
+### Improving User Experience
+- default directory of update command is in config
+- Add --json to set-config command
+- now, can input multiple update location
+- Integrate yarn script with deployment script
+- Add --push-tag to deployment
 
-- Update example help, add update
-- Make document to class interface ([#25](https://github.com/kamontat/nd-js/issues/25))
 
 <a name="1.0.0-rc.3"></a>
-
 ## [1.0.0-rc.3] - 2018-11-23
-
-### 2) Improving User Experience
-
-- Make building depend on node 10
-
-### 3) Fixes Bug
-
+### Fixes Bug
 - Fix build error
 
+### Improving User Experience
+- Make building depend on node 10
+
+
 <a name="1.0.0-rc.2"></a>
-
 ## [1.0.0-rc.2] - 2018-11-22
-
-### 3) Fixes Bug
-
-- Remove unused lib
-- Fix build error in pkg v4.3.4
-
-### 4) Documentation
-
+### Documentation
 - Remove Badge MIT out
 - Add license scanner
 
+### Fixes Bug
+- Remove unused lib
+- Fix build error in pkg v4.3.4
+
+
 <a name="1.0.0-rc.0"></a>
-
 ## [1.0.0-rc.0] - 2018-11-07
+### Documentation
+- Add new help command
 
-### 1) Features
-
+### Features
 - The update will update when 1. chapter reopen or not sold 2. has changes
 - novel is updatable
 - Add fetching from location and server
@@ -70,8 +62,11 @@
 - Add date in old novel (version 1)
 - Able to load information from resource file
 
-### 2) Improving User Experience
+### Fixes Bug
+- Fix fetching location error
+- Fix wrong param to display Date
 
+### Improving User Experience
 - Add RC release to deployment
 - Add improvement of version in token
 - Improve new security of nd command
@@ -84,53 +79,39 @@
 - Update error result in production
 - History should sort by date (present => past)
 
-### 3) Fixes Bug
-
-- Fix fetching location error
-- Fix wrong param to display Date
-
-### 4) Documentation
-
-- Add new help command
 
 <a name="1.0.0-beta.3"></a>
-
 ## [1.0.0-beta.3] - 2018-11-04
+### Documentation
+- Update document to most of Model
 
-### 1) Features
-
+### Features
 - Add resource file to the novel folder
 - Add history of novel and chapter
 - Add no internet connection error [fix] Fix error of private staff in novel
 
-### 2) Improving User Experience
+### Fixes Bug
+- Fix lib version
+- Fix CI error
+- Fix forgot to update path in resource type
 
+### Improving User Experience
 - Add history and resource object (WIP)
 - Update help command color
 - Move printer out of model
 - Improve test in CI
 - Implement more about History (WIP)
 
-### 3) Fixes Bug
-
-- Fix lib version
-- Fix CI error
-- Fix forgot to update path in resource type
-
-### 4) Documentation
-
-- Update document to most of Model
-
 ### Pull Requests
-
 - Merge pull request [#18](https://github.com/kamontat/nd-js/issues/18) from kamontat/improve/novel/history
 
+
 <a name="1.0.0-beta.2"></a>
-
 ## [1.0.0-beta.2] - 2018-10-23
+### Documentation
+- Add LOC for each version
 
-### 1) Features
-
+### Features
 - Add validator command and more
 - Add new output to download and fix report error
 - New output now support in raw download
@@ -143,23 +124,7 @@
 - Add resource file JSON format
 - Add resource model
 
-### 2) Improving User Experience
-
-- Remove verbose log, because it log in file
-- Change default level to verbose
-- Change output color
-- Update logger, no debug + verbose in console
-- Update UI color and add --with-chapter to fetch
-- Add clickable link instead of long link
-- Add log for sold, closed and unknown chapter
-- Add --with-chapter to log result the chapter
-- Add exception summary to raw-download
-- Add short story in novel v1
-- Add OG to html file
-- Change title if chapter name not exist
-
-### 3) Fixes Bug
-
+### Fixes Bug
 - Fix deployment script
 - Fix duplicate version in LOC
 - Fix changelog to next tag
@@ -178,110 +143,102 @@
 - novel name should be back
 - Fix config not found
 
-### 4) Documentation
+### Improving User Experience
+- Remove verbose log, because it log in file
+- Change default level to verbose
+- Change output color
+- Update logger, no debug + verbose in console
+- Update UI color and add --with-chapter to fetch
+- Add clickable link instead of long link
+- Add log for sold, closed and unknown chapter
+- Add --with-chapter to log result the chapter
+- Add exception summary to raw-download
+- Add short story in novel v1
+- Add OG to html file
+- Change title if chapter name not exist
 
-- Add LOC for each version
 
 <a name="v1.0.0-beta.1"></a>
-
 ## [v1.0.0-beta.1] - 2018-10-04
-
-### 1) Features
-
+### Features
 - Add download novel command ([#13](https://github.com/kamontat/nd-js/issues/13))
 
+
 <a name="v1.0.0-beta.0"></a>
-
 ## [v1.0.0-beta.0] - 2018-10-04
+### Documentation
+- Change codeclimate to codecov
+- Add fixme
 
-### 1) Features
-
+### Features
 - Completed fetching novel
 
-### 2) Improving User Experience
+### Fixes Bug
+- Fix circle typo
+- Remove fixme, create chapters support v1
 
+### Improving User Experience
 - Add fetch command with verbose output
 - Complete build novel method
 - Improve novel builder usage
 - Not analytic test code
 
-### 3) Fixes Bug
-
-- Fix circle typo
-- Remove fixme, create chapters support v1
-
-### 4) Documentation
-
-- Change codeclimate to codecov
-- Add fixme
-
 ### Pull Requests
-
 - Merge pull request [#10](https://github.com/kamontat/nd-js/issues/10) from kamontat/enhance/fetch
 
+
 <a name="v1.0.0-alpha.1"></a>
-
 ## [v1.0.0-alpha.1] - 2018-09-28
+### Documentation
+- Update title
+- Add readme badge
 
-### 1) Features
-
+### Features
 - Download now support multiple chapter
 - Fully customize novel content
 - Able to get content from html file
 - Working on Decode and reformat the novel content
 
-### 2) Improving User Experience
-
-- Update meta in html file
-- Add download improvement
-- Add warning message
-
-### 3) Fixes Bug
-
+### Fixes Bug
 - Fix ci error
 - Fix error if config folder not found
 - Fix config not found
 
-### 4) Documentation
-
-- Update title
-- Add readme badge
+### Improving User Experience
+- Update meta in html file
+- Add download improvement
+- Add warning message
 
 ### Pull Requests
-
 - Merge pull request [#1](https://github.com/kamontat/nd-js/issues/1) from kamontat/renovate/configure
 
+
 <a name="1.0.0-alpha.0"></a>
-
 ## 1.0.0-alpha.0 - 2018-09-23
+### Documentation
+- Add TODO document
 
-### 1) Features
-
+### Features
 - Add deploy script
 - Add config, initial, setup logger (WIP)
 - Update new code design
 - Update 2nd time
 - Setup project and change name
 
-### 2) Improving User Experience
+### Fixes Bug
+- Fix libraires missing
+- make clean before deploy
 
+### Improving User Experience
 - ignore docs file in master branch
 - Add jsdoc configuration
 - Remove minify script since we use webpack
 - Add a lot of improvement
 - Add logger improvement
 
-### 3) Fixes Bug
 
-- Fix libraires missing
-- make clean before deploy
-
-### 4) Documentation
-
-- Add TODO document
-
-[unreleased]: https://github.com/kamontat/nd-js/compare/1.0.1...HEAD
-[1.0.1]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.3...1.0.1
+[Unreleased]: https://github.com/kamontat/nd-js/compare/2.0.0-alpha.1...HEAD
+[2.0.0-alpha.1]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.3...2.0.0-alpha.1
 [1.0.0-rc.3]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.2...1.0.0-rc.3
 [1.0.0-rc.2]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.0...1.0.0-rc.2
 [1.0.0-rc.0]: https://github.com/kamontat/nd-js/compare/1.0.0-beta.3...1.0.0-rc.0

@@ -1,6 +1,6 @@
 {
   "name": "nd",
-  "version": "1.0.1",
+  "version": "2.0.0-alpha.1",
   "description": "Novel Downloader JS edition",
   "main": "src/nd.ts",
   "bin": ".caches/nd.min.js",
@@ -96,6 +96,7 @@
     "webpack-node-externals": "1.7.2"
   },
   "scripts": {
+    "commit": "gitgo commit",
     "compile": "webpack",
     "compile:dashboard": "webpack-dashboard -- webpack",
     "compile:prod": "webpack --mode=production",
@@ -116,8 +117,8 @@
     "deployment": "node ./scripts/deployment.js",
     "deploy:all": "yarn deployment all",
     "deploy:all:ci": "yarn deployment all --ci",
-    "analytic": "webpack --json > ./.caches/report.json",
-    "analytic:prod": "webpack --mode=production --json > ./.caches/report.json",
+    "analyze": "webpack --json > ./.caches/report.json",
+    "analyze:prod": "webpack --mode=production --json > ./.caches/report.json",
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",
     "test:token": "yarn start:admin create --fullname \"admin user admin@nd.com\" --username admin --expire 1y --not-before 1ms --version-range \"*\" --json",

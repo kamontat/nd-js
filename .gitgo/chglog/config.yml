@@ -13,10 +13,10 @@ options:
         - doc
   commit_groups:
     title_maps:
-      feature: 1) Features
-      improve: 2) Improving User Experience
-      fix: 3) Fixes Bug
-      doc: 4) Documentation
+      feature: Features
+      improve: Improving User Experience
+      fix: Fixes Bug
+      doc: Documentation
   header:
     pattern: "^\\[(\\w*)\\]\\s(.*)$"
     pattern_maps:
