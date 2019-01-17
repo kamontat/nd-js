@@ -120,8 +120,8 @@ export const InstallVersion = (
   const name = asset.name;
   const downloadURL = asset.browser_download_url;
 
-  const tmpDir = fs.mkdtempSync("nd-upgrade");
-  const dest = path.join(tmpDir, name);
+  const tmpDir = fs.mkdtempSync("nd-upgrade-");
+  const dest = path.join("/tmp/nd/", tmpDir, name);
 
   log(
     WrapTMCT(
