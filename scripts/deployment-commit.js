@@ -63,6 +63,7 @@ const message = command.args[0];
     } = await execa("hub", args);
     console.log(stdout);
   } else if (command.push) {
+    console.log(`github token: ${token.substr(0, 6)}`);
     await git("push", `https://${token}@github.com/kamontat/nd-js.git`, branch);
   }
 
