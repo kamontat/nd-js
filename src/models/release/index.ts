@@ -1,3 +1,5 @@
+/* tslint:disable:no-console */
+
 import octokit, {
   ReposGetLatestReleaseResponseAssetsItem,
 } from "@octokit/rest";
@@ -190,7 +192,7 @@ export const InstallVersion = (
       fs.renameSync(dest, path.join(options.bin, ND.PROJECT_NAME));
     })
     .on("error", (err: any) => {
-      console.log(err);
+      log(WrapTMCT("error", "Error", err));
       process.exit(5);
     })
     .pipe(fs.createWriteStream(dest, { mode: 0o755 }));
