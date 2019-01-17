@@ -64,7 +64,11 @@ const message = command.args[0];
     console.log(stdout);
   } else if (command.push) {
     console.log(`github token: ${token.substr(0, 6)}`);
-    await git("push", `https://${token}@github.com/kamontat/nd-js.git`, branch);
+
+    if (command.ci)
+      await git("push", `https://${token}@github.com/kamontat/nd-js.git`, branch);
+    else
+      await git("push", 'origin', branch);
   }
 
   await git("push", `--tags`);
