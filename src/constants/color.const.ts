@@ -9,8 +9,6 @@ import { inspect } from "util";
 
 import {
   isSameDate,
-  noTransform,
-  noValidator,
   TransferAsDate,
   TransferAsDateTime,
   TransferReadableList,
@@ -61,38 +59,27 @@ export const COLORS = {
   Title: new ColorType({
     name: "Title",
     color: TITLE_COLOR,
-    validator: noValidator,
-    transform: noTransform,
   }),
   Token: new ColorType({
     name: "Token",
     color: TOKEN_COLOR,
-    validator: noValidator,
-    transform: noTransform,
   }),
   Name: new ColorType({
     name: "Name",
     color: NAME_COLOR,
-    validator: noValidator,
-    transform: noTransform,
   }),
   Email: new ColorType({
     name: "Email",
     color: EMAIL_COLOR,
     validator: CheckIsEmail,
-    transform: noTransform,
   }),
   ChapterName: new ColorType({
     name: "Chapter name",
     color: CHAPTER_NAME_COLOR,
-    validator: noValidator,
-    transform: noTransform,
   }),
   ChapterNumber: new ColorType({
     name: "Chapter number",
     color: CHAPTER_NUMBER_COLOR,
-    validator: noValidator,
-    transform: noTransform,
   }),
   ChapterList: new ColorType({
     name: "Chapter list",
@@ -120,19 +107,16 @@ export const COLORS = {
     name: "Location",
     color: LOCATION_COLOR,
     validator: CheckIsPathExist,
-    transform: noTransform,
   }),
   Link: new ColorType({
     name: "Link",
     color: LINK_COLOR,
     validator: obj => obj instanceof URL,
-    transform: noTransform,
   }),
   Boolean: new ColorType({
     name: "Boolean",
     color: BOOLEAN_TRUE_COLOR,
     validator: obj => CheckIsBoolean(obj),
-    transform: noTransform,
     alterColor: BOOLEAN_FALSE_COLOR,
     whenUseAlter: v => v === false,
   }),
@@ -140,7 +124,6 @@ export const COLORS = {
     name: "Number",
     color: NUMBER_COLOR,
     validator: CheckIsNumber,
-    transform: noTransform,
   }),
   Object: new ColorType({
     name: "Object",
@@ -151,19 +134,22 @@ export const COLORS = {
   String: new ColorType({
     name: "String",
     color: STRING_COLOR,
-    validator: noValidator,
-    transform: noTransform,
   }),
   Undefined: new ColorType({
     name: "Undefined",
     color: UNDEFINED_COLOR,
     validator: obj => !CheckIsExist(obj),
-    transform: noTransform,
   }),
   Important: new ColorType({
     name: "Important",
     color: IMPORTANT_COLOR,
-    validator: noValidator,
-    transform: noTransform,
+  }),
+  Option: new ColorType({
+    name: "Option",
+    color: OPTION_COLOR,
+  }),
+  Argument: new ColorType({
+    name: "Argument",
+    color: ARGUMENT_COLOR,
   }),
 };

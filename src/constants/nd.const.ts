@@ -32,6 +32,11 @@ export class ND {
   public static TIME = moment(COMPILED_DATE, "x");
 
   /**
+   * this is a build number for version command
+   */
+  public static BUILD_NUMBER = COMPILED_DATE;
+
+  /**
    * command environment, "development" | "test" | "production"
    */
   public static ENV = process.env.NODE_ENV;
