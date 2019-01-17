@@ -3,13 +3,18 @@
 
 
 <a name="2.0.0-alpha.1"></a>
-## [2.0.0-alpha.1] - 2018-12-13
+## [2.0.0-alpha.1] - 2019-01-17
 ### Documentation
 - update changelog and loc files
 - Update example help, add update
 - Make document to class interface ([#25](https://github.com/kamontat/nd-js/issues/25))
 
+### Features
+- make security disable on development workflow
+- add build number to version command
+
 ### Fixes Bug
+- location variable not signed
 - cannot pass change option in update
 - Fix local not copy admin files
 - Fix with-build error in local (Dev)
@@ -22,6 +27,14 @@
 - download error because novel is undefined
 
 ### Improving User Experience
+- new normalize name for /
+- change color of important and add new color
+- make more readable text on history and changes
+- improve CHANGELOG format and title
+- make noTransform and noValidator to be default
+- include username to resource file
+- add more colors contrants
+- make chapter list easier to understand
 - default directory of update command is in config
 - Add --json to set-config command
 - now, can input multiple update location
