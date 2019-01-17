@@ -24,14 +24,21 @@ export class NPrinter implements Printer {
     const link = GetLink(this.novel.id);
 
     if (opt && opt.short)
-      return `${terminalLink(this.novel.id, (link && link.toString()) || "")} ${terminalLink(
+      return `${terminalLink(
+        this.novel.id,
+        (link && link.toString()) || "",
+      )} ${terminalLink(
         this.novel.name || "no-name",
         `file://${this.novel.location}`,
       )}`;
 
     return `
 Novel ID:      ${terminalLink(this.novel.id, (link && link.toString()) || "")}
-Novel name:    ${terminalLink(this.novel.name || "no-name", `file://${this.novel.location}`)}
+Novel name:    ${terminalLink(
+      this.novel.name || "no-name",
+      `file://${this.novel.location}`,
+    )}
+Location:      ${this.novel.location}
 Novel chapter: [${this.novel.chapter({ copy: true }).map(n => n.number)}]
 Download:      ${this.novel.startDownloadAt.toString()}
 Update At:     ${this.novel.lastUpdateAt.toString()}
@@ -42,13 +49,31 @@ Update At:     ${this.novel.lastUpdateAt.toString()}
     const link = GetLink(this.novel.id);
 
     log(
-      WrapTMCT("info", "Novel link", terminalLink(this.novel.id, (link && link.toString()) || ""), {
-        message: COLORS.Link,
-      }),
+      WrapTMCT(
+        "info",
+        "Novel link",
+        terminalLink(this.novel.id, (link && link.toString()) || ""),
+        {
+          message: COLORS.Link,
+        },
+      ),
     );
     log(
-      WrapTMCT("info", "Novel name", terminalLink(this.novel.name || "no-name", `file://${this.novel.location}`), {
-        message: COLORS.Name,
+      WrapTMCT(
+        "info",
+        "Novel name",
+        terminalLink(
+          this.novel.name || "no-name",
+          `file://${this.novel.location}`,
+        ),
+        {
+          message: COLORS.Name,
+        },
+      ),
+    );
+    log(
+      WrapTMCT("info", "Location", this.novel.location, {
+        message: COLORS.Link,
       }),
     );
 
@@ -63,7 +88,9 @@ Update At:     ${this.novel.lastUpdateAt.toString()}
 
     if (this.novel.chapterSize.size > 0 && opt && !opt.short) {
       const printer = new CPrinter();
-      this.novel.chapter({ copy: true }).map(c => printer.setChapter(c).print());
+      this.novel
+        .chapter({ copy: true })
+        .map(c => printer.setChapter(c).print());
     }
 
     log(WrapTMCT("verbose", "Download at", this.novel.startDownloadAt));

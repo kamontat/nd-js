@@ -9,8 +9,16 @@ import { join } from "path";
 import { log } from "winston";
 
 import { WrapTMC } from "../../apis/loggerWrapper";
-import { CHAPTER_CLOSED_WARN, CHAPTER_SOLD_WARN, NOVEL_ERR } from "../../constants/error.const";
-import { CheckIsNumber, RevertTimestamp, Timestamp } from "../../helpers/helper";
+import {
+  CHAPTER_CLOSED_WARN,
+  CHAPTER_SOLD_WARN,
+  NOVEL_ERR,
+} from "../../constants/error.const";
+import {
+  CheckIsNumber,
+  RevertTimestamp,
+  Timestamp,
+} from "../../helpers/helper";
 import { GetChapterFile, GetLinkWithChapter } from "../../helpers/novel";
 import Config from "../command/Config";
 import { Historian } from "../history/Historian";
@@ -33,7 +41,11 @@ export class NovelChapter extends Historian {
 
   set name(n: string) {
     this.notify(
-      HistoryNode.CreateByChange("Chapter name", { before: this._name, after: n }, { description: this.description }),
+      HistoryNode.CreateByChange(
+        "Chapter name",
+        { before: this._name, after: n },
+        { description: this.description },
+      ),
     );
     this._name = n;
   }
@@ -80,7 +92,9 @@ export class NovelChapter extends Historian {
 
     if (this._date) {
       const isSame =
-        this._date.isSame(date, "year") && this._date.isSame(date, "month") && this._date.isSame(date, "day");
+        this._date.isSame(date, "year") &&
+        this._date.isSame(date, "month") &&
+        this._date.isSame(date, "day");
       if (!isSame) {
         this._date = date;
       }
@@ -124,25 +138,45 @@ export class NovelChapter extends Historian {
 
   protected _date?: Moment;
 
-  constructor(id: string, chapter?: string, name?: string, location?: string, date?: Moment) {
+  constructor(
+    id: string,
+    chapter?: string,
+    name?: string,
+    location?: string,
+    date?: Moment,
+  ) {
     super();
 
-    this.notify(HistoryNode.CreateByChange("Chapter ID", { before: undefined, after: id }));
+    this.notify(
+      HistoryNode.CreateByChange("Chapter ID", { before: undefined, after: id }),
+    );
     this._nid = id;
     if (name) this.name = name;
 
     if (date && date.isValid()) this.date = date;
 
     if (!location) location = Config.Load({ quiet: true }).getNovelLocation();
-    this.notify(HistoryNode.CreateByChange("Chapter location", { before: undefined, after: location }));
+    this.notify(
+      HistoryNode.CreateByChange("Chapter location", {
+        before: undefined,
+        after: location,
+      }),
+    );
     this._location = location;
 
     if (chapter) {
       if (CheckIsNumber(chapter)) {
-        this.notify(HistoryNode.CreateByChange("Chapter number", { before: undefined, after: chapter }));
+        this.notify(
+          HistoryNode.CreateByChange("Chapter number", {
+            before: undefined,
+            after: chapter,
+          }),
+        );
         this._chapterNumber = chapter;
       } else {
-        log(WrapTMC("warn", "Novel creator", `Chapter is not number (${chapter})`));
+        log(
+          WrapTMC("warn", "Novel creator", `Chapter is not number (${chapter})`),
+        );
       }
     }
   }
@@ -164,8 +198,8 @@ export class NovelChapter extends Historian {
   }
 
   public head() {
-    if (this.number === "0") return "C Zero";
-    else return `C ${this.number}`;
+    if (this.number === "0") return "Chapter Zero";
+    else return `Chapter ${this.number}`;
   }
 
   public toJSON() {
@@ -213,13 +247,21 @@ export class NovelChapter extends Historian {
   }
 
   public throw() {
-    if (this.isClosed()) return CHAPTER_CLOSED_WARN.clone().loadString(`id ${this.id} chapter ${this.number}`);
-    else if (this.isSold()) return CHAPTER_SOLD_WARN.clone().loadString(`id ${this.id} chapter ${this.number}`);
+    if (this.isClosed())
+      return CHAPTER_CLOSED_WARN.clone().loadString(
+        `id ${this.id} chapter ${this.number}`,
+      );
+    else if (this.isSold())
+      return CHAPTER_SOLD_WARN.clone().loadString(
+        `id ${this.id} chapter ${this.number}`,
+      );
     return;
   }
 
   public toString() {
-    return `Chapter ${this.number} "${this.name}" was downloaded ${this.status} at ${this.date}`;
+    return `Chapter ${this.number} "${this.name}" was downloaded ${
+      this.status
+    } at ${this.date}`;
   }
 
   public equals(c: NovelChapter) {
