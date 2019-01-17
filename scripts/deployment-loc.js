@@ -12,7 +12,9 @@ const version = command.nextVersion || require("../package.json").version;
 const locFileName = "./LOC.md";
 
 (async () => {
-  const { stdout } = await execa("./node_modules/.bin/cloc", [
+  const {
+    stdout
+  } = await execa("./node_modules/.bin/cloc", [
     "src",
     "admin",
     "security",
@@ -21,7 +23,10 @@ const locFileName = "./LOC.md";
   ]);
 
   const content = fs.readFileSync(locFileName).toString();
-  if (content.includes(version)) throw new Error("Your version already saved to LOC.md");
+  if (content.includes(version)) {
+    console.log(`warning: this version is exist in LOC.md`);
+    return
+  }
 
   const result = `## Version ${version}
   ${stdout}
