@@ -11,6 +11,7 @@ import { log } from "winston";
 
 import { WrapTMCT } from "../../apis/loggerWrapper";
 import { COLORS } from "../../constants/color.const";
+import { ND } from "../../constants/nd.const";
 import { FormatFileSize } from "../../helpers/helper";
 
 const owner = "kamontat";
@@ -119,7 +120,8 @@ export const InstallVersion = (
   const name = asset.name;
   const downloadURL = asset.browser_download_url;
 
-  const dest = path.join(options.bin, "tmp", name);
+  const tmpDir = fs.mkdtempSync("nd-upgrade");
+  const dest = path.join(tmpDir, name);
 
   log(
     WrapTMCT(
@@ -141,14 +143,13 @@ export const InstallVersion = (
     ),
   );
 
-  const width = process.stdout.columns || 80;
-  const title = width * 0.25;
-  const bar = width * 0.5;
-  const footerSize = width * 0.25;
-
-  console.log();
   progress(request(downloadURL))
     .on("progress", (state: any) => {
+      const width = process.stdout.columns || 80;
+      const title = width * 0.28;
+      const bar = width * 0.4;
+      const footerSize = width * 0.3;
+
       const barSize = bar - 7;
       const percent = state.percent;
 
@@ -157,17 +158,15 @@ export const InstallVersion = (
       const completed = "#";
       const incompleted = "-";
 
-      const header = `${state.size.transferred}/${state.size.total}`.padEnd(
-        title,
-      );
+      const header = `${FormatFileSize(
+        state.size.transferred,
+      )}/${FormatFileSize(state.size.total)}`.padStart(title);
       const progressbar = `[${""
         .padStart(block, completed)
         .padEnd(barSize, incompleted)}]`;
 
       const speed = `${FormatFileSize(state.speed)}/s`;
-      const percentString = `${(percent.toFixed(2) * 100).toString()}%`.padEnd(
-        3,
-      );
+      const percentString = `${(percent * 100).toFixed(2)}%`.padEnd(3);
 
       moment.locale("en");
       const time = moment.duration(state.time.remaining, "seconds");
@@ -176,7 +175,7 @@ export const InstallVersion = (
         footerSize,
       );
 
-      process.stdout.write(`${header}${progressbar} ${footer} \x1b[0G`);
+      process.stdout.write(`${header} ${progressbar} ${footer} \x1b[0G`);
     })
     .on("end", function() {
       console.log("\n");
@@ -187,22 +186,14 @@ export const InstallVersion = (
           `${COLORS.Name.color(name)} was saved on ${dest}`,
         ),
       );
+
+      fs.renameSync(dest, path.join(options.bin, ND.PROJECT_NAME));
     })
-    .on("error", function() {
+    .on("error", (err: any) => {
+      console.log(err);
       process.exit(5);
     })
-    .pipe(fs.createWriteStream(dest));
-
-  // const file = fs.createWriteStream(dest);
-  // const request = https
-  //   .get(downloadURL, function(response) {
-  //     response.pipe(file);
-  //   })
-  //   .on("error", function(err) {
-  //     if (err) fs.unlinkSync(dest);
-  //   });
-
-  // console.log(request);
+    .pipe(fs.createWriteStream(dest, { mode: 0o755 }));
 };
 
 export const InstallLatestVersion = (opts?: InstallOption) => {
