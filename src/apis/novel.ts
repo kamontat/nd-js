@@ -385,5 +385,5 @@ export const CheckIsNovel = ($: CheerioStatic) => {
 export const NormalizeNovelName = (name: string) => {
   return name
     .replace(/([ \n\t\r\n])/g, "-")
-    .replace(/([\(\)\[\]\&\%\$\#\@\^\*])/g, "_");
+    .replace(/([\(\)\[\]\&\%\$\#\@\^\*\\\/])/g, "_");
 };

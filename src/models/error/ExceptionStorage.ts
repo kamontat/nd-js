@@ -41,8 +41,9 @@ export class ExceptionStorage {
   }
 
   public print() {
-    PrintHeader("Exception", { level: "warn" });
-    this.list().forEach((v, i) =>
+    const list = this.list();
+    if (list.length > 0) PrintHeader("Exception", { level: "warn" });
+    list.forEach((v, i) =>
       log(WrapTMC(v.warn ? "warn" : "error", `Exception ${i}`, v.message)),
     );
   }
