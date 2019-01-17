@@ -33,7 +33,10 @@ Run step:
 
 (async () => {
   const exec = async (...args) => {
-    const { stdout, stderr } = await execa("./scripts/deployment.js", args);
+    const {
+      stdout,
+      stderr
+    } = await execa("./scripts/deployment.js", args);
     if (stderr) {
       console.error(stderr);
       process.exit(1);
@@ -70,7 +73,7 @@ Run step:
     const message = command.commitMessage || `[release] Release version ${version} [skip ci]`;
 
     console.log(`Create commit with message: ${message}`);
-    await exec("commit", message, command.ci ? "--ci" : "", "--push", "--push-tag");
+    await exec("commit", message, command.ci ? "--ci" : "", "--push", "--push-tag", "with-tag");
   }
 
   if (command.release) {

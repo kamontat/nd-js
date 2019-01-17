@@ -12,6 +12,8 @@ const command = commander
   .option("--push-tag", "Also push tag changes to master")
   .option("--pr", "Instead of push to master, this will create github PR (require: hub cli)")
   .option("--custom-branch", "Custom pushing branch (default=master)")
+  .option("--with-tag", "Also create tag after commit result")
+  .option("--tag-name", "custom tag name (default=package.version)")
   .parse(process.argv);
 
 if (command.args.length !== 1) throw new Error("require commit message");
@@ -45,6 +47,10 @@ const message = command.args[0];
   const branch = command.customBranch || "master";
 
   await git("commit", "-am", message, "--allow-empty");
+  if (command.withTag) {
+    const version = command.tagName || require("../package.json").version;
+    await execa("git", ["tag", version]);
+  }
 
   if (command.pr) {
     await execa("git", ["push"]);
