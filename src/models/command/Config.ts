@@ -10,7 +10,11 @@ import { dirname, resolve } from "path";
 import semver, { major } from "semver";
 import { log } from "winston";
 
-import { ConvertToRequireTokenData, DecryptToken, RequireTokenData } from "../../../security/index-main";
+import {
+  ConvertToRequireTokenData,
+  DecryptToken,
+  RequireTokenData,
+} from "../../../security/index-main";
 
 import { WrapTM, WrapTMC, WrapTMCT } from "../../apis/loggerWrapper";
 import { Security } from "../../apis/security";
@@ -18,7 +22,11 @@ import { COLORS } from "../../constants/color.const";
 import { CONFIG_FILE_PATH } from "../../constants/config.const";
 import { HAS_COLOR, LOG_TYPE } from "../../constants/default.const";
 import { CONFIG_FAIL_ERR } from "../../constants/error.const";
-import { CONFIG_CREATE_ERR, CONFIG_WARN, SECURITY_FAIL_ERR } from "../../constants/error.const";
+import {
+  CONFIG_CREATE_ERR,
+  CONFIG_WARN,
+  SECURITY_FAIL_ERR,
+} from "../../constants/error.const";
 import { ND } from "../../constants/nd.const";
 import { CheckIsExist } from "../../helpers/helper";
 import Exception from "../error/Exception";
@@ -56,11 +64,20 @@ export default class Config {
 
   public _option?: { quiet: boolean };
 
-  public _setter(key: "_fullname" | "_token" | "_outputType" | "_color" | "_novelLocation", value: any | undefined) {
+  public _setter(
+    key: "_fullname" | "_token" | "_outputType" | "_color" | "_novelLocation",
+    value: any | undefined,
+  ) {
     // log(WrapTM("debug", "setter be called", `key=${key}, value=${value}, quiet=${this._option && this._option.quiet}`));
     if (CheckIsExist(value)) {
       if (!this._isQuite()) {
-        log(WrapTM("debug", "update property", `this.${key} will be set to ${value}`));
+        log(
+          WrapTM(
+            "debug",
+            "update property",
+            `this.${key} will be set to ${value}`,
+          ),
+        );
       }
       this[key] = value;
     }
@@ -76,18 +93,22 @@ export default class Config {
     if (options.all === undefined) options.all = false;
 
     if (!this._isQuite()) {
-      let out: "error" | "warn" | "info" | "verbose" | "debug" | "silly" = "verbose";
+      let out: "error" | "warn" | "info" | "verbose" | "debug" | "silly" =
+        "verbose";
       if (options.console === true) out = "info";
 
       if (options.all === true) {
-        log(WrapTMCT(out, "Config.token", this._token, { message: COLORS.Token }));
+        log(
+          WrapTMCT(out, "Config.token", this._token, { message: COLORS.Token }),
+        );
         log(WrapTMCT(out, "Config.version", this._version));
         log(WrapTMCT(out, "Config.color", this._color));
         log(WrapTMCT(out, "Config.type", this._outputType));
         log(WrapTMCT(out, "Config.location", this._novelLocation));
       }
 
-      if (options.console) Security.Printer(this.getToken(), this.getFullname());
+      if (options.console)
+        Security.Printer(this.getToken(), this.getFullname());
     }
   }
 
@@ -138,7 +159,9 @@ export default class Config {
   }
 
   public getNovelLocation() {
-    return this._novelLocation === undefined ? resolve(process.env.HOME || "~") : this._novelLocation;
+    return this._novelLocation === undefined
+      ? resolve(process.env.HOME || "~")
+      : this._novelLocation;
   }
 
   public setVersion(version: string) {
@@ -164,8 +187,13 @@ export default class Config {
       if (err) throw err;
     }
 
-    const doc: ConfigFileType | undefined = yaml.safeLoad(fs.readFileSync(this.configLocation, "utf8"));
-    if (doc === undefined) throw CONFIG_FAIL_ERR.loadString(`Config is not exist at ${this.configLocation}`);
+    const doc: ConfigFileType | undefined = yaml.safeLoad(
+      fs.readFileSync(this.configLocation, "utf8"),
+    );
+    if (doc === undefined)
+      throw CONFIG_FAIL_ERR.loadString(
+        `Config is not exist at ${this.configLocation}`,
+      );
 
     this.setVersion(doc.version.toString() || this.getVersion().toString());
 
@@ -177,11 +205,24 @@ export default class Config {
 
     this.setOutputType(doc.setting.output || this.getOutputType());
 
+    if (!ND.isProd()) {
+      log(
+        WrapTMCT("info", "Your username", `Not exist, run ${ND.ENV} mode`, {
+          message: COLORS.Name,
+        }),
+      );
+      return;
+    }
+
     if (!bypass) {
       if (!Security.Checking(this.getToken(), this.getFullname()).isValid()) {
         throw SECURITY_FAIL_ERR.loadString("unknown error");
       } else {
-        const _result = DecryptToken({ fullname: this.getFullname(), token: this.getToken(), version: ND.VERSION });
+        const _result = DecryptToken({
+          fullname: this.getFullname(),
+          token: this.getToken(),
+          version: ND.VERSION,
+        });
         this._result = ConvertToRequireTokenData(_result, this.getFullname());
         log(
           WrapTMCT("info", "Your username", this._result.username, {
@@ -204,12 +245,17 @@ export default class Config {
     }
 
     if (!semver.major(ND.VERSION) === config.get("version")) {
-      return CONFIG_FAIL_ERR.clone().loadString("version is missing or not matches.");
+      return CONFIG_FAIL_ERR.clone().loadString(
+        "version is missing or not matches.",
+      );
     }
 
     const checklist = ["token", "fullname"];
     for (const v of checklist) {
-      if (!config.has(`security.${v}`) && !CheckIsExist(config.get(`security.${v}`))) {
+      if (
+        !config.has(`security.${v}`) &&
+        !CheckIsExist(config.get(`security.${v}`))
+      ) {
         return CONFIG_FAIL_ERR.clone().loadString(`${v} is required.`);
       }
     }
@@ -230,7 +276,11 @@ export default class Config {
     // throw exist
     if (fs.existsSync(this.configLocation) && !force) {
       const e = CONFIG_CREATE_ERR.clone();
-      e.loadString(`${this.configLocation} is exist.`);
+      e.loadString(
+        `${this.configLocation} is exist. Please add ${COLORS.Option.color(
+          "--force",
+        )}`,
+      );
       throw e;
     }
 
@@ -277,7 +327,11 @@ export default class Config {
    *
    * @throws {@link ConfigFailError}, {@link SECURITY_FAIL_ERR}
    */
-  public static Load(option?: { quiet?: boolean; bypass?: boolean; force?: boolean }): Config {
+  public static Load(option?: {
+    quiet?: boolean;
+    bypass?: boolean;
+    force?: boolean;
+  }): Config {
     const quiet = option && option.quiet ? option.quiet : false;
     if (!Config._CONFIG || (option && option.force)) {
       Config._CONFIG = new Config(CONFIG_FILE_PATH, { quiet });
