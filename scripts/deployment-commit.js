@@ -65,7 +65,11 @@ const message = command.args[0];
   } else if (command.push) {
     console.log(`github token: ${token.substr(0, 6)}`);
 
-    await git("push");
-    await git("push", `--tags`);
+    try {
+      await git("push");
+      await git("push", `--tags`);
+    } catch (e) {
+      console.error(e);
+    }
   }
 })();
