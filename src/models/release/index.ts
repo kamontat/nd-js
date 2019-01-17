@@ -13,6 +13,7 @@ import { log } from "winston";
 
 import { WrapTMCT } from "../../apis/loggerWrapper";
 import { COLORS } from "../../constants/color.const";
+import { DIR_TMP_RANDOM } from "../../constants/file.const";
 import { ND } from "../../constants/nd.const";
 import { FormatFileSize } from "../../helpers/helper";
 
@@ -122,9 +123,8 @@ export const InstallVersion = (
   const name = asset.name;
   const downloadURL = asset.browser_download_url;
 
-  const tmpDir = fs.mkdtempSync("nd-upgrade-");
-  const dest = path.join("/tmp/nd/", tmpDir, name);
-  fs.mkdirSync(dest, { recursive: true });
+  const ndTemp = DIR_TMP_RANDOM;
+  const dest = path.join(ndTemp, name);
 
   log(
     WrapTMCT(
@@ -180,7 +180,7 @@ export const InstallVersion = (
 
       process.stdout.write(`${header} ${progressbar} ${footer} \x1b[0G`);
     })
-    .on("end", function() {
+    .on("end", () => {
       console.log("\n");
       log(
         WrapTMCT(

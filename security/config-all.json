@@ -5,6 +5,22 @@
   "author": "Kamontat Chantrachirathumrong <kamontat_c@hotmail.com>",
   "config": {
     "token": {
+      "2.0.0-beta.2": {
+        "jwtAlgo": "HS256",
+        "iv": 12,
+        "key": "AKGAzyRefnIFmp2yZtaImD8K",
+        "key2": "akX2B0vLGNkJH0IIUwOP2sWj",
+        "sal": "3LmIxGrar7w1RnbfnhCfrdJg",
+        "jid": "ncRI9QfVYx0rLdseoGschPWh"
+      },
+      "2.0.0-beta.1": {
+        "jwtAlgo": "HS256",
+        "iv": 12,
+        "key": "AKGAzyRefnIFmp2yZtaImD8K",
+        "key2": "akX2B0vLGNkJH0IIUwOP2sWj",
+        "sal": "3LmIxGrar7w1RnbfnhCfrdJg",
+        "jid": "ncRI9QfVYx0rLdseoGschPWh"
+      },
       "1.0.1": {
         "jwtAlgo": "HS256",
         "iv": 12,

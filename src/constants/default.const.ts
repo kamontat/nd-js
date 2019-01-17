@@ -3,8 +3,9 @@
  * @module output.logger.constant
  */
 
-import { tmpdir } from "os";
 import { resolve } from "path";
+
+import { DIR_LOG_PATH } from "./file.const";
 
 export let LOGGER_LEVEL = "verbose";
 export const BeChangeLevel = (level: string) => (LOGGER_LEVEL = level);
@@ -18,7 +19,8 @@ export const BeQuiet = () => (IS_QUIET = true);
 export let HAS_LOG_FILE = true;
 export const BeLog = (has: boolean) => (HAS_LOG_FILE = has);
 
-export let LOG_FOLDER_PATH = resolve(tmpdir(), "nd"); // Default is a $TMPDIR variable
+export let LOG_FOLDER_PATH = resolve(DIR_LOG_PATH); // Default is a $TMPDIR variable
+
 export const BeLoggerTo = (folder: string) => {
   // log(WrapTM("debug", "Change default log location", `Update ${LOG_FOLDER_PATH} => ${folder}`));
   LOG_FOLDER_PATH = folder;
