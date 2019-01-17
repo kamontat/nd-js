@@ -2,6 +2,9 @@
 ## [Unreleased]
 
 
+<a name="2.0.0-beta.2"></a>
+## [2.0.0-beta.2] - 2019-01-17
+
 <a name="2.0.0-beta.1"></a>
 ## [2.0.0-beta.1] - 2019-01-17
 ### Features
@@ -272,7 +275,8 @@
 - Add logger improvement
 
 
-[Unreleased]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.1...HEAD
+[Unreleased]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.2...HEAD
+[2.0.0-beta.2]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.1...2.0.0-beta.2
 [2.0.0-beta.1]: https://github.com/kamontat/nd-js/compare/2.0.0-alpha.1...2.0.0-beta.1
 [2.0.0-alpha.1]: https://github.com/kamontat/nd-js/compare/1.0.1...2.0.0-alpha.1
 [1.0.1]: https://github.com/kamontat/nd-js/compare/1.0.0-rc.3...1.0.1
