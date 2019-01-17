@@ -33,7 +33,7 @@ const message = command.args[0];
     console.log(stdout);
   };
 
-  if (command.ci) {
+  if (command.ci && process.env.CI) {
     // await git("config", "credential.helper", "'cache --timeout=120'");
 
     const email = command.configEmail || "nd-bot@nd.com";
