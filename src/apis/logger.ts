@@ -3,13 +3,22 @@
  * @module output.logger.api
  */
 
+import chalk from "chalk";
 import { Format } from "logform";
 import { format, log, transports } from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
-
 import * as Transport from "winston-transport";
 
-import { HAS_COLOR, HAS_LOG_FILE, IS_QUIET, LOG_FOLDER_PATH, LOG_TYPE, LOGGER_LEVEL } from "../constants/default.const";
+import {
+  HAS_COLOR,
+  HAS_LOG_FILE,
+  IS_QUIET,
+  LOG_FOLDER_PATH,
+  LOG_TYPE,
+  LOGGER_LEVEL,
+} from "../constants/default.const";
+
+import { level } from "./loggerWrapper";
 
 const { colorize, timestamp, printf } = format;
 const { Console } = transports;
@@ -23,6 +32,15 @@ interface LogOption {
     folder: string;
   };
 }
+
+const levelColor = {
+  info: chalk.blueBright,
+  warn: chalk.yellow,
+  error: chalk.red,
+  debug: chalk.reset,
+  silly: chalk.reset,
+  verbose: chalk.reset,
+} as { [key in level]: any };
 
 let alreadySetup = false;
 
@@ -43,7 +61,9 @@ export namespace Logger {
   ${info.message}
   `;
     } else if (LOG_TYPE === "short") {
-      return `[${info.level.padEnd(levelPadding)}] ${info.message}`;
+      return `[${levelColor[info.level as level](
+        info.level.padEnd(levelPadding),
+      )}] ${info.message}`;
     }
     return `${info.message}`;
   });
