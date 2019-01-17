@@ -180,6 +180,13 @@ export const InstallVersion = (
     })
     .on("end", function() {
       console.log("\n");
+      log(
+        WrapTMCT(
+          "info",
+          "Result",
+          `${COLORS.Name.color(name)} was saved on ${dest}`,
+        ),
+      );
     })
     .on("error", function() {
       process.exit(5);
