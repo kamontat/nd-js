@@ -6,6 +6,7 @@
 import moment, { Moment } from "moment";
 import { v1 } from "uuid";
 
+import { COLORS } from "../../constants/color.const";
 import { CheckIsExist, Timestamp } from "../../helpers/helper";
 
 import { HistoryAction } from "./HistoryAction";
@@ -52,7 +53,12 @@ export class HistoryNode {
 
   private _time: Moment;
 
-  constructor(action: HistoryAction, title: string, value: HistoryCreatorChanges, opt?: HistoryCreatorOption) {
+  constructor(
+    action: HistoryAction,
+    title: string,
+    value: HistoryCreatorChanges,
+    opt?: HistoryCreatorOption,
+  ) {
     this._action = action;
 
     this._id = v1();
@@ -65,13 +71,26 @@ export class HistoryNode {
     this._time = (opt && opt.time && opt.time) || moment();
   }
 
+  public title() {
+    return this._title;
+  }
+
   public toString() {
-    if (this.action === HistoryAction.ADDED) return `[${this._title}] ADDED ${this._after} at ${this._time.toString()}`;
+    const header = this._title.padEnd(18, " ");
+    // const footer = COLORS.Dim.color(this.action.toUpperCase());
+    const footer = COLORS.Dim.color(this._time.format("DD MMM YYYY HH:mm:ss"));
+
+    let detail = "";
+    if (this.action === HistoryAction.ADDED)
+      detail = COLORS.Important.color(this._after);
     else if (this.action === HistoryAction.MODIFIED)
-      return `[${this._title}] MODIFIED from ${this._before} to ${this._after} at ${this._time.toString()}`;
+      detail = `${COLORS.Important.color(
+        this._before,
+      )} => ${COLORS.Important.color(this._after)}`;
     else if (this.action === HistoryAction.DELETED)
-      return `[${this._title}] DELETED ${this._before} at ${this._time.toString()}`;
-    return "";
+      detail = COLORS.Important.color(this._before);
+
+    return `${header}${detail} ${footer}`;
   }
 
   public toJSON(): HistoryNodeType {
@@ -98,23 +117,49 @@ export class HistoryNode {
     else return 0;
   }
 
-  public static CreateADD(title: string, { after = "" }, opt?: HistoryCreatorOption) {
+  public static CreateADD(
+    title: string,
+    { after = "" },
+    opt?: HistoryCreatorOption,
+  ) {
     return new HistoryNode(HistoryAction.ADDED, title, { after }, opt);
   }
 
-  public static CreateMOD(title: string, { before = "", after = "" }, opt?: HistoryCreatorOption) {
-    return new HistoryNode(HistoryAction.MODIFIED, title, { before, after }, opt);
+  public static CreateMOD(
+    title: string,
+    { before = "", after = "" },
+    opt?: HistoryCreatorOption,
+  ) {
+    return new HistoryNode(
+      HistoryAction.MODIFIED,
+      title,
+      { before, after },
+      opt,
+    );
   }
 
-  public static CreateDEL(title: string, { before = "" }, opt?: HistoryCreatorOption) {
+  public static CreateDEL(
+    title: string,
+    { before = "" },
+    opt?: HistoryCreatorOption,
+  ) {
     return new HistoryNode(HistoryAction.DELETED, title, { before }, opt);
   }
 
-  public static CreateByChange(title: string, changes: HistoryCreatorChanges, opt?: HistoryCreatorOption) {
-    if (CheckIsExist(changes.before) && CheckIsExist(changes.after) && changes.before !== changes.after)
+  public static CreateByChange(
+    title: string,
+    changes: HistoryCreatorChanges,
+    opt?: HistoryCreatorOption,
+  ) {
+    if (
+      CheckIsExist(changes.before) &&
+      CheckIsExist(changes.after) &&
+      changes.before !== changes.after
+    )
       return this.CreateMOD(title, changes, opt);
     if (CheckIsExist(changes.after)) return this.CreateADD(title, changes, opt);
-    if (CheckIsExist(changes.before)) return this.CreateDEL(title, changes, opt);
+    if (CheckIsExist(changes.before))
+      return this.CreateDEL(title, changes, opt);
     return undefined;
     // return new HistoryNode(HistoryAction.DELETED, "Error: nothing changes", changes, {
     //   description: title,

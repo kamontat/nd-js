@@ -18,7 +18,11 @@ export class History extends Observer<HistoryNode> {
   constructor() {
     super();
 
-    this.nodes = new SortedArraySet(undefined, HistoryNode.Equals, HistoryNode.Compare);
+    this.nodes = new SortedArraySet(
+      undefined,
+      HistoryNode.Equals,
+      HistoryNode.Compare,
+    );
     this.addAction(v => {
       if (v) this.addNode(v);
     });
@@ -35,7 +39,11 @@ export class History extends Observer<HistoryNode> {
   }
 
   public resetNode() {
-    this.nodes = new SortedArraySet(undefined, HistoryNode.Equals, HistoryNode.Compare);
+    this.nodes = new SortedArraySet(
+      undefined,
+      HistoryNode.Equals,
+      HistoryNode.Compare,
+    );
     return this;
   }
 
@@ -44,7 +52,7 @@ export class History extends Observer<HistoryNode> {
   }
 
   public list() {
-    return this.nodes.toArray() as HistoryNode[];
+    return this.nodes.toArray().reverse() as HistoryNode[]; // reverse top=oldest
   }
 
   public toJSON() {
