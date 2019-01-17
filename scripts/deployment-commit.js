@@ -16,11 +16,9 @@ const command = commander
   .option("--tag-name <tag>", "custom tag name (default=package.version)")
   .parse(process.argv);
 
-console.log(command.args);
 
-
-if (command.args.length !== 1) throw new Error("require commit message");
-const message = command.args[0];
+if (command.args.length < 1) throw new Error("require commit message");
+const message = command.args.join(" ");
 
 (async () => {
   const git = async (...args) => {

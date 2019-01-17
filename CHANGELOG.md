@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="2.0.0-beta.4"></a>
+## [2.0.0-beta.4] - 2019-01-18
+### Fixes Bug
+- token in release app
+
+
 <a name="2.0.0-beta.3"></a>
 ## [2.0.0-beta.3] - 2019-01-18
 ### Features
@@ -290,7 +296,8 @@
 - Add logger improvement
 
 
-[Unreleased]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.3...HEAD
+[Unreleased]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.4...HEAD
+[2.0.0-beta.4]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.3...2.0.0-beta.4
 [2.0.0-beta.3]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.2...2.0.0-beta.3
 [2.0.0-beta.2]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.1...2.0.0-beta.2
 [2.0.0-beta.1]: https://github.com/kamontat/nd-js/compare/2.0.0-alpha.1...2.0.0-beta.1

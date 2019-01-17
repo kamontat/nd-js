@@ -71,7 +71,7 @@ Run step:
 
     console.log(`Create commit with message: ${message}`);
 
-    await exec("commit", `'${message}'`, "--push", "--push-tag", "--with-tag", command.ci ? "--ci" : "");
+    await exec("commit", `${message}`, "--push", "--push-tag", "--with-tag", command.ci ? "--ci" : "");
   }
 
   if (command.release) {
