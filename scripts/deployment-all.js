@@ -37,11 +37,6 @@ Run step:
       stdout,
       stderr
     } = await execa("./scripts/deployment.js", args);
-    if (stderr) {
-      console.error(stderr);
-      process.exit(1);
-    }
-
     console.log(stdout);
   };
 
@@ -74,7 +69,7 @@ Run step:
 
     console.log(`Create commit with message: ${message}`);
     try {
-      await exec("commit", message, command.ci ? "--ci" : "", "--push", "--push-tag", "--with-tag");
+      await exec("commit", "--push", "--push-tag", "--with-tag", message, command.ci ? "--ci" : "");
     } catch (e) {
       console.error(e);
     }
