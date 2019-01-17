@@ -45,7 +45,8 @@ export const LINK_COLOR = chalk.blueBright;
 export const BOOLEAN_TRUE_COLOR = chalk.greenBright;
 export const BOOLEAN_FALSE_COLOR = chalk.redBright;
 
-export const IMPORTANT_COLOR = chalk.red.bold.underline;
+export const IMPORTANT_COLOR = chalk.red;
+export const HIGHLY_IMPORTANT_COLOR = chalk.red.bold.underline;
 
 export const STRING_COLOR = chalk.reset;
 export const UNDEFINED_COLOR = chalk.reset;
@@ -53,7 +54,10 @@ export const UNDEFINED_COLOR = chalk.reset;
 export const OPTION_COLOR = chalk.blueBright; // cmd --option
 export const PRIMARY_ARGUMENT_COLOR = chalk.greenBright; // cmd primary-argument
 export const ARGUMENT_COLOR = chalk.green; // cmd prim-arg ...argument
+
 export const PARAMETER_COLOR = chalk.cyanBright; // cmd -p <parameter>
+
+export const DIM_COLOR = chalk.gray.dim;
 
 export const COLORS = {
   Title: new ColorType({
@@ -140,6 +144,10 @@ export const COLORS = {
     color: UNDEFINED_COLOR,
     validator: obj => !CheckIsExist(obj),
   }),
+  HighImportant: new ColorType({
+    name: "HighlyImportant",
+    color: HIGHLY_IMPORTANT_COLOR,
+  }),
   Important: new ColorType({
     name: "Important",
     color: IMPORTANT_COLOR,
@@ -151,5 +159,9 @@ export const COLORS = {
   Argument: new ColorType({
     name: "Argument",
     color: ARGUMENT_COLOR,
+  }),
+  Dim: new ColorType({
+    name: "Dim",
+    color: DIM_COLOR,
   }),
 };
