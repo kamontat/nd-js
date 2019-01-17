@@ -10,6 +10,7 @@ import {
   PARAMETER_COLOR,
   PRIMARY_ARGUMENT_COLOR,
 } from "./constants/color.const";
+
 import {
   CHANGELOG_CMD,
   CONFIG_CMD,
@@ -21,6 +22,7 @@ import {
   RAW_DOWNLOAD_CMD,
   SET_CONFIG_CMD,
   UPDATE_CMD,
+  UPGRADE_CMD,
   VALIDATOR_CMD,
   VERSION_CMD,
 } from "./constants/command.const";
@@ -69,6 +71,7 @@ MakeCommand(program, UPDATE_CMD);
 MakeCommand(program, NOVEL_CMD);
 
 MakeCommand(program, INFORMATION_CMD);
+MakeCommand(program, UPGRADE_CMD);
 
 program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
   const setup = Logger.setting();
@@ -97,14 +100,14 @@ program.on("--help", () => {
     "raw-download",
   )} <${ARGUMENT_COLOR("id")}|${ARGUMENT_COLOR("link")}> [${OPTION_COLOR(
     "--location",
-  )} <${ARGUMENT_COLOR("location")}>] [${OPTION_COLOR(
+  )} <${PARAMETER_COLOR("location")}>] [${OPTION_COLOR(
     "--chapter",
-  )} <${ARGUMENT_COLOR("number")}>] [${OPTION_COLOR("--force")}]
+  )} <${PARAMETER_COLOR("number")}>] [${OPTION_COLOR("--force")}]
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("download")} <${ARGUMENT_COLOR(
     "id",
   )}|${ARGUMENT_COLOR("link")}...> [${OPTION_COLOR(
     "--location",
-  )} <${ARGUMENT_COLOR("location")}>] [${OPTION_COLOR(
+  )} <${PARAMETER_COLOR("location")}>] [${OPTION_COLOR(
     "--with-chapter",
   )}] [${OPTION_COLOR("--force")}]
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("fetch")} <${ARGUMENT_COLOR(
@@ -118,10 +121,13 @@ program.on("--help", () => {
     "--with-change",
   )}] [${OPTION_COLOR("--recusive")} && ${OPTION_COLOR(
     "--maximum",
-  )} <${ARGUMENT_COLOR("number")}>]
+  )} <${PARAMETER_COLOR("number")}>]
   $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("validator")} <${ARGUMENT_COLOR(
     "'config'",
-  )}|${ARGUMENT_COLOR("'application'")}> [${OPTION_COLOR("--info")}]
+  )}|${PARAMETER_COLOR("'application'")}> [${OPTION_COLOR("--info")}]
+  $ ${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("upgrade")} [${OPTION_COLOR(
+    "--at",
+  )} <${PARAMETER_COLOR("version")}>]
   $ ${ND.PROJECT_NAME} [${OPTION_COLOR("--help")}|${OPTION_COLOR(
     "--changelog",
   )}|${OPTION_COLOR("--version")}]

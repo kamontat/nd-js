@@ -15,6 +15,7 @@ import Information from "../command/information";
 import Initial from "../command/Initial";
 import Novel from "../command/novel";
 import Update from "../command/update";
+import Upgrade from "../command/upgrade";
 import Validator from "../command/validator";
 
 import { WrapTMC } from "../apis/loggerWrapper";
@@ -203,4 +204,17 @@ export const NOVEL_CMD: CCommand = {
   alias: "",
   desc: "",
   fn: Novel,
+};
+
+export const UPGRADE_CMD: CCommand = {
+  name: "upgrade",
+  alias: "u",
+  desc: "upgrade to latest command via internet",
+  options: [
+    {
+      name: "-A, --at <version>",
+      desc: "specify version to upgrade to",
+    },
+  ],
+  fn: Upgrade,
 };

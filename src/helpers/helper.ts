@@ -8,7 +8,9 @@ import moment, { isDate, isMoment } from "moment";
 import "moment/locale/th";
 import { join } from "path";
 
+import { ND } from "../constants/nd.const";
 import { DEFAULT_RESOURCE_NAME } from "../constants/novel.const";
+import { GetLatestVersion } from "../models/release";
 
 /**
  * @public
@@ -24,7 +26,13 @@ import { DEFAULT_RESOURCE_NAME } from "../constants/novel.const";
  * @param value checking value
  */
 export const CheckIsExist = (value: any) => {
-  return value !== undefined && value !== null && value !== "" && value !== "null" && value !== "undefined";
+  return (
+    value !== undefined &&
+    value !== null &&
+    value !== "" &&
+    value !== "null" &&
+    value !== "undefined"
+  );
 };
 
 /**
@@ -79,6 +87,15 @@ export const CheckIsNovelPath = (pathname: any) => {
   if (!CheckIsPathExist(pathname)) return false;
   const path = join(pathname, DEFAULT_RESOURCE_NAME);
   return existsSync(path);
+};
+
+export const CheckIsLatestVersion = () => {
+  return GetLatestVersion().then(v => {
+    return Promise.resolve({
+      isLatest: v.version === ND.VERSION,
+      ...v,
+    });
+  });
 };
 
 /**
@@ -142,7 +159,10 @@ export const WalkDirSync = (dir: string, max?: number): string[] => {
   if (max === 0) return [];
   return readdirSync(dir).reduce((files: string[], file: string) => {
     if (statSync(join(dir, file)).isDirectory()) {
-      files.push(join(dir, file), ...WalkDirSync(join(dir, file), max ? max - 1 : undefined));
+      files.push(
+        join(dir, file),
+        ...WalkDirSync(join(dir, file), max ? max - 1 : undefined),
+      );
     }
     return files;
   }, []);
@@ -230,4 +250,20 @@ export const Timestamp = (date: moment.Moment | undefined) => {
  */
 export const RevertTimestamp = (date: string | undefined) => {
   return moment(date, "X");
+};
+
+export const FormatFileSize = (bytes: number, si?: boolean) => {
+  const thresh = si ? 1000 : 1024;
+  if (Math.abs(bytes) < thresh) {
+    return bytes + " B";
+  }
+  const units = si
+    ? ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+    : ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
+  let u = -1;
+  do {
+    bytes /= thresh;
+    ++u;
+  } while (Math.abs(bytes) >= thresh && u < units.length - 1);
+  return bytes.toFixed(1) + " " + units[u];
 };

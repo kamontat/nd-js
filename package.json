@@ -1,6 +1,6 @@
 {
   "name": "nd",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "description": "Novel Downloader JS edition",
   "main": "src/nd.ts",
   "bin": ".caches/nd.min.js",
@@ -8,6 +8,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@octokit/rest": "16.9.0",
     "bluebird": "3.5.3",
     "chalk": "2.4.1",
     "cheerio": "1.0.0-rc.2",
@@ -27,6 +28,7 @@
     "pjson": "1.0.9",
     "random-js": "1.0.8",
     "request": "2.88.0",
+    "request-progress": "3.0.0",
     "request-promise": "4.2.2",
     "rxjs": "6.3.3",
     "semver": "5.6.0",
@@ -130,13 +132,19 @@
     "coverage:ci": "jest --ci --coverage --verbose --maxWorkers 1"
   },
   "pkg": {
-    "assets": ["package.json", "node_modules/config/**/*.*"]
+    "assets": [
+      "package.json",
+      "node_modules/config/**/*.*"
+    ]
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./test/jest.setup.js",
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "testMatch": ["**/src/**/__tests__/**/*.ts?(x)", "**/src/**/?(*.)+(spec|test).ts?(x)"],
+    "testMatch": [
+      "**/src/**/__tests__/**/*.ts?(x)",
+      "**/src/**/?(*.)+(spec|test).ts?(x)"
+    ],
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/**/_*.ts",
@@ -146,8 +154,17 @@
       "!src/constants/option.const.ts",
       "!**/node_modules/**"
     ],
-    "coverageReporters": ["json", "lcov", "text-summary"],
-    "moduleFileExtensions": ["js", "ts", "html", "mustache"],
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text-summary"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "html",
+      "mustache"
+    ],
     "transform": {
       "^.+\\.js$": "babel-jest",
       "^.+\\.mustache$": "<rootDir>/test/htmlLoader.js",
