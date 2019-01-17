@@ -173,6 +173,7 @@ export class NovelChapter extends Historian {
     if (date && date.isValid()) this.date = date;
 
     if (!location) location = Config.Load({ quiet: true }).getNovelLocation();
+    this._location = "";
     this.location = location;
   }
 
