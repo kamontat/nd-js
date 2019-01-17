@@ -18,7 +18,7 @@ import {
 import { checkPassword, expireDateChoice, notBeforeDateChoice } from "./_data";
 import { question } from "./_utils";
 
-const version = VERSION;
+const version = "1.0.1";
 
 // tslint:disable-next-line
 yargs

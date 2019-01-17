@@ -1,9 +1,9 @@
 import semver from "semver";
 
-import { ListVersion } from "../security/index-admin";
+import { BUILD_NUMBER } from "../security/index-admin";
 
 export const checkPassword = (p: string) => {
-  return `master-password-${ListVersion()[0]}` === p;
+  return `master-password-${BUILD_NUMBER}` === p;
 };
 
 export const expireDateChoice = [
@@ -31,9 +31,21 @@ export const versionChoice = (version: string) => {
   const patch = semver.major(version);
   return [
     { name: "Every version", value: "*" },
-    { name: `Allow update from ${major}.${minor}.0 to ${major}.${minor}.9`, value: `${major}.${minor}.x` },
-    { name: `Allow update from ${major}.${minor}.${patch} to ${major}.${minor}.9`, value: `~${version}` },
-    { name: `Allow update from ${major}.0.0 to ${major}.9.9`, value: `${major}.x.x` },
-    { name: `Allow update from ${major}.${minor}.${patch} to ${major}.9.9`, value: `^${version}` },
+    {
+      name: `Allow update from ${major}.${minor}.0 to ${major}.${minor}.9`,
+      value: `${major}.${minor}.x`,
+    },
+    {
+      name: `Allow update from ${major}.${minor}.${patch} to ${major}.${minor}.9`,
+      value: `~${version}`,
+    },
+    {
+      name: `Allow update from ${major}.0.0 to ${major}.9.9`,
+      value: `${major}.x.x`,
+    },
+    {
+      name: `Allow update from ${major}.${minor}.${patch} to ${major}.9.9`,
+      value: `^${version}`,
+    },
   ];
 };
