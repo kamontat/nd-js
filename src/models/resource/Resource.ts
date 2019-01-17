@@ -13,9 +13,11 @@ import { Novel } from "../novel/Novel";
 import { CommandResource, CommandResourceType } from "./CommandResource";
 import { HistoryResource, HistoryResourceType } from "./HistoryResource";
 import { NovelResource, NovelResourceType } from "./NovelResource";
+import { User, UserResource } from "./UserResource";
 
 export interface ResourceType {
   command: CommandResourceType;
+  user: User;
   novel: NovelResourceType;
   history: HistoryResourceType;
 }
@@ -25,11 +27,13 @@ export class Resource {
     this.cresource = new CommandResource();
     this.nresource = new NovelResource();
     this.hresource = new HistoryResource();
+    this.uresource = new UserResource();
   }
 
   public nresource: NovelResource;
   public cresource: CommandResource;
   public hresource: HistoryResource;
+  public uresource: UserResource;
 
   public loadNovel(novel: Novel) {
     this.nresource.load(novel);
@@ -51,6 +55,7 @@ export class Resource {
   public toJSON(): ResourceType {
     return {
       command: this.cresource.build(),
+      user: this.uresource.build(),
       novel: this.nresource.build(),
       history: this.hresource.build(),
     };
