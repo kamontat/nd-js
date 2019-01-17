@@ -124,6 +124,7 @@ export const InstallVersion = (
 
   const tmpDir = fs.mkdtempSync("nd-upgrade-");
   const dest = path.join("/tmp/nd/", tmpDir, name);
+  fs.mkdirSync(dest, { recursive: true });
 
   log(
     WrapTMCT(

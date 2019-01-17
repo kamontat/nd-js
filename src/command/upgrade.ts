@@ -13,14 +13,12 @@ export default (a: any) => {
   const { options } = SeperateArgumentApi(a);
 
   CheckIsLatestVersion().then(latest => {
-    if (latest.isLatest) {
+    if (!options.force && latest.isLatest) {
       log(WrapTMC("warn", "message", "current version is the newest version"));
-
       return;
     }
 
     log(WrapTMC("verbose", "Execute Upgrade", "execution"));
-
     if (options.at) InstallSpecifyVersion(options.at);
     else InstallLatestVersion();
   });

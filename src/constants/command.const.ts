@@ -215,6 +215,10 @@ export const UPGRADE_CMD: CCommand = {
       name: "-A, --at <version>",
       desc: "specify version to upgrade to",
     },
+    {
+      name: "-F, --force",
+      desc: "force to reinstall, even command is latest",
+    },
   ],
   fn: Upgrade,
 };
