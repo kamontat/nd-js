@@ -13,7 +13,7 @@ const command = commander
   .option("--commit-message <message>", "Create commit with custom message")
   .option("--no-update-tag", "Not update tag in package")
   .option("--no-create-tag", "Not create git tag")
-  .option("--type <type>", "Next release version type: [major, minor, patch, beta, alpha, rc, prerelease]")
+  .option("--type <type>", "Next release version type: [major, minor, patch, beta, alpha, rc, prerelease, none]")
   .parse(process.argv);
 
 // run step:
@@ -43,8 +43,10 @@ Run step:
   if (command.updateTag && !command.ci) {
     if (!command.type) throw new Error("To update tag, you must have --type <type> option");
 
-    console.log(`Update tag: type ${command.type}`);
-    await exec("tag", command.type, "--no-tag");
+    if (command.type !== "none") {
+      console.log(`Update tag: type ${command.type}`);
+      await exec("tag", command.type, "--no-tag");
+    }
   }
 
   const version = require("../package.json").version;
@@ -68,11 +70,8 @@ Run step:
     const message = command.commitMessage || `[release] Release version ${version} [skip ci]`;
 
     console.log(`Create commit with message: ${message}`);
-    try {
-      await exec("commit", "--push", "--push-tag", "--with-tag", message, command.ci ? "--ci" : "");
-    } catch (e) {
-      console.error(e);
-    }
+
+    await exec("commit", `'${message}'`, "--push", "--push-tag", "--with-tag", command.ci ? "--ci" : "");
   }
 
   if (command.release) {

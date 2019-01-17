@@ -2,6 +2,21 @@
 ## [Unreleased]
 
 
+<a name="2.0.0-beta.3"></a>
+## [2.0.0-beta.3] - 2019-01-18
+### Features
+- add new version release to security
+
+### Fixes Bug
+- admin password always be wrong
+- tmp file already exist
+- temp directory is not created
+
+### Improving User Experience
+- improve security code and variable name
+- admin version should be different
+
+
 <a name="2.0.0-beta.2"></a>
 ## [2.0.0-beta.2] - 2019-01-17
 
@@ -275,7 +290,8 @@
 - Add logger improvement
 
 
-[Unreleased]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.2...HEAD
+[Unreleased]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.3...HEAD
+[2.0.0-beta.3]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.2...2.0.0-beta.3
 [2.0.0-beta.2]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.1...2.0.0-beta.2
 [2.0.0-beta.1]: https://github.com/kamontat/nd-js/compare/2.0.0-alpha.1...2.0.0-beta.1
 [2.0.0-alpha.1]: https://github.com/kamontat/nd-js/compare/1.0.1...2.0.0-alpha.1
