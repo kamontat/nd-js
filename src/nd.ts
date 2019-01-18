@@ -15,6 +15,7 @@ import {
   CHANGELOG_CMD,
   CONFIG_CMD,
   DOWNLOAD_CMD,
+  EXPORT_CMD,
   FETCH_CMD,
   INFORMATION_CMD,
   INIT_CMD,
@@ -47,7 +48,6 @@ program
     "-v, --version",
   );
 
-// MakeOption(program, VERBOSE_OPT);
 MakeOption(program, DEBUG_OPT);
 MakeOption(program, QUIET_OPT);
 MakeOption(program, NO_COLOR_OPT);
@@ -59,9 +59,9 @@ MakeOption(program, LONG_OUT_OPT);
 MakeCommand(program, VERSION_CMD);
 MakeCommand(program, CHANGELOG_CMD);
 MakeCommand(program, INIT_CMD);
+
 MakeCommand(program, CONFIG_CMD);
 MakeCommand(program, SET_CONFIG_CMD);
-MakeCommand(program, VALIDATOR_CMD);
 
 MakeCommand(program, DOWNLOAD_CMD);
 MakeCommand(program, RAW_DOWNLOAD_CMD);
@@ -70,8 +70,11 @@ MakeCommand(program, UPDATE_CMD);
 
 MakeCommand(program, NOVEL_CMD);
 
+MakeCommand(program, VALIDATOR_CMD);
 MakeCommand(program, INFORMATION_CMD);
 MakeCommand(program, UPGRADE_CMD);
+
+MakeCommand(program, EXPORT_CMD);
 
 program.command("*", undefined, { noHelp: true }).action((args: any[]) => {
   const setup = Logger.setting();

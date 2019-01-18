@@ -227,6 +227,16 @@ export const UPGRADE_CMD: CCommand = {
 export const EXPORT_CMD: CCommand = {
   name: "export",
   alias: "E",
-  desc: "",
+  options: [
+    {
+      name: "-S, --single",
+      desc: "export only single file, if input is folder, export only chapter0",
+    },
+    {
+      name: "-M, --merge",
+      desc: "Merge every chapter into 1 pdf file only",
+    },
+  ],
+  desc: "Export html novel to pdf file",
   fn: Export,
 };
