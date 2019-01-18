@@ -10,6 +10,7 @@ import Config from "../command/config";
 import ConfigSet, { CONFIG_SET_LIST } from "../command/config-set";
 import Download from "../command/download";
 import RawDownload from "../command/download-raw";
+import Export from "../command/export";
 import Fetch from "../command/fetch";
 import Information from "../command/information";
 import Initial from "../command/Initial";
@@ -131,7 +132,7 @@ export const DOWNLOAD_CMD: CCommand = {
 
 export const FETCH_CMD: CCommand = {
   name: "fetch <id|link|path>",
-  alias: "E",
+  alias: "F",
   desc: "Fetching novel from website or local location and show the result",
   options: [
     {
@@ -194,7 +195,7 @@ export const VALIDATOR_CMD: CCommand = {
 
 export const INFORMATION_CMD: CCommand = {
   name: "information",
-  alias: "",
+  alias: "info",
   desc: "Get command information",
   fn: Information,
 };
@@ -221,4 +222,11 @@ export const UPGRADE_CMD: CCommand = {
     },
   ],
   fn: Upgrade,
+};
+
+export const EXPORT_CMD: CCommand = {
+  name: "export",
+  alias: "E",
+  desc: "",
+  fn: Export,
 };
