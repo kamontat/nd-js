@@ -15,6 +15,8 @@ export default (a: any) => {
 
   // chrome 609904
 
+  // check website: http://omahaproxy.appspot.com/
+
   (async () => {
     const browser = await puppeteer.launch({
       executablePath:

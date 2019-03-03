@@ -1,8 +1,6 @@
 /* tslint:disable:no-console */
 
-import octokit, {
-  ReposGetLatestReleaseResponseAssetsItem,
-} from "@octokit/rest";
+import octokit, { ReposGetLatestReleaseResponseAssetsItem } from "@octokit/rest";
 import fs from "fs";
 import moment = require("moment");
 import os from "os";
@@ -73,10 +71,7 @@ export const ListAllVersion = async () => {
   return result.data;
 };
 
-export const InstallSpecifyVersion = (
-  version: string,
-  opts?: InstallOption,
-) => {
+export const InstallSpecifyVersion = (version: string, opts?: InstallOption) => {
   return ListAllVersion().then(versions => {
     const specify = versions.find(v => v.tag_name === version);
     if (specify)
@@ -92,10 +87,7 @@ export const InstallSpecifyVersion = (
   });
 };
 
-export const InstallVersion = (
-  version: VersionObject,
-  opts?: InstallOption,
-) => {
+export const InstallVersion = (version: VersionObject, opts?: InstallOption) => {
   const defaultOptions = {
     bin: "/usr/local/bin",
   } as InstallOption;
@@ -111,9 +103,7 @@ export const InstallVersion = (
     return;
   }
 
-  const asset = version.assets.find(
-    v => !v.name.includes("admin") && v.name.includes(osName || "undefined"),
-  );
+  const asset = version.assets.find(v => !v.name.includes("admin") && v.name.includes(osName || "undefined"));
 
   if (!asset) {
     log(WrapTMCT("error", "Error", "Binary file not found"));
@@ -130,21 +120,13 @@ export const InstallVersion = (
     WrapTMCT(
       "info",
       "Installation",
-      `Version ${COLORS.Important.color(version.version)} ${COLORS.Dim.color(
-        version.date,
-      )}`,
+      `Version ${COLORS.Important.color(version.version)} ${COLORS.Dim.color(version.date)}`,
     ),
   );
 
   const size = FormatFileSize(asset.size);
 
-  log(
-    WrapTMCT(
-      "info",
-      "Binary",
-      `Downloading ${COLORS.Name.color(name)} size=${size}`,
-    ),
-  );
+  log(WrapTMCT("info", "Binary", `Downloading ${COLORS.Name.color(name)} size=${size}`));
 
   progress(request(downloadURL))
     .on("progress", (state: any) => {
@@ -161,12 +143,8 @@ export const InstallVersion = (
       const completed = "#";
       const incompleted = "-";
 
-      const header = `${FormatFileSize(
-        state.size.transferred,
-      )}/${FormatFileSize(state.size.total)}`.padStart(title);
-      const progressbar = `[${""
-        .padStart(block, completed)
-        .padEnd(barSize, incompleted)}]`;
+      const header = `${FormatFileSize(state.size.transferred)}/${FormatFileSize(state.size.total)}`.padStart(title);
+      const progressbar = `[${"".padStart(block, completed).padEnd(barSize, incompleted)}]`;
 
       const speed = `${FormatFileSize(state.speed)}/s`;
       const percentString = `${(percent * 100).toFixed(2)}%`.padEnd(3);
@@ -174,21 +152,13 @@ export const InstallVersion = (
       moment.locale("en");
       const time = moment.duration(state.time.remaining, "seconds");
 
-      const footer = `${percentString}  ${speed}  ${time.humanize()}`.padEnd(
-        footerSize,
-      );
+      const footer = `${percentString}  ${speed}  ${time.humanize()}`.padEnd(footerSize);
 
       process.stdout.write(`${header} ${progressbar} ${footer} \x1b[0G`);
     })
     .on("end", () => {
       console.log("\n");
-      log(
-        WrapTMCT(
-          "info",
-          "Result",
-          `${COLORS.Name.color(name)} was saved on ${dest}`,
-        ),
-      );
+      log(WrapTMCT("info", "Result", `${COLORS.Name.color(name)} was saved on ${dest}`));
 
       fs.renameSync(dest, path.join(options.bin, ND.PROJECT_NAME));
     })

@@ -15,11 +15,7 @@ import {
   PARAMETER_COLOR,
   PRIMARY_ARGUMENT_COLOR,
 } from "../constants/color.const";
-import {
-  INIT_CMD,
-  SET_CONFIG_CMD,
-  UPGRADE_CMD,
-} from "../constants/command.const";
+import { INIT_CMD, SET_CONFIG_CMD, UPGRADE_CMD } from "../constants/command.const";
 import { ND } from "../constants/nd.const";
 import { LOCATION_OPT } from "../constants/option.const";
 import { CCommand } from "../models/command/Command";
@@ -30,8 +26,7 @@ import { ThrowIf } from "./commander";
 import { CheckIsLatestVersion } from "./helper";
 
 export const MakeOption = (program: Command | CommanderStatic, o: COption) => {
-  if (o === LOCATION_OPT)
-    program.option(o.name, o.desc, o.fn && getAction(o.fn), o.default);
+  if (o === LOCATION_OPT) program.option(o.name, o.desc, o.fn && getAction(o.fn), o.default);
   else program.option(o.name, o.desc, o.fn, o.default);
 };
 
@@ -64,12 +59,9 @@ const getAction = (fn: (...args: any[]) => void, c?: CCommand) => {
               WrapTMCT(
                 "warn",
                 `${ND.PROJECT_NAME.toUpperCase()} is OUT OF DATE`,
-                `Please upgrade version by \`${
+                `Please upgrade version by \`${ND.PROJECT_NAME} ${PRIMARY_ARGUMENT_COLOR("upgrade")}\` or \`${
                   ND.PROJECT_NAME
-                } ${PRIMARY_ARGUMENT_COLOR("upgrade")}\` or \`${
-                  ND.PROJECT_NAME
-                } ${PRIMARY_ARGUMENT_COLOR("upgrade")} ${OPTION_COLOR("--at") +
-                  ` ${PARAMETER_COLOR(obj.version)}`}\``,
+                } ${PRIMARY_ARGUMENT_COLOR("upgrade")} ${OPTION_COLOR("--at") + ` ${PARAMETER_COLOR(obj.version)}`}\``,
               ),
             );
           }
@@ -99,10 +91,7 @@ const getAction = (fn: (...args: any[]) => void, c?: CCommand) => {
   };
 };
 
-export const MakeCommand = (
-  program: Command | CommanderStatic,
-  c: CCommand,
-) => {
+export const MakeCommand = (program: Command | CommanderStatic, c: CCommand) => {
   const p = makeCommand(program, c);
   p.action(getAction(c.fn, c));
 };
