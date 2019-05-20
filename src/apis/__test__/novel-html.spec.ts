@@ -27,6 +27,14 @@ describe("Download mock novel version 2", async function() {
     $1 = res1.cheerio;
   });
 
+  test("Should set ID of chapter object correctly", function() {
+    expect(chap0.id).toEqual(TEST_NID);
+  });
+
+  test("Should set Status of chapter object correctly", function() {
+    expect(chap0.isCompleted()).toBeTrue();
+  });
+
   test("Should able to get name from zero chapter", function() {
     const name = GetNovelNameApi($0);
     expect(name).toEqual(TEST_NOVEL_NAME);
