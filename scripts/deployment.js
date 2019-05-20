@@ -10,7 +10,7 @@ commander
   .command("changelog", "Generate Changelog to the file")
   .command("doc", "Generate document to the file")
   .command("release", "Create release to github")
-  .command("commit <message>", "Create release commit to github (WIP)")
+  .command("commit <message>", "Create release commit to github")
   .command("build", "Same as run yarn build:all")
   .command("local", "Install bin to local bin")
   .command("all", "Run all process to deployment")
