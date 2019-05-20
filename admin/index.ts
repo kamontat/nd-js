@@ -42,6 +42,10 @@ yargs
     "Random number",
     yargs => {
       return yargs
+        .option("config", {
+          alias: "C",
+          desc: "Generate random key config",
+        })
         .option("json", {
           alias: "J",
           desc: "Output as JSON format",
@@ -51,34 +55,44 @@ yargs
           desc: "Make beautiful format",
         })
         .positional("number", {
-          describe:
-            "Number of length of the random string [usually should be 24]",
+          describe: "Number of length of the random string [usually should be 24]",
           type: "string",
         });
     },
     (argv: Arguments) => {
       const engine = Random.engines.mt19937().autoSeed();
       const rand = new Random(engine);
+      const random = (n: number) => rand.string(n, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 
       const results: string[] = [];
 
       (argv.numbers as string[]).forEach(number => {
         const size = parseInt(number);
-        const result = rand.string(
-          size,
-          "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-        );
+        const result = random(size);
         results.push(result);
       });
 
-      if (argv.json)
+      if (argv.config || argv.numbers[0] === "config") {
         console.log(
           JSON.stringify(
-            { random: results },
+            {
+              version: {
+                jwtAlgo: "HS256",
+                iv: 12,
+                key: random(24),
+                key2: random(24),
+                sal: random(24),
+                jid: random(24),
+              },
+            },
             undefined,
             argv.format ? " " : undefined,
           ),
         );
+        return;
+      }
+
+      if (argv.json) console.log(JSON.stringify({ random: results }, undefined, argv.format ? " " : undefined));
       else console.log(results);
     },
   )
@@ -94,15 +108,11 @@ yargs
           desc: "You name must follow this format: name surname email",
         })
         .option("expire", {
-          desc: `Expire date must be one of this list ${expireDateChoice.map(
-            v => v.value,
-          )}`,
+          desc: `Expire date must be one of this list ${expireDateChoice.map(v => v.value)}`,
           choices: expireDateChoice.map(v => v.value),
         })
         .option("not-before", {
-          desc: `not before date must be one of this list ${notBeforeDateChoice.map(
-            v => v.value,
-          )}`,
+          desc: `not before date must be one of this list ${notBeforeDateChoice.map(v => v.value)}`,
           choices: notBeforeDateChoice.map(v => v.value),
         })
         .option("version-range", {
@@ -159,32 +169,15 @@ yargs
           };
 
           const print = (token: string, fullname: string) => {
-            if (argv.json)
-              console.log(
-                JSON.stringify(
-                  { token, fullname },
-                  undefined,
-                  argv.format ? " " : undefined,
-                ),
-              );
-            else
-              console.log(
-                `${
-                  argv.format
-                    ? `token: ${token}\nfullname: ${fullname}`
-                    : `${token}`
-                }`,
-              );
+            if (argv.json) console.log(JSON.stringify({ token, fullname }, undefined, argv.format ? " " : undefined));
+            else console.log(`${argv.format ? `token: ${token}\nfullname: ${fullname}` : `${token}`}`);
           };
 
-          if (argv.yes)
-            print(EncryptToken(defaultAnswer), defaultAnswer.fullname);
+          if (argv.yes) print(EncryptToken(defaultAnswer), defaultAnswer.fullname);
           else
-            inquirer
-              .prompt<RequireTokenData>(question(defaultAnswer))
-              .then(answer => {
-                print(EncryptToken(answer), answer.fullname);
-              });
+            inquirer.prompt<RequireTokenData>(question(defaultAnswer)).then(answer => {
+              print(EncryptToken(answer), answer.fullname);
+            });
         });
     },
   )
@@ -211,9 +204,7 @@ yargs
     (argv: Arguments) => {
       const version = argv.ver;
 
-      const json = argv.json
-        ? JSON.parse(argv.string)
-        : { fullname: argv.fullname, token: argv.token };
+      const json = argv.json ? JSON.parse(argv.string) : { fullname: argv.fullname, token: argv.token };
       json.version = version;
 
       const _result = DecryptToken(json);
@@ -231,18 +222,9 @@ Not before: ${new Date(_result.nbf * 1000)}
 Expire at:  ${new Date(_result.exp * 1000)}`);
     },
   )
-  .example(
-    "$0 random 24",
-    "random string that size 24 (the string contain english character and number)",
-  )
-  .example(
-    "$0 create [1.0.0]",
-    "Open interactive prompt to create the token of command version 1.0.0",
-  )
-  .example(
-    "$0 read 1.0.0 <key>",
-    "Read the input key and create the report of the key",
-  )
+  .example("$0 random 24", "random string that size 24 (the string contain english character and number)")
+  .example("$0 create [1.0.0]", "Open interactive prompt to create the token of command version 1.0.0")
+  .example("$0 read 1.0.0 <key>", "Read the input key and create the report of the key")
   .help("h")
   .alias("h", "help")
   .epilog("copyright ©2018, Kamontat Chantrachirathumrong").argv;
