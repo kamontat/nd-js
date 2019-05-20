@@ -100,7 +100,7 @@ export const CheckIsLatestVersion = () => {
       });
     })
     .catch(e => {
-      NETWORK_FAIL_ERR.loadString(e).printAndExit();
+      throw NETWORK_FAIL_ERR.loadString(e).printAndExit();
     });
 };
 
