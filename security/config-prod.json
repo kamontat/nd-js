@@ -5,7 +5,7 @@
   "author": "Kamontat Chantrachirathumrong <kamontat_c@hotmail.com>",
   "config": {
     "token": {
-      "2.0.0-beta.4": {
+      "2.0.0-beta.5": {
         "jwtAlgo": "HS256",
         "iv": 12,
         "key": "P82wy2NYPzZcyPbiyBAps2TC",
