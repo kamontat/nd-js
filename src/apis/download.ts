@@ -52,6 +52,8 @@ export const FetchApi: (chapter: NovelChapter) => Bluebird<{ cheerio: CheerioSta
         if (CheckIsNovel($)) {
           chapter.name = GetChapterNameApi($);
           chapter.date = GetChapterDateApi($);
+
+          chapter.markComplete();
           return res({ cheerio: $, chapter });
         } else {
           return rej(CHAPTER_NOTFOUND_WARN.clone().loadString(`Novel(${chapter.id}) chapter ${chapter.number}`));
