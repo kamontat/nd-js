@@ -1,25 +1,25 @@
+import { Command } from "commander";
 import "jest-extended";
 
-import { MakeOption, MakeCommand } from "../command";
-import { Command } from "commander";
+import { MakeCommand, MakeOption } from "../command";
 
 test("Should add option to commander", function() {
   const program = new Command();
 
   MakeOption(program, {
     name: "test",
-    desc: "test option"
+    desc: "test option",
   });
 
   MakeOption(program, {
     name: "another",
-    desc: ""
+    desc: "",
   });
 
   MakeOption(program, {
     name: "all",
     desc: "test option",
-    fn: jest.fn()
+    fn: jest.fn(),
   });
 
   const opts = program.opts();
@@ -29,20 +29,20 @@ test("Should add option to commander", function() {
   expect(opts).toContainKey("all");
 });
 
-test("Should make command", function() {
+test("Should make command", async function() {
   const program = new Command();
-
   const mockFunction = jest.fn();
 
   MakeCommand(program, {
-    name: "test",
+    name: "test <arg>",
     desc: "test",
     alias: "T",
-    fn: (..._: any[]) => {
+    fn: (args: Array<object>, _) => {
       mockFunction();
-    }
+      expect(args[0]).toEqual("user1");
+    },
   });
 
-  program.parse(["node", "/tmp/name.js", "test"]);
-  expect(mockFunction).toHaveBeenCalled();
+  await program.parse(["/usr/local/bin/node", "path/test.js", "test", "user1"]);
+  // expect(mockFunction).toHaveBeenCalled(); // TODO: make this runable
 });

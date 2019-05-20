@@ -18,6 +18,8 @@ import { FormatFileSize } from "../../helpers/helper";
 const owner = "kamontat";
 const repo = "nd-js";
 
+const github = new octokit();
+
 export interface InstallOption {
   bin: string;
 }
@@ -43,7 +45,6 @@ const GetOSName = () => {
 };
 
 export const GetLatestVersion = async () => {
-  const github = new octokit();
   github.authenticate({
     type: "token",
     token: process.env.GITHUB_TOKEN || "",
