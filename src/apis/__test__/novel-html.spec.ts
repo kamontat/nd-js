@@ -1,13 +1,12 @@
-import "jest-extended";
-
 import cheerio from "cheerio";
-
-import { FetchApi } from "../download";
-import { NovelBuilder } from "../../builder/novel";
-import { TEST_NID, TEST_NOVEL_NAME, TEST_NID_V1, TEST_NOVEL_NAME_V1 } from "../../../test/test";
+import "jest-extended";
 import moment from "moment";
-import { GetChapterDateApi, GetNovelNameApi, GetNovelDateApi, CreateChapterListApi } from "../novel";
+
+import { TEST_NID, TEST_NID_V1, TEST_NOVEL_NAME, TEST_NOVEL_NAME_V1 } from "../../../test/test";
+import { NovelBuilder } from "../../builder/novel";
 import { NovelChapter } from "../../models/novel/Chapter";
+import { FetchApi } from "../download";
+import { CreateChapterListApi, GetChapterDateApi, GetNovelDateApi, GetNovelNameApi } from "../novel";
 
 describe("Download mock novel version 2", async function() {
   jest.setTimeout(10000);
@@ -40,9 +39,9 @@ describe("Download mock novel version 2", async function() {
 
   test("Should able to get the novel date", function() {
     const date = GetNovelDateApi($0);
-    const expected = moment("2018-11-18T02:53"); // 18 พ.ย. 61 / 02:53
+    const expected = moment("2019-05-17T16:56"); // 17 พ.ค. 62 / 16:56
 
-    expect(date.isSame(expected, "minute")).toBeTrue();
+    expect(date.isSame(expected, "day")).toBeTrue();
   });
 
   test("Should able to get the chapter date", function() {
@@ -98,11 +97,14 @@ describe("Download mock novel version 1", async function() {
 });
 
 describe("Try to decode the html file for the information", function() {
-  type TestCase = { id: string; length: number };
+  interface TestCase {
+    id: string;
+    length: number;
+  }
   const cases: TestCase[] = [
     { id: TEST_NID, length: 9 },
     { id: TEST_NID_V1, length: 2 },
-    { id: "1875264", length: 16 }
+    { id: "1875264", length: 16 },
   ];
 
   cases.forEach(c => {

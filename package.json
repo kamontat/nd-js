@@ -150,7 +150,7 @@
       "!**/node_modules/**"
     ],
     "coverageReporters": ["json", "lcov", "text-summary"],
-    "moduleFileExtensions": ["js", "ts", "html", "mustache"],
+    "moduleFileExtensions": ["js", "ts", "html", "mustache", "json"],
     "transform": {
       "^.+\\.js$": "babel-jest",
       "^.+\\.mustache$": "<rootDir>/test/htmlLoader.js",
