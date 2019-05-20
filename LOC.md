@@ -1,4 +1,17 @@
-## Version 2.0.0-beta.4
+## Version 2.0.0-beta.5
+  
+cloc|github.com/AlDanial/cloc v 1.78  T=0.11 s (1056.1 files/s, 72849.3 lines/s)
+--- | ---
+
+Language|files|blank|comment|code
+:-------|-------:|-------:|-------:|-------:
+TypeScript|110|1059|1275|5223
+JSON|2|0|0|132
+Mustache|1|20|1|124
+CSS|2|27|40|32
+--------|--------|--------|--------|--------
+SUM:|115|1106|1316|5511
+  ## Version 2.0.0-beta.4
 
 | cloc | github.com/AlDanial/cloc v 1.78 T=0.12 s (961.3 files/s, 67242.4 lines/s) |
 | ---- | ------------------------------------------------------------------------- |
