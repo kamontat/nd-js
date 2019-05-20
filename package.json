@@ -1,6 +1,6 @@
 {
   "name": "nd",
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.5",
   "description": "Novel Downloader JS edition",
   "main": "src/nd.ts",
   "bin": ".caches/nd.min.js",
