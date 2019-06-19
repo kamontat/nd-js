@@ -1,9 +1,8 @@
 /* tslint:disable:no-console */
 
-import octokit, { ReposGetLatestReleaseResponseAssetsItem } from "@octokit/rest";
+import octokit from "@octokit/rest";
 import fs from "fs";
 import moment = require("moment");
-import os from "os";
 import path from "path";
 import request = require("request");
 import progress = require("request-progress");
@@ -11,38 +10,15 @@ import { log } from "winston";
 
 import { WrapTMCT } from "../../apis/loggerWrapper";
 import { COLORS } from "../../constants/color.const";
+import { GIT_REPONAME, GIT_USERNAME } from "../../constants/config.const";
 import { DIR_TMP_RANDOM } from "../../constants/file.const";
 import { ND } from "../../constants/nd.const";
 import { FormatFileSize } from "../../helpers/helper";
 
-const owner = "kamontat";
-const repo = "nd-js";
+import { GetOSName } from "./helper";
+import { InstallOption, VersionObject } from "./model";
 
 const github = new octokit();
-
-export interface InstallOption {
-  bin: string;
-}
-
-export interface VersionObject {
-  version: string;
-  assets: Array<ReposGetLatestReleaseResponseAssetsItem>;
-  url: string;
-  date: string;
-}
-
-const GetOSName = () => {
-  switch (os.platform()) {
-    case "win32":
-      return "win.exe";
-    case "linux":
-      return "linux";
-    case "darwin":
-      return "macos";
-    default:
-      return undefined;
-  }
-};
 
 export const GetLatestVersion = async () => {
   github.authenticate({
@@ -50,7 +26,7 @@ export const GetLatestVersion = async () => {
     token: process.env.GITHUB_TOKEN || "",
   });
 
-  const result = await github.repos.getLatestRelease({ owner, repo });
+  const result = await github.repos.getLatestRelease({ owner: GIT_USERNAME, repo: GIT_REPONAME });
 
   return {
     version: result.data.tag_name,
@@ -64,8 +40,8 @@ export const ListAllVersion = async () => {
   const github = new octokit();
 
   const result = await github.repos.listReleases({
-    owner,
-    repo,
+    owner: GIT_USERNAME,
+    repo: GIT_REPONAME,
     per_page: 100,
   });
 
@@ -105,7 +81,6 @@ export const InstallVersion = (version: VersionObject, opts?: InstallOption) => 
   }
 
   const asset = version.assets.find(v => !v.name.includes("admin") && v.name.includes(osName || "undefined"));
-
   if (!asset) {
     log(WrapTMCT("error", "Error", "Binary file not found"));
     return;

@@ -6,6 +6,9 @@
 import os from "os";
 import path from "path";
 
+export const GIT_USERNAME = "kamontat";
+export const GIT_REPONAME = "nd-js";
+
 const home = os.homedir();
 
 export const ND_FOLDER_NAME = ".nd";
