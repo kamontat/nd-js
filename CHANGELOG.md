@@ -2,6 +2,23 @@
 ## [Unreleased]
 
 
+<a name="2.0.0-beta.5"></a>
+## [2.0.0-beta.5] - 2019-05-20
+### Features
+- introduce export features (beta)
+
+### Fixes Bug
+- create folder error sometime
+- cause error when internet missing
+- create missing temp folder and files
+
+### Improving User Experience
+- update admin command to support new generate type
+- mark downloaded novel as a complete status
+- improve error message cause by internet connection
+- change fetch short command to 'F'
+
+
 <a name="2.0.0-beta.4"></a>
 ## [2.0.0-beta.4] - 2019-01-18
 ### Fixes Bug
@@ -296,7 +313,8 @@
 - Add logger improvement
 
 
-[Unreleased]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.4...HEAD
+[Unreleased]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.5...HEAD
+[2.0.0-beta.5]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.4...2.0.0-beta.5
 [2.0.0-beta.4]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.3...2.0.0-beta.4
 [2.0.0-beta.3]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.2...2.0.0-beta.3
 [2.0.0-beta.2]: https://github.com/kamontat/nd-js/compare/2.0.0-beta.1...2.0.0-beta.2

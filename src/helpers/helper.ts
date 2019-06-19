@@ -3,14 +3,20 @@
  * @module public.api
  */
 
+import dns from "dns";
 import { existsSync, readdirSync, statSync } from "fs";
+import { promisify } from "util";
+
 import moment, { isDate, isMoment } from "moment";
 import "moment/locale/th";
 import { join } from "path";
 
+import { NETWORK_FAIL_ERR } from "../constants/error.const";
 import { ND } from "../constants/nd.const";
 import { DEFAULT_RESOURCE_NAME } from "../constants/novel.const";
 import { GetLatestVersion } from "../models/release";
+
+const resolver = promisify(dns.lookupService);
 
 /**
  * @public
@@ -26,13 +32,7 @@ import { GetLatestVersion } from "../models/release";
  * @param value checking value
  */
 export const CheckIsExist = (value: any) => {
-  return (
-    value !== undefined &&
-    value !== null &&
-    value !== "" &&
-    value !== "null" &&
-    value !== "undefined"
-  );
+  return value !== undefined && value !== null && value !== "" && value !== "null" && value !== "undefined";
 };
 
 /**
@@ -90,12 +90,18 @@ export const CheckIsNovelPath = (pathname: any) => {
 };
 
 export const CheckIsLatestVersion = () => {
-  return GetLatestVersion().then(v => {
-    return Promise.resolve({
-      isLatest: v.version === ND.VERSION,
-      ...v,
+  return IsConnectionEstablished()
+    .then(() => {
+      return GetLatestVersion().then(v => {
+        return Promise.resolve({
+          isLatest: v.version === ND.VERSION,
+          ...v,
+        });
+      });
+    })
+    .catch(e => {
+      throw NETWORK_FAIL_ERR.loadString(e).printAndExit();
     });
-  });
 };
 
 /**
@@ -159,10 +165,7 @@ export const WalkDirSync = (dir: string, max?: number): string[] => {
   if (max === 0) return [];
   return readdirSync(dir).reduce((files: string[], file: string) => {
     if (statSync(join(dir, file)).isDirectory()) {
-      files.push(
-        join(dir, file),
-        ...WalkDirSync(join(dir, file), max ? max - 1 : undefined),
-      );
+      files.push(join(dir, file), ...WalkDirSync(join(dir, file), max ? max - 1 : undefined));
     }
     return files;
   }, []);
@@ -266,4 +269,8 @@ export const FormatFileSize = (bytes: number, si?: boolean) => {
     ++u;
   } while (Math.abs(bytes) >= thresh && u < units.length - 1);
   return bytes.toFixed(1) + " " + units[u];
+};
+
+export const IsConnectionEstablished = () => {
+  return resolver("8.8.8.8", 53);
 };

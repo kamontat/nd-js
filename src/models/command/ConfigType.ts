@@ -18,7 +18,7 @@ export interface ConfigFileType {
   };
 }
 
-export const DEFAULT_CONFIG_YAML = (config: Config) => {
+export const generateYaml = (config: Config) => {
   return `version: ${config.getVersion().toString()}
 security: 
   token: ${config.getToken()}
