@@ -72,7 +72,7 @@ yargs
         results.push(result);
       });
 
-      if (argv.config || argv.numbers[0] === "config") {
+      if ((argv.config as boolean) || (argv.numbers as string[])[0] === "config") {
         console.log(
           JSON.stringify(
             {
@@ -140,7 +140,7 @@ yargs
         });
     },
     (argv: Arguments) => {
-      const version = argv.specifyVersion;
+      const version = argv.specifyVersion as string;
 
       inquirer
         .prompt<{ password: string }>({
@@ -151,7 +151,7 @@ yargs
           mask: "",
         })
         .then(({ password }) => {
-          password = argv.password || password;
+          password = (argv.password as string | undefined) || password;
           if (!checkPassword(password)) {
             console.error(`Wrong command password (${password})`);
             process.exit(1);
@@ -160,11 +160,11 @@ yargs
           console.log(`For version: ${version}`);
           const defaultAnswer: RequireTokenData = {
             version,
-            username: argv.username,
-            fullname: argv.fullname,
-            expiredate: argv.expire,
-            notbeforedate: argv.notBefore,
-            versionrange: argv.versionRange,
+            username: argv.username as string,
+            fullname: argv.fullname as string,
+            expiredate: argv.expire as string,
+            notbeforedate: argv.notBefore as string,
+            versionrange: argv.versionRange as string,
             issuedate: "",
           };
 
@@ -204,7 +204,7 @@ yargs
     (argv: Arguments) => {
       const version = argv.ver;
 
-      const json = argv.json ? JSON.parse(argv.string) : { fullname: argv.fullname, token: argv.token };
+      const json = argv.json ? JSON.parse(argv.string as string) : { fullname: argv.fullname, token: argv.token };
       json.version = version;
 
       const _result = DecryptToken(json);
