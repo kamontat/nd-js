@@ -1,13 +1,13 @@
-version: 2
+version: 3
 commits:
-  - key: lib
+  - type: lib
     value: Add, change or remove project dependencies
-  - key: test
+  - type: test
     value: Add or Fix Testing in project
-  - key: config
+  - type: config
     value: Update configuration file or add new ones
-  - key: snapshot
+  - type: snapshot
     value: Snapshot the code without show in changelog
 branches:
-  - key: test
+  - type: test
     value: Add, improve, fix the Testing case
