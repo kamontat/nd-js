@@ -8,7 +8,7 @@ import { NovelChapter } from "../../models/novel/Chapter";
 import { FetchApi } from "../download";
 import { CreateChapterListApi, GetChapterDateApi, GetNovelDateApi, GetNovelNameApi } from "../novel";
 
-describe("Download mock novel version 2", async function() {
+describe("Download mock novel version 2", function() {
   jest.setTimeout(10000);
   expect.hasAssertions();
 
@@ -47,7 +47,7 @@ describe("Download mock novel version 2", async function() {
 
   test("Should able to get the novel date", function() {
     const date = GetNovelDateApi($0);
-    const expected = moment("2019-05-17T16:56"); // 17 พ.ค. 62 / 16:56
+    const expected = moment("2019-05-24T14:30"); // 24 พ.ค. 62 / 14:30
 
     expect(date.isSame(expected, "day")).toBeTrue();
   });
@@ -60,7 +60,7 @@ describe("Download mock novel version 2", async function() {
   });
 });
 
-describe("Download mock novel version 1", async function() {
+describe("Download mock novel version 1", function() {
   jest.setTimeout(10000);
   expect.hasAssertions();
 

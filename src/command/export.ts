@@ -14,7 +14,6 @@ export default (a: any) => {
   log(WrapTMC("info", "Argument", args));
 
   // chrome 609904
-
   // check website: http://omahaproxy.appspot.com/
 
   (async () => {
