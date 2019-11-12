@@ -83,7 +83,7 @@
     "tmp": "0.0.33",
     "to-string-loader": "1.1.5",
     "ts-jest": "24.0.2",
-    "ts-loader": "5.3.0",
+    "ts-loader": "6.2.1",
     "tslint": "5.11.0",
     "tslint-loader": "3.5.4",
     "typedoc": "0.13.0",
